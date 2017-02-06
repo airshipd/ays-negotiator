@@ -1,0 +1,90 @@
+{#
+ # Layout template
+ # ---------------
+ #}
+
+{# If there is no signed on user then lets redirect them back to LMS #}
+{% if not currentUser and not craft.config.devMode %}
+  {% redirect serveUpConfig.lmsUrl %}
+{% endif %}
+
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
+  <link rel="home" href="{{ siteUrl }}" />
+
+  {# Let's use uncompressed CSS if we're in dev mode, for easier debugging: #}
+  {% if craft.config.devMode %}
+  <link rel="stylesheet" href="/styles/main.css" />
+  {% else %}
+  <link rel="stylesheet" href="/styles/main.min.css?v=1" />
+  {% endif %}
+
+</head>
+
+<body>
+
+  <div class="page" id="page">
+    <header>
+      <nav role="navigation" class="navbar navbar-inverse">
+        <div class="container-fluid">
+
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+              <img alt="Coles Liquor" src="/images/logo-coles.svg">
+            </a>
+
+            <div class="logo">
+              <a href="/">
+                <img src="/images/logo-serveup.svg" alt="Serve Up" />
+              </a>
+            </div>
+
+            <a class="btn btn-menu" href="#menu">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main role="main" class="container-fluid">
+
+      {% block content %}
+        <p>If you see me, you haven’t set your <code>{% verbatim %}{% block content %}…{% endblock %}{% endverbatim %}</code> yet.</p>
+        <p>See Twig’s <a href="http://twig.sensiolabs.org/doc/templates.html#template-inheritance">Template Inheritance</a> documentation for an explanation.</p>
+      {% endblock %}
+
+    </main>
+
+    <footer></footer>
+  </div>
+
+  {% block footerScripts %}
+    {# IE8 and below need jQuery 1 - other browsers use jQuery 3: -#}
+    {# (of course, if you don't need jQuery, just delete the next two lines...) -#}
+    <!--[if lt IE 9]><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><![endif]-->
+    <!--[if gte IE 9]><!--><script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script><!-- <![endif]-->
+
+    {% if craft.config.devMode %}
+      <script src="/scripts/main.js"></script>
+    {% else %}
+      <script src="/scripts/main.min.js?v=1"></script>
+    {% endif %}
+  {% endblock %}
+
+  {# If we're on a .local domain, load Browsersync: #}
+  {% if craft.config.localDevelopment %}
+    <script id="__bs_script__">document.write("<script async src='{{craft.config.environmentVariables.siteUrl}}:3000/browser-sync/browser-sync-client.js'><\/script>");</script>
+    {# Change the next domain to the `External` IP address that is output in terminal when your run `gulp watch` #}
+    <script src="http://10.1.1.70:8080/target/target-script-min.js#browsersync"></script>
+  {% endif %}
+</body>
+</html>

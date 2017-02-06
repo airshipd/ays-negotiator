@@ -1,0 +1,28 @@
+{# Teaser for individual news articles #}
+{% if entry.type == "video" %}
+  {% set videoID = entry.videoUrl|replace("https://vimeo.com/",'') %}
+{% endif %}
+
+ <section class="s-newsTeaser s-noGap">
+    <div class="s-heading">
+      {% if sectionTitle is defined %}<h2><i class="icon icon-news"></i>{{sectionTitle}}</h2>{% endif %}
+      {% if sectionDescription is defined %}<p>{{sectionDescription}}</p>{% endif %}
+      <a href="/news" class="btn btn-seeAll"><i class="icon icon-arrowRight--black"></i></a>
+    </div>
+    {% if entry.type == "video" %}
+      <div class="videoWrapper">
+        <iframe src="https://player.vimeo.com/video/{{videoID}}?title=0&byline=0&portrait=0" frameborder="0" allowfullscreen></iframe>
+      </div>
+    {% elseif entry.featureImage|length %}
+      <a class="s-newsTeaser--img" style="background-image: url('{{entry.featureImage.first().url}}');" href="{{ entry.url }}"></a>
+    {% endif %}
+    <div class="s-newsTeaser--body">
+      <h3><a href="{{entry.url}}">{{entry.title}}</a></h3>
+      {% if entry.articleTeaser is not empty %}
+        <p>{{ entry.articleTeaser }}</p>
+      {% endif %}
+    </div>
+    <div class="right">
+      <a href="{{ entry.url }}" class="btn btn-standard">Read More</a>
+    </div>
+</section>

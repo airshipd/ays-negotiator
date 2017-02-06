@@ -1,0 +1,34 @@
+
+/*============================================================================
+  #Colours
+==============================================================================*/
+$black: #333849;
+$light-grey: #f7f7f9;
+
+
+/*============================================================================
+  #Font familys
+==============================================================================*/
+$montreal-regular: "montrealregular", "helvetica", "arial", "serif";
+$montreal-bold: "montrealbold", "helvetica", "arial", "serif";
+$grotesk-regular: "hk_groteskregular", "helvetica", "arial", "serif";
+$grotesk-medium: "hk_groteskmedium", "helvetica", "arial", "serif";
+$grotesk-bold: "hk_groteskbold", "helvetica", "arial", "serif";
+$grotesk-light: "hk_grotesklight", "helvetica", "arial", "serif";
+
+
+
+/*============================================================================
+  #Breakpoint and Grid Variables
+==============================================================================*/
+$viewportIncrement: 1px;
+
+$small: 480px;
+$medium: 500px;
+$large: 769px;
+$extraLarge: 1080px;
+$superLarge: 1380px;
+
+$postSmall: $small + $viewportIncrement;
+$preMedium: $medium - $viewportIncrement;
+$preLarge: $large - $viewportIncrement;

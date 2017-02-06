@@ -1,0 +1,16 @@
+{#
+ # News index template
+ # -------------------
+ #}
+
+{% extends "_channel/index" %}
+
+{# Section: #}
+{% set sectionHandle = craft.request.firstSegment %}
+{% set section = craft.sections.getSectionByHandle(sectionHandle) %}
+{% set sectionTitle = "news" %}
+
+
+{% block entry %}
+  {% include "news/teaserStandard" with { sectionTitle: false } %}
+{% endblock %}

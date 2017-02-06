@@ -1,0 +1,89 @@
+
+* {
+    font-family: $grotesk-regular;
+}
+
+h1, h2 {
+    font-family: $montreal-regular;
+}
+
+strong {
+    font-family: $grotesk-bold;
+}
+
+h1 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 9px;
+  line-height: 1em;
+  font-family: $montreal-bold;
+
+  @include at-query( $min, $medium ) {
+    font-size: 19px;
+    margin-bottom: 12px;
+  }
+}
+
+h2 {
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 9px;
+  line-height: 1em;
+  text-transform: uppercase;
+
+  @include at-query( $min, $medium ) {
+    font-size: 17px;
+  }
+}
+
+section {
+
+  h2 {
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 9px;
+    line-height: 1em;
+    font-family: $montreal-bold;
+
+    @include at-query( $min, $medium ) {
+      font-size: 17px;
+    }
+
+    & + p {
+      margin-bottom: 15px;
+
+      @include at-query( $min, $medium ) {
+        margin-bottom: 18px;
+      }
+    }
+  }
+
+  h3 {
+    font-size: 14px;
+    font-family: $grotesk-bold;
+
+    @include at-query( $min, $medium ) {
+      font-size: 17px;
+    }
+
+    & + p {
+      margin-bottom: 24px;
+
+      @include at-query( $min, $medium ) {
+        margin-bottom: 27px;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  p {
+    font-size: 13px;
+
+    @include at-query( $min, $medium ) {
+      font-size: 16px;
+    }
+  }
+}

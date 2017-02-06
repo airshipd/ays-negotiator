@@ -1,0 +1,69 @@
+@keyframes fadeVerticleFlipUp {
+    0% {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+    50% {
+      opacity: 0;
+    }
+    51% {
+      transform: rotate(90deg);
+    }
+    52% {
+      transform: rotate(-90deg);
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}
+
+@keyframes fadeVerticleFlipDown {
+    0% {
+      opacity: 1;
+      transform: rotate(-90deg);
+    }
+    50% {
+      opacity: 0;
+    }
+    51% {
+      transform: rotate(-90deg);
+    }
+    52% {
+      transform: rotate(90deg);
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale( .75 );
+  }
+  20% {
+    transform: scale( 1 );
+  }
+  40% {
+    transform: scale( .75 );
+  }
+  60% {
+    transform: scale( 1 );
+  }
+  80% {
+    transform: scale( .75 );
+  }
+  100% {
+    transform: scale( .75 );
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

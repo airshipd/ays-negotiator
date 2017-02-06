@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/*
+.sass-cache
+craft/storage/runtime/*
+craft/storage/backups/*
+bower_components/*
+.docs
+.env
+public_html/assets/*
+craft/app/migrations/*
+*.sublime-project
+*.sublime-workspace
+public_html/.htaccess
