@@ -33,27 +33,9 @@ main {
   background: #fff;
 }
 
-section {
-  padding: 17px 20px 20px 20px;
-
-  @include at-query( $min, $medium ) {
-    padding-top: 22px;
-  }
-
-  &.s-noGap {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  p:empty {
-    display: none;
-  }
-}
-
 .page + nav {
   display: none; //hide inital nav from showing on page to prevent page height jump
 }
-
 
 .container,
 .container-fluid {

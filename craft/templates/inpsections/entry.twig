@@ -1,0 +1,23 @@
+{#
+ # Structure entry template
+ # -------------------
+ # A default template for structure sections to extend
+ #}
+
+{% extends "_layout" %}
+
+{% block content %}
+
+  <article>
+    <h2>{{ entry.title }}</h2>
+
+
+    <form class="" method="post">
+
+      <input type="hidden" name="action" value="negotiator/inspections/saveInspection">  
+
+
+    </form>
+
+  </article>
+{% endblock %}

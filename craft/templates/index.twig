@@ -21,10 +21,24 @@
 
 {% block content %}
 
-  <article class="entry-content">
-    <h1>{{ entry.label }}</h1>
-    {# Article contents: -#}
-    {{ entry.body }}
-  </article>
+  {# force users to login before accessing website #}
+  {% requireLogin %}
+
+  <div class="">
+
+    <h1>Inspections</h1>
+
+    {% set inspections = craft.entries({ section: "inspections" }).order("dateCreated desc") %}
+
+    {% if inspections|length %}
+    <ul class="list-inpsections">
+      {% for inspection in inspections %}
+      <li>{{inspection.title}} <a class="btn" href="{{inspection.url}}">Edit</a> <a class="btn" href="{{inspection.url}}">View Report</a></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No Inspections are currency assigned to you.</p>
+    {% endif %}
+  </div>
 
 {% endblock %}

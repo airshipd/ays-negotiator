@@ -3,11 +3,6 @@
  # ---------------
  #}
 
-{# If there is no signed on user then lets redirect them back to LMS #}
-{% if not currentUser and not craft.config.devMode %}
-  {% redirect serveUpConfig.lmsUrl %}
-{% endif %}
-
 <!DOCTYPE html>
 <html class="no-js">
 <head>

@@ -19,6 +19,7 @@ return array(
     'devMode' => false,
     'omitScriptNameInUrls' => true,
     'autoLoginAfterAccountActivation' => true,
+    'loginPath' => 'login',
     'logoutPath' => 'logout',
     'userSessionDuration' => 'P2W',
     'localDevelopment' => false,
