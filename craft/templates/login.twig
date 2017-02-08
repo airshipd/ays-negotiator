@@ -3,17 +3,26 @@
 
 {% block content %}
 
-  <form method="post" accept-charset="UTF-8">
-    {{ getCsrfInput() }}
+  <div class="row">
 
-    <label><input type="text" name="loginName" value="{{ craft.session.rememberedUsername }}"></label>
+    <form method="post" accept-charset="UTF-8" class="col s12">
+      {{ getCsrfInput() }}
 
-    <label><input type="password" name="password"></label>
+      <div class="row">
+        <div class="input-field col s6">
+          <input type="text" name="loginName" value="{{ craft.session.rememberedUsername }}">
+          <label>User Name</label>
+        </div>
 
-    <input class="btn btn-submit" type="submit" value="Login">
-
-    <input type="hidden" name="action" value="users/login">
-  </form>
+        <div class="input-field col s6">
+          <input type="password" name="password">
+          <label>Password</label>
+        </div>
+      </div>
+      <input type="hidden" name="action" value="users/login">
+      <input class="btn waves-effect" type="submit" value="Login">
+    </form>
+  </div>
 
   <p><a href="{{ url('forgotpassword') }}">Forget your password?</a></p>
 

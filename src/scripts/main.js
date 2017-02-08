@@ -3,7 +3,16 @@
 window.n = window.n || {};
 
 
+
+
 n.init = function() {
+
+
+$.datepicker.setDefaults({
+  regional: 'au'
+})
+//setup jquery datepicker
+$('.input-datePicker').datepicker();
 
 }
 

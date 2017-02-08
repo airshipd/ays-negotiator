@@ -1,0 +1,95 @@
+.list-inspectionsTitles {
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  color: #999999;
+  padding: 20px 26px 14px;
+  display: flex;
+
+  div:first-child {
+    width: 70%;
+  }
+
+  div:nth-child(2){
+    width: 14%;
+  }
+
+  div:last-child {
+    width: 16%;
+    padding-left: 10px;
+  }
+}
+
+
+.list-inpsections {
+  margin-top: 0;
+
+  li {
+    padding: 13px 26px 13px;
+    border-bottom: 1px solid #DDDDDD;
+
+    a {
+      display: flex;
+    }
+
+    .list-item:first-of-type {
+      width: 70%;
+    }
+
+    .list-item:nth-child(2) {
+      width: 14%;
+    }
+
+    .list-item:last-of-type {
+      width: 16%;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .title {
+    color: #555555;
+
+    span {
+      color: #999999;
+    }
+
+    &.title-upComing {
+      color: #555555;
+    }
+  }
+
+  .date {
+    color: #999999;
+    font-size: 14px;
+  }
+
+  [class*="status-"] {
+
+    span {
+      text-transform: uppercase;
+      border-radius: 12px;
+      padding: 6px 10px;
+      display: inline-block;
+      text-align: center;
+      font-size: 10px;
+    }
+  }
+
+  .status-upcoming span {
+    border: 1px solid #7CAA5A;
+    color: #7CAA5A;
+  }
+
+  .status-accepted span {
+    background: rgba(123,170,89,0.35);
+    font-size: 10px;
+    color: #FFFFFF;
+  }
+
+  .status-rejected span {
+    background: rgba(170,89,89,0.35);
+    color: #FFFFFF;
+  }
+}

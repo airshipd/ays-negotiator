@@ -12,6 +12,8 @@
   <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
   <link rel="home" href="{{ siteUrl }}" />
 
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
   {# Let's use uncompressed CSS if we're in dev mode, for easier debugging: #}
   {% if craft.config.devMode %}
   <link rel="stylesheet" href="/styles/main.css" />
@@ -24,28 +26,17 @@
 <body>
 
   <div class="page" id="page">
-    <header>
-      <nav role="navigation" class="navbar navbar-inverse">
-        <div class="container-fluid">
-
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <a class="navbar-brand" href="/">
-              <img alt="Coles Liquor" src="/images/logo-coles.svg">
-            </a>
-
-            <div class="logo">
-              <a href="/">
-                <img src="/images/logo-serveup.svg" alt="Serve Up" />
-              </a>
-            </div>
-
-            <a class="btn btn-menu" href="#menu">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </a>
-          </div>
+    <header class="z-depth-2">
+      <nav >
+        <div class="nav-wrapper">
+          <a href="/" class="brand-logo center">{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</a>
+          <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class="left hide-on-med-and-down">
+            <li><a href="sass.html">Sass</a></li>
+          </ul>
+          <ul class="side-nav" id="mobile-nav">
+            <li><a href="sass.html">Sass</a></li>
+          </ul>
         </div>
       </nav>
     </header>
@@ -79,7 +70,7 @@
   {% if craft.config.localDevelopment %}
     <script id="__bs_script__">document.write("<script async src='{{craft.config.environmentVariables.siteUrl}}:3000/browser-sync/browser-sync-client.js'><\/script>");</script>
     {# Change the next domain to the `External` IP address that is output in terminal when your run `gulp watch` #}
-    <script src="http://10.1.1.70:8080/target/target-script-min.js#browsersync"></script>
+    <script src="http://10.0.64.210:8080/target/target-script-min.js#browsersync"></script>
   {% endif %}
 </body>
 </html>

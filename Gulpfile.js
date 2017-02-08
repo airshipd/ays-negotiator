@@ -162,7 +162,7 @@ gulp.task('styles', function(){
 gulp.task('scripts', function(){
   gulp.src([
     path.src + '/scripts/vendor/fastclick.js',
-    path.src + '/scripts/vendor/bootstrap.js',
+    path.src + '/scripts/vendor/materialize.js',
     path.src + '/scripts/vendor/jquery-ui.min.js',
     path.src + '/scripts/vendor/jquery.validate.js',
     path.src + '/scripts/main.js',

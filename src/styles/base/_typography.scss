@@ -1,22 +1,10 @@
 
-* {
-    font-family: $grotesk-regular;
-}
-
-h1, h2 {
-    font-family: $montreal-regular;
-}
-
-strong {
-    font-family: $grotesk-bold;
-}
 
 h1 {
   font-size: 16px;
   margin-top: 0;
   margin-bottom: 9px;
   line-height: 1em;
-  font-family: $montreal-bold;
 
   @include at-query( $min, $medium ) {
     font-size: 19px;
@@ -43,7 +31,6 @@ section {
     margin-top: 0;
     margin-bottom: 9px;
     line-height: 1em;
-    font-family: $montreal-bold;
 
     @include at-query( $min, $medium ) {
       font-size: 17px;
@@ -60,7 +47,6 @@ section {
 
   h3 {
     font-size: 14px;
-    font-family: $grotesk-bold;
 
     @include at-query( $min, $medium ) {
       font-size: 17px;
