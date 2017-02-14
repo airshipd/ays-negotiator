@@ -5,6 +5,7 @@
 @import "mixins/breakpoint";
 @import "vendor/materialize/materialize";
 @import "vendor/jquery-ui.min";
+@import "vendor/fontawesome/font-awesome";
 
 // BASE STYLES
 @import "base/fonts";
@@ -23,3 +24,5 @@
 
 // SECTIONS
 @import "sections/home";
+@import "sections/assessments";
+@import "sections/login";

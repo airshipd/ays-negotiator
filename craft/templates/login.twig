@@ -1,29 +1,43 @@
 
+{% set pageClass = 'login' %}
 {% extends "_layout" %}
 
 {% block content %}
 
-  <div class="row">
+  <div class="valign-wrapper">
 
-    <form method="post" accept-charset="UTF-8" class="col s12">
+    <form method="post" accept-charset="UTF-8" class="valign">
       {{ getCsrfInput() }}
 
+      <h3 class="form-header">Login</h3>
+
+      <div class="center-align">
+        <img src="/images/logo.svg" alt="Are You Selling">
+      </div>
+
+      <div class="input-field">
+        <input type="text" name="loginName" id="loginName" value="{{ craft.session.rememberedUsername }}">
+        <label for="loginName">Username</label>
+      </div>
+
+      <div class="input-field">
+        <input type="password" id="password" name="password">
+        <label for="password">Password</label>
+      </div>
+
+      <input type="hidden" name="action" value="users/login">
+
       <div class="row">
-        <div class="input-field col s6">
-          <input type="text" name="loginName" value="{{ craft.session.rememberedUsername }}">
-          <label>User Name</label>
+        <div class="col s12 m6">
+          <a href="{{ url('forgotpassword') }}">Forget your password?</a>
         </div>
 
-        <div class="input-field col s6">
-          <input type="password" name="password">
-          <label>Password</label>
+        <div class="col s12 m6 right-align">
+          <input class="btn-flat waves-effect" type="submit" value="Login">
         </div>
       </div>
-      <input type="hidden" name="action" value="users/login">
-      <input class="btn waves-effect" type="submit" value="Login">
     </form>
   </div>
 
-  <p><a href="{{ url('forgotpassword') }}">Forget your password?</a></p>
 
 {% endblock %}

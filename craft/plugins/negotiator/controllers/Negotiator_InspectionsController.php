@@ -7,9 +7,9 @@ class Negotiator_InspectionsController extends BaseController {
 
   public function actionSaveInspection() {
 
-    $theData = $this->requirePostRequest();
+    $this->requirePostRequest();
 
-    var_dump($theData);
+    var_dump(craft()->request->getPost());
     exit;
   }
 }

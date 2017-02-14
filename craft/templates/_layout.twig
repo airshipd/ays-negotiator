@@ -4,7 +4,7 @@
  #}
 
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js {% if pageClass is defined %}{{pageClass}}{% endif %}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -30,12 +30,8 @@
       <nav >
         <div class="nav-wrapper">
           <a href="/" class="brand-logo center">{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</a>
-          <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
-          <ul class="left hide-on-med-and-down">
-            <li><a href="sass.html">Sass</a></li>
-          </ul>
-          <ul class="side-nav" id="mobile-nav">
-            <li><a href="sass.html">Sass</a></li>
+          <ul class="left">
+            <li><a href="#"><i class="material-icons">refresh</i></a></li>
           </ul>
         </div>
       </nav>
@@ -70,7 +66,7 @@
   {% if craft.config.localDevelopment %}
     <script id="__bs_script__">document.write("<script async src='{{craft.config.environmentVariables.siteUrl}}:3000/browser-sync/browser-sync-client.js'><\/script>");</script>
     {# Change the next domain to the `External` IP address that is output in terminal when your run `gulp watch` #}
-    <script src="http://10.0.64.210:8080/target/target-script-min.js#browsersync"></script>
+    <script src="http://10.0.64.186:8080/target/target-script-min.js#browsersync"></script>
   {% endif %}
 </body>
 </html>

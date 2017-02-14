@@ -10422,16 +10422,15 @@ if ( $.ajaxPrefilter ) {
 window.n = window.n || {};
 
 
-
-
 n.init = function() {
 
-
-$.datepicker.setDefaults({
-  regional: 'au'
-})
-//setup jquery datepicker
-$('.input-datePicker').datepicker();
+  $('#damageAndFaults').characterCounter();
+  $('select').material_select();
+  $('.datepicker').pickadate({
+    format: 'yyyy/mm/dd',
+    formatSubmit: 'yyyy/mm/dd H:i:s',
+    hiddenName: true
+  });
 
 }
 

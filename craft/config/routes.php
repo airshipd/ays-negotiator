@@ -20,4 +20,7 @@
 
 return array(
 
+  'offer/(?P<id>\d+)' => 'offer/pending',
+  'offer/(?P<id>\d+)/view' => 'offer/view',
+
 );
