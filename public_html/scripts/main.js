@@ -8886,7 +8886,7 @@ break;case U[1]-1:T+=" ui-datepicker-group-last",I=" ui-corner-"+(Y?"left":"righ
 },_setupEvents:function(){this._off(this.handles),this._on(this.handles,this._handleEvents),this._hoverable(this.handles),this._focusable(this.handles)},_destroy:function(){this.handles.remove(),this.range&&this.range.remove(),this._mouseDestroy()},_mouseCapture:function(e){var i,s,n,o,a,r,h,l,c=this,u=this.options;return u.disabled?!1:(this.elementSize={width:this.element.outerWidth(),height:this.element.outerHeight()},this.elementOffset=this.element.offset(),i={x:e.pageX,y:e.pageY},s=this._normValueFromMouse(i),n=this._valueMax()-this._valueMin()+1,this.handles.each(function(e){var i=Math.abs(s-c.values(e));(n>i||n===i&&(e===c._lastChangedValue||c.values(e)===u.min))&&(n=i,o=t(this),a=e)}),r=this._start(e,a),r===!1?!1:(this._mouseSliding=!0,this._handleIndex=a,this._addClass(o,null,"ui-state-active"),o.trigger("focus"),h=o.offset(),l=!t(e.target).parents().addBack().is(".ui-slider-handle"),this._clickOffset=l?{left:0,top:0}:{left:e.pageX-h.left-o.width()/2,top:e.pageY-h.top-o.height()/2-(parseInt(o.css("borderTopWidth"),10)||0)-(parseInt(o.css("borderBottomWidth"),10)||0)+(parseInt(o.css("marginTop"),10)||0)},this.handles.hasClass("ui-state-hover")||this._slide(e,a,s),this._animateOff=!0,!0))},_mouseStart:function(){return!0},_mouseDrag:function(t){var e={x:t.pageX,y:t.pageY},i=this._normValueFromMouse(e);return this._slide(t,this._handleIndex,i),!1},_mouseStop:function(t){return this._removeClass(this.handles,null,"ui-state-active"),this._mouseSliding=!1,this._stop(t,this._handleIndex),this._change(t,this._handleIndex),this._handleIndex=null,this._clickOffset=null,this._animateOff=!1,!1},_detectOrientation:function(){this.orientation="vertical"===this.options.orientation?"vertical":"horizontal"},_normValueFromMouse:function(t){var e,i,s,n,o;return"horizontal"===this.orientation?(e=this.elementSize.width,i=t.x-this.elementOffset.left-(this._clickOffset?this._clickOffset.left:0)):(e=this.elementSize.height,i=t.y-this.elementOffset.top-(this._clickOffset?this._clickOffset.top:0)),s=i/e,s>1&&(s=1),0>s&&(s=0),"vertical"===this.orientation&&(s=1-s),n=this._valueMax()-this._valueMin(),o=this._valueMin()+s*n,this._trimAlignValue(o)},_uiHash:function(t,e,i){var s={handle:this.handles[t],handleIndex:t,value:void 0!==e?e:this.value()};return this._hasMultipleValues()&&(s.value=void 0!==e?e:this.values(t),s.values=i||this.values()),s},_hasMultipleValues:function(){return this.options.values&&this.options.values.length},_start:function(t,e){return this._trigger("start",t,this._uiHash(e))},_slide:function(t,e,i){var s,n,o=this.value(),a=this.values();this._hasMultipleValues()&&(n=this.values(e?0:1),o=this.values(e),2===this.options.values.length&&this.options.range===!0&&(i=0===e?Math.min(n,i):Math.max(n,i)),a[e]=i),i!==o&&(s=this._trigger("slide",t,this._uiHash(e,i,a)),s!==!1&&(this._hasMultipleValues()?this.values(e,i):this.value(i)))},_stop:function(t,e){this._trigger("stop",t,this._uiHash(e))},_change:function(t,e){this._keySliding||this._mouseSliding||(this._lastChangedValue=e,this._trigger("change",t,this._uiHash(e)))},value:function(t){return arguments.length?(this.options.value=this._trimAlignValue(t),this._refreshValue(),this._change(null,0),void 0):this._value()},values:function(e,i){var s,n,o;if(arguments.length>1)return this.options.values[e]=this._trimAlignValue(i),this._refreshValue(),this._change(null,e),void 0;if(!arguments.length)return this._values();if(!t.isArray(arguments[0]))return this._hasMultipleValues()?this._values(e):this.value();for(s=this.options.values,n=arguments[0],o=0;s.length>o;o+=1)s[o]=this._trimAlignValue(n[o]),this._change(null,o);this._refreshValue()},_setOption:function(e,i){var s,n=0;switch("range"===e&&this.options.range===!0&&("min"===i?(this.options.value=this._values(0),this.options.values=null):"max"===i&&(this.options.value=this._values(this.options.values.length-1),this.options.values=null)),t.isArray(this.options.values)&&(n=this.options.values.length),this._super(e,i),e){case"orientation":this._detectOrientation(),this._removeClass("ui-slider-horizontal ui-slider-vertical")._addClass("ui-slider-"+this.orientation),this._refreshValue(),this.options.range&&this._refreshRange(i),this.handles.css("horizontal"===i?"bottom":"left","");break;case"value":this._animateOff=!0,this._refreshValue(),this._change(null,0),this._animateOff=!1;break;case"values":for(this._animateOff=!0,this._refreshValue(),s=n-1;s>=0;s--)this._change(null,s);this._animateOff=!1;break;case"step":case"min":case"max":this._animateOff=!0,this._calculateNewMax(),this._refreshValue(),this._animateOff=!1;break;case"range":this._animateOff=!0,this._refresh(),this._animateOff=!1}},_setOptionDisabled:function(t){this._super(t),this._toggleClass(null,"ui-state-disabled",!!t)},_value:function(){var t=this.options.value;return t=this._trimAlignValue(t)},_values:function(t){var e,i,s;if(arguments.length)return e=this.options.values[t],e=this._trimAlignValue(e);if(this._hasMultipleValues()){for(i=this.options.values.slice(),s=0;i.length>s;s+=1)i[s]=this._trimAlignValue(i[s]);return i}return[]},_trimAlignValue:function(t){if(this._valueMin()>=t)return this._valueMin();if(t>=this._valueMax())return this._valueMax();var e=this.options.step>0?this.options.step:1,i=(t-this._valueMin())%e,s=t-i;return 2*Math.abs(i)>=e&&(s+=i>0?e:-e),parseFloat(s.toFixed(5))},_calculateNewMax:function(){var t=this.options.max,e=this._valueMin(),i=this.options.step,s=Math.round((t-e)/i)*i;t=s+e,t>this.options.max&&(t-=i),this.max=parseFloat(t.toFixed(this._precision()))},_precision:function(){var t=this._precisionOf(this.options.step);return null!==this.options.min&&(t=Math.max(t,this._precisionOf(this.options.min))),t},_precisionOf:function(t){var e=""+t,i=e.indexOf(".");return-1===i?0:e.length-i-1},_valueMin:function(){return this.options.min},_valueMax:function(){return this.max},_refreshRange:function(t){"vertical"===t&&this.range.css({width:"",left:""}),"horizontal"===t&&this.range.css({height:"",bottom:""})},_refreshValue:function(){var e,i,s,n,o,a=this.options.range,r=this.options,h=this,l=this._animateOff?!1:r.animate,c={};this._hasMultipleValues()?this.handles.each(function(s){i=100*((h.values(s)-h._valueMin())/(h._valueMax()-h._valueMin())),c["horizontal"===h.orientation?"left":"bottom"]=i+"%",t(this).stop(1,1)[l?"animate":"css"](c,r.animate),h.options.range===!0&&("horizontal"===h.orientation?(0===s&&h.range.stop(1,1)[l?"animate":"css"]({left:i+"%"},r.animate),1===s&&h.range[l?"animate":"css"]({width:i-e+"%"},{queue:!1,duration:r.animate})):(0===s&&h.range.stop(1,1)[l?"animate":"css"]({bottom:i+"%"},r.animate),1===s&&h.range[l?"animate":"css"]({height:i-e+"%"},{queue:!1,duration:r.animate}))),e=i}):(s=this.value(),n=this._valueMin(),o=this._valueMax(),i=o!==n?100*((s-n)/(o-n)):0,c["horizontal"===this.orientation?"left":"bottom"]=i+"%",this.handle.stop(1,1)[l?"animate":"css"](c,r.animate),"min"===a&&"horizontal"===this.orientation&&this.range.stop(1,1)[l?"animate":"css"]({width:i+"%"},r.animate),"max"===a&&"horizontal"===this.orientation&&this.range.stop(1,1)[l?"animate":"css"]({width:100-i+"%"},r.animate),"min"===a&&"vertical"===this.orientation&&this.range.stop(1,1)[l?"animate":"css"]({height:i+"%"},r.animate),"max"===a&&"vertical"===this.orientation&&this.range.stop(1,1)[l?"animate":"css"]({height:100-i+"%"},r.animate))},_handleEvents:{keydown:function(e){var i,s,n,o,a=t(e.target).data("ui-slider-handle-index");switch(e.keyCode){case t.ui.keyCode.HOME:case t.ui.keyCode.END:case t.ui.keyCode.PAGE_UP:case t.ui.keyCode.PAGE_DOWN:case t.ui.keyCode.UP:case t.ui.keyCode.RIGHT:case t.ui.keyCode.DOWN:case t.ui.keyCode.LEFT:if(e.preventDefault(),!this._keySliding&&(this._keySliding=!0,this._addClass(t(e.target),null,"ui-state-active"),i=this._start(e,a),i===!1))return}switch(o=this.options.step,s=n=this._hasMultipleValues()?this.values(a):this.value(),e.keyCode){case t.ui.keyCode.HOME:n=this._valueMin();break;case t.ui.keyCode.END:n=this._valueMax();break;case t.ui.keyCode.PAGE_UP:n=this._trimAlignValue(s+(this._valueMax()-this._valueMin())/this.numPages);break;case t.ui.keyCode.PAGE_DOWN:n=this._trimAlignValue(s-(this._valueMax()-this._valueMin())/this.numPages);break;case t.ui.keyCode.UP:case t.ui.keyCode.RIGHT:if(s===this._valueMax())return;n=this._trimAlignValue(s+o);break;case t.ui.keyCode.DOWN:case t.ui.keyCode.LEFT:if(s===this._valueMin())return;n=this._trimAlignValue(s-o)}this._slide(e,a,n)},keyup:function(e){var i=t(e.target).data("ui-slider-handle-index");this._keySliding&&(this._keySliding=!1,this._stop(e,i),this._change(e,i),this._removeClass(t(e.target),null,"ui-state-active"))}}}),t.widget("ui.spinner",{version:"1.12.1",defaultElement:"<input>",widgetEventPrefix:"spin",options:{classes:{"ui-spinner":"ui-corner-all","ui-spinner-down":"ui-corner-br","ui-spinner-up":"ui-corner-tr"},culture:null,icons:{down:"ui-icon-triangle-1-s",up:"ui-icon-triangle-1-n"},incremental:!0,max:null,min:null,numberFormat:null,page:10,step:1,change:null,spin:null,start:null,stop:null},_create:function(){this._setOption("max",this.options.max),this._setOption("min",this.options.min),this._setOption("step",this.options.step),""!==this.value()&&this._value(this.element.val(),!0),this._draw(),this._on(this._events),this._refresh(),this._on(this.window,{beforeunload:function(){this.element.removeAttr("autocomplete")}})},_getCreateOptions:function(){var e=this._super(),i=this.element;return t.each(["min","max","step"],function(t,s){var n=i.attr(s);null!=n&&n.length&&(e[s]=n)}),e},_events:{keydown:function(t){this._start(t)&&this._keydown(t)&&t.preventDefault()},keyup:"_stop",focus:function(){this.previous=this.element.val()},blur:function(t){return this.cancelBlur?(delete this.cancelBlur,void 0):(this._stop(),this._refresh(),this.previous!==this.element.val()&&this._trigger("change",t),void 0)},mousewheel:function(t,e){if(e){if(!this.spinning&&!this._start(t))return!1;this._spin((e>0?1:-1)*this.options.step,t),clearTimeout(this.mousewheelTimer),this.mousewheelTimer=this._delay(function(){this.spinning&&this._stop(t)},100),t.preventDefault()}},"mousedown .ui-spinner-button":function(e){function i(){var e=this.element[0]===t.ui.safeActiveElement(this.document[0]);e||(this.element.trigger("focus"),this.previous=s,this._delay(function(){this.previous=s}))}var s;s=this.element[0]===t.ui.safeActiveElement(this.document[0])?this.previous:this.element.val(),e.preventDefault(),i.call(this),this.cancelBlur=!0,this._delay(function(){delete this.cancelBlur,i.call(this)}),this._start(e)!==!1&&this._repeat(null,t(e.currentTarget).hasClass("ui-spinner-up")?1:-1,e)},"mouseup .ui-spinner-button":"_stop","mouseenter .ui-spinner-button":function(e){return t(e.currentTarget).hasClass("ui-state-active")?this._start(e)===!1?!1:(this._repeat(null,t(e.currentTarget).hasClass("ui-spinner-up")?1:-1,e),void 0):void 0},"mouseleave .ui-spinner-button":"_stop"},_enhance:function(){this.uiSpinner=this.element.attr("autocomplete","off").wrap("<span>").parent().append("<a></a><a></a>")},_draw:function(){this._enhance(),this._addClass(this.uiSpinner,"ui-spinner","ui-widget ui-widget-content"),this._addClass("ui-spinner-input"),this.element.attr("role","spinbutton"),this.buttons=this.uiSpinner.children("a").attr("tabIndex",-1).attr("aria-hidden",!0).button({classes:{"ui-button":""}}),this._removeClass(this.buttons,"ui-corner-all"),this._addClass(this.buttons.first(),"ui-spinner-button ui-spinner-up"),this._addClass(this.buttons.last(),"ui-spinner-button ui-spinner-down"),this.buttons.first().button({icon:this.options.icons.up,showLabel:!1}),this.buttons.last().button({icon:this.options.icons.down,showLabel:!1}),this.buttons.height()>Math.ceil(.5*this.uiSpinner.height())&&this.uiSpinner.height()>0&&this.uiSpinner.height(this.uiSpinner.height())},_keydown:function(e){var i=this.options,s=t.ui.keyCode;switch(e.keyCode){case s.UP:return this._repeat(null,1,e),!0;case s.DOWN:return this._repeat(null,-1,e),!0;case s.PAGE_UP:return this._repeat(null,i.page,e),!0;case s.PAGE_DOWN:return this._repeat(null,-i.page,e),!0}return!1},_start:function(t){return this.spinning||this._trigger("start",t)!==!1?(this.counter||(this.counter=1),this.spinning=!0,!0):!1},_repeat:function(t,e,i){t=t||500,clearTimeout(this.timer),this.timer=this._delay(function(){this._repeat(40,e,i)},t),this._spin(e*this.options.step,i)},_spin:function(t,e){var i=this.value()||0;this.counter||(this.counter=1),i=this._adjustValue(i+t*this._increment(this.counter)),this.spinning&&this._trigger("spin",e,{value:i})===!1||(this._value(i),this.counter++)},_increment:function(e){var i=this.options.incremental;return i?t.isFunction(i)?i(e):Math.floor(e*e*e/5e4-e*e/500+17*e/200+1):1},_precision:function(){var t=this._precisionOf(this.options.step);return null!==this.options.min&&(t=Math.max(t,this._precisionOf(this.options.min))),t},_precisionOf:function(t){var e=""+t,i=e.indexOf(".");return-1===i?0:e.length-i-1},_adjustValue:function(t){var e,i,s=this.options;return e=null!==s.min?s.min:0,i=t-e,i=Math.round(i/s.step)*s.step,t=e+i,t=parseFloat(t.toFixed(this._precision())),null!==s.max&&t>s.max?s.max:null!==s.min&&s.min>t?s.min:t},_stop:function(t){this.spinning&&(clearTimeout(this.timer),clearTimeout(this.mousewheelTimer),this.counter=0,this.spinning=!1,this._trigger("stop",t))},_setOption:function(t,e){var i,s,n;return"culture"===t||"numberFormat"===t?(i=this._parse(this.element.val()),this.options[t]=e,this.element.val(this._format(i)),void 0):(("max"===t||"min"===t||"step"===t)&&"string"==typeof e&&(e=this._parse(e)),"icons"===t&&(s=this.buttons.first().find(".ui-icon"),this._removeClass(s,null,this.options.icons.up),this._addClass(s,null,e.up),n=this.buttons.last().find(".ui-icon"),this._removeClass(n,null,this.options.icons.down),this._addClass(n,null,e.down)),this._super(t,e),void 0)},_setOptionDisabled:function(t){this._super(t),this._toggleClass(this.uiSpinner,null,"ui-state-disabled",!!t),this.element.prop("disabled",!!t),this.buttons.button(t?"disable":"enable")},_setOptions:r(function(t){this._super(t)}),_parse:function(t){return"string"==typeof t&&""!==t&&(t=window.Globalize&&this.options.numberFormat?Globalize.parseFloat(t,10,this.options.culture):+t),""===t||isNaN(t)?null:t},_format:function(t){return""===t?"":window.Globalize&&this.options.numberFormat?Globalize.format(t,this.options.numberFormat,this.options.culture):t},_refresh:function(){this.element.attr({"aria-valuemin":this.options.min,"aria-valuemax":this.options.max,"aria-valuenow":this._parse(this.element.val())})},isValid:function(){var t=this.value();return null===t?!1:t===this._adjustValue(t)},_value:function(t,e){var i;""!==t&&(i=this._parse(t),null!==i&&(e||(i=this._adjustValue(i)),t=this._format(i))),this.element.val(t),this._refresh()},_destroy:function(){this.element.prop("disabled",!1).removeAttr("autocomplete role aria-valuemin aria-valuemax aria-valuenow"),this.uiSpinner.replaceWith(this.element)},stepUp:r(function(t){this._stepUp(t)}),_stepUp:function(t){this._start()&&(this._spin((t||1)*this.options.step),this._stop())},stepDown:r(function(t){this._stepDown(t)}),_stepDown:function(t){this._start()&&(this._spin((t||1)*-this.options.step),this._stop())},pageUp:r(function(t){this._stepUp((t||1)*this.options.page)}),pageDown:r(function(t){this._stepDown((t||1)*this.options.page)}),value:function(t){return arguments.length?(r(this._value).call(this,t),void 0):this._parse(this.element.val())},widget:function(){return this.uiSpinner}}),t.uiBackCompat!==!1&&t.widget("ui.spinner",t.ui.spinner,{_enhance:function(){this.uiSpinner=this.element.attr("autocomplete","off").wrap(this._uiSpinnerHtml()).parent().append(this._buttonHtml())},_uiSpinnerHtml:function(){return"<span>"},_buttonHtml:function(){return"<a></a><a></a>"}}),t.ui.spinner,t.widget("ui.tabs",{version:"1.12.1",delay:300,options:{active:null,classes:{"ui-tabs":"ui-corner-all","ui-tabs-nav":"ui-corner-all","ui-tabs-panel":"ui-corner-bottom","ui-tabs-tab":"ui-corner-top"},collapsible:!1,event:"click",heightStyle:"content",hide:null,show:null,activate:null,beforeActivate:null,beforeLoad:null,load:null},_isLocal:function(){var t=/#.*$/;return function(e){var i,s;i=e.href.replace(t,""),s=location.href.replace(t,"");try{i=decodeURIComponent(i)}catch(n){}try{s=decodeURIComponent(s)}catch(n){}return e.hash.length>1&&i===s}}(),_create:function(){var e=this,i=this.options;this.running=!1,this._addClass("ui-tabs","ui-widget ui-widget-content"),this._toggleClass("ui-tabs-collapsible",null,i.collapsible),this._processTabs(),i.active=this._initialActive(),t.isArray(i.disabled)&&(i.disabled=t.unique(i.disabled.concat(t.map(this.tabs.filter(".ui-state-disabled"),function(t){return e.tabs.index(t)}))).sort()),this.active=this.options.active!==!1&&this.anchors.length?this._findActive(i.active):t(),this._refresh(),this.active.length&&this.load(i.active)},_initialActive:function(){var e=this.options.active,i=this.options.collapsible,s=location.hash.substring(1);return null===e&&(s&&this.tabs.each(function(i,n){return t(n).attr("aria-controls")===s?(e=i,!1):void 0}),null===e&&(e=this.tabs.index(this.tabs.filter(".ui-tabs-active"))),(null===e||-1===e)&&(e=this.tabs.length?0:!1)),e!==!1&&(e=this.tabs.index(this.tabs.eq(e)),-1===e&&(e=i?!1:0)),!i&&e===!1&&this.anchors.length&&(e=0),e},_getCreateEventData:function(){return{tab:this.active,panel:this.active.length?this._getPanelForTab(this.active):t()}},_tabKeydown:function(e){var i=t(t.ui.safeActiveElement(this.document[0])).closest("li"),s=this.tabs.index(i),n=!0;if(!this._handlePageNav(e)){switch(e.keyCode){case t.ui.keyCode.RIGHT:case t.ui.keyCode.DOWN:s++;break;case t.ui.keyCode.UP:case t.ui.keyCode.LEFT:n=!1,s--;break;case t.ui.keyCode.END:s=this.anchors.length-1;break;case t.ui.keyCode.HOME:s=0;break;case t.ui.keyCode.SPACE:return e.preventDefault(),clearTimeout(this.activating),this._activate(s),void 0;case t.ui.keyCode.ENTER:return e.preventDefault(),clearTimeout(this.activating),this._activate(s===this.options.active?!1:s),void 0;default:return}e.preventDefault(),clearTimeout(this.activating),s=this._focusNextTab(s,n),e.ctrlKey||e.metaKey||(i.attr("aria-selected","false"),this.tabs.eq(s).attr("aria-selected","true"),this.activating=this._delay(function(){this.option("active",s)},this.delay))}},_panelKeydown:function(e){this._handlePageNav(e)||e.ctrlKey&&e.keyCode===t.ui.keyCode.UP&&(e.preventDefault(),this.active.trigger("focus"))},_handlePageNav:function(e){return e.altKey&&e.keyCode===t.ui.keyCode.PAGE_UP?(this._activate(this._focusNextTab(this.options.active-1,!1)),!0):e.altKey&&e.keyCode===t.ui.keyCode.PAGE_DOWN?(this._activate(this._focusNextTab(this.options.active+1,!0)),!0):void 0},_findNextTab:function(e,i){function s(){return e>n&&(e=0),0>e&&(e=n),e}for(var n=this.tabs.length-1;-1!==t.inArray(s(),this.options.disabled);)e=i?e+1:e-1;return e},_focusNextTab:function(t,e){return t=this._findNextTab(t,e),this.tabs.eq(t).trigger("focus"),t},_setOption:function(t,e){return"active"===t?(this._activate(e),void 0):(this._super(t,e),"collapsible"===t&&(this._toggleClass("ui-tabs-collapsible",null,e),e||this.options.active!==!1||this._activate(0)),"event"===t&&this._setupEvents(e),"heightStyle"===t&&this._setupHeightStyle(e),void 0)},_sanitizeSelector:function(t){return t?t.replace(/[!"$%&'()*+,.\/:;<=>?@\[\]\^`{|}~]/g,"\\$&"):""},refresh:function(){var e=this.options,i=this.tablist.children(":has(a[href])");e.disabled=t.map(i.filter(".ui-state-disabled"),function(t){return i.index(t)}),this._processTabs(),e.active!==!1&&this.anchors.length?this.active.length&&!t.contains(this.tablist[0],this.active[0])?this.tabs.length===e.disabled.length?(e.active=!1,this.active=t()):this._activate(this._findNextTab(Math.max(0,e.active-1),!1)):e.active=this.tabs.index(this.active):(e.active=!1,this.active=t()),this._refresh()},_refresh:function(){this._setOptionDisabled(this.options.disabled),this._setupEvents(this.options.event),this._setupHeightStyle(this.options.heightStyle),this.tabs.not(this.active).attr({"aria-selected":"false","aria-expanded":"false",tabIndex:-1}),this.panels.not(this._getPanelForTab(this.active)).hide().attr({"aria-hidden":"true"}),this.active.length?(this.active.attr({"aria-selected":"true","aria-expanded":"true",tabIndex:0}),this._addClass(this.active,"ui-tabs-active","ui-state-active"),this._getPanelForTab(this.active).show().attr({"aria-hidden":"false"})):this.tabs.eq(0).attr("tabIndex",0)},_processTabs:function(){var e=this,i=this.tabs,s=this.anchors,n=this.panels;this.tablist=this._getList().attr("role","tablist"),this._addClass(this.tablist,"ui-tabs-nav","ui-helper-reset ui-helper-clearfix ui-widget-header"),this.tablist.on("mousedown"+this.eventNamespace,"> li",function(e){t(this).is(".ui-state-disabled")&&e.preventDefault()}).on("focus"+this.eventNamespace,".ui-tabs-anchor",function(){t(this).closest("li").is(".ui-state-disabled")&&this.blur()}),this.tabs=this.tablist.find("> li:has(a[href])").attr({role:"tab",tabIndex:-1}),this._addClass(this.tabs,"ui-tabs-tab","ui-state-default"),this.anchors=this.tabs.map(function(){return t("a",this)[0]}).attr({role:"presentation",tabIndex:-1}),this._addClass(this.anchors,"ui-tabs-anchor"),this.panels=t(),this.anchors.each(function(i,s){var n,o,a,r=t(s).uniqueId().attr("id"),h=t(s).closest("li"),l=h.attr("aria-controls");e._isLocal(s)?(n=s.hash,a=n.substring(1),o=e.element.find(e._sanitizeSelector(n))):(a=h.attr("aria-controls")||t({}).uniqueId()[0].id,n="#"+a,o=e.element.find(n),o.length||(o=e._createPanel(a),o.insertAfter(e.panels[i-1]||e.tablist)),o.attr("aria-live","polite")),o.length&&(e.panels=e.panels.add(o)),l&&h.data("ui-tabs-aria-controls",l),h.attr({"aria-controls":a,"aria-labelledby":r}),o.attr("aria-labelledby",r)}),this.panels.attr("role","tabpanel"),this._addClass(this.panels,"ui-tabs-panel","ui-widget-content"),i&&(this._off(i.not(this.tabs)),this._off(s.not(this.anchors)),this._off(n.not(this.panels)))},_getList:function(){return this.tablist||this.element.find("ol, ul").eq(0)},_createPanel:function(e){return t("<div>").attr("id",e).data("ui-tabs-destroy",!0)},_setOptionDisabled:function(e){var i,s,n;for(t.isArray(e)&&(e.length?e.length===this.anchors.length&&(e=!0):e=!1),n=0;s=this.tabs[n];n++)i=t(s),e===!0||-1!==t.inArray(n,e)?(i.attr("aria-disabled","true"),this._addClass(i,null,"ui-state-disabled")):(i.removeAttr("aria-disabled"),this._removeClass(i,null,"ui-state-disabled"));this.options.disabled=e,this._toggleClass(this.widget(),this.widgetFullName+"-disabled",null,e===!0)},_setupEvents:function(e){var i={};e&&t.each(e.split(" "),function(t,e){i[e]="_eventHandler"}),this._off(this.anchors.add(this.tabs).add(this.panels)),this._on(!0,this.anchors,{click:function(t){t.preventDefault()}}),this._on(this.anchors,i),this._on(this.tabs,{keydown:"_tabKeydown"}),this._on(this.panels,{keydown:"_panelKeydown"}),this._focusable(this.tabs),this._hoverable(this.tabs)},_setupHeightStyle:function(e){var i,s=this.element.parent();"fill"===e?(i=s.height(),i-=this.element.outerHeight()-this.element.height(),this.element.siblings(":visible").each(function(){var e=t(this),s=e.css("position");"absolute"!==s&&"fixed"!==s&&(i-=e.outerHeight(!0))}),this.element.children().not(this.panels).each(function(){i-=t(this).outerHeight(!0)}),this.panels.each(function(){t(this).height(Math.max(0,i-t(this).innerHeight()+t(this).height()))}).css("overflow","auto")):"auto"===e&&(i=0,this.panels.each(function(){i=Math.max(i,t(this).height("").height())}).height(i))},_eventHandler:function(e){var i=this.options,s=this.active,n=t(e.currentTarget),o=n.closest("li"),a=o[0]===s[0],r=a&&i.collapsible,h=r?t():this._getPanelForTab(o),l=s.length?this._getPanelForTab(s):t(),c={oldTab:s,oldPanel:l,newTab:r?t():o,newPanel:h};e.preventDefault(),o.hasClass("ui-state-disabled")||o.hasClass("ui-tabs-loading")||this.running||a&&!i.collapsible||this._trigger("beforeActivate",e,c)===!1||(i.active=r?!1:this.tabs.index(o),this.active=a?t():o,this.xhr&&this.xhr.abort(),l.length||h.length||t.error("jQuery UI Tabs: Mismatching fragment identifier."),h.length&&this.load(this.tabs.index(o),e),this._toggle(e,c))},_toggle:function(e,i){function s(){o.running=!1,o._trigger("activate",e,i)}function n(){o._addClass(i.newTab.closest("li"),"ui-tabs-active","ui-state-active"),a.length&&o.options.show?o._show(a,o.options.show,s):(a.show(),s())}var o=this,a=i.newPanel,r=i.oldPanel;this.running=!0,r.length&&this.options.hide?this._hide(r,this.options.hide,function(){o._removeClass(i.oldTab.closest("li"),"ui-tabs-active","ui-state-active"),n()}):(this._removeClass(i.oldTab.closest("li"),"ui-tabs-active","ui-state-active"),r.hide(),n()),r.attr("aria-hidden","true"),i.oldTab.attr({"aria-selected":"false","aria-expanded":"false"}),a.length&&r.length?i.oldTab.attr("tabIndex",-1):a.length&&this.tabs.filter(function(){return 0===t(this).attr("tabIndex")}).attr("tabIndex",-1),a.attr("aria-hidden","false"),i.newTab.attr({"aria-selected":"true","aria-expanded":"true",tabIndex:0})},_activate:function(e){var i,s=this._findActive(e);s[0]!==this.active[0]&&(s.length||(s=this.active),i=s.find(".ui-tabs-anchor")[0],this._eventHandler({target:i,currentTarget:i,preventDefault:t.noop}))},_findActive:function(e){return e===!1?t():this.tabs.eq(e)},_getIndex:function(e){return"string"==typeof e&&(e=this.anchors.index(this.anchors.filter("[href$='"+t.ui.escapeSelector(e)+"']"))),e},_destroy:function(){this.xhr&&this.xhr.abort(),this.tablist.removeAttr("role").off(this.eventNamespace),this.anchors.removeAttr("role tabIndex").removeUniqueId(),this.tabs.add(this.panels).each(function(){t.data(this,"ui-tabs-destroy")?t(this).remove():t(this).removeAttr("role tabIndex aria-live aria-busy aria-selected aria-labelledby aria-hidden aria-expanded")}),this.tabs.each(function(){var e=t(this),i=e.data("ui-tabs-aria-controls");i?e.attr("aria-controls",i).removeData("ui-tabs-aria-controls"):e.removeAttr("aria-controls")}),this.panels.show(),"content"!==this.options.heightStyle&&this.panels.css("height","")},enable:function(e){var i=this.options.disabled;i!==!1&&(void 0===e?i=!1:(e=this._getIndex(e),i=t.isArray(i)?t.map(i,function(t){return t!==e?t:null}):t.map(this.tabs,function(t,i){return i!==e?i:null})),this._setOptionDisabled(i))},disable:function(e){var i=this.options.disabled;if(i!==!0){if(void 0===e)i=!0;else{if(e=this._getIndex(e),-1!==t.inArray(e,i))return;i=t.isArray(i)?t.merge([e],i).sort():[e]}this._setOptionDisabled(i)}},load:function(e,i){e=this._getIndex(e);var s=this,n=this.tabs.eq(e),o=n.find(".ui-tabs-anchor"),a=this._getPanelForTab(n),r={tab:n,panel:a},h=function(t,e){"abort"===e&&s.panels.stop(!1,!0),s._removeClass(n,"ui-tabs-loading"),a.removeAttr("aria-busy"),t===s.xhr&&delete s.xhr};this._isLocal(o[0])||(this.xhr=t.ajax(this._ajaxSettings(o,i,r)),this.xhr&&"canceled"!==this.xhr.statusText&&(this._addClass(n,"ui-tabs-loading"),a.attr("aria-busy","true"),this.xhr.done(function(t,e,n){setTimeout(function(){a.html(t),s._trigger("load",i,r),h(n,e)},1)}).fail(function(t,e){setTimeout(function(){h(t,e)},1)})))},_ajaxSettings:function(e,i,s){var n=this;return{url:e.attr("href").replace(/#.*$/,""),beforeSend:function(e,o){return n._trigger("beforeLoad",i,t.extend({jqXHR:e,ajaxSettings:o},s))}}},_getPanelForTab:function(e){var i=t(e).attr("aria-controls");return this.element.find(this._sanitizeSelector("#"+i))}}),t.uiBackCompat!==!1&&t.widget("ui.tabs",t.ui.tabs,{_processTabs:function(){this._superApply(arguments),this._addClass(this.tabs,"ui-tab")}}),t.ui.tabs,t.widget("ui.tooltip",{version:"1.12.1",options:{classes:{"ui-tooltip":"ui-corner-all ui-widget-shadow"},content:function(){var e=t(this).attr("title")||"";return t("<a>").text(e).html()},hide:!0,items:"[title]:not([disabled])",position:{my:"left top+15",at:"left bottom",collision:"flipfit flip"},show:!0,track:!1,close:null,open:null},_addDescribedBy:function(e,i){var s=(e.attr("aria-describedby")||"").split(/\s+/);s.push(i),e.data("ui-tooltip-id",i).attr("aria-describedby",t.trim(s.join(" ")))},_removeDescribedBy:function(e){var i=e.data("ui-tooltip-id"),s=(e.attr("aria-describedby")||"").split(/\s+/),n=t.inArray(i,s);-1!==n&&s.splice(n,1),e.removeData("ui-tooltip-id"),s=t.trim(s.join(" ")),s?e.attr("aria-describedby",s):e.removeAttr("aria-describedby")},_create:function(){this._on({mouseover:"open",focusin:"open"}),this.tooltips={},this.parents={},this.liveRegion=t("<div>").attr({role:"log","aria-live":"assertive","aria-relevant":"additions"}).appendTo(this.document[0].body),this._addClass(this.liveRegion,null,"ui-helper-hidden-accessible"),this.disabledTitles=t([])},_setOption:function(e,i){var s=this;this._super(e,i),"content"===e&&t.each(this.tooltips,function(t,e){s._updateContent(e.element)})},_setOptionDisabled:function(t){this[t?"_disable":"_enable"]()},_disable:function(){var e=this;t.each(this.tooltips,function(i,s){var n=t.Event("blur");n.target=n.currentTarget=s.element[0],e.close(n,!0)}),this.disabledTitles=this.disabledTitles.add(this.element.find(this.options.items).addBack().filter(function(){var e=t(this);return e.is("[title]")?e.data("ui-tooltip-title",e.attr("title")).removeAttr("title"):void 0}))},_enable:function(){this.disabledTitles.each(function(){var e=t(this);e.data("ui-tooltip-title")&&e.attr("title",e.data("ui-tooltip-title"))}),this.disabledTitles=t([])},open:function(e){var i=this,s=t(e?e.target:this.element).closest(this.options.items);s.length&&!s.data("ui-tooltip-id")&&(s.attr("title")&&s.data("ui-tooltip-title",s.attr("title")),s.data("ui-tooltip-open",!0),e&&"mouseover"===e.type&&s.parents().each(function(){var e,s=t(this);s.data("ui-tooltip-open")&&(e=t.Event("blur"),e.target=e.currentTarget=this,i.close(e,!0)),s.attr("title")&&(s.uniqueId(),i.parents[this.id]={element:this,title:s.attr("title")},s.attr("title",""))}),this._registerCloseHandlers(e,s),this._updateContent(s,e))},_updateContent:function(t,e){var i,s=this.options.content,n=this,o=e?e.type:null;return"string"==typeof s||s.nodeType||s.jquery?this._open(e,t,s):(i=s.call(t[0],function(i){n._delay(function(){t.data("ui-tooltip-open")&&(e&&(e.type=o),this._open(e,t,i))})}),i&&this._open(e,t,i),void 0)},_open:function(e,i,s){function n(t){l.of=t,a.is(":hidden")||a.position(l)}var o,a,r,h,l=t.extend({},this.options.position);if(s){if(o=this._find(i))return o.tooltip.find(".ui-tooltip-content").html(s),void 0;i.is("[title]")&&(e&&"mouseover"===e.type?i.attr("title",""):i.removeAttr("title")),o=this._tooltip(i),a=o.tooltip,this._addDescribedBy(i,a.attr("id")),a.find(".ui-tooltip-content").html(s),this.liveRegion.children().hide(),h=t("<div>").html(a.find(".ui-tooltip-content").html()),h.removeAttr("name").find("[name]").removeAttr("name"),h.removeAttr("id").find("[id]").removeAttr("id"),h.appendTo(this.liveRegion),this.options.track&&e&&/^mouse/.test(e.type)?(this._on(this.document,{mousemove:n}),n(e)):a.position(t.extend({of:i},this.options.position)),a.hide(),this._show(a,this.options.show),this.options.track&&this.options.show&&this.options.show.delay&&(r=this.delayedShow=setInterval(function(){a.is(":visible")&&(n(l.of),clearInterval(r))},t.fx.interval)),this._trigger("open",e,{tooltip:a})}},_registerCloseHandlers:function(e,i){var s={keyup:function(e){if(e.keyCode===t.ui.keyCode.ESCAPE){var s=t.Event(e);s.currentTarget=i[0],this.close(s,!0)}}};i[0]!==this.element[0]&&(s.remove=function(){this._removeTooltip(this._find(i).tooltip)}),e&&"mouseover"!==e.type||(s.mouseleave="close"),e&&"focusin"!==e.type||(s.focusout="close"),this._on(!0,i,s)},close:function(e){var i,s=this,n=t(e?e.currentTarget:this.element),o=this._find(n);return o?(i=o.tooltip,o.closing||(clearInterval(this.delayedShow),n.data("ui-tooltip-title")&&!n.attr("title")&&n.attr("title",n.data("ui-tooltip-title")),this._removeDescribedBy(n),o.hiding=!0,i.stop(!0),this._hide(i,this.options.hide,function(){s._removeTooltip(t(this))}),n.removeData("ui-tooltip-open"),this._off(n,"mouseleave focusout keyup"),n[0]!==this.element[0]&&this._off(n,"remove"),this._off(this.document,"mousemove"),e&&"mouseleave"===e.type&&t.each(this.parents,function(e,i){t(i.element).attr("title",i.title),delete s.parents[e]
 }),o.closing=!0,this._trigger("close",e,{tooltip:i}),o.hiding||(o.closing=!1)),void 0):(n.removeData("ui-tooltip-open"),void 0)},_tooltip:function(e){var i=t("<div>").attr("role","tooltip"),s=t("<div>").appendTo(i),n=i.uniqueId().attr("id");return this._addClass(s,"ui-tooltip-content"),this._addClass(i,"ui-tooltip","ui-widget ui-widget-content"),i.appendTo(this._appendTo(e)),this.tooltips[n]={element:e,tooltip:i}},_find:function(t){var e=t.data("ui-tooltip-id");return e?this.tooltips[e]:null},_removeTooltip:function(t){t.remove(),delete this.tooltips[t.attr("id")]},_appendTo:function(t){var e=t.closest(".ui-front, dialog");return e.length||(e=this.document[0].body),e},_destroy:function(){var e=this;t.each(this.tooltips,function(i,s){var n=t.Event("blur"),o=s.element;n.target=n.currentTarget=o[0],e.close(n,!0),t("#"+i).remove(),o.data("ui-tooltip-title")&&(o.attr("title")||o.attr("title",o.data("ui-tooltip-title")),o.removeData("ui-tooltip-title"))}),this.liveRegion.remove()}}),t.uiBackCompat!==!1&&t.widget("ui.tooltip",t.ui.tooltip,{options:{tooltipClass:null},_tooltip:function(){var t=this._superApply(arguments);return this.options.tooltipClass&&t.tooltip.addClass(this.options.tooltipClass),t}}),t.ui.tooltip;var f="ui-effects-",g="ui-effects-style",m="ui-effects-animated",_=t;t.effects={effect:{}},function(t,e){function i(t,e,i){var s=u[e.type]||{};return null==t?i||!e.def?null:e.def:(t=s.floor?~~t:parseFloat(t),isNaN(t)?e.def:s.mod?(t+s.mod)%s.mod:0>t?0:t>s.max?s.max:t)}function s(i){var s=l(),n=s._rgba=[];return i=i.toLowerCase(),f(h,function(t,o){var a,r=o.re.exec(i),h=r&&o.parse(r),l=o.space||"rgba";return h?(a=s[l](h),s[c[l].cache]=a[c[l].cache],n=s._rgba=a._rgba,!1):e}),n.length?("0,0,0,0"===n.join()&&t.extend(n,o.transparent),s):o[i]}function n(t,e,i){return i=(i+1)%1,1>6*i?t+6*(e-t)*i:1>2*i?e:2>3*i?t+6*(e-t)*(2/3-i):t}var o,a="backgroundColor borderBottomColor borderLeftColor borderRightColor borderTopColor color columnRuleColor outlineColor textDecorationColor textEmphasisColor",r=/^([\-+])=\s*(\d+\.?\d*)/,h=[{re:/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,parse:function(t){return[t[1],t[2],t[3],t[4]]}},{re:/rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,parse:function(t){return[2.55*t[1],2.55*t[2],2.55*t[3],t[4]]}},{re:/#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})/,parse:function(t){return[parseInt(t[1],16),parseInt(t[2],16),parseInt(t[3],16)]}},{re:/#([a-f0-9])([a-f0-9])([a-f0-9])/,parse:function(t){return[parseInt(t[1]+t[1],16),parseInt(t[2]+t[2],16),parseInt(t[3]+t[3],16)]}},{re:/hsla?\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,space:"hsla",parse:function(t){return[t[1],t[2]/100,t[3]/100,t[4]]}}],l=t.Color=function(e,i,s,n){return new t.Color.fn.parse(e,i,s,n)},c={rgba:{props:{red:{idx:0,type:"byte"},green:{idx:1,type:"byte"},blue:{idx:2,type:"byte"}}},hsla:{props:{hue:{idx:0,type:"degrees"},saturation:{idx:1,type:"percent"},lightness:{idx:2,type:"percent"}}}},u={"byte":{floor:!0,max:255},percent:{max:1},degrees:{mod:360,floor:!0}},d=l.support={},p=t("<p>")[0],f=t.each;p.style.cssText="background-color:rgba(1,1,1,.5)",d.rgba=p.style.backgroundColor.indexOf("rgba")>-1,f(c,function(t,e){e.cache="_"+t,e.props.alpha={idx:3,type:"percent",def:1}}),l.fn=t.extend(l.prototype,{parse:function(n,a,r,h){if(n===e)return this._rgba=[null,null,null,null],this;(n.jquery||n.nodeType)&&(n=t(n).css(a),a=e);var u=this,d=t.type(n),p=this._rgba=[];return a!==e&&(n=[n,a,r,h],d="array"),"string"===d?this.parse(s(n)||o._default):"array"===d?(f(c.rgba.props,function(t,e){p[e.idx]=i(n[e.idx],e)}),this):"object"===d?(n instanceof l?f(c,function(t,e){n[e.cache]&&(u[e.cache]=n[e.cache].slice())}):f(c,function(e,s){var o=s.cache;f(s.props,function(t,e){if(!u[o]&&s.to){if("alpha"===t||null==n[t])return;u[o]=s.to(u._rgba)}u[o][e.idx]=i(n[t],e,!0)}),u[o]&&0>t.inArray(null,u[o].slice(0,3))&&(u[o][3]=1,s.from&&(u._rgba=s.from(u[o])))}),this):e},is:function(t){var i=l(t),s=!0,n=this;return f(c,function(t,o){var a,r=i[o.cache];return r&&(a=n[o.cache]||o.to&&o.to(n._rgba)||[],f(o.props,function(t,i){return null!=r[i.idx]?s=r[i.idx]===a[i.idx]:e})),s}),s},_space:function(){var t=[],e=this;return f(c,function(i,s){e[s.cache]&&t.push(i)}),t.pop()},transition:function(t,e){var s=l(t),n=s._space(),o=c[n],a=0===this.alpha()?l("transparent"):this,r=a[o.cache]||o.to(a._rgba),h=r.slice();return s=s[o.cache],f(o.props,function(t,n){var o=n.idx,a=r[o],l=s[o],c=u[n.type]||{};null!==l&&(null===a?h[o]=l:(c.mod&&(l-a>c.mod/2?a+=c.mod:a-l>c.mod/2&&(a-=c.mod)),h[o]=i((l-a)*e+a,n)))}),this[n](h)},blend:function(e){if(1===this._rgba[3])return this;var i=this._rgba.slice(),s=i.pop(),n=l(e)._rgba;return l(t.map(i,function(t,e){return(1-s)*n[e]+s*t}))},toRgbaString:function(){var e="rgba(",i=t.map(this._rgba,function(t,e){return null==t?e>2?1:0:t});return 1===i[3]&&(i.pop(),e="rgb("),e+i.join()+")"},toHslaString:function(){var e="hsla(",i=t.map(this.hsla(),function(t,e){return null==t&&(t=e>2?1:0),e&&3>e&&(t=Math.round(100*t)+"%"),t});return 1===i[3]&&(i.pop(),e="hsl("),e+i.join()+")"},toHexString:function(e){var i=this._rgba.slice(),s=i.pop();return e&&i.push(~~(255*s)),"#"+t.map(i,function(t){return t=(t||0).toString(16),1===t.length?"0"+t:t}).join("")},toString:function(){return 0===this._rgba[3]?"transparent":this.toRgbaString()}}),l.fn.parse.prototype=l.fn,c.hsla.to=function(t){if(null==t[0]||null==t[1]||null==t[2])return[null,null,null,t[3]];var e,i,s=t[0]/255,n=t[1]/255,o=t[2]/255,a=t[3],r=Math.max(s,n,o),h=Math.min(s,n,o),l=r-h,c=r+h,u=.5*c;return e=h===r?0:s===r?60*(n-o)/l+360:n===r?60*(o-s)/l+120:60*(s-n)/l+240,i=0===l?0:.5>=u?l/c:l/(2-c),[Math.round(e)%360,i,u,null==a?1:a]},c.hsla.from=function(t){if(null==t[0]||null==t[1]||null==t[2])return[null,null,null,t[3]];var e=t[0]/360,i=t[1],s=t[2],o=t[3],a=.5>=s?s*(1+i):s+i-s*i,r=2*s-a;return[Math.round(255*n(r,a,e+1/3)),Math.round(255*n(r,a,e)),Math.round(255*n(r,a,e-1/3)),o]},f(c,function(s,n){var o=n.props,a=n.cache,h=n.to,c=n.from;l.fn[s]=function(s){if(h&&!this[a]&&(this[a]=h(this._rgba)),s===e)return this[a].slice();var n,r=t.type(s),u="array"===r||"object"===r?s:arguments,d=this[a].slice();return f(o,function(t,e){var s=u["object"===r?t:e.idx];null==s&&(s=d[e.idx]),d[e.idx]=i(s,e)}),c?(n=l(c(d)),n[a]=d,n):l(d)},f(o,function(e,i){l.fn[e]||(l.fn[e]=function(n){var o,a=t.type(n),h="alpha"===e?this._hsla?"hsla":"rgba":s,l=this[h](),c=l[i.idx];return"undefined"===a?c:("function"===a&&(n=n.call(this,c),a=t.type(n)),null==n&&i.empty?this:("string"===a&&(o=r.exec(n),o&&(n=c+parseFloat(o[2])*("+"===o[1]?1:-1))),l[i.idx]=n,this[h](l)))})})}),l.hook=function(e){var i=e.split(" ");f(i,function(e,i){t.cssHooks[i]={set:function(e,n){var o,a,r="";if("transparent"!==n&&("string"!==t.type(n)||(o=s(n)))){if(n=l(o||n),!d.rgba&&1!==n._rgba[3]){for(a="backgroundColor"===i?e.parentNode:e;(""===r||"transparent"===r)&&a&&a.style;)try{r=t.css(a,"backgroundColor"),a=a.parentNode}catch(h){}n=n.blend(r&&"transparent"!==r?r:"_default")}n=n.toRgbaString()}try{e.style[i]=n}catch(h){}}},t.fx.step[i]=function(e){e.colorInit||(e.start=l(e.elem,i),e.end=l(e.end),e.colorInit=!0),t.cssHooks[i].set(e.elem,e.start.transition(e.end,e.pos))}})},l.hook(a),t.cssHooks.borderColor={expand:function(t){var e={};return f(["Top","Right","Bottom","Left"],function(i,s){e["border"+s+"Color"]=t}),e}},o=t.Color.names={aqua:"#00ffff",black:"#000000",blue:"#0000ff",fuchsia:"#ff00ff",gray:"#808080",green:"#008000",lime:"#00ff00",maroon:"#800000",navy:"#000080",olive:"#808000",purple:"#800080",red:"#ff0000",silver:"#c0c0c0",teal:"#008080",white:"#ffffff",yellow:"#ffff00",transparent:[null,null,null,0],_default:"#ffffff"}}(_),function(){function e(e){var i,s,n=e.ownerDocument.defaultView?e.ownerDocument.defaultView.getComputedStyle(e,null):e.currentStyle,o={};if(n&&n.length&&n[0]&&n[n[0]])for(s=n.length;s--;)i=n[s],"string"==typeof n[i]&&(o[t.camelCase(i)]=n[i]);else for(i in n)"string"==typeof n[i]&&(o[i]=n[i]);return o}function i(e,i){var s,o,a={};for(s in i)o=i[s],e[s]!==o&&(n[s]||(t.fx.step[s]||!isNaN(parseFloat(o)))&&(a[s]=o));return a}var s=["add","remove","toggle"],n={border:1,borderBottom:1,borderColor:1,borderLeft:1,borderRight:1,borderTop:1,borderWidth:1,margin:1,padding:1};t.each(["borderLeftStyle","borderRightStyle","borderBottomStyle","borderTopStyle"],function(e,i){t.fx.step[i]=function(t){("none"!==t.end&&!t.setAttr||1===t.pos&&!t.setAttr)&&(_.style(t.elem,i,t.end),t.setAttr=!0)}}),t.fn.addBack||(t.fn.addBack=function(t){return this.add(null==t?this.prevObject:this.prevObject.filter(t))}),t.effects.animateClass=function(n,o,a,r){var h=t.speed(o,a,r);return this.queue(function(){var o,a=t(this),r=a.attr("class")||"",l=h.children?a.find("*").addBack():a;l=l.map(function(){var i=t(this);return{el:i,start:e(this)}}),o=function(){t.each(s,function(t,e){n[e]&&a[e+"Class"](n[e])})},o(),l=l.map(function(){return this.end=e(this.el[0]),this.diff=i(this.start,this.end),this}),a.attr("class",r),l=l.map(function(){var e=this,i=t.Deferred(),s=t.extend({},h,{queue:!1,complete:function(){i.resolve(e)}});return this.el.animate(this.diff,s),i.promise()}),t.when.apply(t,l.get()).done(function(){o(),t.each(arguments,function(){var e=this.el;t.each(this.diff,function(t){e.css(t,"")})}),h.complete.call(a[0])})})},t.fn.extend({addClass:function(e){return function(i,s,n,o){return s?t.effects.animateClass.call(this,{add:i},s,n,o):e.apply(this,arguments)}}(t.fn.addClass),removeClass:function(e){return function(i,s,n,o){return arguments.length>1?t.effects.animateClass.call(this,{remove:i},s,n,o):e.apply(this,arguments)}}(t.fn.removeClass),toggleClass:function(e){return function(i,s,n,o,a){return"boolean"==typeof s||void 0===s?n?t.effects.animateClass.call(this,s?{add:i}:{remove:i},n,o,a):e.apply(this,arguments):t.effects.animateClass.call(this,{toggle:i},s,n,o)}}(t.fn.toggleClass),switchClass:function(e,i,s,n,o){return t.effects.animateClass.call(this,{add:i,remove:e},s,n,o)}})}(),function(){function e(e,i,s,n){return t.isPlainObject(e)&&(i=e,e=e.effect),e={effect:e},null==i&&(i={}),t.isFunction(i)&&(n=i,s=null,i={}),("number"==typeof i||t.fx.speeds[i])&&(n=s,s=i,i={}),t.isFunction(s)&&(n=s,s=null),i&&t.extend(e,i),s=s||i.duration,e.duration=t.fx.off?0:"number"==typeof s?s:s in t.fx.speeds?t.fx.speeds[s]:t.fx.speeds._default,e.complete=n||i.complete,e}function i(e){return!e||"number"==typeof e||t.fx.speeds[e]?!0:"string"!=typeof e||t.effects.effect[e]?t.isFunction(e)?!0:"object"!=typeof e||e.effect?!1:!0:!0}function s(t,e){var i=e.outerWidth(),s=e.outerHeight(),n=/^rect\((-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto)\)$/,o=n.exec(t)||["",0,i,s,0];return{top:parseFloat(o[1])||0,right:"auto"===o[2]?i:parseFloat(o[2]),bottom:"auto"===o[3]?s:parseFloat(o[3]),left:parseFloat(o[4])||0}}t.expr&&t.expr.filters&&t.expr.filters.animated&&(t.expr.filters.animated=function(e){return function(i){return!!t(i).data(m)||e(i)}}(t.expr.filters.animated)),t.uiBackCompat!==!1&&t.extend(t.effects,{save:function(t,e){for(var i=0,s=e.length;s>i;i++)null!==e[i]&&t.data(f+e[i],t[0].style[e[i]])},restore:function(t,e){for(var i,s=0,n=e.length;n>s;s++)null!==e[s]&&(i=t.data(f+e[s]),t.css(e[s],i))},setMode:function(t,e){return"toggle"===e&&(e=t.is(":hidden")?"show":"hide"),e},createWrapper:function(e){if(e.parent().is(".ui-effects-wrapper"))return e.parent();var i={width:e.outerWidth(!0),height:e.outerHeight(!0),"float":e.css("float")},s=t("<div></div>").addClass("ui-effects-wrapper").css({fontSize:"100%",background:"transparent",border:"none",margin:0,padding:0}),n={width:e.width(),height:e.height()},o=document.activeElement;try{o.id}catch(a){o=document.body}return e.wrap(s),(e[0]===o||t.contains(e[0],o))&&t(o).trigger("focus"),s=e.parent(),"static"===e.css("position")?(s.css({position:"relative"}),e.css({position:"relative"})):(t.extend(i,{position:e.css("position"),zIndex:e.css("z-index")}),t.each(["top","left","bottom","right"],function(t,s){i[s]=e.css(s),isNaN(parseInt(i[s],10))&&(i[s]="auto")}),e.css({position:"relative",top:0,left:0,right:"auto",bottom:"auto"})),e.css(n),s.css(i).show()},removeWrapper:function(e){var i=document.activeElement;return e.parent().is(".ui-effects-wrapper")&&(e.parent().replaceWith(e),(e[0]===i||t.contains(e[0],i))&&t(i).trigger("focus")),e}}),t.extend(t.effects,{version:"1.12.1",define:function(e,i,s){return s||(s=i,i="effect"),t.effects.effect[e]=s,t.effects.effect[e].mode=i,s},scaledDimensions:function(t,e,i){if(0===e)return{height:0,width:0,outerHeight:0,outerWidth:0};var s="horizontal"!==i?(e||100)/100:1,n="vertical"!==i?(e||100)/100:1;return{height:t.height()*n,width:t.width()*s,outerHeight:t.outerHeight()*n,outerWidth:t.outerWidth()*s}},clipToBox:function(t){return{width:t.clip.right-t.clip.left,height:t.clip.bottom-t.clip.top,left:t.clip.left,top:t.clip.top}},unshift:function(t,e,i){var s=t.queue();e>1&&s.splice.apply(s,[1,0].concat(s.splice(e,i))),t.dequeue()},saveStyle:function(t){t.data(g,t[0].style.cssText)},restoreStyle:function(t){t[0].style.cssText=t.data(g)||"",t.removeData(g)},mode:function(t,e){var i=t.is(":hidden");return"toggle"===e&&(e=i?"show":"hide"),(i?"hide"===e:"show"===e)&&(e="none"),e},getBaseline:function(t,e){var i,s;switch(t[0]){case"top":i=0;break;case"middle":i=.5;break;case"bottom":i=1;break;default:i=t[0]/e.height}switch(t[1]){case"left":s=0;break;case"center":s=.5;break;case"right":s=1;break;default:s=t[1]/e.width}return{x:s,y:i}},createPlaceholder:function(e){var i,s=e.css("position"),n=e.position();return e.css({marginTop:e.css("marginTop"),marginBottom:e.css("marginBottom"),marginLeft:e.css("marginLeft"),marginRight:e.css("marginRight")}).outerWidth(e.outerWidth()).outerHeight(e.outerHeight()),/^(static|relative)/.test(s)&&(s="absolute",i=t("<"+e[0].nodeName+">").insertAfter(e).css({display:/^(inline|ruby)/.test(e.css("display"))?"inline-block":"block",visibility:"hidden",marginTop:e.css("marginTop"),marginBottom:e.css("marginBottom"),marginLeft:e.css("marginLeft"),marginRight:e.css("marginRight"),"float":e.css("float")}).outerWidth(e.outerWidth()).outerHeight(e.outerHeight()).addClass("ui-effects-placeholder"),e.data(f+"placeholder",i)),e.css({position:s,left:n.left,top:n.top}),i},removePlaceholder:function(t){var e=f+"placeholder",i=t.data(e);i&&(i.remove(),t.removeData(e))},cleanUp:function(e){t.effects.restoreStyle(e),t.effects.removePlaceholder(e)},setTransition:function(e,i,s,n){return n=n||{},t.each(i,function(t,i){var o=e.cssUnit(i);o[0]>0&&(n[i]=o[0]*s+o[1])}),n}}),t.fn.extend({effect:function(){function i(e){function i(){r.removeData(m),t.effects.cleanUp(r),"hide"===s.mode&&r.hide(),a()}function a(){t.isFunction(h)&&h.call(r[0]),t.isFunction(e)&&e()}var r=t(this);s.mode=c.shift(),t.uiBackCompat===!1||o?"none"===s.mode?(r[l](),a()):n.call(r[0],s,i):(r.is(":hidden")?"hide"===l:"show"===l)?(r[l](),a()):n.call(r[0],s,a)}var s=e.apply(this,arguments),n=t.effects.effect[s.effect],o=n.mode,a=s.queue,r=a||"fx",h=s.complete,l=s.mode,c=[],u=function(e){var i=t(this),s=t.effects.mode(i,l)||o;i.data(m,!0),c.push(s),o&&("show"===s||s===o&&"hide"===s)&&i.show(),o&&"none"===s||t.effects.saveStyle(i),t.isFunction(e)&&e()};return t.fx.off||!n?l?this[l](s.duration,h):this.each(function(){h&&h.call(this)}):a===!1?this.each(u).each(i):this.queue(r,u).queue(r,i)},show:function(t){return function(s){if(i(s))return t.apply(this,arguments);var n=e.apply(this,arguments);return n.mode="show",this.effect.call(this,n)}}(t.fn.show),hide:function(t){return function(s){if(i(s))return t.apply(this,arguments);var n=e.apply(this,arguments);return n.mode="hide",this.effect.call(this,n)}}(t.fn.hide),toggle:function(t){return function(s){if(i(s)||"boolean"==typeof s)return t.apply(this,arguments);var n=e.apply(this,arguments);return n.mode="toggle",this.effect.call(this,n)}}(t.fn.toggle),cssUnit:function(e){var i=this.css(e),s=[];return t.each(["em","px","%","pt"],function(t,e){i.indexOf(e)>0&&(s=[parseFloat(i),e])}),s},cssClip:function(t){return t?this.css("clip","rect("+t.top+"px "+t.right+"px "+t.bottom+"px "+t.left+"px)"):s(this.css("clip"),this)},transfer:function(e,i){var s=t(this),n=t(e.to),o="fixed"===n.css("position"),a=t("body"),r=o?a.scrollTop():0,h=o?a.scrollLeft():0,l=n.offset(),c={top:l.top-r,left:l.left-h,height:n.innerHeight(),width:n.innerWidth()},u=s.offset(),d=t("<div class='ui-effects-transfer'></div>").appendTo("body").addClass(e.className).css({top:u.top-r,left:u.left-h,height:s.innerHeight(),width:s.innerWidth(),position:o?"fixed":"absolute"}).animate(c,e.duration,e.easing,function(){d.remove(),t.isFunction(i)&&i()})}}),t.fx.step.clip=function(e){e.clipInit||(e.start=t(e.elem).cssClip(),"string"==typeof e.end&&(e.end=s(e.end,e.elem)),e.clipInit=!0),t(e.elem).cssClip({top:e.pos*(e.end.top-e.start.top)+e.start.top,right:e.pos*(e.end.right-e.start.right)+e.start.right,bottom:e.pos*(e.end.bottom-e.start.bottom)+e.start.bottom,left:e.pos*(e.end.left-e.start.left)+e.start.left})}}(),function(){var e={};t.each(["Quad","Cubic","Quart","Quint","Expo"],function(t,i){e[i]=function(e){return Math.pow(e,t+2)}}),t.extend(e,{Sine:function(t){return 1-Math.cos(t*Math.PI/2)},Circ:function(t){return 1-Math.sqrt(1-t*t)},Elastic:function(t){return 0===t||1===t?t:-Math.pow(2,8*(t-1))*Math.sin((80*(t-1)-7.5)*Math.PI/15)},Back:function(t){return t*t*(3*t-2)},Bounce:function(t){for(var e,i=4;((e=Math.pow(2,--i))-1)/11>t;);return 1/Math.pow(4,3-i)-7.5625*Math.pow((3*e-2)/22-t,2)}}),t.each(e,function(e,i){t.easing["easeIn"+e]=i,t.easing["easeOut"+e]=function(t){return 1-i(1-t)},t.easing["easeInOut"+e]=function(t){return.5>t?i(2*t)/2:1-i(-2*t+2)/2}})}();var v=t.effects;t.effects.define("blind","hide",function(e,i){var s={up:["bottom","top"],vertical:["bottom","top"],down:["top","bottom"],left:["right","left"],horizontal:["right","left"],right:["left","right"]},n=t(this),o=e.direction||"up",a=n.cssClip(),r={clip:t.extend({},a)},h=t.effects.createPlaceholder(n);r.clip[s[o][0]]=r.clip[s[o][1]],"show"===e.mode&&(n.cssClip(r.clip),h&&h.css(t.effects.clipToBox(r)),r.clip=a),h&&h.animate(t.effects.clipToBox(r),e.duration,e.easing),n.animate(r,{queue:!1,duration:e.duration,easing:e.easing,complete:i})}),t.effects.define("bounce",function(e,i){var s,n,o,a=t(this),r=e.mode,h="hide"===r,l="show"===r,c=e.direction||"up",u=e.distance,d=e.times||5,p=2*d+(l||h?1:0),f=e.duration/p,g=e.easing,m="up"===c||"down"===c?"top":"left",_="up"===c||"left"===c,v=0,b=a.queue().length;for(t.effects.createPlaceholder(a),o=a.css(m),u||(u=a["top"===m?"outerHeight":"outerWidth"]()/3),l&&(n={opacity:1},n[m]=o,a.css("opacity",0).css(m,_?2*-u:2*u).animate(n,f,g)),h&&(u/=Math.pow(2,d-1)),n={},n[m]=o;d>v;v++)s={},s[m]=(_?"-=":"+=")+u,a.animate(s,f,g).animate(n,f,g),u=h?2*u:u/2;h&&(s={opacity:0},s[m]=(_?"-=":"+=")+u,a.animate(s,f,g)),a.queue(i),t.effects.unshift(a,b,p+1)}),t.effects.define("clip","hide",function(e,i){var s,n={},o=t(this),a=e.direction||"vertical",r="both"===a,h=r||"horizontal"===a,l=r||"vertical"===a;s=o.cssClip(),n.clip={top:l?(s.bottom-s.top)/2:s.top,right:h?(s.right-s.left)/2:s.right,bottom:l?(s.bottom-s.top)/2:s.bottom,left:h?(s.right-s.left)/2:s.left},t.effects.createPlaceholder(o),"show"===e.mode&&(o.cssClip(n.clip),n.clip=s),o.animate(n,{queue:!1,duration:e.duration,easing:e.easing,complete:i})}),t.effects.define("drop","hide",function(e,i){var s,n=t(this),o=e.mode,a="show"===o,r=e.direction||"left",h="up"===r||"down"===r?"top":"left",l="up"===r||"left"===r?"-=":"+=",c="+="===l?"-=":"+=",u={opacity:0};t.effects.createPlaceholder(n),s=e.distance||n["top"===h?"outerHeight":"outerWidth"](!0)/2,u[h]=l+s,a&&(n.css(u),u[h]=c+s,u.opacity=1),n.animate(u,{queue:!1,duration:e.duration,easing:e.easing,complete:i})}),t.effects.define("explode","hide",function(e,i){function s(){b.push(this),b.length===u*d&&n()}function n(){p.css({visibility:"visible"}),t(b).remove(),i()}var o,a,r,h,l,c,u=e.pieces?Math.round(Math.sqrt(e.pieces)):3,d=u,p=t(this),f=e.mode,g="show"===f,m=p.show().css("visibility","hidden").offset(),_=Math.ceil(p.outerWidth()/d),v=Math.ceil(p.outerHeight()/u),b=[];for(o=0;u>o;o++)for(h=m.top+o*v,c=o-(u-1)/2,a=0;d>a;a++)r=m.left+a*_,l=a-(d-1)/2,p.clone().appendTo("body").wrap("<div></div>").css({position:"absolute",visibility:"visible",left:-a*_,top:-o*v}).parent().addClass("ui-effects-explode").css({position:"absolute",overflow:"hidden",width:_,height:v,left:r+(g?l*_:0),top:h+(g?c*v:0),opacity:g?0:1}).animate({left:r+(g?0:l*_),top:h+(g?0:c*v),opacity:g?1:0},e.duration||500,e.easing,s)}),t.effects.define("fade","toggle",function(e,i){var s="show"===e.mode;t(this).css("opacity",s?0:1).animate({opacity:s?1:0},{queue:!1,duration:e.duration,easing:e.easing,complete:i})}),t.effects.define("fold","hide",function(e,i){var s=t(this),n=e.mode,o="show"===n,a="hide"===n,r=e.size||15,h=/([0-9]+)%/.exec(r),l=!!e.horizFirst,c=l?["right","bottom"]:["bottom","right"],u=e.duration/2,d=t.effects.createPlaceholder(s),p=s.cssClip(),f={clip:t.extend({},p)},g={clip:t.extend({},p)},m=[p[c[0]],p[c[1]]],_=s.queue().length;h&&(r=parseInt(h[1],10)/100*m[a?0:1]),f.clip[c[0]]=r,g.clip[c[0]]=r,g.clip[c[1]]=0,o&&(s.cssClip(g.clip),d&&d.css(t.effects.clipToBox(g)),g.clip=p),s.queue(function(i){d&&d.animate(t.effects.clipToBox(f),u,e.easing).animate(t.effects.clipToBox(g),u,e.easing),i()}).animate(f,u,e.easing).animate(g,u,e.easing).queue(i),t.effects.unshift(s,_,4)}),t.effects.define("highlight","show",function(e,i){var s=t(this),n={backgroundColor:s.css("backgroundColor")};"hide"===e.mode&&(n.opacity=0),t.effects.saveStyle(s),s.css({backgroundImage:"none",backgroundColor:e.color||"#ffff99"}).animate(n,{queue:!1,duration:e.duration,easing:e.easing,complete:i})}),t.effects.define("size",function(e,i){var s,n,o,a=t(this),r=["fontSize"],h=["borderTopWidth","borderBottomWidth","paddingTop","paddingBottom"],l=["borderLeftWidth","borderRightWidth","paddingLeft","paddingRight"],c=e.mode,u="effect"!==c,d=e.scale||"both",p=e.origin||["middle","center"],f=a.css("position"),g=a.position(),m=t.effects.scaledDimensions(a),_=e.from||m,v=e.to||t.effects.scaledDimensions(a,0);t.effects.createPlaceholder(a),"show"===c&&(o=_,_=v,v=o),n={from:{y:_.height/m.height,x:_.width/m.width},to:{y:v.height/m.height,x:v.width/m.width}},("box"===d||"both"===d)&&(n.from.y!==n.to.y&&(_=t.effects.setTransition(a,h,n.from.y,_),v=t.effects.setTransition(a,h,n.to.y,v)),n.from.x!==n.to.x&&(_=t.effects.setTransition(a,l,n.from.x,_),v=t.effects.setTransition(a,l,n.to.x,v))),("content"===d||"both"===d)&&n.from.y!==n.to.y&&(_=t.effects.setTransition(a,r,n.from.y,_),v=t.effects.setTransition(a,r,n.to.y,v)),p&&(s=t.effects.getBaseline(p,m),_.top=(m.outerHeight-_.outerHeight)*s.y+g.top,_.left=(m.outerWidth-_.outerWidth)*s.x+g.left,v.top=(m.outerHeight-v.outerHeight)*s.y+g.top,v.left=(m.outerWidth-v.outerWidth)*s.x+g.left),a.css(_),("content"===d||"both"===d)&&(h=h.concat(["marginTop","marginBottom"]).concat(r),l=l.concat(["marginLeft","marginRight"]),a.find("*[width]").each(function(){var i=t(this),s=t.effects.scaledDimensions(i),o={height:s.height*n.from.y,width:s.width*n.from.x,outerHeight:s.outerHeight*n.from.y,outerWidth:s.outerWidth*n.from.x},a={height:s.height*n.to.y,width:s.width*n.to.x,outerHeight:s.height*n.to.y,outerWidth:s.width*n.to.x};n.from.y!==n.to.y&&(o=t.effects.setTransition(i,h,n.from.y,o),a=t.effects.setTransition(i,h,n.to.y,a)),n.from.x!==n.to.x&&(o=t.effects.setTransition(i,l,n.from.x,o),a=t.effects.setTransition(i,l,n.to.x,a)),u&&t.effects.saveStyle(i),i.css(o),i.animate(a,e.duration,e.easing,function(){u&&t.effects.restoreStyle(i)})})),a.animate(v,{queue:!1,duration:e.duration,easing:e.easing,complete:function(){var e=a.offset();0===v.opacity&&a.css("opacity",_.opacity),u||(a.css("position","static"===f?"relative":f).offset(e),t.effects.saveStyle(a)),i()}})}),t.effects.define("scale",function(e,i){var s=t(this),n=e.mode,o=parseInt(e.percent,10)||(0===parseInt(e.percent,10)?0:"effect"!==n?0:100),a=t.extend(!0,{from:t.effects.scaledDimensions(s),to:t.effects.scaledDimensions(s,o,e.direction||"both"),origin:e.origin||["middle","center"]},e);e.fade&&(a.from.opacity=1,a.to.opacity=0),t.effects.effect.size.call(this,a,i)}),t.effects.define("puff","hide",function(e,i){var s=t.extend(!0,{},e,{fade:!0,percent:parseInt(e.percent,10)||150});t.effects.effect.scale.call(this,s,i)}),t.effects.define("pulsate","show",function(e,i){var s=t(this),n=e.mode,o="show"===n,a="hide"===n,r=o||a,h=2*(e.times||5)+(r?1:0),l=e.duration/h,c=0,u=1,d=s.queue().length;for((o||!s.is(":visible"))&&(s.css("opacity",0).show(),c=1);h>u;u++)s.animate({opacity:c},l,e.easing),c=1-c;s.animate({opacity:c},l,e.easing),s.queue(i),t.effects.unshift(s,d,h+1)}),t.effects.define("shake",function(e,i){var s=1,n=t(this),o=e.direction||"left",a=e.distance||20,r=e.times||3,h=2*r+1,l=Math.round(e.duration/h),c="up"===o||"down"===o?"top":"left",u="up"===o||"left"===o,d={},p={},f={},g=n.queue().length;for(t.effects.createPlaceholder(n),d[c]=(u?"-=":"+=")+a,p[c]=(u?"+=":"-=")+2*a,f[c]=(u?"-=":"+=")+2*a,n.animate(d,l,e.easing);r>s;s++)n.animate(p,l,e.easing).animate(f,l,e.easing);n.animate(p,l,e.easing).animate(d,l/2,e.easing).queue(i),t.effects.unshift(n,g,h+1)}),t.effects.define("slide","show",function(e,i){var s,n,o=t(this),a={up:["bottom","top"],down:["top","bottom"],left:["right","left"],right:["left","right"]},r=e.mode,h=e.direction||"left",l="up"===h||"down"===h?"top":"left",c="up"===h||"left"===h,u=e.distance||o["top"===l?"outerHeight":"outerWidth"](!0),d={};t.effects.createPlaceholder(o),s=o.cssClip(),n=o.position()[l],d[l]=(c?-1:1)*u+n,d.clip=o.cssClip(),d.clip[a[h][1]]=d.clip[a[h][0]],"show"===r&&(o.cssClip(d.clip),o.css(l,d[l]),d.clip=s,d[l]=n),o.animate(d,{queue:!1,duration:e.duration,easing:e.easing,complete:i})});var v;t.uiBackCompat!==!1&&(v=t.effects.define("transfer",function(e,i){t(this).transfer(e,i)}))});
 /*!
- * jQuery Validation Plugin v1.15.0
+ * jQuery Validation Plugin v1.16.0
  *
  * http://jqueryvalidation.org/
  *
@@ -9022,14 +9022,13 @@ $.extend( $.fn, {
 
 	// http://jqueryvalidation.org/rules/
 	rules: function( command, argument ) {
-
-		// If nothing is selected, return nothing; can't chain anyway
-		if ( !this.length ) {
-			return;
-		}
-
 		var element = this[ 0 ],
 			settings, staticRules, existingRules, data, param, filtered;
+
+		// If nothing is selected, return empty object; can't chain anyway
+		if ( element == null || element.form == null ) {
+			return;
+		}
 
 		if ( command ) {
 			settings = $.data( element.form, "validator" ).settings;
@@ -9092,7 +9091,7 @@ $.extend( $.fn, {
 } );
 
 // Custom selectors
-$.extend( $.expr[ ":" ], {
+$.extend( $.expr.pseudos || $.expr[ ":" ], {		// '|| $.expr[ ":" ]' here enables backwards compatibility to jQuery 1.7. Can be removed when dropping jQ 1.7.x support
 
 	// http://jqueryvalidation.org/blank-selector/
 	blank: function( a ) {
@@ -9242,7 +9241,7 @@ $.extend( $.validator, {
 		email: "Please enter a valid email address.",
 		url: "Please enter a valid URL.",
 		date: "Please enter a valid date.",
-		dateISO: "Please enter a valid date ( ISO ).",
+		dateISO: "Please enter a valid date (ISO).",
 		number: "Please enter a valid number.",
 		digits: "Please enter only digits.",
 		equalTo: "Please enter the same value again.",
@@ -9286,6 +9285,12 @@ $.extend( $.validator, {
 			} );
 
 			function delegate( event ) {
+
+				// Set form expando on contenteditable
+				if ( !this.form && this.hasAttribute( "contenteditable" ) ) {
+					this.form = $( this ).closest( "form" )[ 0 ];
+				}
+
 				var validator = $.data( this.form, "validator" ),
 					eventType = "on" + event.type.replace( /^validate/, "" ),
 					settings = validator.settings;
@@ -9299,7 +9304,7 @@ $.extend( $.validator, {
 					":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'], " +
 					"[type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], " +
 					"[type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'], " +
-					"[type='radio'], [type='checkbox'], [contenteditable]", delegate )
+					"[type='radio'], [type='checkbox'], [contenteditable], [type='button']", delegate )
 
 				// Support: Chrome, oldIE
 				// "select" is provided as event.target when clicking a option
@@ -9357,7 +9362,7 @@ $.extend( $.validator, {
 							cleanElement = v.validationTargetFor( v.clean( v.findByName( name ) ) );
 							if ( cleanElement && cleanElement.name in v.invalid ) {
 								v.currentElements.push( cleanElement );
-								result = result && v.check( cleanElement );
+								result = v.check( cleanElement ) && result;
 							}
 						}
 					} );
@@ -9701,7 +9706,20 @@ $.extend( $.validator, {
 			return undefined;
 		},
 
+		// The second parameter 'rule' used to be a string, and extended to an object literal
+		// of the following form:
+		// rule = {
+		//     method: "method name",
+		//     parameters: "the given method parameters"
+		// }
+		//
+		// The old behavior still supported, kept to maintain backward compatibility with
+		// old code, and will be removed in the next major release.
 		defaultMessage: function( element, rule ) {
+			if ( typeof rule === "string" ) {
+				rule = { method: rule };
+			}
+
 			var message = this.findDefined(
 					this.customMessage( element.name, rule.method ),
 					this.customDataMessage( element, rule.method ),
@@ -9810,7 +9828,7 @@ $.extend( $.validator, {
 				if ( this.labelContainer.length ) {
 					this.labelContainer.append( place );
 				} else if ( this.settings.errorPlacement ) {
-					this.settings.errorPlacement( place, $( element ) );
+					this.settings.errorPlacement.call( this, place, $( element ) );
 				} else {
 					place.insertAfter( element );
 				}
@@ -9966,6 +9984,8 @@ $.extend( $.validator, {
 		},
 
 		previousValue: function( element, method ) {
+			method = typeof method === "string" && method || "remote";
+
 			return $.data( element, "previousValue" ) || $.data( element, "previousValue", {
 				old: null,
 				valid: true,
@@ -10293,14 +10313,36 @@ $.extend( $.validator, {
 				errorMessage = "Step attribute on input type " + type + " is not supported.",
 				supportedTypes = [ "text", "number", "range" ],
 				re = new RegExp( "\\b" + type + "\\b" ),
-				notSupported = type && !re.test( supportedTypes.join() );
+				notSupported = type && !re.test( supportedTypes.join() ),
+				decimalPlaces = function( num ) {
+					var match = ( "" + num ).match( /(?:\.(\d+))?$/ );
+					if ( !match ) {
+						return 0;
+					}
+
+					// Number of digits right of decimal point.
+					return match[ 1 ] ? match[ 1 ].length : 0;
+				},
+				toInt = function( num ) {
+					return Math.round( num * Math.pow( 10, decimals ) );
+				},
+				valid = true,
+				decimals;
 
 			// Works only for text, number and range input types
 			// TODO find a way to support input types date, datetime, datetime-local, month, time and week
 			if ( notSupported ) {
 				throw new Error( errorMessage );
 			}
-			return this.optional( element ) || ( value % param === 0 );
+
+			decimals = decimalPlaces( param );
+
+			// Value can't have too many decimals
+			if ( decimalPlaces( value ) > decimals || toInt( value ) % toInt( param ) !== 0 ) {
+				valid = false;
+			}
+
+			return this.optional( element ) || valid;
 		},
 
 		// http://jqueryvalidation.org/equalTo-method/
@@ -10415,6 +10457,2495 @@ if ( $.ajaxPrefilter ) {
 		return ajax.apply( this, arguments );
 	};
 }
+return $;
+}));
+/**********************************
+* jCounter Script v0.1.4 (beta)
+* Author: Catalin Berta
+* Official page and documentation: http://devingredients.com/jcounter
+* Licensed under the MIT license
+**********************************/
+;(function($,document,window,undefined) {
+	//once upon a time...
+	$.fn.jCounter = function(options,callback) {
+		var jCounterDirection = 'down'; // points out whether it should count down or up | handled via customRange setting
+		
+		var customRangeDownCount; //if true, it will tell countdown_proc() it's a down count and not an up count
+		var days,hours,minutes,seconds;
+		var endCounter = false; //stops jCounter if true
+		var eventDate; //time target (holds a number of seconds)
+		var pausedTime; //stores the time (in seconds) when pausing
+		var thisEl = this; //custom 'this' selector
+		var thisLength = this.length; //number of multiple elements per selector
+
+		var pluralLabels = new Array('DAYS','HOURS','MINUTES','SECONDS'); //plural labels - used for localization
+		var singularLabels = new Array('DAY','HOUR','MINUTE','SECOND');	//singular labels - used for localization
+
+		this.options = options; //stores jCounter's options parameter to verify against specified methods
+		this.version = '0.1.4';
+
+		//default settings
+		var settings = {
+			animation: null,
+			callback: null,
+			customDuration: null,
+			customRange: null,
+			date: null,
+			debugLog: false,
+			serverDateSource: 'dateandtime.php', //path to dateandtime.php file (i.e. http://my-domain.com/dateandtime.php)
+			format: 'dd:hh:mm:ss',
+			timezone: 'Europe/London',
+			twoDigits: 'on'
+		};
+
+		//merge the settings with the options values
+		if (typeof options === 'object') {
+			$.extend(settings,options);
+			thisEl.data("userOptions", settings); //push the settings to applied elements (they're used by methods)
+		}
+
+		if(thisEl.data('userOptions').debugLog == true &&  window['console'] !== undefined ) {
+			var consoleLog = true;	//shows debug messages via console.log() if true
+		}
+
+		//METHODS
+		var jC_methods = {
+			//initialize
+			init : function() {
+				thisEl.each(function(i,el) {
+					initCounter(el);
+				});
+			},
+			//pause method: $.jCounter('pause')
+			pause : function() {
+				if(consoleLog) { console.log("(jC) Activity: Counter paused."); }
+				endCounter = true;
+				return thisEl.each(function(i,el) {
+					clearInterval($(el).data("jC_interval"));
+				});
+			},
+			//stop method: $.jCounter('stop')
+			stop : function() {
+				if(consoleLog) { console.log("(jC) Activity: Counter stopped."); }
+				endCounter = true;
+				return thisEl.each(function(i,el) {
+					clearInterval($(el).data("jC_interval"));
+					$(el).removeData("jC_pausedTime");
+					resetHTMLCounter(el);
+				});
+			},
+			//reset method: $.jCounter('reset')
+			reset : function() {
+				if(consoleLog) { console.log("(jC) Activity: Counter reset."); }
+				return thisEl.each(function(i,el) {
+					clearInterval($(el).data("jC_interval"));
+					resetHTMLCounter(el);
+					initCounter(el);
+				});
+			},
+			//start method: $.jCounter('start')
+			
+			start : function() {
+				if(consoleLog) { console.log("(jC) Activity: Counter started."); }
+				return thisEl.each(function(i,el) {
+					pausedTime = $(el).data("jC_pausedTime");
+					endCounter = false;
+					clearInterval($(el).data("jC_interval"));
+					initCounter(el);
+				});
+			}
+		}
+		
+		//checks whether customDuration is used
+		if(thisEl.data("userOptions").customDuration) {
+			if(!isNaN(thisEl.data("userOptions").customDuration)) {
+				var customDuration = true;
+			} else {
+				var customDuration = false;
+				if(consoleLog) { console.log("(jC) Error: The customDuration value is not a number! NOTE: 'customDuration' accepts a number of seconds."); }
+			}
+		}
+		
+		//checks whether customRange is used
+		if(thisEl.data("userOptions").customRange) {	
+			var customRangeValues = thisEl.data("userOptions").customRange.split(":");
+			var rangeVal0 = parseInt(customRangeValues[0]);
+			var rangeVal1 = parseInt(customRangeValues[1]);
+			if(!isNaN(rangeVal0) && !isNaN(rangeVal1)) {
+				var customRange = true;
+				if(rangeVal0 > rangeVal1) {
+					var customRangeDownCount = true;
+				} else {
+					var customRangeDownCount = false;
+					jCounterDirection = 'up';
+				}
+			} else {
+				var customRange = false;
+				if(consoleLog) { console.log("(jC) Error: The customRange value is not a valid range! Example: customRange: '0:30' or '30:0'"); }
+			}
+		}
+
+		//checks whether animation is set to slide
+		if(thisEl.data("userOptions").animation == 'slide') {	
+			thisEl.data("jCanimation","slide");
+		}
+
+		//FUNCTIONS
+		
+		//jCounter initializer
+		function initCounter(el) {
+			if(customDuration) {
+				if (pausedTime) {
+					if (!isNaN(pausedTime)) {
+						eventDate = Math.round(pausedTime);
+					}
+				} else {
+					eventDate = Math.round($(el).data("userOptions").customDuration);
+				}
+				currentTime = 0;
+				countdown_proc(currentTime,el);
+				$(el).data("jC_interval", setInterval(function(){
+					if(endCounter == false) {
+						currentTime = parseInt(currentTime) + 1;
+						countdown_proc(currentTime,el)
+					}				
+				},1000));
+			} else if(customRange) {
+				eventDate = Math.round(customRangeValues[1]);
+				if (pausedTime) {
+					if (!isNaN(pausedTime)) {
+						var currentTime = eventDate - pausedTime;
+					}
+				} else {
+					var currentTime = Math.round(customRangeValues[0]);
+				}
+				countdown_proc(currentTime,el);
+				$(el).data("jC_interval", setInterval(function(){
+					if(endCounter == false) {
+						var ifRangeDownCount = (customRangeDownCount) ? currentTime = parseInt(currentTime) - 1 : currentTime = parseInt(currentTime) + 1;
+						countdown_proc(currentTime,el);
+					}				
+				},1000));
+			} else {
+				eventDate = Date.parse($(el).data("userOptions").date) / 1000;
+				dateSource = thisEl.data("userOptions").serverDateSource + '?timezone=' + thisEl.data("userOptions").timezone + '&callback=?';
+				$.ajax({
+                	url: dateSource,
+	                dataType : 'json',
+	                data : {},
+	                success : function(data, textStatus){
+						var currentDate = Date.parse(data.currentDate) / 1000;
+						startCounter(currentDate,el);
+	                },
+	                error : function(){
+						if(consoleLog) { console.log("(jC) Error: Couldn't find dateandtime.php from serverDateSource: " + thisEl.data('userOptions').serverDateSource + "\n(jC) - Make sure the path is correct! \n(jC) - Now using the client-side time (not recommended).") }
+						var currentDate = Math.floor($.now() / 1000);
+						startCounter(currentDate,el);
+	                }
+            	});
+			}
+		}
+
+		function startCounter(currentDate,el) {
+			countdown_proc(currentDate,el);
+			if (eventDate > currentDate) {
+				$(el).data("jC_interval", setInterval(function(){
+					if(endCounter == false) {
+						currentDate = parseInt(currentDate) + 1;
+						countdown_proc(currentDate,el)
+					}				
+				},1000));
+			} else {
+				resetHTMLCounter(el)
+			}
+		}
+
+		//jCslider - adds the slide effect layer
+		//Note: this requires a jCounter slide-ready theme! (i.e. iOS dark or iOS light)
+		function jCslider(el,unitClass,timeUnit,eventDate,duration) {
+			$(el).find(unitClass + " u").each(function(i,el) {
+				var twoDigits = (thisEl.data("userOptions").twoDigits == 'on') ? '0' : '';
+				var newIndex = (jCounterDirection == 'up') ? newIndex = -i : newIndex = i;		
+				currNo = parseInt(timeUnit,10) + (newIndex);
+				if (String(parseInt(timeUnit,10)).length >= 2) { 
+					$(el).text(parseInt(timeUnit,10) + (newIndex))
+				} else if(String(parseInt(timeUnit,10)).length == 1 && currNo == 10) {
+					$(el).text(parseInt(timeUnit,10) + (newIndex))
+				} else {
+					$(el).text(twoDigits + (parseInt(timeUnit,10) + (newIndex)));
+				}
+			})
+			$(el).find(unitClass).animate({
+				top: '0.15em'
+			},200, function() {
+				$(el).find(unitClass + " u:eq(1)").remove();
+				$(el).find(unitClass).prepend('<u></u>');
+				$(el).find(unitClass).css({'top':'-1.24em'})					
+			});
+		}
+
+		//resets jCounter's HTML values to 0 or 00, based on the twoDigits setting
+		function resetHTMLCounter(el) {
+			if(thisEl.data("userOptions").twoDigits == 'on') {
+				$(el).find(".days,.hours,.minutes,.seconds").text('00');
+			} else if(thisEl.data("userOptions").twoDigits == 'off') {
+				$(el).find(".days,.hours,.minutes,.seconds").text('0');
+			}
+			if(thisEl.data("jCanimation") == 'slide') {
+				$(el).find(".daysSlider u,.hoursSlider u,.minutesSlider u,.secondsSlider u").text('00');
+			}
+		}
+
+		//main jCounter processor
+		function countdown_proc(duration,el) {
+			//check if the counter needs to count down or up
+			if(customRangeDownCount) {
+				if(eventDate >= duration) {
+					clearInterval($(el).data("jC_interval"));
+					if(thisEl.data("userOptions").callback) {
+						thisEl.data("userOptions").callback.call(this);
+					}
+				}
+
+			} else {
+				if(eventDate <= duration) {
+					clearInterval($(el).data("jC_interval"));
+					if(thisEl.data("userOptions").callback) {
+						thisEl.data("userOptions").callback.call(this);
+					}
+				}
+			}
+			
+			//if customRange is used, update the seconds variable
+			var seconds = (customRange) ? duration : eventDate - duration;
+
+			var thisInstanceFormat = thisEl.data("userOptions").format;
+			
+			//calculate seconds into days,hours,minutes,seconds
+			//if dd (days) is specified in the format setting (i.e. format: 'dd:hh:mm:ss')
+			if(thisInstanceFormat.indexOf('dd') != -1)  {
+				var days = Math.floor(seconds / (60 * 60 * 24)); //calculate the number of days
+				seconds -= days * 60 * 60 * 24; //update the seconds variable with no. of days removed
+			}
+			//if hh (hours) is specified
+			if(thisInstanceFormat.indexOf('hh') != -1)  {
+				var hours = Math.floor(seconds / (60 * 60));
+				seconds -= hours * 60 * 60; //update the seconds variable with no. of hours removed
+			}
+			//if mm (minutes) is specified
+			if(thisInstanceFormat.indexOf('mm') != -1)  {
+				var minutes = Math.floor(seconds / 60);
+				seconds -= minutes * 60; //update the seconds variable with no. of minutes removed
+			}
+			//if ss (seconds) is specified
+			if(thisInstanceFormat.indexOf('ss') == -1)  {
+				seconds -= seconds; //if ss is unspecified in format, update the seconds variable to 0;
+			}
+
+			//conditional Ss
+			//updates the plural and singular labels accordingly
+			if (days == 1) { $(el).find(".textDays").text(singularLabels[0]); } else { $(el).find(".textDays").text(pluralLabels[0]); }
+			if (hours == 1) { $(el).find(".textHours").text(singularLabels[1]); } else { $(el).find(".textHours").text(pluralLabels[1]); }
+			if (minutes == 1) { $(el).find(".textMinutes").text(singularLabels[2]); } else { $(el).find(".textMinutes").text(pluralLabels[2]); }
+			if (seconds == 1) { $(el).find(".textSeconds").text(singularLabels[3]); } else { $(el).find(".textSeconds").text(pluralLabels[3]); }
+			
+			//twoDigits ON setting
+			//if the twoDigits setting is set to ON, jCounter will always diplay a minimum number of 2 digits
+			if(thisEl.data("userOptions").twoDigits == 'on') {
+				days = (String(days).length >= 2) ? days : "0" + days;
+				hours = (String(hours).length >= 2) ? hours : "0" + hours;
+				minutes = (String(minutes).length >= 2) ? minutes : "0" + minutes;
+				seconds = (String(seconds).length >= 2) ? seconds : "0" + seconds;
+			}
+
+			//updates the jCounter's html values
+			if(!isNaN(eventDate)) {
+				$(el).find(".days").text(days);
+				$(el).find(".hours").text(hours);
+				$(el).find(".minutes").text(minutes);
+				$(el).find(".seconds").text(seconds);
+
+				if(thisEl.data("jCanimation") == 'slide') {
+					$(el).find(".daysSlider u:eq(1)").text(days);
+					$(el).find(".hoursSlider u:eq(1)").text(hours);
+					$(el).find(".minutesSlider u:eq(1)").text(minutes);
+					$(el).find(".secondsSlider u:eq(1)").text(seconds);
+					jCslider(el,'.secondsSlider',seconds,eventDate,duration); 
+					if(parseInt(seconds,10) == 59) { 
+						jCslider(el,'.minutesSlider',minutes,eventDate,duration) 
+						if(parseInt(minutes,10) == 59) { 
+							jCslider(el,'.hoursSlider',hours,eventDate,duration) 
+							if(parseInt(hours,10) == 23) { 
+								jCslider(el,'.daysSlider',days,eventDate,duration) 
+							}
+						}
+					}	
+				}
+			} else { 
+				if(consoleLog) { console.log("(jC) Error: Invalid date! Here's an example: 01 January 1970 12:00:00"); }
+				clearInterval($(el).data("jC_interval"));
+			}
+			//stores the remaining time when pausing jCounter
+			$(el).data("jC_pausedTime", eventDate-duration);
+		}
+		
+		
+		
+		//method calling logic
+		if ( jC_methods[this.options] ) {
+			return jC_methods[ this.options ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		} else if ( typeof this.options === 'object' || ! this.options ) {
+			return jC_methods.init.apply( this, arguments );
+		} else {
+			console.log('(jC) Error: Method >>> ' +  this.options + ' <<< does not exist.' );
+		} 
+
+	}
+	//the end;
+}) (jQuery,document,window);
+/*!
+ * Materialize v0.98.0 (http://materializecss.com)
+ * Copyright 2014-2015 Materialize
+ * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
+ */
+
+// wNumb
+(function(){function r(b){return b.split("").reverse().join("")}function s(b,f,c){if((b[f]||b[c])&&b[f]===b[c])throw Error(f);}function v(b,f,c,d,e,p,q,k,l,h,n,a){q=a;var m,g=n="";p&&(a=p(a));if("number"!==typeof a||!isFinite(a))return!1;b&&0===parseFloat(a.toFixed(b))&&(a=0);0>a&&(m=!0,a=Math.abs(a));b&&(p=Math.pow(10,b),a=(Math.round(a*p)/p).toFixed(b));a=a.toString();-1!==a.indexOf(".")&&(b=a.split("."),a=b[0],c&&(n=c+b[1]));f&&(a=r(a).match(/.{1,3}/g),a=r(a.join(r(f))));m&&k&&(g+=k);d&&(g+=d);
+    m&&l&&(g+=l);g=g+a+n;e&&(g+=e);h&&(g=h(g,q));return g}function w(b,f,c,d,e,h,q,k,l,r,n,a){var m;b="";n&&(a=n(a));if(!a||"string"!==typeof a)return!1;k&&a.substring(0,k.length)===k&&(a=a.replace(k,""),m=!0);d&&a.substring(0,d.length)===d&&(a=a.replace(d,""));l&&a.substring(0,l.length)===l&&(a=a.replace(l,""),m=!0);e&&a.slice(-1*e.length)===e&&(a=a.slice(0,-1*e.length));f&&(a=a.split(f).join(""));c&&(a=a.replace(c,"."));m&&(b+="-");b=Number((b+a).replace(/[^0-9\.\-.]/g,""));q&&(b=q(b));return"number"===
+typeof b&&isFinite(b)?b:!1}function x(b){var f,c,d,e={};for(f=0;f<h.length;f+=1)c=h[f],d=b[c],void 0===d?e[c]="negative"!==c||e.negativeBefore?"mark"===c&&"."!==e.thousand?".":!1:"-":"decimals"===c?0<d&&8>d&&(e[c]=d):"encoder"===c||"decoder"===c||"edit"===c||"undo"===c?"function"===typeof d&&(e[c]=d):"string"===typeof d&&(e[c]=d);s(e,"mark","thousand");s(e,"prefix","negative");s(e,"prefix","negativeBefore");return e}function u(b,f,c){var d,e=[];for(d=0;d<h.length;d+=1)e.push(b[h[d]]);e.push(c);return f.apply("",
+    e)}function t(b){if(!(this instanceof t))return new t(b);"object"===typeof b&&(b=x(b),this.to=function(f){return u(b,v,f)},this.from=function(f){return u(b,w,f)})}var h="decimals thousand mark prefix postfix encoder decoder negativeBefore negative edit undo".split(" ");window.wNumb=t})();
+
+/*! nouislider - 9.1.0 - 2016-12-10 16:00:32 */
+
+(function (factory) {
+
+    if ( typeof define === 'function' && define.amd ) {
+
+        // AMD. Register as an anonymous module.
+        define([], factory);
+
+    } else if ( typeof exports === 'object' ) {
+
+        // Node/CommonJS
+        module.exports = factory();
+
+    } else {
+
+        // Browser globals
+        window.noUiSlider = factory();
+    }
+
+}(function( ){
+
+    'use strict';
+
+
+    // Creates a node, adds it to target, returns the new node.
+    function addNodeTo ( target, className ) {
+        var div = document.createElement('div');
+        addClass(div, className);
+        target.appendChild(div);
+        return div;
+    }
+
+    // Removes duplicates from an array.
+    function unique ( array ) {
+        return array.filter(function(a){
+            return !this[a] ? this[a] = true : false;
+        }, {});
+    }
+
+    // Round a value to the closest 'to'.
+    function closest ( value, to ) {
+        return Math.round(value / to) * to;
+    }
+
+    // Current position of an element relative to the document.
+    function offset ( elem, orientation ) {
+
+        var rect = elem.getBoundingClientRect(),
+            doc = elem.ownerDocument,
+            docElem = doc.documentElement,
+            pageOffset = getPageOffset();
+
+        // getBoundingClientRect contains left scroll in Chrome on Android.
+        // I haven't found a feature detection that proves this. Worst case
+        // scenario on mis-match: the 'tap' feature on horizontal sliders breaks.
+        if ( /webkit.*Chrome.*Mobile/i.test(navigator.userAgent) ) {
+            pageOffset.x = 0;
+        }
+
+        return orientation ? (rect.top + pageOffset.y - docElem.clientTop) : (rect.left + pageOffset.x - docElem.clientLeft);
+    }
+
+    // Checks whether a value is numerical.
+    function isNumeric ( a ) {
+        return typeof a === 'number' && !isNaN( a ) && isFinite( a );
+    }
+
+    // Sets a class and removes it after [duration] ms.
+    function addClassFor ( element, className, duration ) {
+        if (duration > 0) {
+            addClass(element, className);
+            setTimeout(function(){
+                removeClass(element, className);
+            }, duration);
+        }
+    }
+
+    // Limits a value to 0 - 100
+    function limit ( a ) {
+        return Math.max(Math.min(a, 100), 0);
+    }
+
+    // Wraps a variable as an array, if it isn't one yet.
+    // Note that an input array is returned by reference!
+    function asArray ( a ) {
+        return Array.isArray(a) ? a : [a];
+    }
+
+    // Counts decimals
+    function countDecimals ( numStr ) {
+        numStr = String(numStr);
+        var pieces = numStr.split(".");
+        return pieces.length > 1 ? pieces[1].length : 0;
+    }
+
+    // http://youmightnotneedjquery.com/#add_class
+    function addClass ( el, className ) {
+        if ( el.classList ) {
+            el.classList.add(className);
+        } else {
+            el.className += ' ' + className;
+        }
+    }
+
+    // http://youmightnotneedjquery.com/#remove_class
+    function removeClass ( el, className ) {
+        if ( el.classList ) {
+            el.classList.remove(className);
+        } else {
+            el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+        }
+    }
+
+    // https://plainjs.com/javascript/attributes/adding-removing-and-testing-for-classes-9/
+    function hasClass ( el, className ) {
+        return el.classList ? el.classList.contains(className) : new RegExp('\\b' + className + '\\b').test(el.className);
+    }
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY#Notes
+    function getPageOffset ( ) {
+
+        var supportPageOffset = window.pageXOffset !== undefined,
+            isCSS1Compat = ((document.compatMode || "") === "CSS1Compat"),
+            x = supportPageOffset ? window.pageXOffset : isCSS1Compat ? document.documentElement.scrollLeft : document.body.scrollLeft,
+            y = supportPageOffset ? window.pageYOffset : isCSS1Compat ? document.documentElement.scrollTop : document.body.scrollTop;
+
+        return {
+            x: x,
+            y: y
+        };
+    }
+
+    // we provide a function to compute constants instead
+    // of accessing window.* as soon as the module needs it
+    // so that we do not compute anything if not needed
+    function getActions ( ) {
+
+        // Determine the events to bind. IE11 implements pointerEvents without
+        // a prefix, which breaks compatibility with the IE10 implementation.
+        return window.navigator.pointerEnabled ? {
+                start: 'pointerdown',
+                move: 'pointermove',
+                end: 'pointerup'
+            } : window.navigator.msPointerEnabled ? {
+                    start: 'MSPointerDown',
+                    move: 'MSPointerMove',
+                    end: 'MSPointerUp'
+                } : {
+                    start: 'mousedown touchstart',
+                    move: 'mousemove touchmove',
+                    end: 'mouseup touchend'
+                };
+    }
+
+
+// Value calculation
+
+    // Determine the size of a sub-range in relation to a full range.
+    function subRangeRatio ( pa, pb ) {
+        return (100 / (pb - pa));
+    }
+
+    // (percentage) How many percent is this value of this range?
+    function fromPercentage ( range, value ) {
+        return (value * 100) / ( range[1] - range[0] );
+    }
+
+    // (percentage) Where is this value on this range?
+    function toPercentage ( range, value ) {
+        return fromPercentage( range, range[0] < 0 ?
+            value + Math.abs(range[0]) :
+            value - range[0] );
+    }
+
+    // (value) How much is this percentage on this range?
+    function isPercentage ( range, value ) {
+        return ((value * ( range[1] - range[0] )) / 100) + range[0];
+    }
+
+
+// Range conversion
+
+    function getJ ( value, arr ) {
+
+        var j = 1;
+
+        while ( value >= arr[j] ){
+            j += 1;
+        }
+
+        return j;
+    }
+
+    // (percentage) Input a value, find where, on a scale of 0-100, it applies.
+    function toStepping ( xVal, xPct, value ) {
+
+        if ( value >= xVal.slice(-1)[0] ){
+            return 100;
+        }
+
+        var j = getJ( value, xVal ), va, vb, pa, pb;
+
+        va = xVal[j-1];
+        vb = xVal[j];
+        pa = xPct[j-1];
+        pb = xPct[j];
+
+        return pa + (toPercentage([va, vb], value) / subRangeRatio (pa, pb));
+    }
+
+    // (value) Input a percentage, find where it is on the specified range.
+    function fromStepping ( xVal, xPct, value ) {
+
+        // There is no range group that fits 100
+        if ( value >= 100 ){
+            return xVal.slice(-1)[0];
+        }
+
+        var j = getJ( value, xPct ), va, vb, pa, pb;
+
+        va = xVal[j-1];
+        vb = xVal[j];
+        pa = xPct[j-1];
+        pb = xPct[j];
+
+        return isPercentage([va, vb], (value - pa) * subRangeRatio (pa, pb));
+    }
+
+    // (percentage) Get the step that applies at a certain value.
+    function getStep ( xPct, xSteps, snap, value ) {
+
+        if ( value === 100 ) {
+            return value;
+        }
+
+        var j = getJ( value, xPct ), a, b;
+
+        // If 'snap' is set, steps are used as fixed points on the slider.
+        if ( snap ) {
+
+            a = xPct[j-1];
+            b = xPct[j];
+
+            // Find the closest position, a or b.
+            if ((value - a) > ((b-a)/2)){
+                return b;
+            }
+
+            return a;
+        }
+
+        if ( !xSteps[j-1] ){
+            return value;
+        }
+
+        return xPct[j-1] + closest(
+                value - xPct[j-1],
+                xSteps[j-1]
+            );
+    }
+
+
+// Entry parsing
+
+    function handleEntryPoint ( index, value, that ) {
+
+        var percentage;
+
+        // Wrap numerical input in an array.
+        if ( typeof value === "number" ) {
+            value = [value];
+        }
+
+        // Reject any invalid input, by testing whether value is an array.
+        if ( Object.prototype.toString.call( value ) !== '[object Array]' ){
+            throw new Error("noUiSlider: 'range' contains invalid value.");
+        }
+
+        // Covert min/max syntax to 0 and 100.
+        if ( index === 'min' ) {
+            percentage = 0;
+        } else if ( index === 'max' ) {
+            percentage = 100;
+        } else {
+            percentage = parseFloat( index );
+        }
+
+        // Check for correct input.
+        if ( !isNumeric( percentage ) || !isNumeric( value[0] ) ) {
+            throw new Error("noUiSlider: 'range' value isn't numeric.");
+        }
+
+        // Store values.
+        that.xPct.push( percentage );
+        that.xVal.push( value[0] );
+
+        // NaN will evaluate to false too, but to keep
+        // logging clear, set step explicitly. Make sure
+        // not to override the 'step' setting with false.
+        if ( !percentage ) {
+            if ( !isNaN( value[1] ) ) {
+                that.xSteps[0] = value[1];
+            }
+        } else {
+            that.xSteps.push( isNaN(value[1]) ? false : value[1] );
+        }
+
+        that.xHighestCompleteStep.push(0);
+    }
+
+    function handleStepPoint ( i, n, that ) {
+
+        // Ignore 'false' stepping.
+        if ( !n ) {
+            return true;
+        }
+
+        // Factor to range ratio
+        that.xSteps[i] = fromPercentage([
+                that.xVal[i]
+                ,that.xVal[i+1]
+            ], n) / subRangeRatio (
+                that.xPct[i],
+                that.xPct[i+1] );
+
+        var totalSteps = (that.xVal[i+1] - that.xVal[i]) / that.xNumSteps[i];
+        var highestStep = Math.ceil(Number(totalSteps.toFixed(3)) - 1);
+        var step = that.xVal[i] + (that.xNumSteps[i] * highestStep);
+
+        that.xHighestCompleteStep[i] = step;
+    }
+
+
+// Interface
+
+    // The interface to Spectrum handles all direction-based
+    // conversions, so the above values are unaware.
+
+    function Spectrum ( entry, snap, direction, singleStep ) {
+
+        this.xPct = [];
+        this.xVal = [];
+        this.xSteps = [ singleStep || false ];
+        this.xNumSteps = [ false ];
+        this.xHighestCompleteStep = [];
+
+        this.snap = snap;
+        this.direction = direction;
+
+        var index, ordered = [ /* [0, 'min'], [1, '50%'], [2, 'max'] */ ];
+
+        // Map the object keys to an array.
+        for ( index in entry ) {
+            if ( entry.hasOwnProperty(index) ) {
+                ordered.push([entry[index], index]);
+            }
+        }
+
+        // Sort all entries by value (numeric sort).
+        if ( ordered.length && typeof ordered[0][0] === "object" ) {
+            ordered.sort(function(a, b) { return a[0][0] - b[0][0]; });
+        } else {
+            ordered.sort(function(a, b) { return a[0] - b[0]; });
+        }
+
+
+        // Convert all entries to subranges.
+        for ( index = 0; index < ordered.length; index++ ) {
+            handleEntryPoint(ordered[index][1], ordered[index][0], this);
+        }
+
+        // Store the actual step values.
+        // xSteps is sorted in the same order as xPct and xVal.
+        this.xNumSteps = this.xSteps.slice(0);
+
+        // Convert all numeric steps to the percentage of the subrange they represent.
+        for ( index = 0; index < this.xNumSteps.length; index++ ) {
+            handleStepPoint(index, this.xNumSteps[index], this);
+        }
+    }
+
+    Spectrum.prototype.getMargin = function ( value ) {
+
+        var step = this.xNumSteps[0];
+
+        if ( step && ((value / step) % 1) !== 0 ) {
+            throw new Error("noUiSlider: 'limit', 'margin' and 'padding' must be divisible by step.");
+        }
+
+        return this.xPct.length === 2 ? fromPercentage(this.xVal, value) : false;
+    };
+
+    Spectrum.prototype.toStepping = function ( value ) {
+
+        value = toStepping( this.xVal, this.xPct, value );
+
+        return value;
+    };
+
+    Spectrum.prototype.fromStepping = function ( value ) {
+
+        return fromStepping( this.xVal, this.xPct, value );
+    };
+
+    Spectrum.prototype.getStep = function ( value ) {
+
+        value = getStep(this.xPct, this.xSteps, this.snap, value );
+
+        return value;
+    };
+
+    Spectrum.prototype.getNearbySteps = function ( value ) {
+
+        var j = getJ(value, this.xPct);
+
+        return {
+            stepBefore: { startValue: this.xVal[j-2], step: this.xNumSteps[j-2], highestStep: this.xHighestCompleteStep[j-2] },
+            thisStep: { startValue: this.xVal[j-1], step: this.xNumSteps[j-1], highestStep: this.xHighestCompleteStep[j-1] },
+            stepAfter: { startValue: this.xVal[j-0], step: this.xNumSteps[j-0], highestStep: this.xHighestCompleteStep[j-0] }
+        };
+    };
+
+    Spectrum.prototype.countStepDecimals = function () {
+        var stepDecimals = this.xNumSteps.map(countDecimals);
+        return Math.max.apply(null, stepDecimals);
+    };
+
+    // Outside testing
+    Spectrum.prototype.convert = function ( value ) {
+        return this.getStep(this.toStepping(value));
+    };
+
+	/*	Every input option is tested and parsed. This'll prevent
+	 endless validation in internal methods. These tests are
+	 structured with an item for every option available. An
+	 option can be marked as required by setting the 'r' flag.
+	 The testing function is provided with three arguments:
+	 - The provided value for the option;
+	 - A reference to the options object;
+	 - The name for the option;
+
+	 The testing function returns false when an error is detected,
+	 or true when everything is OK. It can also modify the option
+	 object, to make sure all values can be correctly looped elsewhere. */
+
+    var defaultFormatter = { 'to': function( value ){
+        return value !== undefined && value.toFixed(2);
+    }, 'from': Number };
+
+    function testStep ( parsed, entry ) {
+
+        if ( !isNumeric( entry ) ) {
+            throw new Error("noUiSlider: 'step' is not numeric.");
+        }
+
+        // The step option can still be used to set stepping
+        // for linear sliders. Overwritten if set in 'range'.
+        parsed.singleStep = entry;
+    }
+
+    function testRange ( parsed, entry ) {
+
+        // Filter incorrect input.
+        if ( typeof entry !== 'object' || Array.isArray(entry) ) {
+            throw new Error("noUiSlider: 'range' is not an object.");
+        }
+
+        // Catch missing start or end.
+        if ( entry.min === undefined || entry.max === undefined ) {
+            throw new Error("noUiSlider: Missing 'min' or 'max' in 'range'.");
+        }
+
+        // Catch equal start or end.
+        if ( entry.min === entry.max ) {
+            throw new Error("noUiSlider: 'range' 'min' and 'max' cannot be equal.");
+        }
+
+        parsed.spectrum = new Spectrum(entry, parsed.snap, parsed.dir, parsed.singleStep);
+    }
+
+    function testStart ( parsed, entry ) {
+
+        entry = asArray(entry);
+
+        // Validate input. Values aren't tested, as the public .val method
+        // will always provide a valid location.
+        if ( !Array.isArray( entry ) || !entry.length ) {
+            throw new Error("noUiSlider: 'start' option is incorrect.");
+        }
+
+        // Store the number of handles.
+        parsed.handles = entry.length;
+
+        // When the slider is initialized, the .val method will
+        // be called with the start options.
+        parsed.start = entry;
+    }
+
+    function testSnap ( parsed, entry ) {
+
+        // Enforce 100% stepping within subranges.
+        parsed.snap = entry;
+
+        if ( typeof entry !== 'boolean' ){
+            throw new Error("noUiSlider: 'snap' option must be a boolean.");
+        }
+    }
+
+    function testAnimate ( parsed, entry ) {
+
+        // Enforce 100% stepping within subranges.
+        parsed.animate = entry;
+
+        if ( typeof entry !== 'boolean' ){
+            throw new Error("noUiSlider: 'animate' option must be a boolean.");
+        }
+    }
+
+    function testAnimationDuration ( parsed, entry ) {
+
+        parsed.animationDuration = entry;
+
+        if ( typeof entry !== 'number' ){
+            throw new Error("noUiSlider: 'animationDuration' option must be a number.");
+        }
+    }
+
+    function testConnect ( parsed, entry ) {
+
+        var connect = [false];
+        var i;
+
+        // Map legacy options
+        if ( entry === 'lower' ) {
+            entry = [true, false];
+        }
+
+        else if ( entry === 'upper' ) {
+            entry = [false, true];
+        }
+
+        // Handle boolean options
+        if ( entry === true || entry === false ) {
+
+            for ( i = 1; i < parsed.handles; i++ ) {
+                connect.push(entry);
+            }
+
+            connect.push(false);
+        }
+
+        // Reject invalid input
+        else if ( !Array.isArray( entry ) || !entry.length || entry.length !== parsed.handles + 1 ) {
+            throw new Error("noUiSlider: 'connect' option doesn't match handle count.");
+        }
+
+        else {
+            connect = entry;
+        }
+
+        parsed.connect = connect;
+    }
+
+    function testOrientation ( parsed, entry ) {
+
+        // Set orientation to an a numerical value for easy
+        // array selection.
+        switch ( entry ){
+            case 'horizontal':
+                parsed.ort = 0;
+                break;
+            case 'vertical':
+                parsed.ort = 1;
+                break;
+            default:
+                throw new Error("noUiSlider: 'orientation' option is invalid.");
+        }
+    }
+
+    function testMargin ( parsed, entry ) {
+
+        if ( !isNumeric(entry) ){
+            throw new Error("noUiSlider: 'margin' option must be numeric.");
+        }
+
+        // Issue #582
+        if ( entry === 0 ) {
+            return;
+        }
+
+        parsed.margin = parsed.spectrum.getMargin(entry);
+
+        if ( !parsed.margin ) {
+            throw new Error("noUiSlider: 'margin' option is only supported on linear sliders.");
+        }
+    }
+
+    function testLimit ( parsed, entry ) {
+
+        if ( !isNumeric(entry) ){
+            throw new Error("noUiSlider: 'limit' option must be numeric.");
+        }
+
+        parsed.limit = parsed.spectrum.getMargin(entry);
+
+        if ( !parsed.limit || parsed.handles < 2 ) {
+            throw new Error("noUiSlider: 'limit' option is only supported on linear sliders with 2 or more handles.");
+        }
+    }
+
+    function testPadding ( parsed, entry ) {
+
+        if ( !isNumeric(entry) ){
+            throw new Error("noUiSlider: 'padding' option must be numeric.");
+        }
+
+        if ( entry === 0 ) {
+            return;
+        }
+
+        parsed.padding = parsed.spectrum.getMargin(entry);
+
+        if ( !parsed.padding ) {
+            throw new Error("noUiSlider: 'padding' option is only supported on linear sliders.");
+        }
+
+        if ( parsed.padding < 0 ) {
+            throw new Error("noUiSlider: 'padding' option must be a positive number.");
+        }
+
+        if ( parsed.padding >= 50 ) {
+            throw new Error("noUiSlider: 'padding' option must be less than half the range.");
+        }
+    }
+
+    function testDirection ( parsed, entry ) {
+
+        // Set direction as a numerical value for easy parsing.
+        // Invert connection for RTL sliders, so that the proper
+        // handles get the connect/background classes.
+        switch ( entry ) {
+            case 'ltr':
+                parsed.dir = 0;
+                break;
+            case 'rtl':
+                parsed.dir = 1;
+                break;
+            default:
+                throw new Error("noUiSlider: 'direction' option was not recognized.");
+        }
+    }
+
+    function testBehaviour ( parsed, entry ) {
+
+        // Make sure the input is a string.
+        if ( typeof entry !== 'string' ) {
+            throw new Error("noUiSlider: 'behaviour' must be a string containing options.");
+        }
+
+        // Check if the string contains any keywords.
+        // None are required.
+        var tap = entry.indexOf('tap') >= 0;
+        var drag = entry.indexOf('drag') >= 0;
+        var fixed = entry.indexOf('fixed') >= 0;
+        var snap = entry.indexOf('snap') >= 0;
+        var hover = entry.indexOf('hover') >= 0;
+
+        if ( fixed ) {
+
+            if ( parsed.handles !== 2 ) {
+                throw new Error("noUiSlider: 'fixed' behaviour must be used with 2 handles");
+            }
+
+            // Use margin to enforce fixed state
+            testMargin(parsed, parsed.start[1] - parsed.start[0]);
+        }
+
+        parsed.events = {
+            tap: tap || snap,
+            drag: drag,
+            fixed: fixed,
+            snap: snap,
+            hover: hover
+        };
+    }
+
+    function testTooltips ( parsed, entry ) {
+
+        if ( entry === false ) {
+            return;
+        }
+
+        else if ( entry === true ) {
+
+            parsed.tooltips = [];
+
+            for ( var i = 0; i < parsed.handles; i++ ) {
+                parsed.tooltips.push(true);
+            }
+        }
+
+        else {
+
+            parsed.tooltips = asArray(entry);
+
+            if ( parsed.tooltips.length !== parsed.handles ) {
+                throw new Error("noUiSlider: must pass a formatter for all handles.");
+            }
+
+            parsed.tooltips.forEach(function(formatter){
+                if ( typeof formatter !== 'boolean' && (typeof formatter !== 'object' || typeof formatter.to !== 'function') ) {
+                    throw new Error("noUiSlider: 'tooltips' must be passed a formatter or 'false'.");
+                }
+            });
+        }
+    }
+
+    function testFormat ( parsed, entry ) {
+
+        parsed.format = entry;
+
+        // Any object with a to and from method is supported.
+        if ( typeof entry.to === 'function' && typeof entry.from === 'function' ) {
+            return true;
+        }
+
+        throw new Error("noUiSlider: 'format' requires 'to' and 'from' methods.");
+    }
+
+    function testCssPrefix ( parsed, entry ) {
+
+        if ( entry !== undefined && typeof entry !== 'string' && entry !== false ) {
+            throw new Error("noUiSlider: 'cssPrefix' must be a string or `false`.");
+        }
+
+        parsed.cssPrefix = entry;
+    }
+
+    function testCssClasses ( parsed, entry ) {
+
+        if ( entry !== undefined && typeof entry !== 'object' ) {
+            throw new Error("noUiSlider: 'cssClasses' must be an object.");
+        }
+
+        if ( typeof parsed.cssPrefix === 'string' ) {
+            parsed.cssClasses = {};
+
+            for ( var key in entry ) {
+                if ( !entry.hasOwnProperty(key) ) { continue; }
+
+                parsed.cssClasses[key] = parsed.cssPrefix + entry[key];
+            }
+        } else {
+            parsed.cssClasses = entry;
+        }
+    }
+
+    function testUseRaf ( parsed, entry ) {
+        if ( entry === true || entry === false ) {
+            parsed.useRequestAnimationFrame = entry;
+        } else {
+            throw new Error("noUiSlider: 'useRequestAnimationFrame' option should be true (default) or false.");
+        }
+    }
+
+    // Test all developer settings and parse to assumption-safe values.
+    function testOptions ( options ) {
+
+        // To prove a fix for #537, freeze options here.
+        // If the object is modified, an error will be thrown.
+        // Object.freeze(options);
+
+        var parsed = {
+            margin: 0,
+            limit: 0,
+            padding: 0,
+            animate: true,
+            animationDuration: 300,
+            format: defaultFormatter
+        };
+
+        // Tests are executed in the order they are presented here.
+        var tests = {
+            'step': { r: false, t: testStep },
+            'start': { r: true, t: testStart },
+            'connect': { r: true, t: testConnect },
+            'direction': { r: true, t: testDirection },
+            'snap': { r: false, t: testSnap },
+            'animate': { r: false, t: testAnimate },
+            'animationDuration': { r: false, t: testAnimationDuration },
+            'range': { r: true, t: testRange },
+            'orientation': { r: false, t: testOrientation },
+            'margin': { r: false, t: testMargin },
+            'limit': { r: false, t: testLimit },
+            'padding': { r: false, t: testPadding },
+            'behaviour': { r: true, t: testBehaviour },
+            'format': { r: false, t: testFormat },
+            'tooltips': { r: false, t: testTooltips },
+            'cssPrefix': { r: false, t: testCssPrefix },
+            'cssClasses': { r: false, t: testCssClasses },
+            'useRequestAnimationFrame': { r: false, t: testUseRaf }
+        };
+
+        var defaults = {
+            'connect': false,
+            'direction': 'ltr',
+            'behaviour': 'tap',
+            'orientation': 'horizontal',
+            'cssPrefix' : 'noUi-',
+            'cssClasses': {
+                target: 'target',
+                base: 'base',
+                origin: 'origin',
+                handle: 'handle',
+                handleLower: 'handle-lower',
+                handleUpper: 'handle-upper',
+                horizontal: 'horizontal',
+                vertical: 'vertical',
+                background: 'background',
+                connect: 'connect',
+                ltr: 'ltr',
+                rtl: 'rtl',
+                draggable: 'draggable',
+                drag: 'state-drag',
+                tap: 'state-tap',
+                active: 'active',
+                tooltip: 'tooltip',
+                pips: 'pips',
+                pipsHorizontal: 'pips-horizontal',
+                pipsVertical: 'pips-vertical',
+                marker: 'marker',
+                markerHorizontal: 'marker-horizontal',
+                markerVertical: 'marker-vertical',
+                markerNormal: 'marker-normal',
+                markerLarge: 'marker-large',
+                markerSub: 'marker-sub',
+                value: 'value',
+                valueHorizontal: 'value-horizontal',
+                valueVertical: 'value-vertical',
+                valueNormal: 'value-normal',
+                valueLarge: 'value-large',
+                valueSub: 'value-sub'
+            },
+            'useRequestAnimationFrame': true
+        };
+
+        // Run all options through a testing mechanism to ensure correct
+        // input. It should be noted that options might get modified to
+        // be handled properly. E.g. wrapping integers in arrays.
+        Object.keys(tests).forEach(function( name ){
+
+            // If the option isn't set, but it is required, throw an error.
+            if ( options[name] === undefined && defaults[name] === undefined ) {
+
+                if ( tests[name].r ) {
+                    throw new Error("noUiSlider: '" + name + "' is required.");
+                }
+
+                return true;
+            }
+
+            tests[name].t( parsed, options[name] === undefined ? defaults[name] : options[name] );
+        });
+
+        // Forward pips options
+        parsed.pips = options.pips;
+
+        var styles = [['left', 'top'], ['right', 'bottom']];
+
+        // Pre-define the styles.
+        parsed.style = styles[parsed.dir][parsed.ort];
+        parsed.styleOposite = styles[parsed.dir?0:1][parsed.ort];
+
+        return parsed;
+    }
+
+
+    function closure ( target, options, originalOptions ){
+
+        var actions = getActions( );
+
+        // All variables local to 'closure' are prefixed with 'scope_'
+        var scope_Target = target;
+        var scope_Locations = [];
+        var scope_Base;
+        var scope_Handles;
+        var scope_HandleNumbers = [];
+        var scope_ActiveHandle = false;
+        var scope_Connects;
+        var scope_Spectrum = options.spectrum;
+        var scope_Values = [];
+        var scope_Events = {};
+        var scope_Self;
+
+
+        // Append a origin to the base
+        function addOrigin ( base, handleNumber ) {
+
+            var origin = addNodeTo(base, options.cssClasses.origin);
+            var handle = addNodeTo(origin, options.cssClasses.handle);
+
+            handle.setAttribute('data-handle', handleNumber);
+
+            if ( handleNumber === 0 ) {
+                addClass(handle, options.cssClasses.handleLower);
+            }
+
+            else if ( handleNumber === options.handles - 1 ) {
+                addClass(handle, options.cssClasses.handleUpper);
+            }
+
+            return origin;
+        }
+
+        // Insert nodes for connect elements
+        function addConnect ( base, add ) {
+
+            if ( !add ) {
+                return false;
+            }
+
+            return addNodeTo(base, options.cssClasses.connect);
+        }
+
+        // Add handles to the slider base.
+        function addElements ( connectOptions, base ) {
+
+            scope_Handles = [];
+            scope_Connects = [];
+
+            scope_Connects.push(addConnect(base, connectOptions[0]));
+
+            // [::::O====O====O====]
+            // connectOptions = [0, 1, 1, 1]
+
+            for ( var i = 0; i < options.handles; i++ ) {
+                // Keep a list of all added handles.
+                scope_Handles.push(addOrigin(base, i));
+                scope_HandleNumbers[i] = i;
+                scope_Connects.push(addConnect(base, connectOptions[i + 1]));
+            }
+        }
+
+        // Initialize a single slider.
+        function addSlider ( target ) {
+
+            // Apply classes and data to the target.
+            addClass(target, options.cssClasses.target);
+
+            if ( options.dir === 0 ) {
+                addClass(target, options.cssClasses.ltr);
+            } else {
+                addClass(target, options.cssClasses.rtl);
+            }
+
+            if ( options.ort === 0 ) {
+                addClass(target, options.cssClasses.horizontal);
+            } else {
+                addClass(target, options.cssClasses.vertical);
+            }
+
+            scope_Base = addNodeTo(target, options.cssClasses.base);
+        }
+
+
+        function addTooltip ( handle, handleNumber ) {
+
+            if ( !options.tooltips[handleNumber] ) {
+                return false;
+            }
+
+            return addNodeTo(handle.firstChild, options.cssClasses.tooltip);
+        }
+
+        // The tooltips option is a shorthand for using the 'update' event.
+        function tooltips ( ) {
+
+            // Tooltips are added with options.tooltips in original order.
+            var tips = scope_Handles.map(addTooltip);
+
+            bindEvent('update', function(values, handleNumber, unencoded) {
+
+                if ( !tips[handleNumber] ) {
+                    return;
+                }
+
+                var formattedValue = values[handleNumber];
+
+                if ( options.tooltips[handleNumber] !== true ) {
+                    formattedValue = options.tooltips[handleNumber].to(unencoded[handleNumber]);
+                }
+
+                tips[handleNumber].innerHTML = '<span>' + formattedValue + '</span>';
+            });
+        }
+
+
+        function getGroup ( mode, values, stepped ) {
+
+            // Use the range.
+            if ( mode === 'range' || mode === 'steps' ) {
+                return scope_Spectrum.xVal;
+            }
+
+            if ( mode === 'count' ) {
+
+                // Divide 0 - 100 in 'count' parts.
+                var spread = ( 100 / (values-1) ), v, i = 0;
+                values = [];
+
+                // List these parts and have them handled as 'positions'.
+                while ((v=i++*spread) <= 100 ) {
+                    values.push(v);
+                }
+
+                mode = 'positions';
+            }
+
+            if ( mode === 'positions' ) {
+
+                // Map all percentages to on-range values.
+                return values.map(function( value ){
+                    return scope_Spectrum.fromStepping( stepped ? scope_Spectrum.getStep( value ) : value );
+                });
+            }
+
+            if ( mode === 'values' ) {
+
+                // If the value must be stepped, it needs to be converted to a percentage first.
+                if ( stepped ) {
+
+                    return values.map(function( value ){
+
+                        // Convert to percentage, apply step, return to value.
+                        return scope_Spectrum.fromStepping( scope_Spectrum.getStep( scope_Spectrum.toStepping( value ) ) );
+                    });
+
+                }
+
+                // Otherwise, we can simply use the values.
+                return values;
+            }
+        }
+
+        function generateSpread ( density, mode, group ) {
+
+            function safeIncrement(value, increment) {
+                // Avoid floating point variance by dropping the smallest decimal places.
+                return (value + increment).toFixed(7) / 1;
+            }
+
+            var indexes = {},
+                firstInRange = scope_Spectrum.xVal[0],
+                lastInRange = scope_Spectrum.xVal[scope_Spectrum.xVal.length-1],
+                ignoreFirst = false,
+                ignoreLast = false,
+                prevPct = 0;
+
+            // Create a copy of the group, sort it and filter away all duplicates.
+            group = unique(group.slice().sort(function(a, b){ return a - b; }));
+
+            // Make sure the range starts with the first element.
+            if ( group[0] !== firstInRange ) {
+                group.unshift(firstInRange);
+                ignoreFirst = true;
+            }
+
+            // Likewise for the last one.
+            if ( group[group.length - 1] !== lastInRange ) {
+                group.push(lastInRange);
+                ignoreLast = true;
+            }
+
+            group.forEach(function ( current, index ) {
+
+                // Get the current step and the lower + upper positions.
+                var step, i, q,
+                    low = current,
+                    high = group[index+1],
+                    newPct, pctDifference, pctPos, type,
+                    steps, realSteps, stepsize;
+
+                // When using 'steps' mode, use the provided steps.
+                // Otherwise, we'll step on to the next subrange.
+                if ( mode === 'steps' ) {
+                    step = scope_Spectrum.xNumSteps[ index ];
+                }
+
+                // Default to a 'full' step.
+                if ( !step ) {
+                    step = high-low;
+                }
+
+                // Low can be 0, so test for false. If high is undefined,
+                // we are at the last subrange. Index 0 is already handled.
+                if ( low === false || high === undefined ) {
+                    return;
+                }
+
+                // Make sure step isn't 0, which would cause an infinite loop (#654)
+                step = Math.max(step, 0.0000001);
+
+                // Find all steps in the subrange.
+                for ( i = low; i <= high; i = safeIncrement(i, step) ) {
+
+                    // Get the percentage value for the current step,
+                    // calculate the size for the subrange.
+                    newPct = scope_Spectrum.toStepping( i );
+                    pctDifference = newPct - prevPct;
+
+                    steps = pctDifference / density;
+                    realSteps = Math.round(steps);
+
+                    // This ratio represents the ammount of percentage-space a point indicates.
+                    // For a density 1 the points/percentage = 1. For density 2, that percentage needs to be re-devided.
+                    // Round the percentage offset to an even number, then divide by two
+                    // to spread the offset on both sides of the range.
+                    stepsize = pctDifference/realSteps;
+
+                    // Divide all points evenly, adding the correct number to this subrange.
+                    // Run up to <= so that 100% gets a point, event if ignoreLast is set.
+                    for ( q = 1; q <= realSteps; q += 1 ) {
+
+                        // The ratio between the rounded value and the actual size might be ~1% off.
+                        // Correct the percentage offset by the number of points
+                        // per subrange. density = 1 will result in 100 points on the
+                        // full range, 2 for 50, 4 for 25, etc.
+                        pctPos = prevPct + ( q * stepsize );
+                        indexes[pctPos.toFixed(5)] = ['x', 0];
+                    }
+
+                    // Determine the point type.
+                    type = (group.indexOf(i) > -1) ? 1 : ( mode === 'steps' ? 2 : 0 );
+
+                    // Enforce the 'ignoreFirst' option by overwriting the type for 0.
+                    if ( !index && ignoreFirst ) {
+                        type = 0;
+                    }
+
+                    if ( !(i === high && ignoreLast)) {
+                        // Mark the 'type' of this point. 0 = plain, 1 = real value, 2 = step value.
+                        indexes[newPct.toFixed(5)] = [i, type];
+                    }
+
+                    // Update the percentage count.
+                    prevPct = newPct;
+                }
+            });
+
+            return indexes;
+        }
+
+        function addMarking ( spread, filterFunc, formatter ) {
+
+            var element = document.createElement('div'),
+                out = '',
+                valueSizeClasses = [
+                    options.cssClasses.valueNormal,
+                    options.cssClasses.valueLarge,
+                    options.cssClasses.valueSub
+                ],
+                markerSizeClasses = [
+                    options.cssClasses.markerNormal,
+                    options.cssClasses.markerLarge,
+                    options.cssClasses.markerSub
+                ],
+                valueOrientationClasses = [
+                    options.cssClasses.valueHorizontal,
+                    options.cssClasses.valueVertical
+                ],
+                markerOrientationClasses = [
+                    options.cssClasses.markerHorizontal,
+                    options.cssClasses.markerVertical
+                ];
+
+            addClass(element, options.cssClasses.pips);
+            addClass(element, options.ort === 0 ? options.cssClasses.pipsHorizontal : options.cssClasses.pipsVertical);
+
+            function getClasses( type, source ){
+                var a = source === options.cssClasses.value,
+                    orientationClasses = a ? valueOrientationClasses : markerOrientationClasses,
+                    sizeClasses = a ? valueSizeClasses : markerSizeClasses;
+
+                return source + ' ' + orientationClasses[options.ort] + ' ' + sizeClasses[type];
+            }
+
+            function getTags( offset, source, values ) {
+                return 'class="' + getClasses(values[1], source) + '" style="' + options.style + ': ' + offset + '%"';
+            }
+
+            function addSpread ( offset, values ){
+
+                // Apply the filter function, if it is set.
+                values[1] = (values[1] && filterFunc) ? filterFunc(values[0], values[1]) : values[1];
+
+                // Add a marker for every point
+                out += '<div ' + getTags(offset, options.cssClasses.marker, values) + '></div>';
+
+                // Values are only appended for points marked '1' or '2'.
+                if ( values[1] ) {
+                    out += '<div ' + getTags(offset, options.cssClasses.value, values) + '>' + formatter.to(values[0]) + '</div>';
+                }
+            }
+
+            // Append all points.
+            Object.keys(spread).forEach(function(a){
+                addSpread(a, spread[a]);
+            });
+
+            element.innerHTML = out;
+
+            return element;
+        }
+
+        function pips ( grid ) {
+
+            var mode = grid.mode,
+                density = grid.density || 1,
+                filter = grid.filter || false,
+                values = grid.values || false,
+                stepped = grid.stepped || false,
+                group = getGroup( mode, values, stepped ),
+                spread = generateSpread( density, mode, group ),
+                format = grid.format || {
+                        to: Math.round
+                    };
+
+            return scope_Target.appendChild(addMarking(
+                spread,
+                filter,
+                format
+            ));
+        }
+
+
+        // Shorthand for base dimensions.
+        function baseSize ( ) {
+            var rect = scope_Base.getBoundingClientRect(), alt = 'offset' + ['Width', 'Height'][options.ort];
+            return options.ort === 0 ? (rect.width||scope_Base[alt]) : (rect.height||scope_Base[alt]);
+        }
+
+        // Handler for attaching events trough a proxy.
+        function attachEvent ( events, element, callback, data ) {
+
+            // This function can be used to 'filter' events to the slider.
+            // element is a node, not a nodeList
+
+            var method = function ( e ){
+
+                if ( scope_Target.hasAttribute('disabled') ) {
+                    return false;
+                }
+
+                // Stop if an active 'tap' transition is taking place.
+                if ( hasClass(scope_Target, options.cssClasses.tap) ) {
+                    return false;
+                }
+
+                e = fixEvent(e, data.pageOffset);
+
+                // Handle reject of multitouch
+                if ( !e ) {
+                    return false;
+                }
+
+                // Ignore right or middle clicks on start #454
+                if ( events === actions.start && e.buttons !== undefined && e.buttons > 1 ) {
+                    return false;
+                }
+
+                // Ignore right or middle clicks on start #454
+                if ( data.hover && e.buttons ) {
+                    return false;
+                }
+
+                e.calcPoint = e.points[ options.ort ];
+
+                // Call the event handler with the event [ and additional data ].
+                callback ( e, data );
+            };
+
+            var methods = [];
+
+            // Bind a closure on the target for every event type.
+            events.split(' ').forEach(function( eventName ){
+                element.addEventListener(eventName, method, false);
+                methods.push([eventName, method]);
+            });
+
+            return methods;
+        }
+
+        // Provide a clean event with standardized offset values.
+        function fixEvent ( e, pageOffset ) {
+
+            // Prevent scrolling and panning on touch events, while
+            // attempting to slide. The tap event also depends on this.
+            e.preventDefault();
+
+            // Filter the event to register the type, which can be
+            // touch, mouse or pointer. Offset changes need to be
+            // made on an event specific basis.
+            var touch = e.type.indexOf('touch') === 0;
+            var mouse = e.type.indexOf('mouse') === 0;
+            var pointer = e.type.indexOf('pointer') === 0;
+            var x;
+            var y;
+
+            // IE10 implemented pointer events with a prefix;
+            if ( e.type.indexOf('MSPointer') === 0 ) {
+                pointer = true;
+            }
+
+            if ( touch ) {
+
+                // Fix bug when user touches with two or more fingers on mobile devices.
+                // It's useful when you have two or more sliders on one page,
+                // that can be touched simultaneously.
+                // #649, #663, #668
+                if ( e.touches.length > 1 ) {
+                    return false;
+                }
+
+                // noUiSlider supports one movement at a time,
+                // so we can select the first 'changedTouch'.
+                x = e.changedTouches[0].pageX;
+                y = e.changedTouches[0].pageY;
+            }
+
+            pageOffset = pageOffset || getPageOffset();
+
+            if ( mouse || pointer ) {
+                x = e.clientX + pageOffset.x;
+                y = e.clientY + pageOffset.y;
+            }
+
+            e.pageOffset = pageOffset;
+            e.points = [x, y];
+            e.cursor = mouse || pointer; // Fix #435
+
+            return e;
+        }
+
+        // Translate a coordinate in the document to a percentage on the slider
+        function calcPointToPercentage ( calcPoint ) {
+            var location = calcPoint - offset(scope_Base, options.ort);
+            var proposal = ( location * 100 ) / baseSize();
+            return options.dir ? 100 - proposal : proposal;
+        }
+
+        // Find handle closest to a certain percentage on the slider
+        function getClosestHandle ( proposal ) {
+
+            var closest = 100;
+            var handleNumber = false;
+
+            scope_Handles.forEach(function(handle, index){
+
+                // Disabled handles are ignored
+                if ( handle.hasAttribute('disabled') ) {
+                    return;
+                }
+
+                var pos = Math.abs(scope_Locations[index] - proposal);
+
+                if ( pos < closest ) {
+                    handleNumber = index;
+                    closest = pos;
+                }
+            });
+
+            return handleNumber;
+        }
+
+        // Moves handle(s) by a percentage
+        // (bool, % to move, [% where handle started, ...], [index in scope_Handles, ...])
+        function moveHandles ( upward, proposal, locations, handleNumbers ) {
+
+            var proposals = locations.slice();
+
+            var b = [!upward, upward];
+            var f = [upward, !upward];
+
+            // Copy handleNumbers so we don't change the dataset
+            handleNumbers = handleNumbers.slice();
+
+            // Check to see which handle is 'leading'.
+            // If that one can't move the second can't either.
+            if ( upward ) {
+                handleNumbers.reverse();
+            }
+
+            // Step 1: get the maximum percentage that any of the handles can move
+            if ( handleNumbers.length > 1 ) {
+
+                handleNumbers.forEach(function(handleNumber, o) {
+
+                    var to = checkHandlePosition(proposals, handleNumber, proposals[handleNumber] + proposal, b[o], f[o]);
+
+                    // Stop if one of the handles can't move.
+                    if ( to === false ) {
+                        proposal = 0;
+                    } else {
+                        proposal = to - proposals[handleNumber];
+                        proposals[handleNumber] = to;
+                    }
+                });
+            }
+
+            // If using one handle, check backward AND forward
+            else {
+                b = f = [true];
+            }
+
+            var state = false;
+
+            // Step 2: Try to set the handles with the found percentage
+            handleNumbers.forEach(function(handleNumber, o) {
+                state = setHandle(handleNumber, locations[handleNumber] + proposal, b[o], f[o]) || state;
+            });
+
+            // Step 3: If a handle moved, fire events
+            if ( state ) {
+                handleNumbers.forEach(function(handleNumber){
+                    fireEvent('update', handleNumber);
+                    fireEvent('slide', handleNumber);
+                });
+            }
+        }
+
+        // External event handling
+        function fireEvent ( eventName, handleNumber, tap ) {
+
+            Object.keys(scope_Events).forEach(function( targetEvent ) {
+
+                var eventType = targetEvent.split('.')[0];
+
+                if ( eventName === eventType ) {
+                    scope_Events[targetEvent].forEach(function( callback ) {
+
+                        callback.call(
+                            // Use the slider public API as the scope ('this')
+                            scope_Self,
+                            // Return values as array, so arg_1[arg_2] is always valid.
+                            scope_Values.map(options.format.to),
+                            // Handle index, 0 or 1
+                            handleNumber,
+                            // Unformatted slider values
+                            scope_Values.slice(),
+                            // Event is fired by tap, true or false
+                            tap || false,
+                            // Left offset of the handle, in relation to the slider
+                            scope_Locations.slice()
+                        );
+                    });
+                }
+            });
+        }
+
+
+        // Fire 'end' when a mouse or pen leaves the document.
+        function documentLeave ( event, data ) {
+            if ( event.type === "mouseout" && event.target.nodeName === "HTML" && event.relatedTarget === null ){
+                eventEnd (event, data);
+            }
+        }
+
+        // Handle movement on document for handle and range drag.
+        function eventMove ( event, data ) {
+
+            // Fix #498
+            // Check value of .buttons in 'start' to work around a bug in IE10 mobile (data.buttonsProperty).
+            // https://connect.microsoft.com/IE/feedback/details/927005/mobile-ie10-windows-phone-buttons-property-of-pointermove-event-always-zero
+            // IE9 has .buttons and .which zero on mousemove.
+            // Firefox breaks the spec MDN defines.
+            if ( navigator.appVersion.indexOf("MSIE 9") === -1 && event.buttons === 0 && data.buttonsProperty !== 0 ) {
+                return eventEnd(event, data);
+            }
+
+            // Check if we are moving up or down
+            var movement = (options.dir ? -1 : 1) * (event.calcPoint - data.startCalcPoint);
+
+            // Convert the movement into a percentage of the slider width/height
+            var proposal = (movement * 100) / data.baseSize;
+
+            moveHandles(movement > 0, proposal, data.locations, data.handleNumbers);
+        }
+
+        // Unbind move events on document, call callbacks.
+        function eventEnd ( event, data ) {
+
+            // The handle is no longer active, so remove the class.
+            if ( scope_ActiveHandle ) {
+                removeClass(scope_ActiveHandle, options.cssClasses.active);
+                scope_ActiveHandle = false;
+            }
+
+            // Remove cursor styles and text-selection events bound to the body.
+            if ( event.cursor ) {
+                document.body.style.cursor = '';
+                document.body.removeEventListener('selectstart', document.body.noUiListener);
+            }
+
+            // Unbind the move and end events, which are added on 'start'.
+            document.documentElement.noUiListeners.forEach(function( c ) {
+                document.documentElement.removeEventListener(c[0], c[1]);
+            });
+
+            // Remove dragging class.
+            removeClass(scope_Target, options.cssClasses.drag);
+
+            setZindex();
+
+            data.handleNumbers.forEach(function(handleNumber){
+                fireEvent('set', handleNumber);
+                fireEvent('change', handleNumber);
+                fireEvent('end', handleNumber);
+            });
+        }
+
+        // Bind move events on document.
+        function eventStart ( event, data ) {
+
+            if ( data.handleNumbers.length === 1 ) {
+
+                var handle = scope_Handles[data.handleNumbers[0]];
+
+                // Ignore 'disabled' handles
+                if ( handle.hasAttribute('disabled') ) {
+                    return false;
+                }
+
+                // Mark the handle as 'active' so it can be styled.
+                scope_ActiveHandle = handle.children[0];
+                addClass(scope_ActiveHandle, options.cssClasses.active);
+            }
+
+            // Fix #551, where a handle gets selected instead of dragged.
+            event.preventDefault();
+
+            // A drag should never propagate up to the 'tap' event.
+            event.stopPropagation();
+
+            // Attach the move and end events.
+            var moveEvent = attachEvent(actions.move, document.documentElement, eventMove, {
+                startCalcPoint: event.calcPoint,
+                baseSize: baseSize(),
+                pageOffset: event.pageOffset,
+                handleNumbers: data.handleNumbers,
+                buttonsProperty: event.buttons,
+                locations: scope_Locations.slice()
+            });
+
+            var endEvent = attachEvent(actions.end, document.documentElement, eventEnd, {
+                handleNumbers: data.handleNumbers
+            });
+
+            var outEvent = attachEvent("mouseout", document.documentElement, documentLeave, {
+                handleNumbers: data.handleNumbers
+            });
+
+            document.documentElement.noUiListeners = moveEvent.concat(endEvent, outEvent);
+
+            // Text selection isn't an issue on touch devices,
+            // so adding cursor styles can be skipped.
+            if ( event.cursor ) {
+
+                // Prevent the 'I' cursor and extend the range-drag cursor.
+                document.body.style.cursor = getComputedStyle(event.target).cursor;
+
+                // Mark the target with a dragging state.
+                if ( scope_Handles.length > 1 ) {
+                    addClass(scope_Target, options.cssClasses.drag);
+                }
+
+                var f = function(){
+                    return false;
+                };
+
+                document.body.noUiListener = f;
+
+                // Prevent text selection when dragging the handles.
+                document.body.addEventListener('selectstart', f, false);
+            }
+
+            data.handleNumbers.forEach(function(handleNumber){
+                fireEvent('start', handleNumber);
+            });
+        }
+
+        // Move closest handle to tapped location.
+        function eventTap ( event ) {
+
+            // The tap event shouldn't propagate up
+            event.stopPropagation();
+
+            var proposal = calcPointToPercentage(event.calcPoint);
+            var handleNumber = getClosestHandle(proposal);
+
+            // Tackle the case that all handles are 'disabled'.
+            if ( handleNumber === false ) {
+                return false;
+            }
+
+            // Flag the slider as it is now in a transitional state.
+            // Transition takes a configurable amount of ms (default 300). Re-enable the slider after that.
+            if ( !options.events.snap ) {
+                addClassFor(scope_Target, options.cssClasses.tap, options.animationDuration);
+            }
+
+            setHandle(handleNumber, proposal, true, true);
+
+            setZindex();
+
+            fireEvent('slide', handleNumber, true);
+            fireEvent('set', handleNumber, true);
+            fireEvent('change', handleNumber, true);
+            fireEvent('update', handleNumber, true);
+
+            if ( options.events.snap ) {
+                eventStart(event, { handleNumbers: [handleNumber] });
+            }
+        }
+
+        // Fires a 'hover' event for a hovered mouse/pen position.
+        function eventHover ( event ) {
+
+            var proposal = calcPointToPercentage(event.calcPoint);
+
+            var to = scope_Spectrum.getStep(proposal);
+            var value = scope_Spectrum.fromStepping(to);
+
+            Object.keys(scope_Events).forEach(function( targetEvent ) {
+                if ( 'hover' === targetEvent.split('.')[0] ) {
+                    scope_Events[targetEvent].forEach(function( callback ) {
+                        callback.call( scope_Self, value );
+                    });
+                }
+            });
+        }
+
+        // Attach events to several slider parts.
+        function bindSliderEvents ( behaviour ) {
+
+            // Attach the standard drag event to the handles.
+            if ( !behaviour.fixed ) {
+
+                scope_Handles.forEach(function( handle, index ){
+
+                    // These events are only bound to the visual handle
+                    // element, not the 'real' origin element.
+                    attachEvent ( actions.start, handle.children[0], eventStart, {
+                        handleNumbers: [index]
+                    });
+                });
+            }
+
+            // Attach the tap event to the slider base.
+            if ( behaviour.tap ) {
+                attachEvent (actions.start, scope_Base, eventTap, {});
+            }
+
+            // Fire hover events
+            if ( behaviour.hover ) {
+                attachEvent (actions.move, scope_Base, eventHover, { hover: true });
+            }
+
+            // Make the range draggable.
+            if ( behaviour.drag ){
+
+                scope_Connects.forEach(function( connect, index ){
+
+                    if ( connect === false || index === 0 || index === scope_Connects.length - 1 ) {
+                        return;
+                    }
+
+                    var handleBefore = scope_Handles[index - 1];
+                    var handleAfter = scope_Handles[index];
+                    var eventHolders = [connect];
+
+                    addClass(connect, options.cssClasses.draggable);
+
+                    // When the range is fixed, the entire range can
+                    // be dragged by the handles. The handle in the first
+                    // origin will propagate the start event upward,
+                    // but it needs to be bound manually on the other.
+                    if ( behaviour.fixed ) {
+                        eventHolders.push(handleBefore.children[0]);
+                        eventHolders.push(handleAfter.children[0]);
+                    }
+
+                    eventHolders.forEach(function( eventHolder ) {
+                        attachEvent ( actions.start, eventHolder, eventStart, {
+                            handles: [handleBefore, handleAfter],
+                            handleNumbers: [index - 1, index]
+                        });
+                    });
+                });
+            }
+        }
+
+
+        // Split out the handle positioning logic so the Move event can use it, too
+        function checkHandlePosition ( reference, handleNumber, to, lookBackward, lookForward ) {
+
+            // For sliders with multiple handles, limit movement to the other handle.
+            // Apply the margin option by adding it to the handle positions.
+            if ( scope_Handles.length > 1 ) {
+
+                if ( lookBackward && handleNumber > 0 ) {
+                    to = Math.max(to, reference[handleNumber - 1] + options.margin);
+                }
+
+                if ( lookForward && handleNumber < scope_Handles.length - 1 ) {
+                    to = Math.min(to, reference[handleNumber + 1] - options.margin);
+                }
+            }
+
+            // The limit option has the opposite effect, limiting handles to a
+            // maximum distance from another. Limit must be > 0, as otherwise
+            // handles would be unmoveable.
+            if ( scope_Handles.length > 1 && options.limit ) {
+
+                if ( lookBackward && handleNumber > 0 ) {
+                    to = Math.min(to, reference[handleNumber - 1] + options.limit);
+                }
+
+                if ( lookForward && handleNumber < scope_Handles.length - 1 ) {
+                    to = Math.max(to, reference[handleNumber + 1] - options.limit);
+                }
+            }
+
+            // The padding option keeps the handles a certain distance from the
+            // edges of the slider. Padding must be > 0.
+            if ( options.padding ) {
+
+                if ( handleNumber === 0 ) {
+                    to = Math.max(to, options.padding);
+                }
+
+                if ( handleNumber === scope_Handles.length - 1 ) {
+                    to = Math.min(to, 100 - options.padding);
+                }
+            }
+
+            to = scope_Spectrum.getStep(to);
+
+            // Limit percentage to the 0 - 100 range
+            to = limit(to);
+
+            // Return false if handle can't move
+            if ( to === reference[handleNumber] ) {
+                return false;
+            }
+
+            return to;
+        }
+
+        function toPct ( pct ) {
+            return pct + '%';
+        }
+
+        // Updates scope_Locations and scope_Values, updates visual state
+        function updateHandlePosition ( handleNumber, to ) {
+
+            // Update locations.
+            scope_Locations[handleNumber] = to;
+
+            // Convert the value to the slider stepping/range.
+            scope_Values[handleNumber] = scope_Spectrum.fromStepping(to);
+
+            // Called synchronously or on the next animationFrame
+            var stateUpdate = function() {
+                scope_Handles[handleNumber].style[options.style] = toPct(to);
+                updateConnect(handleNumber);
+                updateConnect(handleNumber + 1);
+            };
+
+            // Set the handle to the new position.
+            // Use requestAnimationFrame for efficient painting.
+            // No significant effect in Chrome, Edge sees dramatic performace improvements.
+            // Option to disable is useful for unit tests, and single-step debugging.
+            if ( window.requestAnimationFrame && options.useRequestAnimationFrame ) {
+                window.requestAnimationFrame(stateUpdate);
+            } else {
+                stateUpdate();
+            }
+        }
+
+        function setZindex ( ) {
+
+            scope_HandleNumbers.forEach(function(handleNumber){
+                // Handles before the slider middle are stacked later = higher,
+                // Handles after the middle later is lower
+                // [[7] [8] .......... | .......... [5] [4]
+                var dir = (scope_Locations[handleNumber] > 50 ? -1 : 1);
+                var zIndex = 3 + (scope_Handles.length + (dir * handleNumber));
+                scope_Handles[handleNumber].childNodes[0].style.zIndex = zIndex;
+            });
+        }
+
+        // Test suggested values and apply margin, step.
+        function setHandle ( handleNumber, to, lookBackward, lookForward ) {
+
+            to = checkHandlePosition(scope_Locations, handleNumber, to, lookBackward, lookForward);
+
+            if ( to === false ) {
+                return false;
+            }
+
+            updateHandlePosition(handleNumber, to);
+
+            return true;
+        }
+
+        // Updates style attribute for connect nodes
+        function updateConnect ( index ) {
+
+            // Skip connects set to false
+            if ( !scope_Connects[index] ) {
+                return;
+            }
+
+            var l = 0;
+            var h = 100;
+
+            if ( index !== 0 ) {
+                l = scope_Locations[index - 1];
+            }
+
+            if ( index !== scope_Connects.length - 1 ) {
+                h = scope_Locations[index];
+            }
+
+            scope_Connects[index].style[options.style] = toPct(l);
+            scope_Connects[index].style[options.styleOposite] = toPct(100 - h);
+        }
+
+        // ...
+        function setValue ( to, handleNumber ) {
+
+            // Setting with null indicates an 'ignore'.
+            // Inputting 'false' is invalid.
+            if ( to === null || to === false ) {
+                return;
+            }
+
+            // If a formatted number was passed, attemt to decode it.
+            if ( typeof to === 'number' ) {
+                to = String(to);
+            }
+
+            to = options.format.from(to);
+
+            // Request an update for all links if the value was invalid.
+            // Do so too if setting the handle fails.
+            if ( to !== false && !isNaN(to) ) {
+                setHandle(handleNumber, scope_Spectrum.toStepping(to), false, false);
+            }
+        }
+
+        // Set the slider value.
+        function valueSet ( input, fireSetEvent ) {
+
+            var values = asArray(input);
+            var isInit = scope_Locations[0] === undefined;
+
+            // Event fires by default
+            fireSetEvent = (fireSetEvent === undefined ? true : !!fireSetEvent);
+
+            values.forEach(setValue);
+
+            // Animation is optional.
+            // Make sure the initial values were set before using animated placement.
+            if ( options.animate && !isInit ) {
+                addClassFor(scope_Target, options.cssClasses.tap, options.animationDuration);
+            }
+
+            // Now that all base values are set, apply constraints
+            scope_HandleNumbers.forEach(function(handleNumber){
+                setHandle(handleNumber, scope_Locations[handleNumber], true, false);
+            });
+
+            setZindex();
+
+            scope_HandleNumbers.forEach(function(handleNumber){
+
+                fireEvent('update', handleNumber);
+
+                // Fire the event only for handles that received a new value, as per #579
+                if ( values[handleNumber] !== null && fireSetEvent ) {
+                    fireEvent('set', handleNumber);
+                }
+            });
+        }
+
+        // Reset slider to initial values
+        function valueReset ( fireSetEvent ) {
+            valueSet(options.start, fireSetEvent);
+        }
+
+        // Get the slider value.
+        function valueGet ( ) {
+
+            var values = scope_Values.map(options.format.to);
+
+            // If only one handle is used, return a single value.
+            if ( values.length === 1 ){
+                return values[0];
+            }
+
+            return values;
+        }
+
+        // Removes classes from the root and empties it.
+        function destroy ( ) {
+
+            for ( var key in options.cssClasses ) {
+                if ( !options.cssClasses.hasOwnProperty(key) ) { continue; }
+                removeClass(scope_Target, options.cssClasses[key]);
+            }
+
+            while (scope_Target.firstChild) {
+                scope_Target.removeChild(scope_Target.firstChild);
+            }
+
+            delete scope_Target.noUiSlider;
+        }
+
+        // Get the current step size for the slider.
+        function getCurrentStep ( ) {
+
+            // Check all locations, map them to their stepping point.
+            // Get the step point, then find it in the input list.
+            return scope_Locations.map(function( location, index ){
+
+                var nearbySteps = scope_Spectrum.getNearbySteps( location );
+                var value = scope_Values[index];
+                var increment = nearbySteps.thisStep.step;
+                var decrement = null;
+
+                // If the next value in this step moves into the next step,
+                // the increment is the start of the next step - the current value
+                if ( increment !== false ) {
+                    if ( value + increment > nearbySteps.stepAfter.startValue ) {
+                        increment = nearbySteps.stepAfter.startValue - value;
+                    }
+                }
+
+
+                // If the value is beyond the starting point
+                if ( value > nearbySteps.thisStep.startValue ) {
+                    decrement = nearbySteps.thisStep.step;
+                }
+
+                else if ( nearbySteps.stepBefore.step === false ) {
+                    decrement = false;
+                }
+
+                // If a handle is at the start of a step, it always steps back into the previous step first
+                else {
+                    decrement = value - nearbySteps.stepBefore.highestStep;
+                }
+
+
+                // Now, if at the slider edges, there is not in/decrement
+                if ( location === 100 ) {
+                    increment = null;
+                }
+
+                else if ( location === 0 ) {
+                    decrement = null;
+                }
+
+                // As per #391, the comparison for the decrement step can have some rounding issues.
+                var stepDecimals = scope_Spectrum.countStepDecimals();
+
+                // Round per #391
+                if ( increment !== null && increment !== false ) {
+                    increment = Number(increment.toFixed(stepDecimals));
+                }
+
+                if ( decrement !== null && decrement !== false ) {
+                    decrement = Number(decrement.toFixed(stepDecimals));
+                }
+
+                return [decrement, increment];
+            });
+        }
+
+        // Attach an event to this slider, possibly including a namespace
+        function bindEvent ( namespacedEvent, callback ) {
+            scope_Events[namespacedEvent] = scope_Events[namespacedEvent] || [];
+            scope_Events[namespacedEvent].push(callback);
+
+            // If the event bound is 'update,' fire it immediately for all handles.
+            if ( namespacedEvent.split('.')[0] === 'update' ) {
+                scope_Handles.forEach(function(a, index){
+                    fireEvent('update', index);
+                });
+            }
+        }
+
+        // Undo attachment of event
+        function removeEvent ( namespacedEvent ) {
+
+            var event = namespacedEvent && namespacedEvent.split('.')[0];
+            var namespace = event && namespacedEvent.substring(event.length);
+
+            Object.keys(scope_Events).forEach(function( bind ){
+
+                var tEvent = bind.split('.')[0],
+                    tNamespace = bind.substring(tEvent.length);
+
+                if ( (!event || event === tEvent) && (!namespace || namespace === tNamespace) ) {
+                    delete scope_Events[bind];
+                }
+            });
+        }
+
+        // Updateable: margin, limit, padding, step, range, animate, snap
+        function updateOptions ( optionsToUpdate, fireSetEvent ) {
+
+            // Spectrum is created using the range, snap, direction and step options.
+            // 'snap' and 'step' can be updated, 'direction' cannot, due to event binding.
+            // If 'snap' and 'step' are not passed, they should remain unchanged.
+            var v = valueGet();
+
+            var updateAble = ['margin', 'limit', 'padding', 'range', 'animate', 'snap', 'step', 'format'];
+
+            // Only change options that we're actually passed to update.
+            updateAble.forEach(function(name){
+                if ( optionsToUpdate[name] !== undefined ) {
+                    originalOptions[name] = optionsToUpdate[name];
+                }
+            });
+
+            var newOptions = testOptions(originalOptions);
+
+            // Load new options into the slider state
+            updateAble.forEach(function(name){
+                if ( optionsToUpdate[name] !== undefined ) {
+                    options[name] = newOptions[name];
+                }
+            });
+
+            // Save current spectrum direction as testOptions in testRange call
+            // doesn't rely on current direction
+            newOptions.spectrum.direction = scope_Spectrum.direction;
+            scope_Spectrum = newOptions.spectrum;
+
+            // Limit, margin and padding depend on the spectrum but are stored outside of it. (#677)
+            options.margin = newOptions.margin;
+            options.limit = newOptions.limit;
+            options.padding = newOptions.padding;
+
+            // Invalidate the current positioning so valueSet forces an update.
+            scope_Locations = [];
+            valueSet(optionsToUpdate.start || v, fireSetEvent);
+        }
+
+        // Throw an error if the slider was already initialized.
+        if ( scope_Target.noUiSlider ) {
+            throw new Error('Slider was already initialized.');
+        }
+
+        // Create the base element, initialise HTML and set classes.
+        // Add handles and connect elements.
+        addSlider(scope_Target);
+        addElements(options.connect, scope_Base);
+
+        scope_Self = {
+            destroy: destroy,
+            steps: getCurrentStep,
+            on: bindEvent,
+            off: removeEvent,
+            get: valueGet,
+            set: valueSet,
+            reset: valueReset,
+            // Exposed for unit testing, don't use this in your application.
+            __moveHandles: function(a, b, c) { moveHandles(a, b, scope_Locations, c); },
+            options: originalOptions, // Issue #600, #678
+            updateOptions: updateOptions,
+            target: scope_Target, // Issue #597
+            pips: pips // Issue #594
+        };
+
+        // Attach user events.
+        bindSliderEvents(options.events);
+
+        // Use the public value method to set the start values.
+        valueSet(options.start);
+
+        if ( options.pips ) {
+            pips(options.pips);
+        }
+
+        if ( options.tooltips ) {
+            tooltips();
+        }
+
+        return scope_Self;
+
+    }
+
+
+    // Run the standard initializer
+    function initialize ( target, originalOptions ) {
+
+        if ( !target.nodeName ) {
+            throw new Error('noUiSlider.create requires a single element.');
+        }
+
+        if (originalOptions.tooltips === undefined) {
+            originalOptions.tooltips = true;
+        }
+
+        // Test the options and create the slider environment;
+        var options = testOptions( originalOptions, target );
+        var api = closure( target, options, originalOptions );
+
+        target.noUiSlider = api;
+
+        return api;
+    }
+
+    // Use an object instead of a function for future expansibility;
+    return {
+        create: initialize
+    };
 
 }));
 'use strict';
@@ -10426,10 +12957,19 @@ n.init = function() {
 
   $('#damageAndFaults').characterCounter();
   $('select').material_select();
+  $('.scrollspy').scrollSpy({scrollOffset: 20});
   $('.datepicker').pickadate({
     format: 'yyyy/mm/dd',
     formatSubmit: 'yyyy/mm/dd H:i:s',
     hiddenName: true
+  });
+
+  $(".countdown").jCounter({
+    customDuration: 60*(Math.floor(Math.random() * 7) + 2 ),
+    callback: function() {
+      $('.time-remaining').hide();
+      $('.text-offer').show();
+    }
   });
 
 }

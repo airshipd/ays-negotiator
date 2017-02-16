@@ -6,6 +6,7 @@
 @import "vendor/materialize/materialize";
 @import "vendor/jquery-ui.min";
 @import "vendor/fontawesome/font-awesome";
+@import "vendor/nouislider";
 
 // BASE STYLES
 @import "base/fonts";
@@ -26,3 +27,5 @@
 @import "sections/home";
 @import "sections/assessments";
 @import "sections/login";
+@import "sections/offer-pending";
+@import "sections/offer-view";

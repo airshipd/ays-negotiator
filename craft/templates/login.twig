@@ -9,11 +9,11 @@
     <form method="post" accept-charset="UTF-8" class="valign">
       {{ getCsrfInput() }}
 
-      <h3 class="form-header">Login</h3>
-
       <div class="center-align">
         <img src="/images/logo.svg" alt="Are You Selling">
       </div>
+      
+      <h3 class="form-header">Login</h3>
 
       <div class="input-field">
         <input type="text" name="loginName" id="loginName" value="{{ craft.session.rememberedUsername }}">

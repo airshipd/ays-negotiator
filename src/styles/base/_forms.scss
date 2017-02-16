@@ -36,3 +36,10 @@ form .row .input-field.col:first-of-type label {
     padding-left: 25px;
   }
 }
+
+em.error {
+  position: static;
+  color: red;
+  display: block;
+  margin-bottom: 40px;
+}

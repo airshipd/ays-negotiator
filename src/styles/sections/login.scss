@@ -1,6 +1,15 @@
 
 .login {
 
+  h3 {
+    font-weight: 500;
+    font-size: 12px;
+    color: rgba(204,204,204,0.87);
+    line-height: 24px;
+    text-align: center;
+    margin: 0 0 20px;
+  }
+
   header {
     display: none;
   }
@@ -23,5 +32,4 @@
       text-align: center;
     }
   }
-
 }

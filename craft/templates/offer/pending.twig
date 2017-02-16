@@ -3,21 +3,33 @@
 
 {% block content %}
 
-<div class="offer-container">
-  <h3>Offer Pending</h3>
+<div class="offer-container valign-wrapper">
 
-  <div class="">
-      <i class="fa fa-clock-o fa-4x"></i>
+  <div class="valign z-depth-1">
+    <h3>Offer Pending</h3>
+
+    <i class="fa fa-clock-o fa-4x"></i>
+
+    <h2>Your Offer will be ready soon!</h2>
+    <p>We have received your inspection details and are processing your offer.</p>
+
+    <hr>
+
+    <h4>Estimate Time Remaining</h4>
+    <div class="time-remaining">
+      <ul class="countdown">
+      	<li>
+      		<span class="minutes">00</span>
+      	</li>
+      	<li>
+      		<span class="seconds">00</span>
+      		<span>Mins</span>
+      	</li>
+      </ul>
+    </div>
+
+    <a class="text-offer" href="/offer/{{craft.request.getSegment(2)}}/view">See Offer</a>
   </div>
-
-  <h2>Your Offer will be ready soon!</h2>
-  <p>We have received your inspection details and are processing your offer.</p>
-
-  <hr>
-
-  <h4></h4>
-
-  <a href="/inspections/{{craft.request.getSegment(2)}}/offer">See Offer</a>
 
 </div>
 

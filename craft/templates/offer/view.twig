@@ -1,8 +1,279 @@
-{% set pageClass = 'report-pending' %}
+{% set pageClass = 'offer-view' %}
 {% extends "_layout" %}
+
+{% set inspection = craft.entries.id( craft.request.getSegment(2) ).first() %}
+{% set tomorrow = now|date_modify("+1 day") %}
+{% set tomorrowDayAddition = 'th' %}
+{% if '1' in tomorrow|date("j")|last %}
+  {% set tomorrowDayAddition = 'st' %}
+{% elseif '2' in tomorrow|date("j")|last %}
+  {% set tomorrowDayAddition = 'nd' %}
+{% elseif '3' in tomorrow|date("j")|last %}
+  {% set tomorrowDayAddition = 'rd' %}
+{% endif %}
+
+{% set sliderJS %}
+var slider = document.getElementById('slider');
+noUiSlider.create(slider, {
+ start: [4000, 20000],
+//  connect: true,
+ disabled: true,
+ step: 1,
+ range: {
+   'min': 2000,
+   'max': 40000
+ },
+ format: wNumb({
+   prefix: '$ ',
+   decimals: 2
+ })
+});
+
+$('#form-review').validate({
+  errorElement: "em",
+  errorPlacement: function(error, element) {
+    $(element).parent().append(error);
+  },
+  submitHandler: function(form) {
+    $.ajax({
+       type: "POST",
+        url: 'index.php?p=actions/negotiator/inspections/reviewInspection',
+        data: $(form).serialize(),
+        success: function(data) {
+
+            $('#processing').show();
+            $('#review').addClass('processing');
+            $('#reviewModal').modal('close');
+            $("html, body").animate({ scrollTop: 0 }, "fast");
+            setTimeout(function(){
+              $('#processing').hide();
+              $('#review').removeClass('processing');
+
+
+            }, 8000);
+
+        },
+        error: function(xhr, status, error) {
+          var err = eval("(" + xhr.responseText + ")");
+          alert(err.Message);
+        }
+    });
+  }
+});
+
+$('.modal').modal({
+  dismissible: false,
+  ready: function(modal, trigger) {
+    console.log(modal, trigger);
+  }
+});
+{% endset %}
+{% includeJs sliderJS %}
 
 {% block content %}
 
-here is the report
+  <div id="processing" class="offer-viewProcessing row z-depth-1">
+    <div class="col s12 m2 container-icon right-align">
+      <i class="fa fa-clock-o fa-4x"></i>
+    </div>
+    <div class="col s12 m7 container-description">
+      <h2>Your request is being processed</h2>
+      <p>We have received your request for review and are re-processing your offer.</p>
+    </div>
+    <div class="col s12 m3 container-time">
+      <span>10 Mins</span>
+      <p>Estimate time remaining</p>
+    </div>
+  </div>
+
+  <div id="review" class="offer-viewContainer z-depth-1">
+
+    <div class="offer-viewHeading center-align">
+      <div class="offer-viewHeading--iconWrap"><span class="offer-viewHeading--icon">$</span></div>
+      <h1>{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} {{inspection.transmission}}</h1>
+      <p>Offer prepared for {{inspection.customerName}}<br />
+        {{ now|date("d/m/y h:m A") }}
+      </p>
+    </div>
+
+    <div class="offer-viewReview row">
+      <div class="col s12 m8">
+        <h2>Telephone Estimated Valuation</h2>
+        <p>Estimates are based on the average value of your make/model.</p>
+      </div>
+      <div class="col s12 m4 right-align">
+        <span class="dollar">$15000.00</span>
+      </div>
+    </div>
+
+    <div class="offer-viewReview row">
+      <div class="col s12 m8">
+        <h2>On-site Physical Valuation</h2>
+        <p>On-site valuation based on various factors.<br /><a href="#valuation">Why is my valuation lower than my estimate?</a></p>
+      </div>
+      <div class="col s12 m4 right-align">
+        <span class="dollar">$15000.00</span>
+      </div>
+    </div>
+
+    <div class="offer-viewReview row">
+      <div class="col s12 m8">
+        <h2>Minimum Repair Requirement</h2>
+        <p>Minimum repairs are required in order make the vehicle good for sale.</p>
+      </div>
+      <div class="col s12 m4 right-align">
+        <span class="dollar">-$15000.00</span>
+      </div>
+    </div>
+
+    <div class="offer-viewTotal row">
+      <div class="col s12 m8">
+        <h2>Total Offer</h2>
+        <p>Accept this offer today and get paid by<br /><span class="offer-viewTotal--date">{{ tomorrow|date("l") }} {{ tomorrow|date("j") }}{{ tomorrowDayAddition }} {{tomorrow|date("F")}}</span></p>
+      </div>
+      <div class="col s12 m4 right-align">
+        <span class="dollar">$15000.00</span>
+      </div>
+    </div>
+
+    <div class="offer-viewButtons row">
+      <div class="col s6">
+        <a id="btn-reviewModal" class="btn" href="#reviewModal">Request Review</a>
+        <a id="btn-decline" class="btn" href="#">Decline</a>
+      </div>
+
+      <div class="col s6">
+        <a class="btn" href="/offer/{{craft.request.getSegment(2)}}/accepted">Accept Offer</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="valuation" class="offer-viewContainer offer-valuation z-depth-1 scrollspy">
+    <h2>How is your car valued?</h2>
+    <p>There are several factors that can affect your valuation. The team at AreYouSelling have, collectively, over 40 years of experience in the industry and have purchased thousands of cars Australia wide. We are your car valuing experts. We know selling your car can be a big decision and it’s important to understand how potential buyers are valuing your vehicle. That’s where we come in.</p>
+    <p>We combine market data and our professional expertise to create a valuation that is simple, considered and straightforward. Regardless of your decision to sell your car with us or not, you can walk away with the confidence you have been given a valuation that is accurate, fair and, most importantly, honest.</p>
+    <h3>How your car compares</h3>
+    <p>Here you’ll see the average buying price for your vehicle. Our buying consultants model their estimate based on this market data and the information you provide over the phone. Following today’s inspection, we update your car valuation to more accurately represent the overall condition and state of your vehicle - this can be seen on the scale below.</p>
+
+    <div id="slider" disabled="true"></div>
+
+    <h3>Your car breakdown</h3>
+    <p>There are several key considerations that can contribute to your overall valuation. We’ve broken down your valuation into four key groups and assigned a simple letter grading system to make this process easy to understand and quick to read.</p>
+
+    <div class="row offer-score">
+      <div class="col s6 m3">
+        <div class="score score-b">B</div>
+        <p>Make & Model</p>
+      </div>
+      <div class="col s6 m3">
+        <div class="score score-c">C</div>
+        <p>Condition</p>
+      </div>
+      <div class="col s6 m3">
+        <div class="score score-a">A</div>
+        <p>History</p>
+      </div>
+      <div class="col s6 m3">
+        <div class="score score-d">D</div>
+        <p>Extras</p>
+      </div>
+    </div>
+
+    <p>To find out <strong>why</strong> we assigned your vehicle these grades, please refer to the detailed score cards below.</p>
+  </div>
+
+  <div class="offer-breakdown row">
+    <div class="col s12 m6">
+      <div class="offer-breakdown--wrap z-depth-1">
+        <div class="offer-breakdown--header score-b">
+          <div class="score">B</div>
+          <div class="info">
+            <h3>Make & Model</h3>
+            <p>This category has a HIGH variable impact on your final score.</p>
+          </div>
+        </div>
+        <div class="offer-breakdown--content">
+          <p>We check the market to see the demand of your vehicle and determine the overall desirability for purchase.</p>
+          <p>Other key considerations in this category can include, but are not limited to - transmission (automatic or manual), badge variant, fuel type, number of seats and year of manufacture.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12 m6">
+      <div class="offer-breakdown--wrap z-depth-1">
+        <div class="offer-breakdown--header score-a">
+          <div class="score">B</div>
+          <div class="info">
+            <h3>Make & Model</h3>
+            <p>This category has a HIGH variable impact on your final score.</p>
+          </div>
+        </div>
+        <div class="offer-breakdown--content">
+          <p>We check the market to see the demand of your vehicle and determine the overall desirability for purchase.</p>
+          <p>Other key considerations in this category can include, but are not limited to - transmission (automatic or manual), badge variant, fuel type, number of seats and year of manufacture.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="offer-breakdown row">
+    <div class="col s12 m6">
+      <div class="offer-breakdown--wrap z-depth-1">
+        <div class="offer-breakdown--header score-c">
+          <div class="score">B</div>
+          <div class="info">
+            <h3>Make & Model</h3>
+            <p>This category has a HIGH variable impact on your final score.</p>
+          </div>
+        </div>
+        <div class="offer-breakdown--content">
+          <p>The more detailed information you can provide on the history of your vehicle, the better the outcome. It is important proper documentation is provided on the day of inspection to help build a compelling case for the buyer.</p>
+          <p>Other key considerations for this category can include, but are not limited to - registration, previous owners and number of accidents (if any).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12 m6">
+      <div class="offer-breakdown--wrap z-depth-1">
+        <div class="offer-breakdown--header score-d">
+          <div class="score">B</div>
+          <div class="info">
+            <h3>Make & Model</h3>
+            <p>This category has a HIGH variable impact on your final score.</p>
+          </div>
+        </div>
+        <div class="offer-breakdown--content">
+          <p>Extras are defined as any factory or non-factory modifications to your vehicle. Factory modifications such as satellite navigation, metallic paint or sport packs will generally result in a higher car score for your vehicle. </p>
+          <p>Non-factory modifications will likely reduce your final score. These modifications can include items such as custom paint jobs, wheels, spoilers and vinyls.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="reviewModal" class="modal">
+    <h2>Review Request</h2>
+    <p>Tell us why you believe your car should be valued higher and what figure in dollars you were expecting to receive.</p>
+    <form action="" method="post" id="form-review">
+      <input type="hidden" name="id" value="{{inspection.id}}">
+
+
+        <div class="input-field">
+          <textarea name="reviewRequest" id="reviewRequest" class="materialize-textarea" data-length="500" required></textarea>
+          <label for="reviewRequest">Reason For Request</label>
+        </div>
+
+        <div class="input-field">
+          <input type="number" name="reviewPrice" id="reviewPrice" value="0.00" step="0.01" required data-rule-min="1" />
+          <label for="reviewPrice">Expected Price</label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn">Submit Request</button>
+          <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+        </div>
+    </form>
+    <a href="#!" class="close modal-action modal-close waves-effect btn-flat"><i class="fa fa-times"></i></a>
+  </div>
 
 {% endblock %}
