@@ -25,7 +25,8 @@ class Negotiator_InspectionsController extends BaseController {
 
         $ret = [
           "reviewAdjustment"=>10000,
-          "totalOffer"=>20000
+          "totalOffer"=>20000,
+          "dollarReveiw"=>700
         ];
 
         $this->returnJson( $ret ); //let return the Adjustment figure

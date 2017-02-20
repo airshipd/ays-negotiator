@@ -2343,7 +2343,7 @@ ul:not(.browser-default) {
     list-style-type: none; }
 
 a {
-  color: #039be5;
+  color: #6B95C7;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent; }
 
@@ -11066,7 +11066,7 @@ body .ui-tooltip {
   text-align: right; }
 
 .error {
-  color: #FF6363; }
+  color: #D50000; }
 
 .hide {
   position: absolute !important;
@@ -11125,7 +11125,6 @@ form .row .input-field.col:first-of-type label {
 
 em.error {
   position: static;
-  color: red;
   display: block;
   margin-bottom: 40px; }
 
@@ -11172,7 +11171,8 @@ main {
     padding-left: 10px; }
 
 .list-inpsections {
-  margin-top: 0; }
+  margin-top: 0;
+  background: white; }
   .list-inpsections li {
     padding: 13px 26px 13px;
     border-bottom: 1px solid #DDDDDD; }
@@ -11249,7 +11249,8 @@ main {
   color: rgba(204, 204, 204, 0.87);
   line-height: 24px;
   text-align: center;
-  margin: 0 0 20px; }
+  margin: 0 0 35px;
+  padding: 28px 0 0 0; }
 
 .login header {
   display: none; }
@@ -11268,6 +11269,42 @@ main {
   .login form img {
     margin-bottom: 60px;
     text-align: center; }
+  .login form input[type="text"],
+  .login form input[type="password"] {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    margin-bottom: 10px; }
+  .login form input[type="submit"] {
+    font-weight: 500;
+    font-size: 16px;
+    color: rgba(54, 108, 171, 0.87);
+    line-height: 24px;
+    border-bottom: none; }
+  .login form .btn-flat {
+    padding-right: 0;
+    padding-left: 0; }
+  .login form .col:first-of-type {
+    padding-left: 0; }
+  .login form .col:last-of-type {
+    padding-right: 0; }
+  .login form .error {
+    font-size: 12px;
+    margin-top: 0; }
+    .login form .error .fa {
+      margin-right: 10px; }
+
+.login hr {
+  border-top: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 21px -33px 12px; }
+
+.login-container {
+  background: white;
+  padding: 0 33px 5px; }
+
+.text-login {
+  font-size: 12px;
+  padding-top: 9px;
+  display: block; }
 
 .offer-pending,
 .offer-pending body,
@@ -11385,38 +11422,49 @@ main {
   font-size: 30px; }
 
 #btn-decline {
-  display: none; }
+  display: none;
+  border-color: #AA5A5A;
+  color: #AA5A5A; }
 
 .offer-viewReview {
   padding: 0 0 24px 0;
   margin: 25px 100px 0;
   border-bottom: 1px solid #DDDDDD; }
-  #review .offer-viewReview:first-of-type h2 {
-    color: #999999; }
-  #review .offer-viewReview:first-of-type p {
-    color: #DDDDDD; }
+  .offer-viewReview ~ .offer-viewReview h2 {
+    color: #333333; }
+  .offer-viewReview ~ .offer-viewReview p {
+    color: #BBBBBB; }
+  .offer-viewReview ~ .offer-viewReview .dollar {
+    color: #333333; }
   .offer-viewReview .col {
     padding: 0; }
   .offer-viewReview h2 {
     margin-top: 0;
     font-size: 20px;
-    color: #333333;
     letter-spacing: 0;
     line-height: 28px;
-    margin-bottom: 6px; }
+    margin-bottom: 6px;
+    color: #999999; }
   .offer-viewReview p {
     font-size: 15px;
-    color: #BBBBBB;
     line-height: 24px;
     margin: 0;
-    font-weight: 300; }
+    font-weight: 300;
+    color: #DDDDDD; }
+  .offer-viewReview .dollar {
+    color: #999999; }
 
 .offer-viewTotal {
   margin-bottom: 0;
   padding: 0 100px;
-  margin-top: 25px; }
+  margin-top: 25px;
+  position: relative; }
   .offer-viewTotal .col {
     padding: 0; }
+  .offer-viewTotal .col:last-child span {
+    display: block; }
+    .offer-viewTotal .col:last-child span.dollar-review, .offer-viewTotal .col:last-child span.dollar-final {
+      display: none; }
   .offer-viewTotal h2 {
     margin-top: 0;
     font-size: 20px;
@@ -11430,6 +11478,56 @@ main {
     line-height: 24px;
     margin: 0;
     font-weight: 300; }
+  .offer-viewTotal .text-final,
+  .offer-viewTotal .text-reviewAdjustment {
+    display: none; }
+  .offer-viewTotal.offer-final #text-offer {
+    font-size: 20px;
+    color: #CCCCCC;
+    letter-spacing: 0;
+    line-height: 28px;
+    margin-bottom: 8px; }
+  .offer-viewTotal.offer-final .text-reviewAdjustment {
+    font-size: 16px;
+    color: #CCCCCC;
+    letter-spacing: 0;
+    margin-bottom: 26px;
+    display: block; }
+  .offer-viewTotal.offer-final .text-final {
+    font-size: 24px;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: 28px;
+    margin-bottom: 8px;
+    display: block; }
+  .offer-viewTotal.offer-final .dollar {
+    color: #cccccc; }
+    .offer-viewTotal.offer-final .dollar:first-child {
+      margin-bottom: 2px; }
+  .offer-viewTotal.offer-final .col:last-child span.dollar-review {
+    font-size: 16px;
+    color: #CCCCCC;
+    letter-spacing: 0;
+    margin-bottom: 26px;
+    display: block; }
+  .offer-viewTotal.offer-final .col:last-child span.dollar-final {
+    font-size: 24px;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: 28px;
+    display: block; }
+  .offer-viewTotal.offer-final p {
+    color: #cccccc; }
+  .offer-viewTotal.offer-final .col:after {
+    display: block;
+    width: calc(100% - 200px);
+    height: 2px;
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 100px;
+    background: #CCCCCC;
+    margin: 0 auto; }
 
 .offer-viewTotal--date {
   font-weight: bold; }

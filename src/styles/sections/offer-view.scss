@@ -61,6 +61,8 @@
 
 #btn-decline {
   display: none;
+  border-color: #AA5A5A;
+  color: #AA5A5A;
 }
 
 .offer-viewReview {
@@ -68,13 +70,17 @@
   margin: 25px 100px 0;
   border-bottom:1px solid #DDDDDD;
 
-  #review &:first-of-type {
+  ~ .offer-viewReview {
     h2 {
-      color: #999999;
+      color: #333333;
     }
 
     p {
-      color: #DDDDDD;
+      color: #BBBBBB;
+    }
+
+    .dollar {
+      color: #333333;
     }
   }
 
@@ -85,18 +91,22 @@
   h2 {
     margin-top: 0;
     font-size: 20px;
-    color: #333333;
     letter-spacing: 0;
     line-height: 28px;
     margin-bottom: 6px;
+    color: #999999;
   }
 
   p {
     font-size: 15px;
-    color: #BBBBBB;
     line-height: 24px;
     margin: 0;
     font-weight: 300;
+    color: #DDDDDD;
+  }
+
+  .dollar {
+    color: #999999;
   }
 }
 
@@ -104,9 +114,19 @@
   margin-bottom: 0;
   padding: 0 100px;
   margin-top: 25px;
+  position: relative;
 
   .col {
     padding: 0;
+  }
+
+  .col:last-child span {
+    display: block;
+
+    &.dollar-review,
+    &.dollar-final {
+      display: none;
+    }
   }
 
   h2 {
@@ -124,6 +144,79 @@
     line-height: 24px;
     margin: 0;
     font-weight: 300;
+  }
+
+  .text-final,
+  .text-reviewAdjustment {
+    display: none;
+  }
+
+  &.offer-final {
+
+    #text-offer {
+      font-size: 20px;
+      color: #CCCCCC;
+      letter-spacing: 0;
+      line-height: 28px;
+      margin-bottom: 8px;
+    }
+
+    .text-reviewAdjustment {
+      font-size: 16px;
+      color: #CCCCCC;
+      letter-spacing: 0;
+      margin-bottom: 26px;
+      display: block;
+    }
+
+    .text-final {
+      font-size: 24px;
+      color: #333333;
+      letter-spacing: 0;
+      line-height: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .dollar {
+      color: #cccccc;
+
+      &:first-child {
+        margin-bottom: 2px;
+      }
+    }
+
+    .col:last-child span.dollar-review  {
+      font-size: 16px;
+      color: #CCCCCC;
+      letter-spacing: 0;
+      margin-bottom: 26px;
+      display: block;
+    }
+
+    .col:last-child span.dollar-final {
+      font-size: 24px;
+      color: #333333;
+      letter-spacing: 0;
+      line-height: 28px;
+      display: block;
+    }
+
+    p {
+      color: #cccccc;
+    }
+
+    .col:after {
+      display: block;
+      width: calc(100% - 200px);
+      height: 2px;
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 100px;
+      background: #CCCCCC;
+      margin: 0 auto;
+    }
   }
 }
 

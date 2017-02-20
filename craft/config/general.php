@@ -37,4 +37,11 @@ return array(
     'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
   ),
 
+  // Dev site configuration:
+  '128.199.116.0' => array(
+    'localDevelopment' => false,
+    'devMode' => true,
+    'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
+  ),
+
 );

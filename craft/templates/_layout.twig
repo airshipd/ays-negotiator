@@ -66,7 +66,7 @@
   {% if craft.config.localDevelopment %}
     <script id="__bs_script__">document.write("<script async src='{{craft.config.environmentVariables.siteUrl}}:3000/browser-sync/browser-sync-client.js'><\/script>");</script>
     {# Change the next domain to the `External` IP address that is output in terminal when your run `gulp watch` #}
-    <script src="http://192.168.0.5:8080/target/target-script-min.js#browsersync"></script>
+    <script src="http://10.0.64.186:8080/target/target-script-min.js#browsersync"></script>
   {% endif %}
 </body>
 </html>

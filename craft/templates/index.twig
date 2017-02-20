@@ -36,8 +36,8 @@
       <div class="">Status</div>
     </div>
     <div class="z-depth-2">
-      {% for inspection in inspections %}
       <ul class="list-inpsections">
+      {% for inspection in inspections %}
         <li>
           <a href="{{inspection.url}}" class="valign-wrapper">
             <div class="list-item title {% if inspection.inspectionStatus == 'upComing' %}title-upComing{% endif %}">{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} <span>- {{inspection.inspectionLocation}}</span></div>
@@ -45,8 +45,8 @@
             <div class="list-item status-{{ inspection.inspectionStatus|lower }}"><span>{{ inspection.inspectionStatus }}</span></div>
           </a>
         </li>
-      </ul>
       {% endfor %}
+      </ul>
     </div>
 
     {% else %}

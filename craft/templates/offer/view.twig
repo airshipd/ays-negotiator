@@ -41,15 +41,22 @@ $('#form-review').validate({
         data: $(form).serialize(),
         success: function(data) {
 
+            $('.offer-viewTotal').addClass('.offer-final');
+
             $('#processing').show();
             $('#review').addClass('processing');
             $('#reviewModal').modal('close');
             $("html, body").animate({ scrollTop: 0 }, "fast");
+
             setTimeout(function(){
               $('#processing').hide();
               $('#review').removeClass('processing');
-
-
+              $('#btn-reviewModal').hide();
+              $('#btn-decline').css("display","block");
+              $('#text-offer').text('Previous Offer');
+              $('#dollar-review').text(data.reviewAdjustment);
+              $('#dollar-final').text(data.totalOffer);
+              $('.offer-viewTotal').addClass('offer-final');
             }, 8000);
 
         },
@@ -122,17 +129,21 @@ $('.modal').modal({
         <p>Minimum repairs are required in order make the vehicle good for sale.</p>
       </div>
       <div class="col s12 m4 right-align">
-        <span class="dollar">-$15000.00</span>
+        <span class="dollar">- ${{inspection.approximateExpenditure}}</span>
       </div>
     </div>
 
     <div class="offer-viewTotal row">
       <div class="col s12 m8">
-        <h2>Total Offer</h2>
+        <h2 id="text-offer">Total Offer</h2>
+        <p class="text-reviewAdjustment">Review Adjustment</p>
+        <h2 class="text-final">Final Offer</h2>
         <p>Accept this offer today and get paid by<br /><span class="offer-viewTotal--date">{{ tomorrow|date("l") }} {{ tomorrow|date("j") }}{{ tomorrowDayAddition }} {{tomorrow|date("F")}}</span></p>
       </div>
       <div class="col s12 m4 right-align">
         <span class="dollar">$15000.00</span>
+        <span id="dollar-review" class="dollar dollar-review">+ 600.00</span>
+        <span id="dollar-final" class="dollar dollar-final">$120000</span>
       </div>
     </div>
 
@@ -264,7 +275,7 @@ $('.modal').modal({
         </div>
 
         <div class="input-field">
-          <input type="number" name="reviewPrice" id="reviewPrice" value="0.00" step="0.01" required data-rule-min="1" />
+          <input type="number" name="reviewPrice" id="reviewPrice" value="" step="0.01" required data-rule-min="1" />
           <label for="reviewPrice">Expected Price</label>
         </div>
 
