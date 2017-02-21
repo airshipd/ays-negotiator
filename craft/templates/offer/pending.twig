@@ -1,11 +1,24 @@
+{% set entry = craft.entries.id( craft.request.getSegment(2) ).first() %}
+
 {% set pageClass = 'offer-pending' %}
+{% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Offer' %}
+
 {% extends "_layout" %}
+
+{% set timeOutJs %}
+setTimeout(function(){
+  $('.time-remaining').hide();
+  $('.text-offer').show();
+}, (60*(Math.floor(Math.random() * 7) + 2 ))*1000 );
+{% endset %}
+{% includeJs timeOutJs %}
 
 {% block content %}
 
 <div class="offer-container valign-wrapper">
 
   <div class="valign z-depth-1">
+
     <h3>Offer Pending</h3>
 
     <i class="fa fa-clock-o fa-4x"></i>

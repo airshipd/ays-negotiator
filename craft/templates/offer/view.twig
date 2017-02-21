@@ -1,7 +1,8 @@
-{% set pageClass = 'offer-view' %}
-{% extends "_layout" %}
 
 {% set inspection = craft.entries.id( craft.request.getSegment(2) ).first() %}
+{% set pageClass = 'offer-view' %}
+{% set pageTitle = inspection.year ~ ' ' ~ inspection.make ~ ' ' ~ inspection.model ~ ' Offer' %}
+
 {% set tomorrow = now|date_modify("+1 day") %}
 {% set tomorrowDayAddition = 'th' %}
 {% if '1' in tomorrow|date("j")|last %}
@@ -11,6 +12,8 @@
 {% elseif '3' in tomorrow|date("j")|last %}
   {% set tomorrowDayAddition = 'rd' %}
 {% endif %}
+
+{% extends "_layout" %}
 
 {% set sliderJS %}
 var slider = document.getElementById('slider');
@@ -78,6 +81,8 @@ $('.modal').modal({
 {% includeJs sliderJS %}
 
 {% block content %}
+
+  {{ dump( craft.negotiator.getOfferDetailsById( inspection.id ) ) }}
 
   <div id="processing" class="offer-viewProcessing row z-depth-1">
     <div class="col s12 m2 container-icon right-align">

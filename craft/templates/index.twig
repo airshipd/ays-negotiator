@@ -26,7 +26,7 @@
 
   <div class="index-inspection">
 
-    {% set inspections = craft.entries({ section: "inspections" }).order("dateCreated desc") %}
+    {% set inspections = craft.entries({ section: "inspections" }).relatedTo({ element: currentUser, field: 'mechanic' }).order("dateCreated desc") %}
 
     {% if inspections|length %}
 
@@ -50,7 +50,7 @@
     </div>
 
     {% else %}
-    <p>No Inspections are currency assigned to you.</p>
+    <p class="center-align">No Inspections are currency assigned to you.</p>
     {% endif %}
   </div>
 

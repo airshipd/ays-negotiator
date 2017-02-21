@@ -4,6 +4,7 @@
  # A default template for structure sections to extend
  #}
 {% set pageClass = 'inspection-form' %}
+{% set pageTitle = 'Assessment' %}
 {% extends "_layout" %}
 
 {% block content %}
@@ -31,7 +32,8 @@
           </div>
 
           <div class="input-field col s12 m2">
-            <input type="date" class="datepicker" name="fields[buildDate]" placeholder="date" value="{{entry.buildDate}}">
+            <input type="text" id="date" name="fields[buildDate][date]" placeholder="dd/mm/yyyy" value="{{entry.buildDate|date('d/m/Y')}}">
+            <label for="date">Build Date</label>
           </div>
 
           <div class="input-field col s12 m2 offset-m3">
@@ -64,7 +66,12 @@
           </div>
 
           <div class="input-field col s12 m2">
-            <input type="text" id="colour" name="fields[colour]" value="{{entry.colour}}">
+            {# <input type="text" id="colour" name="fields[colour]" value="{{entry.colour}}"> #}
+            <select class="" name="fields[colour]" id="colour">
+              {% for option in craft.fields.getFieldByHandle('colour').settings.options %}
+                <option value="{{option.value}}" {% if entry.colour == option.value %}selected{% endif %} >{{option.label}}</option>
+              {% endfor %}
+            </select>
             <label for="colour">Colour</label>
           </div>
 

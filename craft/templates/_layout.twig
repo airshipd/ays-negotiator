@@ -29,7 +29,7 @@
     <header class="z-depth-2">
       <nav >
         <div class="nav-wrapper">
-          <a href="/" class="brand-logo center">{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</a>
+          <a href="/" class="brand-logo center">{% if pageTitle is defined %}{{ pageTitle }}{% else %}{{ siteName }}{% endif %}</a>
           <ul class="left">
             <li><a href="/"><i class="material-icons">refresh</i></a></li>
           </ul>
