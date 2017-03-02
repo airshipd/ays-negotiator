@@ -506,7 +506,238 @@
 .offer-breakdown--content {
   padding: 16px 27px;
 
-  p {
-
+  h3 {
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
   }
+}
+
+.offer-breakdown--report {
+  margin-bottom:0;
+
+  ul {
+    li {
+      padding-bottom: 5px;
+
+      &:before {
+        display: inline-block;
+        font-size: 10px;
+        color: #565656;
+        margin-right: 7px;
+        font-weight: bold;
+      }
+
+      span {
+        color: white;
+        font-size: 10px;
+        text-align: center;
+        display: inline-block;
+        padding: 5px 8px;
+        border-radius: 100px;
+      }
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .col:first-child {
+    ul {
+      li {
+        &:before {
+          content: '-';
+        }
+
+        span {
+          background: #F42626;
+        }
+      }
+    }
+  }
+
+  .col:last-child {
+    ul {
+      li {
+        &:before {
+          content: '+';
+        }
+
+        span {
+          background: rgba(#7FE136,0.8);
+        }
+      }
+    }
+  }
+}
+
+#slider {
+  position: relative;
+
+  .line {
+    background: #164680;
+    width: 100%;
+    height: 2px;
+    position: relative;
+    margin: 110px 0 65px;
+
+    &:before {
+      position: absolute;
+      top: -4px;
+      left: 0;
+      background: #164680;
+      height: 10px;
+      width:10px;
+      content: '';
+      border-radius: 10px;
+    }
+
+    &:after {
+      position: absolute;
+      top: -4px;
+      right: 0;
+      background: #164680;
+      height: 10px;
+      width:10px;
+      content: '';
+      border-radius: 10px;
+    }
+  }
+
+  .bubble {
+    position: absolute;
+    top: -66px;
+    text-align: center;
+
+    .title  {
+      background: #1C6DCB;
+      color: white;
+      font-size: 12px;
+      border-radius: 10px;
+      padding: 5px 10px;
+      display: block;
+      position: relative;
+      height: 46px;
+
+      &:after {
+        display: block;
+        content: "";
+        background-color: transparent;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 26px solid #1C6DCB;
+        border-radius: 0;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        bottom: -20px;
+      }
+    }
+
+    .dollar {
+      color: #111111;
+      font-size: 12px;
+      font-weight: 500;
+      display: block;
+      top: 72px;
+      position: absolute;
+      width: 100%;
+    }
+
+    &.bubble-1 {
+      left: 25%;
+
+      .title {
+        background: #0E79F7;
+        line-height: 36px;
+        border: 1px solid #0C69D6;
+        padding-left: 30px;
+        padding-right:30px;
+
+        &:after {
+          border-top-color: #0E79F7;
+        }
+      }
+    }
+
+    &.bubble-2 {
+      left: 53%;
+
+      .title {
+        border: 1px solid #1659A7;
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .dollar {
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.noUi-horizontal {
+  margin: 100px 0 50px;
+}
+
+.noUi-horizontal .noUi-handle, .noUi-vertical .noUi-handle {
+  background: transparent;
+}
+
+.noUi-target.noUi-horizontal .noUi-tooltip {
+  background: transparent;
+  transform: rotate(180deg);
+  transform-origin: 0;
+  left: 24px;
+
+  &:after {
+    display: block;
+    content: "";
+    background-color: transparent;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 26px solid #1C6DCB;
+    border-radius: 0;
+  }
+
+  &:before {
+    display: block;
+    content: " hello";
+    background-color: transparent;
+    position: absolute;
+    background: red;
+    transform: rotate(180deg) translate(20%, 0) !important;
+    border-radius: 10px;
+    background: #1C6DCB;
+    padding: 10px;
+    line-height: 20px;
+    font-size: 12px;
+    transform: none;
+  }
+}
+
+
+.noUi-target.noUi-horizontal .noUi-handle[data-handle="1"] .noUi-tooltip:before {
+  content: "what ever";
+}
+
+.noUi-horizontal .noUi-tooltip span {
+    transform: rotate(180deg) translate(20%, 0) !important;
+    border-radius: 10px;
+    display: block;
+    width: 100px;
+    background: #1C6DCB;
+    opacity: 1;
+    padding: 10px;
+    line-height: 20px;
+    font-size: 12px;
+    transform: none;
+    position: absolute;
+    top: 31px;
+    left: -50%;
 }

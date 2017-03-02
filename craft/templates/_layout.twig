@@ -31,7 +31,7 @@
         <div class="nav-wrapper">
           <a href="/" class="brand-logo center">{% if pageTitle is defined %}{{ pageTitle }}{% else %}{{ siteName }}{% endif %}</a>
           <ul class="left">
-            <li><a href="/"><i class="material-icons">refresh</i></a></li>
+            <li><a href="/"><i class="material-icons">view_list</i></a></li>
           </ul>
         </div>
       </nav>
@@ -66,7 +66,7 @@
   {% if craft.config.localDevelopment %}
     <script id="__bs_script__">document.write("<script async src='{{craft.config.environmentVariables.siteUrl}}:3000/browser-sync/browser-sync-client.js'><\/script>");</script>
     {# Change the next domain to the `External` IP address that is output in terminal when your run `gulp watch` #}
-    <script src="http://10.0.64.186:8080/target/target-script-min.js#browsersync"></script>
+    <script src="http://192.168.0.5:8080/target/target-script-min.js#browsersync"></script>
   {% endif %}
 </body>
 </html>

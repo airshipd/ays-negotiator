@@ -1,5 +1,10 @@
 
 {% set inspection = craft.entries.id( craft.request.getSegment(2) ).first() %}
+{% set report = craft.negotiator.getOfferDetailsById( inspection.id ) %}
+{% set total = craft.negotiator.calculateOfferTotalById( inspection.id ) %}
+{% set hasReview = ( inspection.reviewPrice > 0) ? true : false %}
+{% set reviewAdjustment = ( hasReview ) ? inspection.reviewValuation - inspection.onsitePhysicalValuation : 0 %}
+
 {% set pageClass = 'offer-view' %}
 {% set pageTitle = inspection.year ~ ' ' ~ inspection.make ~ ' ' ~ inspection.model ~ ' Offer' %}
 
@@ -16,21 +21,7 @@
 {% extends "_layout" %}
 
 {% set sliderJS %}
-var slider = document.getElementById('slider');
-noUiSlider.create(slider, {
- start: [4000, 20000],
-//  connect: true,
- disabled: true,
- step: 1,
- range: {
-   'min': 2000,
-   'max': 40000
- },
- format: wNumb({
-   prefix: '$ ',
-   decimals: 2
- })
-});
+$('.offer-breakdown .offer-breakdown--wrap').matchHeight();
 
 $('#form-review').validate({
   errorElement: "em",
@@ -43,6 +34,8 @@ $('#form-review').validate({
         url: 'index.php?p=actions/negotiator/inspections/reviewInspection',
         data: $(form).serialize(),
         success: function(data) {
+
+          console.log(data);
 
             $('.offer-viewTotal').addClass('.offer-final');
 
@@ -57,8 +50,8 @@ $('#form-review').validate({
               $('#btn-reviewModal').hide();
               $('#btn-decline').css("display","block");
               $('#text-offer').text('Previous Offer');
-              $('#dollar-review').text(data.reviewAdjustment);
-              $('#dollar-final').text(data.totalOffer);
+              $('#dollar-review').text('+ $' + data.reviewAdjustment);
+              $('#dollar-final').text('$' + data.totalOffer.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') );
               $('.offer-viewTotal').addClass('offer-final');
             }, 8000);
 
@@ -81,8 +74,6 @@ $('.modal').modal({
 {% includeJs sliderJS %}
 
 {% block content %}
-
-  {{ dump( craft.negotiator.getOfferDetailsById( inspection.id ) ) }}
 
   <div id="processing" class="offer-viewProcessing row z-depth-1">
     <div class="col s12 m2 container-icon right-align">
@@ -114,7 +105,7 @@ $('.modal').modal({
         <p>Estimates are based on the average value of your make/model.</p>
       </div>
       <div class="col s12 m4 right-align">
-        <span class="dollar">$15000.00</span>
+        <span class="dollar">${{inspection.telephoneEstimatedValuation|number_format(2, '.', ',')}}</span>
       </div>
     </div>
 
@@ -124,7 +115,7 @@ $('.modal').modal({
         <p>On-site valuation based on various factors.<br /><a href="#valuation">Why is my valuation lower than my estimate?</a></p>
       </div>
       <div class="col s12 m4 right-align">
-        <span class="dollar">$15000.00</span>
+        <span class="dollar">${{inspection.onsitePhysicalValuation|number_format(2, '.', ',')}}</span>
       </div>
     </div>
 
@@ -134,11 +125,11 @@ $('.modal').modal({
         <p>Minimum repairs are required in order make the vehicle good for sale.</p>
       </div>
       <div class="col s12 m4 right-align">
-        <span class="dollar">- ${{inspection.approximateExpenditure}}</span>
+        <span class="dollar">- ${{inspection.approximateExpenditure|number_format(2, '.', ',')}}</span>
       </div>
     </div>
 
-    <div class="offer-viewTotal row">
+    <div class="offer-viewTotal row {{ hasReview ? 'offer-final' : '' }}">
       <div class="col s12 m8">
         <h2 id="text-offer">Total Offer</h2>
         <p class="text-reviewAdjustment">Review Adjustment</p>
@@ -146,20 +137,20 @@ $('.modal').modal({
         <p>Accept this offer today and get paid by<br /><span class="offer-viewTotal--date">{{ tomorrow|date("l") }} {{ tomorrow|date("j") }}{{ tomorrowDayAddition }} {{tomorrow|date("F")}}</span></p>
       </div>
       <div class="col s12 m4 right-align">
-        <span class="dollar">$15000.00</span>
-        <span id="dollar-review" class="dollar dollar-review">+ 600.00</span>
-        <span id="dollar-final" class="dollar dollar-final">$120000</span>
+        <span class="dollar">${{ (inspection.onsitePhysicalValuation - inspection.approximateExpenditure)|number_format(2, '.', ',') }}</span>
+        <span id="dollar-review" class="dollar dollar-review">+ {{reviewAdjustment|number_format(2, '.', ',')}}</span>
+        <span id="dollar-final" class="dollar dollar-final">${{total|number_format(2, '.', ',')}}</span>
       </div>
     </div>
 
     <div class="offer-viewButtons row">
       <div class="col s6">
         <a id="btn-reviewModal" class="btn" href="#reviewModal">Request Review</a>
-        <a id="btn-decline" class="btn" href="#">Decline</a>
+        <a id="btn-decline" class="btn" href="/offer/{{craft.request.getSegment(2)}}/finalise/reject">Decline</a>
       </div>
 
       <div class="col s6">
-        <a class="btn" href="/offer/{{craft.request.getSegment(2)}}/accepted">Accept Offer</a>
+        <a class="btn" href="/offer/{{craft.request.getSegment(2)}}/finalise/accept">Accept Offer</a>
       </div>
     </div>
 
@@ -172,26 +163,30 @@ $('.modal').modal({
     <h3>How your car compares</h3>
     <p>Here you’ll see the average buying price for your vehicle. Our buying consultants model their estimate based on this market data and the information you provide over the phone. Following today’s inspection, we update your car valuation to more accurately represent the overall condition and state of your vehicle - this can be seen on the scale below.</p>
 
-    <div id="slider" disabled="true"></div>
+    <div id="slider">
+      <div class="line"></div>
+      <div class="bubble bubble-1"><span class="title">Your Car</span><span class="dollar">${{total|number_format(0, '.', ',')}}</span></div>
+      <div class="bubble bubble-2"><span class="title">Avg<br />{{inspection.make}} {{inspection.model}}</span><span class="dollar">$10,000</span></div>
+    </div>
 
     <h3>Your car breakdown</h3>
     <p>There are several key considerations that can contribute to your overall valuation. We’ve broken down your valuation into four key groups and assigned a simple letter grading system to make this process easy to understand and quick to read.</p>
 
     <div class="row offer-score">
       <div class="col s6 m3">
-        <div class="score score-b">B</div>
+        <div class="score score-{{report.scoreMake.score|lower}}">{{ report.scoreMake.score }}</div>
         <p>Make & Model</p>
       </div>
       <div class="col s6 m3">
-        <div class="score score-c">C</div>
+        <div class="score score-{{report.scoreCondition.score|lower}}">{{ report.scoreCondition.score }}</div>
         <p>Condition</p>
       </div>
       <div class="col s6 m3">
-        <div class="score score-a">A</div>
+        <div class="score score-{{report.scoreHistory.score|lower}}">{{ report.scoreHistory.score }}</div>
         <p>History</p>
       </div>
       <div class="col s6 m3">
-        <div class="score score-d">D</div>
+        <div class="score score-{{report.scoreExtras.score|lower}}">{{ report.scoreExtras.score }}</div>
         <p>Extras</p>
       </div>
     </div>
@@ -202,32 +197,84 @@ $('.modal').modal({
   <div class="offer-breakdown row">
     <div class="col s12 m6">
       <div class="offer-breakdown--wrap z-depth-1">
-        <div class="offer-breakdown--header score-b">
-          <div class="score">B</div>
+        <div class="offer-breakdown--header score-{{report.scoreMake.score|lower}}">
+          <div class="score">{{report.scoreMake.score}}</div>
           <div class="info">
             <h3>Make & Model</h3>
-            <p>This category has a HIGH variable impact on your final score.</p>
+            <p>This category has a <strong>HIGH</strong> variable impact on your final score.</p>
           </div>
         </div>
         <div class="offer-breakdown--content">
           <p>We check the market to see the demand of your vehicle and determine the overall desirability for purchase.</p>
           <p>Other key considerations in this category can include, but are not limited to - transmission (automatic or manual), badge variant, fuel type, number of seats and year of manufacture.</p>
+          <h3>{{pageTitle}}</h3>
+          <div class="offer-breakdown--report row">
+            <div class="col s12 m6">
+              <ul>
+                {% for key, score in report.scoreMake if score == 0 %}
+                    {% set title = '' %}
+                    {% if key == 'yearCalc' %}{% set title = 'Year' %}{% endif %}
+                    {% if key == 'transmissionCalc' %}{% set title = 'Transmission' %}{% endif %}
+                    {% if key == 'colorCalc' %}{% set title = 'Colour' %}{% endif %}
+                    {% if key == 'fuelCalc' %}{% set title = 'Fuel' %}{% endif %}
+                    {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="col s12 m6">
+              <ul>
+                {% for key, score in report.scoreMake if score == 1 %}
+                    {% set title = '' %}
+                    {% if key == 'yearCalc' %}{% set title = 'Year' %}{% endif %}
+                    {% if key == 'transmissionCalc' %}{% set title = 'Transmission' %}{% endif %}
+                    {% if key == 'colorCalc' %}{% set title = 'Colour' %}{% endif %}
+                    {% if key == 'fuelCalc' %}{% set title = 'Fuel' %}{% endif %}
+                    {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="col s12 m6">
       <div class="offer-breakdown--wrap z-depth-1">
-        <div class="offer-breakdown--header score-a">
-          <div class="score">B</div>
+        <div class="offer-breakdown--header score-{{report.scoreCondition.score|lower}}">
+          <div class="score">{{report.scoreCondition.score}}</div>
           <div class="info">
-            <h3>Make & Model</h3>
-            <p>This category has a HIGH variable impact on your final score.</p>
+            <h3>Condition</h3>
+            <p>This category has a <strong>MEDIUM TO HIGH</strong> variable impact your final score.</p>
           </div>
         </div>
         <div class="offer-breakdown--content">
-          <p>We check the market to see the demand of your vehicle and determine the overall desirability for purchase.</p>
-          <p>Other key considerations in this category can include, but are not limited to - transmission (automatic or manual), badge variant, fuel type, number of seats and year of manufacture.</p>
+          <p>The condition of your vehicle takes into consideration both the exterior (paint, rims, wheels, tyres, windows) and mechanical condition of your engine and transmission.</p>
+          <p>The inspector will also reference the number of kilometers on the odometer and may ask of any known faults to better inform their overall analysis.</p>
+          <h3>{{pageTitle}}</h3>
+          <div class="offer-breakdown--report row">
+            <div class="col s12 m6">
+              <ul>
+                {% for key, score in report.scoreCondition if score == 0 %}
+                    {% set title = '' %}
+                    {% if key == 'odometerCalc' %}{% set title = 'Odometer' %}{% endif %}
+                    {% if key == 'spareKeyCalc' %}{% set title = 'Spare Key' %}{% endif %}
+                    {% if key == 'spendCalc' %}{% set title = 'Expenditure' %}{% endif %}
+                    {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="col s12 m6">
+              <ul>
+                {% for key, score in report.scoreCondition if score == 1 %}
+                    {% set title = '' %}
+                    {% if key == 'odometerCalc' %}{% set title = 'Odometer' %}{% endif %}
+                    {% if key == 'spareKeyCalc' %}{% set title = 'Spare Key' %}{% endif %}
+                    {% if key == 'spendCalc' %}{% set title = 'Expenditure' %}{% endif %}
+                    {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -236,32 +283,82 @@ $('.modal').modal({
   <div class="offer-breakdown row">
     <div class="col s12 m6">
       <div class="offer-breakdown--wrap z-depth-1">
-        <div class="offer-breakdown--header score-c">
-          <div class="score">B</div>
+        <div class="offer-breakdown--header score-{{report.scoreHistory.score|lower}}">
+          <div class="score">{{report.scoreHistory.score}}</div>
           <div class="info">
-            <h3>Make & Model</h3>
-            <p>This category has a HIGH variable impact on your final score.</p>
+            <h3>History</h3>
+            <p>This category has a <strong>VERY HIGH</strong> variable impact on your final score.</p>
           </div>
         </div>
         <div class="offer-breakdown--content">
           <p>The more detailed information you can provide on the history of your vehicle, the better the outcome. It is important proper documentation is provided on the day of inspection to help build a compelling case for the buyer.</p>
           <p>Other key considerations for this category can include, but are not limited to - registration, previous owners and number of accidents (if any).</p>
+          <h3>{{pageTitle}}</h3>
+          <div class="offer-breakdown--report row">
+            <div class="col s12 m6">
+              <ul>
+                {% for key, score in report.scoreHistory if score == 0 %}
+                    {% if key == 'ownerManualCalc' %}{% set title = 'Owners Manual' %}{% endif %}
+                    {% if title is defined %}<li><span>{{title}}</span></li>{% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="col s12 m6">
+              <ul>
+                {% for key, score in report.scoreHistory if score == 1 %}
+                    {% if key == 'ownerManualCalc' %}{% set title = 'Owners Manual' %}{% endif %}
+                    {% if title is defined %}<li><span>{{title}}</span></li>{% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="col s12 m6">
       <div class="offer-breakdown--wrap z-depth-1">
-        <div class="offer-breakdown--header score-d">
-          <div class="score">B</div>
+        <div class="offer-breakdown--header score-{{report.scoreExtras.score|lower}}">
+          <div class="score">{{report.scoreExtras.score}}</div>
           <div class="info">
-            <h3>Make & Model</h3>
-            <p>This category has a HIGH variable impact on your final score.</p>
+            <h3>Extras</h3>
+            <p>This category has a <strong>LOW TO MEDIUM</strong> variable impact on your final score.</p>
           </div>
         </div>
         <div class="offer-breakdown--content">
-          <p>Extras are defined as any factory or non-factory modifications to your vehicle. Factory modifications such as satellite navigation, metallic paint or sport packs will generally result in a higher car score for your vehicle. </p>
+          <p>Extras are defined as any factory or non-factory modifications to your vehicle. Factory modifications such as satellite navigation, metallic paint or sport packs will generally result in a higher car score for your vehicle.</p>
           <p>Non-factory modifications will likely reduce your final score. These modifications can include items such as custom paint jobs, wheels, spoilers and vinyls.</p>
+          <h3>{{pageTitle}}</h3>
+          <div class="offer-breakdown--report row">
+            <div class="col s12 m6">
+              <ul>
+                {% for key, score in report.scoreExtras if score == 0 %}
+                    {% set title = '' %}
+                    {% if key == 'sunRoofCalc' %}{% set title = 'Sun Roof' %}{% endif %}
+                    {% if key == 'satNavCalc' %}{% set title = 'Sat Nav' %}{% endif %}
+                    {% if key == 'tradeExtrasCalc' %}{% set title = 'Trade Extras' %}{% endif %}
+                    {% if key == 'leatherCalc' %}{% set title = 'Leather' %}{% endif %}
+                    {% if key == 'wheelsCalc' %}{% set title = 'Wheels' %}{% endif %}
+                    {% if key == 'upgradesModsCalc' %}{% set title = 'Upgrades & Mods' %}{% endif %}
+                    {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="col s12 m6">
+              <ul>
+                {% for key, score in report.scoreExtras if score == 1 %}
+                    {% set title = '' %}
+                    {% if key == 'sunRoofCalc' %}{% set title = 'Sun Roof' %}{% endif %}
+                    {% if key == 'satNavCalc' %}{% set title = 'Sat Nav' %}{% endif %}
+                    {% if key == 'tradeExtrasCalc' %}{% set title = 'Trade Extras' %}{% endif %}
+                    {% if key == 'leatherCalc' %}{% set title = 'Leather' %}{% endif %}
+                    {% if key == 'wheelsCalc' %}{% set title = 'Wheels' %}{% endif %}
+                    {% if key == 'upgradesModsCalc' %}{% set title = 'Upgrades & Mods' %}{% endif %}
+                    {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -271,23 +368,23 @@ $('.modal').modal({
     <h2>Review Request</h2>
     <p>Tell us why you believe your car should be valued higher and what figure in dollars you were expecting to receive.</p>
     <form action="" method="post" id="form-review">
+      {{ getCsrfInput() }}
       <input type="hidden" name="id" value="{{inspection.id}}">
 
+      <div class="input-field">
+        <textarea name="reviewRequest" id="reviewRequest" class="materialize-textarea" data-length="500" required></textarea>
+        <label for="reviewRequest">Reason For Request</label>
+      </div>
 
-        <div class="input-field">
-          <textarea name="reviewRequest" id="reviewRequest" class="materialize-textarea" data-length="500" required></textarea>
-          <label for="reviewRequest">Reason For Request</label>
-        </div>
+      <div class="input-field">
+        <input type="number" name="reviewPrice" id="reviewPrice" value="" step="0.01" required data-rule-min="1" />
+        <label for="reviewPrice">Expected Price</label>
+      </div>
 
-        <div class="input-field">
-          <input type="number" name="reviewPrice" id="reviewPrice" value="" step="0.01" required data-rule-min="1" />
-          <label for="reviewPrice">Expected Price</label>
-        </div>
-
-        <div class="modal-footer">
-          <button type="submit" class="btn">Submit Request</button>
-          <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
-        </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn">Submit Request</button>
+        <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+      </div>
     </form>
     <a href="#!" class="close modal-action modal-close waves-effect btn-flat"><i class="fa fa-times"></i></a>
   </div>

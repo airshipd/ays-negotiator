@@ -9,4 +9,11 @@ class NegotiatorVariable {
         $assessment = $criteria->first();
         return craft()->negotiator_assessment->calculateOffer( $assessment );
     }
+
+    public function calculateOfferTotalById( $id ) {
+        $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $id;
+        $assessment = $criteria->first();
+        return craft()->negotiator_offer->calculateOfferTotal( $assessment );
+    }
 }

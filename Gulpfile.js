@@ -167,6 +167,7 @@ gulp.task('scripts', function(){
     path.src + '/scripts/vendor/jquery.validate.js',
     path.src + '/scripts/vendor/jquery.jCounter-0.1.4.js',
     path.src + '/scripts/vendor/jquery.inputmask.bundle.js',
+    path.src + '/scripts/vendor/jquery.matchHeight.js',
     path.src + '/scripts/vendor/nouislider.js',
     path.src + '/scripts/main.js',
     ])

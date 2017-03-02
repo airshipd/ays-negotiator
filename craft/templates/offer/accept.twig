@@ -1,0 +1,30 @@
+{% set entry = craft.entries.id( craft.request.getSegment(2) ).first() %}
+
+{% set pageClass = 'offer-accepted' %}
+{% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Offer' %}
+
+{% extends "_layout" %}
+
+{% block content %}
+
+<div class="offer-container valign-wrapper">
+
+  <div class="valign z-depth-1">
+
+    <h3>Offer Accepted</h3>
+
+    <i class="fa fa-check fa-4x"></i>
+
+    <h2>Congratulations</h2>
+    <h4>Here's what will happen next</h4>
+    <ul>
+      <li><span>1</span> Fill out remaining paperwork with the vehicle inspector.</li>
+      <li><span>2</span> You will recieve your money before we collect the vehicle..</li>
+      <li><span>3</span> We come and collect the car - and that’s it!</li>
+    </ul>
+    <h4>Thanks for using Are You Selling!</h4>
+  </div>
+
+</div>
+
+{% endblock %}

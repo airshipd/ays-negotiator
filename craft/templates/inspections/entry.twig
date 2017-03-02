@@ -22,22 +22,20 @@
 
         <h3 class="form-heading">Vehicle Assessment Form</h1>
 
-        {# <pre>{{ dump(entry.getErrors()) }}</pre> #}
-
         <div class="row">
 
           <div class="input-field col s12 m5">
-            <input type="text" id="customerName" name="fields[customerName]" value="{{ entry.customerName }}">
+            <input type="text" id="customerName" name="fields[customerName]" value="{{ entry.customerName }}" required>
             <label for="customerName">Customer Name</label>
           </div>
 
           <div class="input-field col s12 m2">
-            <input type="text" id="date" name="fields[buildDate][date]" placeholder="dd/mm/yyyy" value="{{entry.buildDate|date('d/m/Y')}}">
+            <input type="text" id="date" name="fields[buildDate][date]" placeholder="dd/mm/yyyy" value="{{entry.buildDate|date('d/m/Y')}}" required>
             <label for="date">Build Date</label>
           </div>
 
           <div class="input-field col s12 m2 offset-m3">
-            <input type="text" name="fields[odometer]" id="odometer" value="{{ entry.odometer }}">
+            <input type="text" name="fields[odometer]" id="odometer" value="{{ entry.odometer }}" required>
             <label for="odometer">Odometer</label>
           </div>
 
@@ -46,28 +44,28 @@
         <div class="row">
 
           <div class="input-field col s12 m1">
-            <input type="text" id="year" name="fields[year]" value="{{entry.year}}">
+            <input type="text" id="year" name="fields[year]" value="{{entry.year}}" required>
             <label for="year">Year</label>
           </div>
 
           <div class="input-field col s12 m3">
-            <input type="text" id="make" name="fields[make]" value="{{entry.make}}">
+            <input type="text" id="make" name="fields[make]" value="{{entry.make}}" required>
             <label for="make">Make</label>
           </div>
 
           <div class="input-field col s12 m3">
-            <input type="text" id="model" name="fields[model]" value="{{entry.model}}">
+            <input type="text" id="model" name="fields[model]" value="{{entry.model}}" required>
             <label for="model">Model</label>
           </div>
 
           <div class="input-field col s12 m3">
-            <input type="text" id="body" name="fields[carBody]" value="{{entry.carBody}}">
+            <input type="text" id="body" name="fields[carBody]" value="{{entry.carBody}}" required>
             <label for="carBody">Body</label>
           </div>
 
           <div class="input-field col s12 m2">
             {# <input type="text" id="colour" name="fields[colour]" value="{{entry.colour}}"> #}
-            <select class="" name="fields[colour]" id="colour">
+            <select class="" name="fields[colour]" id="colour" required>
               {% for option in craft.fields.getFieldByHandle('colour').settings.options %}
                 <option value="{{option.value}}" {% if entry.colour == option.value %}selected{% endif %} >{{option.label}}</option>
               {% endfor %}
@@ -80,12 +78,12 @@
         <div class="row">
 
           <div class="input-field col s12 m4">
-            <input type="text" id="engineSize" name="fields[engineSize]" value="{{entry.engineSize}}">
+            <input type="text" id="engineSize" name="fields[engineSize]" value="{{entry.engineSize}}" required>
             <label for="engineSize">Engine Size</label>
           </div>
 
           <div class="input-field col s12 m4">
-            <select class="" name="fields[transmission]" id="transmission">
+            <select class="" name="fields[transmission]" id="transmission" required>
               {% for option in craft.fields.getFieldByHandle('transmission').settings.options %}
                 <option value="{{option.value}}" {% if entry.transmission == option.value %}selected{% endif %} >{{option.label}}</option>
               {% endfor %}
@@ -94,7 +92,7 @@
           </div>
 
           <div class="input-field col s12 m4">
-            <select class="" id="engineType" name="fields[engineType]">
+            <select class="" id="engineType" name="fields[engineType]" required>
               {% for option in craft.fields.getFieldByHandle('engineType').settings.options %}
                 <option value="{{option.value}}" {% if option.default %}selected{% endif %} >{{option.label}}</option>
               {% endfor %}
@@ -107,7 +105,7 @@
         <div class="row">
 
           <div class="input-field col s12 m4">
-            <select class="" id="driveTrain" name="fields[driveTrains]">
+            <select class="" id="driveTrain" name="fields[driveTrains]" required>
               {% for option in craft.fields.getFieldByHandle('driveTrain').settings.options %}
                 <option value="{{option.value}}" {% if option.default %}selected{% endif %} >{{option.label}}</option>
               {% endfor %}
@@ -116,12 +114,12 @@
           </div>
 
           <div class="input-field col s12 m4">
-            <input type="number" id="doors" name="fields[doors]" value="{{entry.doors}}">
+            <input type="number" id="doors" name="fields[doors]" value="{{entry.doors}}" required>
             <label for="doors">Doors</label>
           </div>
 
           <div class="input-field col s12 m4">
-            <input type="number" id="seats" name="fields[seats]" value="{{entry.seats}}">
+            <input type="number" id="seats" name="fields[seats]" value="{{entry.seats}}" required>
             <label for="seats">Seats</label>
           </div>
         </div>
@@ -133,7 +131,7 @@
             <label>Owner's Manual</label>
             <div class="right">
               <div class="radio-inline">
-                <input type="radio" class="with-gap" id="ownersManual1" name="fields[ownersManual]" value="1" {{ entry.ownersManual ? 'checked' : '' }}>
+                <input type="radio" class="with-gap" id="ownersManual1" name="fields[ownersManual]" value="1" {{ entry.ownersManual ? 'checked' : '' }} required>
                 <label for="ownersManual1">Yes</label>
               </div>
               <div class="radio-inline">
@@ -147,7 +145,7 @@
             <label>Spare Key</label>
             <div class="right">
               <div class="radio-inline">
-                <input type="radio" class="with-gap" id="spareKey1" name="fields[spareKey]" value="1" {{ entry.spareKey ? 'checked' : '' }}>
+                <input type="radio" class="with-gap" id="spareKey1" name="fields[spareKey]" value="1" {{ entry.spareKey ? 'checked' : '' }} required>
                 <label for="spareKey1">Yes</label>
               </div>
               <div class="radio-inline">
@@ -164,7 +162,7 @@
             <label>Sun Roof</label>
             <div class="right">
               <div class="radio-inline">
-                <input type="radio" class="with-gap" id="sunRoof1" name="fields[sunroof]" value="1" {{ entry.sunroof ? 'checked' : '' }}>
+                <input type="radio" class="with-gap" id="sunRoof1" name="fields[sunroof]" value="1" {{ entry.sunroof ? 'checked' : '' }} required>
                 <label for="sunRoof1">Yes</label>
               </div>
               <div class="radio-inline">
@@ -178,7 +176,7 @@
             <label>Leather</label>
             <div class="right">
               <div class="radio-inline">
-                <input type="radio" class="with-gap" id="leather1" name="fields[leatherUpholstery]" value="1" {{ entry.leatherUpholstery ? 'checked' : '' }}>
+                <input type="radio" class="with-gap" id="leather1" name="fields[leatherUpholstery]" value="1" {{ entry.leatherUpholstery ? 'checked' : '' }} required>
                 <label for="leather1">Yes</label>
               </div>
               <div class="radio-inline">
@@ -195,7 +193,7 @@
             <label>Sat Nav</label>
             <div class="right">
               <div class="radio-inline">
-                <input type="radio" class="with-gap" id="satNav1" name="fields[satNav]" value="1" {{ entry.satNav ? 'checked' : '' }}>
+                <input type="radio" class="with-gap" id="satNav1" name="fields[satNav]" value="1" {{ entry.satNav ? 'checked' : '' }} required>
                 <label for="satNav1">Yes</label>
               </div>
               <div class="radio-inline">
@@ -209,7 +207,7 @@
             <label>Wheels</label>
             <div class="right">
               <div class="radio-inline">
-                <input type="radio" class="with-gap" id="wheels0" name="fields[wheels]" value="alloys" {{ entry.wheels == 'alloys' ? 'checked' : '' }}>
+                <input type="radio" class="with-gap" id="wheels0" name="fields[wheels]" value="alloys" {{ entry.wheels == 'alloys' ? 'checked' : '' }} required>
                 <label for="wheels0">Alloy</label>
               </div>
               <div class="radio-inline">
@@ -227,7 +225,7 @@
             <label>Tradesman Extras</label>
             <div class="right">
               <div class="radio-inline">
-                <input type="radio" class="with-gap" id="tradesmanExtras1" name="fields[tradesmanExtras]" value="1" {{ entry.tradesmanExtras ? 'checked' : '' }}>
+                <input type="radio" class="with-gap" id="tradesmanExtras1" name="fields[tradesmanExtras]" value="1" {{ entry.tradesmanExtras ? 'checked' : '' }} required>
                 <label for="tradesmanExtras1">Yes</label>
               </div>
               <div class="radio-inline">
@@ -250,7 +248,7 @@
             <label>Upgrades/Mods</label>
             <div class="right">
               <div class="radio-inline">
-                <input type="radio" class="with-gap" id="upgradesMods1" name="fields[upgradesMods]" value="1" {{ entry.upgradesMods ? 'checked' : '' }}>
+                <input type="radio" class="with-gap" id="upgradesMods1" name="fields[upgradesMods]" value="1" {{ entry.upgradesMods ? 'checked' : '' }} required>
                 <label for="upgradesMods1">Yes</label>
               </div>
               <div class="radio-inline">
@@ -273,7 +271,7 @@
             <label>Sports Kit</label>
             <div class="right">
               <div class="radio-inline">
-                <input type="radio" class="with-gap" id="sportsKit1" name="fields[sportsKit]" value="1" {{ entry.sportsKit ? 'checked' : '' }}>
+                <input type="radio" class="with-gap" id="sportsKit1" name="fields[sportsKit]" value="1" {{ entry.sportsKit ? 'checked' : '' }} required>
                 <label for="sportsKit1">Yes</label>
               </div>
               <div class="radio-inline">
@@ -291,13 +289,13 @@
         </div>
 
         <div class="input-field">
-          <textarea name="fields[damageAndFaults]" class="materialize-textarea" id="damageAndFaults" data-length="120">{{entry.damageAndFaults|striptags}}</textarea>
+          <textarea name="fields[damageAndFaults]" class="materialize-textarea" id="damageAndFaults" data-length="120" required>{{entry.damageAndFaults|striptags}}</textarea>
           <label for="damageAndFaults">Damage &amp; Faults</label>
         </div>
 
         <div class="row row-submit">
           <div class="input-field col s12 m8">
-            <input type="number" id="approximateExpenditure" name="fields[approximateExpenditure]" step="0.01" value="{{entry.approximateExpenditure}}">
+            <input type="number" id="approximateExpenditure" name="fields[approximateExpenditure]" step="0.01" value="{{entry.approximateExpenditure}}" required>
             <label for="approximateExpenditure">Total Approximate Expenditure</label>
           </div>
 

@@ -26,7 +26,11 @@
 
   <div class="index-inspection">
 
-    {% set inspections = craft.entries({ section: "inspections" }).relatedTo({ element: currentUser, field: 'mechanic' }).order("dateCreated desc") %}
+    {% if currentUser.admin %}
+      {% set inspections = craft.entries({ section: "inspections" }).order("dateCreated desc") %}
+    {% else %}
+      {% set inspections = craft.entries({ section: "inspections" }).relatedTo({ element: currentUser, field: 'mechanic' }).order("dateCreated desc") %}
+    {% endif %}
 
     {% if inspections|length %}
 
@@ -38,12 +42,12 @@
     <div class="z-depth-2">
       <ul class="list-inpsections">
       {% for inspection in inspections %}
-        <li>
-          <a href="{{inspection.url}}" class="valign-wrapper">
-            <div class="list-item title {% if inspection.inspectionStatus == 'upComing' %}title-upComing{% endif %}">{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} <span>- {{inspection.inspectionLocation}}</span></div>
+        <li class="{{  inspection.inspectionStatus != 'UpComing' ? 'in-active':'' }}">
+          {% if inspection.inspectionStatus == 'UpComing' %}<a href="{{inspection.url}}" class="valign-wrapper">{% endif %}
+            <div class="list-item title {% if inspection.inspectionStatus == 'UpComing' %}title-upComing{% endif %}">{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} <span>- {{inspection.inspectionLocation}}</span></div>
             <div class="list-item date">{{inspection.inspectionDate|date('M d') }}</div>
             <div class="list-item status-{{ inspection.inspectionStatus|lower }}"><span>{{ inspection.inspectionStatus }}</span></div>
-          </a>
+          {% if inspection.inspectionStatus == 'UpComing'  %}</a>{% endif %}
         </li>
       {% endfor %}
       </ul>

@@ -32,6 +32,11 @@
       display: flex;
     }
 
+    &.in-active {
+      display: flex;
+      align-items: center;
+    }
+
     .list-item:first-of-type {
       width: 70%;
     }
@@ -58,6 +63,11 @@
 
     &.title-upComing {
       color: #555555;
+      font-weight: 500;
+
+      span {
+        font-weight: 400;
+      }
     }
   }
 
@@ -69,6 +79,7 @@
   [class*="status-"] {
 
     span {
+      width: 100%;
       text-transform: uppercase;
       border-radius: 12px;
       padding: 6px 10px;

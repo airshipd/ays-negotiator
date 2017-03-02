@@ -1,0 +1,27 @@
+{% set entry = craft.entries.id( craft.request.getSegment(2) ).first() %}
+
+{% set pageClass = 'offer-rejected' %}
+{% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Offer' %}
+
+{% extends "_layout" %}
+
+{% block content %}
+
+<div class="offer-container valign-wrapper">
+
+  <div class="valign z-depth-1">
+
+    <h3>Consultant Pending</h3>
+
+    <i class="fa fa-times fa-4x"></i>
+
+    <h2>We’re sorry we weren’t able to meet your expectations at this stage. </h2>
+
+    <hr>
+
+    <p>Sit tight and one of our consultants will be in touch with you shorltly.</p>
+  </div>
+
+</div>
+
+{% endblock %}
