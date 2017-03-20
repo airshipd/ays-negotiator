@@ -16066,7 +16066,7 @@ n.init = function() {
   });
 
   $(".countdown").jCounter({
-    customDuration: 60*10,
+    customDuration: 60*6,
     callback: function() {
       $('.time-remaining').hide();
       $('.text-offer').show();

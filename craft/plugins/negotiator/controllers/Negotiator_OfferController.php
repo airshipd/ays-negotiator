@@ -20,6 +20,7 @@ class Negotiator_OfferController extends BaseController {
 
     //lets update the inspection
     $inspection->getContent()->inspectionStatus = ( $action == 'accept' ) ? 'Accepted' : 'Rejected';
+    $inspection->getContent()->offerTotal = craft()->negotiator_offer->calculateOfferTotal($inspection);
 
     if ( craft()->entries->saveEntry( $inspection ) ) {
 

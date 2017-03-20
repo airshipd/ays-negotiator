@@ -31,11 +31,9 @@ $('#form-review').validate({
   submitHandler: function(form) {
     $.ajax({
        type: "POST",
-        url: 'index.php?p=actions/negotiator/inspections/reviewInspection',
+        url: '/index.php?p=actions/negotiator/inspections/reviewInspection',
         data: $(form).serialize(),
         success: function(data) {
-
-          console.log(data);
 
             $('.offer-viewTotal').addClass('.offer-final');
 
@@ -53,7 +51,7 @@ $('#form-review').validate({
               $('#dollar-review').text('+ $' + data.reviewAdjustment);
               $('#dollar-final').text('$' + data.totalOffer.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') );
               $('.offer-viewTotal').addClass('offer-final');
-            }, 8000);
+            }, (60*(Math.floor(Math.random() * 5) + 2 )) * 1000 );
 
         },
         error: function(xhr, status, error) {
@@ -93,7 +91,7 @@ $('.modal').modal({
 
     <div class="offer-viewHeading center-align">
       <div class="offer-viewHeading--iconWrap"><span class="offer-viewHeading--icon">$</span></div>
-      <h1>{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} {{inspection.transmission}}</h1>
+      <h1>{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.badge}} {{inspection.transmission}}</h1>
       <p>Offer prepared for {{inspection.customerName}}<br />
         {{ now|date("d/m/y h:m A") }}
       </p>
@@ -166,7 +164,7 @@ $('.modal').modal({
     <div id="slider">
       <div class="line"></div>
       <div class="bubble bubble-1"><span class="title">Your Car</span><span class="dollar">${{total|number_format(0, '.', ',')}}</span></div>
-      <div class="bubble bubble-2"><span class="title">Avg<br />{{inspection.make}} {{inspection.model}}</span><span class="dollar">$10,000</span></div>
+      <div class="bubble bubble-2"><span class="title">Avg<br />{{inspection.make}} {{inspection.model}}</span><span class="dollar">${{inspection.averageTotalForCarType|number_format(0, '.', ',')}}</span></div>
     </div>
 
     <h3>Your car breakdown</h3>

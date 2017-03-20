@@ -397,7 +397,7 @@
 
   .score {
     border-radius: 3px;
-    background-color: grey;
+    background-color: #F23B21;
     font-size: 48px;
     color: rgba(0,0,0,0.69);
     letter-spacing: 0;
@@ -450,6 +450,7 @@
 }
 
 .offer-breakdown--header {
+  background: #F23B21;
 
   &.score-a {
     background-color: #47B831;
@@ -522,7 +523,7 @@
 
       &:before {
         display: inline-block;
-        font-size: 10px;
+        font-size: 15px;
         color: #565656;
         margin-right: 7px;
         font-weight: bold;
