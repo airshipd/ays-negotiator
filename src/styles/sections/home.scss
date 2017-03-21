@@ -6,16 +6,20 @@
   display: flex;
 
   div:first-child {
-    width: 70%;
+    width: 60%;
   }
 
   div:nth-child(2){
-    width: 14%;
+    width: 10%;
+  }
+
+  div:nth-child(3){
+    width: 16%;
+    padding-left: 10px;
   }
 
   div:last-child {
-    width: 16%;
-    padding-left: 10px;
+    width: 14%;
   }
 }
 
@@ -38,15 +42,19 @@
     }
 
     .list-item:first-of-type {
-      width: 70%;
+      width: 60%;
     }
 
     .list-item:nth-child(2) {
-      width: 14%;
+      width: 10%;
+    }
+
+    .list-item:nth-child(3) {
+      width: 16%;
     }
 
     .list-item:last-of-type {
-      width: 16%;
+      width: 14%;
     }
 
     &:last-child {
@@ -103,5 +111,25 @@
   .status-rejected span {
     background: rgba(170,89,89,0.35);
     color: #FFFFFF;
+  }
+
+  .report {
+    text-align: center;
+
+    a {
+      text-decoration: none;
+      display: block;
+      color: #151212;
+      font-weight: 500;
+      font-size: 14px;
+      width: 90%;
+      text-transform: uppercase;
+      border-radius: 12px;
+      padding: 6px 10px;
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.45);
+      font-size: 10px;
+      color: #FFFFFF;
+    }
   }
 }

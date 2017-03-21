@@ -11163,12 +11163,14 @@ main {
   display: -ms-flexbox;
   display: flex; }
   .list-inspectionsTitles div:first-child {
-    width: 70%; }
+    width: 60%; }
   .list-inspectionsTitles div:nth-child(2) {
-    width: 14%; }
-  .list-inspectionsTitles div:last-child {
+    width: 10%; }
+  .list-inspectionsTitles div:nth-child(3) {
     width: 16%;
     padding-left: 10px; }
+  .list-inspectionsTitles div:last-child {
+    width: 14%; }
 
 .list-inpsections {
   margin-top: 0;
@@ -11185,11 +11187,13 @@ main {
       -ms-flex-align: center;
           align-items: center; }
     .list-inpsections li .list-item:first-of-type {
-      width: 70%; }
+      width: 60%; }
     .list-inpsections li .list-item:nth-child(2) {
-      width: 14%; }
-    .list-inpsections li .list-item:last-of-type {
+      width: 10%; }
+    .list-inpsections li .list-item:nth-child(3) {
       width: 16%; }
+    .list-inpsections li .list-item:last-of-type {
+      width: 14%; }
     .list-inpsections li:last-child {
       border-bottom: none; }
   .list-inpsections .title {
@@ -11222,6 +11226,22 @@ main {
   .list-inpsections .status-rejected span {
     background: rgba(170, 89, 89, 0.35);
     color: #FFFFFF; }
+  .list-inpsections .report {
+    text-align: center; }
+    .list-inpsections .report a {
+      text-decoration: none;
+      display: block;
+      color: #151212;
+      font-weight: 500;
+      font-size: 14px;
+      width: 90%;
+      text-transform: uppercase;
+      border-radius: 12px;
+      padding: 6px 10px;
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.45);
+      font-size: 10px;
+      color: #FFFFFF; }
 
 .inspection-form main {
   background: white;

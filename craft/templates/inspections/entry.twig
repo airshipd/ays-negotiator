@@ -94,7 +94,7 @@
           <div class="input-field col s12 m4">
             <select class="" id="engineType" name="fields[engineType]" required>
               {% for option in craft.fields.getFieldByHandle('engineType').settings.options %}
-                <option value="{{option.value}}" {% if option.default %}selected{% endif %} >{{option.label}}</option>
+                <option value="{{option.value}}" {% if entry.engineType == option.value %}selected{% endif %} >{{option.label}}</option>
               {% endfor %}
             </select>
             <label for="engineType">Engine Type</label>
@@ -105,12 +105,12 @@
         <div class="row">
 
           <div class="input-field col s12 m4">
-            <select class="" id="driveTrain" name="fields[driveTrains]" required>
+            <select class="" id="driveTrain" name="fields[driveTrain]" required>
               {% for option in craft.fields.getFieldByHandle('driveTrain').settings.options %}
-                <option value="{{option.value}}" {% if option.default %}selected{% endif %} >{{option.label}}</option>
+                <option value="{{option.value}}" {% if entry.driveTrain == option.value %}selected{% endif %} >{{option.label}}</option>
               {% endfor %}
             </select>
-            <label for="driveTrain">Engine Type</label>
+            <label for="driveTrain">Drive Type</label>
           </div>
 
           <div class="input-field col s12 m4">

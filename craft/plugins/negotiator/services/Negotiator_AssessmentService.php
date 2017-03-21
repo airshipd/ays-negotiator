@@ -140,7 +140,7 @@ class Negotiator_AssessmentService extends BaseApplicationComponent {
                             + ( $tradeExtras * $this->weightLow )
                             + ( $sportsKit * $this->weightHigh )
                             + ( $leather * $this->weightHigh )
-                            + ( $wheels * $this->weightHigh ) ) / 14;
+                            + ( $wheels * $this->weightHigh ) ) / 6;
 
       // if there are upgrades and mods we override the percentage as a 0
       if ( $upgradesMods == 1 ) {

@@ -48,6 +48,9 @@
             <div class="list-item date">{{inspection.inspectionDate|date('M d') }}</div>
             <div class="list-item status-{{ inspection.inspectionStatus|lower }}"><span>{{ inspection.inspectionStatus }}</span></div>
           {% if inspection.inspectionStatus == 'UpComing'  %}</a>{% endif %}
+          {% if inspection.inspectionStatus == 'Rejected' or inspection.inspectionStatus == 'Accepted' %}
+            <div class="list-item report"><a href="/offer/{{inspection.id}}/view">Report</a></div>
+          {% endif %}
         </li>
       {% endfor %}
       </ul>
