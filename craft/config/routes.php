@@ -22,5 +22,6 @@ return array(
 
   'offer/(?P<id>\d+)' => 'offer/pending',
   'offer/(?P<id>\d+)/view' => 'offer/view',
-  'offer/(?P<id>\d+)/finalise/(?P<answer>[^\/]+)' => ['action' => 'negotiator/offer/finalise']
+  'offer/(?P<id>\d+)/finalise/(?P<answer>[^\/]+)' => ['action' => 'negotiator/offer/finalise'],
+  'report/(?P<id>\d+)' => 'report/inspectionReport'
 );

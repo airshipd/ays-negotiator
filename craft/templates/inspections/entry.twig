@@ -64,6 +64,20 @@
           </div>
 
           <div class="input-field col s12 m2">
+            <input type="text" id="series" name="fields[series]" value="{{entry.series}}" required>
+            <label for="series">Series</label>
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="input-field col s12 m2">
+            <input type="text" id="badge" name="fields[badge]" value="{{entry.badge}}" required>
+            <label for="badge">Badge</label>
+          </div>
+
+          <div class="input-field col s12 m2">
             {# <input type="text" id="colour" name="fields[colour]" value="{{entry.colour}}"> #}
             <select class="" name="fields[colour]" id="colour" required>
               {% for option in craft.fields.getFieldByHandle('colour').settings.options %}
@@ -73,16 +87,12 @@
             <label for="colour">Colour</label>
           </div>
 
-        </div>
-
-        <div class="row">
-
-          <div class="input-field col s12 m4">
+          <div class="input-field col s12 m2">
             <input type="text" id="engineSize" name="fields[engineSize]" value="{{entry.engineSize}}" required>
             <label for="engineSize">Engine Size</label>
           </div>
 
-          <div class="input-field col s12 m4">
+          <div class="input-field col s12 m3">
             <select class="" name="fields[transmission]" id="transmission" required>
               {% for option in craft.fields.getFieldByHandle('transmission').settings.options %}
                 <option value="{{option.value}}" {% if entry.transmission == option.value %}selected{% endif %} >{{option.label}}</option>
@@ -91,7 +101,7 @@
             <label for="transmission">Transmission</label>
           </div>
 
-          <div class="input-field col s12 m4">
+          <div class="input-field col s12 m3">
             <select class="" id="engineType" name="fields[engineType]" required>
               {% for option in craft.fields.getFieldByHandle('engineType').settings.options %}
                 <option value="{{option.value}}" {% if entry.engineType == option.value %}selected{% endif %} >{{option.label}}</option>

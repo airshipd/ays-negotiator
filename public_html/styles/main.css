@@ -12094,4 +12094,45 @@ main {
     border-bottom: 0;
     margin: 37px 0; }
 
+.report #page {
+  max-width: none; }
+
+.report .offer-breakdown--header .score {
+  line-height: 44px; }
+
+.report .offer-breakdown--report .col:first-child ul li:before {
+  content: ""; }
+
+.report .offer-breakdown--report ul li:before {
+  display: none; }
+
+.report main > .row {
+  margin-top: 20px; }
+
+.report .form-assessmentTitle {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-size: 26px;
+  text-align: center; }
+
+@media screen and (min-width: 769px) {
+  .report .row > .row > .col:first-child {
+    padding-left: 0; }
+  .report .row > .row > .col:last-child {
+    padding-right: 0; } }
+
+.report-detail--wrap {
+  background: white;
+  padding: 10px; }
+
+.report-detail {
+  margin-bottom: 10px; }
+  .report-detail label {
+    font-size: 1em;
+    display: block; }
+  .report-detail p {
+    margin-top: 0; }
+    .report-detail p:empty {
+      display: none; }
+
 /*# sourceMappingURL=main.css.map */

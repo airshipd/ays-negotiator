@@ -1,0 +1,356 @@
+{% set pageClass = 'report' %}
+{% set pageTitle = 'Report' %}
+
+{% extends "_layout" %}
+
+{% set sliderJS %}
+  $('.offer-breakdown .offer-breakdown--wrap').matchHeight();
+  $('.row .report-detail--wrap').matchHeight();
+{% endset %}
+{% includeJs sliderJS %}
+
+{% block content %}
+  {% set inspection = craft.entries.id( craft.request.getSegment(2) ).first() %}
+  {% set report = craft.negotiator.getOfferDetailsById( craft.request.getSegment(2) ) %}
+  {% set total = craft.negotiator.calculateOfferTotalById( inspection.id ) %}
+
+  <div class="row">
+
+    <div class="row">
+      <div class="col s12 m6 l6">
+        <div class="report-detail--wrap z-depth-1">
+          <h2 class="form-assessmentTitle">Offer</h2>
+          <div class="report-detail">
+            <label>Inspection Status</label> {{inspection.inspectionStatus}}
+          </div>
+          <div class="report-detail">
+            <label>Telephone Estimated Valuation</label> ${{inspection.telephoneEstimatedValuation|number_format(2, '.', ',')}}
+          </div>
+          <div class="report-detail">
+            <label>On-site Physical Valuation</label> ${{inspection.onsitePhysicalValuation|number_format(2, '.', ',')}}
+          </div>
+          <div class="report-detail">
+            <label>Maximum Valuation with Review</label>${{inspection.reviewValuation|number_format(2, '.', ',')}}
+          </div>
+          <div class="report-detail">
+            <label>Minimum Repair Requirement</label> - ${{inspection.approximateExpenditure|number_format(2, '.', ',')}}
+          </div>
+          <div class="report-detail">
+            <label>Total Offered to customer</label> ${{total|number_format(2, '.', ',')}}
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m6 l6">
+        <div class="report-detail--wrap z-depth-1">
+          <h2 class="form-assessmentTitle">Customer Review</h2>
+          <div class="report-detail">
+            <label>Customer Review Request Response</label> <p>{{inspection.reviewRequest}}</p>
+          </div>
+          <div class="report-detail">
+            <label>Customer Review Request Amount</label> ${{inspection.reviewPrice}}
+          </div>
+          <div class="report-detail">
+            <label>Car Slider Valuation shown to customer</label> ${{inspection.averageTotalForCarType}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="report-detail--wrap z-depth-1">
+        <h2 class="form-assessmentTitle">Score Breakdown</h2>
+        <div class="offer-breakdown row">
+
+          <div class="col s12 m6 l3">
+            <div class="offer-breakdown--wrap z-depth-1">
+              <div class="offer-breakdown--header score-{{report.scoreMake.score|lower}}">
+                <div class="score">{{report.scoreMake.score}}</div>
+                <div class="info">
+                  <h3>Make & Model</h3>
+                </div>
+              </div>
+              <div class="offer-breakdown--content">
+                <div class="offer-breakdown--report row">
+                  <div class="col s12 m6">
+                    <ul>
+                      {% for key, score in report.scoreMake if score == 0 %}
+                          {% set title = '' %}
+                          {% if key == 'yearCalc' %}{% set title = 'Year' %}{% endif %}
+                          {% if key == 'transmissionCalc' %}{% set title = 'Transmission' %}{% endif %}
+                          {% if key == 'colorCalc' %}{% set title = 'Colour' %}{% endif %}
+                          {% if key == 'fuelCalc' %}{% set title = 'Fuel' %}{% endif %}
+                          {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <div class="col s12 m6">
+                    <ul>
+                      {% for key, score in report.scoreMake if score == 1 %}
+                          {% set title = '' %}
+                          {% if key == 'yearCalc' %}{% set title = 'Year' %}{% endif %}
+                          {% if key == 'transmissionCalc' %}{% set title = 'Transmission' %}{% endif %}
+                          {% if key == 'colorCalc' %}{% set title = 'Colour' %}{% endif %}
+                          {% if key == 'fuelCalc' %}{% set title = 'Fuel' %}{% endif %}
+                          {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12 m6 l3">
+            <div class="offer-breakdown--wrap z-depth-1">
+              <div class="offer-breakdown--header score-{{report.scoreCondition.score|lower}}">
+                <div class="score">{{report.scoreCondition.score}}</div>
+                <div class="info">
+                  <h3>Condition</h3>
+                </div>
+              </div>
+              <div class="offer-breakdown--content">
+                <div class="offer-breakdown--report row">
+                  <div class="col s12 m6">
+                    <ul>
+                      {% for key, score in report.scoreCondition if score == 0 %}
+                          {% set title = '' %}
+                          {% if key == 'odometerCalc' %}{% set title = 'Odometer' %}{% endif %}
+                          {% if key == 'spareKeyCalc' %}{% set title = 'Spare Key' %}{% endif %}
+                          {% if key == 'spendCalc' %}{% set title = 'Expenditure' %}{% endif %}
+                          {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <div class="col s12 m6">
+                    <ul>
+                      {% for key, score in report.scoreCondition if score == 1 %}
+                          {% set title = '' %}
+                          {% if key == 'odometerCalc' %}{% set title = 'Odometer' %}{% endif %}
+                          {% if key == 'spareKeyCalc' %}{% set title = 'Spare Key' %}{% endif %}
+                          {% if key == 'spendCalc' %}{% set title = 'Expenditure' %}{% endif %}
+                          {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12 m6 l3">
+            <div class="offer-breakdown--wrap z-depth-1">
+              <div class="offer-breakdown--header score-{{report.scoreHistory.score|lower}}">
+                <div class="score">{{report.scoreHistory.score}}</div>
+                <div class="info">
+                  <h3>History</h3>
+                </div>
+              </div>
+              <div class="offer-breakdown--content">
+                <div class="offer-breakdown--report row">
+                  <div class="col s12 m6">
+                    <ul>
+                      {% for key, score in report.scoreHistory if score == 0 %}
+                          {% if key == 'ownerManualCalc' %}{% set title = 'Owners Manual' %}{% endif %}
+                          {% if title is defined %}<li><span>{{title}}</span></li>{% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <div class="col s12 m6">
+                    <ul>
+                      {% for key, score in report.scoreHistory if score == 1 %}
+                          {% if key == 'ownerManualCalc' %}{% set title = 'Owners Manual' %}{% endif %}
+                          {% if title is defined %}<li><span>{{title}}</span></li>{% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12 m6 l3">
+            <div class="offer-breakdown--wrap z-depth-1">
+              <div class="offer-breakdown--header score-{{report.scoreExtras.score|lower}}">
+                <div class="score">{{report.scoreExtras.score}}</div>
+                <div class="info">
+                  <h3>Extras</h3>
+                </div>
+              </div>
+              <div class="offer-breakdown--content">
+                <div class="offer-breakdown--report row">
+                  <div class="col s12 m6">
+                    <ul>
+                      {% for key, score in report.scoreExtras if score == 0 %}
+                          {% set title = '' %}
+                          {% if key == 'sunRoofCalc' %}{% set title = 'Sun Roof' %}{% endif %}
+                          {% if key == 'satNavCalc' %}{% set title = 'Sat Nav' %}{% endif %}
+                          {% if key == 'tradeExtrasCalc' %}{% set title = 'Trade Extras' %}{% endif %}
+                          {% if key == 'leatherCalc' %}{% set title = 'Leather' %}{% endif %}
+                          {% if key == 'wheelsCalc' %}{% set title = 'Wheels' %}{% endif %}
+                          {% if key == 'upgradesModsCalc' %}{% set title = 'Upgrades & Mods' %}{% endif %}
+                          {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <div class="col s12 m6">
+                    <ul>
+                      {% for key, score in report.scoreExtras if score == 1 %}
+                          {% set title = '' %}
+                          {% if key == 'sunRoofCalc' %}{% set title = 'Sun Roof' %}{% endif %}
+                          {% if key == 'satNavCalc' %}{% set title = 'Sat Nav' %}{% endif %}
+                          {% if key == 'tradeExtrasCalc' %}{% set title = 'Trade Extras' %}{% endif %}
+                          {% if key == 'leatherCalc' %}{% set title = 'Leather' %}{% endif %}
+                          {% if key == 'wheelsCalc' %}{% set title = 'Wheels' %}{% endif %}
+                          {% if key == 'upgradesModsCalc' %}{% set title = 'Upgrades & Mods' %}{% endif %}
+                          {% if title|length %}<li><span>{{title}}</span></li>{% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col s12 m6">
+        <div class="report-detail--wrap z-depth-1">
+
+          <h2 class="form-assessmentTitle">Customer and Vehicle Information</h2>
+
+          <div class="report-detail">
+            <label for="customerName">Customer Name</label> {{ inspection.customerName }}
+          </div>
+
+          <div class="report-detail">
+            <label for="date">Build Date</label> {{inspection.buildDate|date('d/m/Y')}}
+          </div>
+
+          <div class="report-detail">
+            <label for="odometer">Odometer</label> {{ inspection.odometer }}
+          </div>
+
+          <div class="report-detail">
+            <label for="year">Year</label> {{inspection.year}}
+          </div>
+
+          <div class="report-detail">
+            <label for="make">Make</label> {{inspection.make}}
+          </div>
+
+          <div class="report-detail">
+            <label for="model">Model</label> {{inspection.model}}
+          </div>
+
+          <div class="report-detail">
+            <label for="carBody">Body</label> {{inspection.carBody}}
+          </div>
+
+          <div class="report-detail">
+            <label for="series">Series</label> {{inspection.series}}
+          </div>
+
+          <div class="report-detail">
+            <label for="badge">Badge</label> {{inspection.badge}}
+          </div>
+
+          <div class="report-detail">
+            <label for="colour">Colour</label> {{ inspection.colour }}
+          </div>
+
+          <div class="report-detail">
+            <label for="engineSize">Engine Size</label> {{inspection.engineSize}}
+          </div>
+
+          <div class="report-detail">
+            <label for="transmission">Transmission</label> {{inspection.transmission}}
+          </div>
+
+          <div class="report-detail">
+            <label for="engineType">Engine Type</label> {{inspection.engineType}}
+          </div>
+
+          <div class="report-detail">
+            <label for="driveTrain">Drive Type</label> {{inspection.driveTrain}}
+          </div>
+
+          <div class="report-detail">
+            <label for="doors">Doors</label> {{inspection.doors}}
+          </div>
+
+          <div class="report-detail">
+            <label for="seats">Seats</label> {{inspection.seats}}
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m6">
+        <div class="report-detail--wrap z-depth-1">
+          <h2 class="form-assessmentTitle">Specific Vehicle Information</h2>
+
+          <div class="report-detail">
+            <label>Service Book</label> {{ inspection.ownersManual ? 'Yes' : 'No' }}
+          </div>
+
+          <div class="report-detail">
+            <label>Spare Key</label> {{ inspection.spareKey ? 'Yes' : 'No' }}
+          </div>
+
+          <div class="report-detail">
+            <label>Sun Roof</label> {{ inspection.sunroof ? 'Yes' : 'No' }}
+          </div>
+
+          <div class="report-detail">
+            <label>Leather</label> {{ inspection.leatherUpholstery ? 'Yes' : 'No' }}
+          </div>
+
+          <div class="report-detail">
+            <label>Sat Nav</label> {{ inspection.satNav ? 'Yes' : 'No' }}
+          </div>
+
+          <div class="report-detail">
+            <label>Wheel type</label> {{ inspection.wheels == 'alloys' ? 'Alloy' }} {{ inspection.wheels == 'hubCaps' ? 'Hub' }}
+          </div>
+
+          <div class="report-detail">
+            <label>Tradesman Extras</label> {{ inspection.tradesmanExtras ? 'Yes' : 'No' }}
+          </div>
+
+          {% if inspection.tradesmanExtrasDescription %}
+          <div class="report-detail">
+            <label>Tradesman Extras Description</label> {{ inspection.tradesmanExtrasDescription }}
+          </div>
+          {% endif %}
+
+          <div class="report-detail">
+            <label>Upgrades/Mods</label> {{ inspection.upgradesMods ? 'Yes' : 'No' }}
+          </div>
+
+          {% if inspection.sportsKitDescription %}
+          <div class="report-detail">
+            <label for="sportsKitDescription">Upgrades/Mods Description</label> {{inspection.sportsKitDescription}}
+          </div>
+          {% endif %}
+
+          <div class="report-detail">
+            <label>Sports Kit</label> {{ inspection.sportsKit ? 'Yes' : 'No' }}
+          </div>
+
+          {% if inspection.upgradesAndModsDescription %}
+          <div class="report-detail">
+            <label for="upgradesAndModsDescription">Specify</label> {{inspection.upgradesAndModsDescription}}
+          </div>
+          {% endif %}
+
+          <div class="report-detail">
+            <label for="damageAndFaults">Damage &amp; Faults</label> <p>{{inspection.damageAndFaults|striptags}}</p>
+          </div>
+        </div>
+      </div>
+  </div>
+{% endblock %}

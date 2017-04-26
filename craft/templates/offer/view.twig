@@ -51,7 +51,7 @@ $('#form-review').validate({
               $('#dollar-review').text('+ $' + data.reviewAdjustment);
               $('#dollar-final').text('$' + data.totalOffer.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') );
               $('.offer-viewTotal').addClass('offer-final');
-            }, (60*(Math.floor(Math.random() * 5) + 2 )) * 1000 );
+            },  120000 );
 
         },
         error: function(xhr, status, error) {
@@ -73,8 +73,6 @@ $('.modal').modal({
 
 {% block content %}
 
-  {{dump(report)}}
-
   <div id="processing" class="offer-viewProcessing row z-depth-1">
     <div class="col s12 m2 container-icon right-align">
       <i class="fa fa-clock-o fa-4x"></i>
@@ -93,7 +91,7 @@ $('.modal').modal({
 
     <div class="offer-viewHeading center-align">
       <div class="offer-viewHeading--iconWrap"><span class="offer-viewHeading--icon">$</span></div>
-      <h1>{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.badge}} {{inspection.transmission}}</h1>
+      <h1>{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.badge}} {{inspection.series}} {{inspection.transmission}}</h1>
       <p>Offer prepared for {{inspection.customerName}}<br />
         {{ now|date("d/m/y h:m A") }}
       </p>
