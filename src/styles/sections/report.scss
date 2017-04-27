@@ -27,7 +27,7 @@
     text-align: center;
   }
 
-  @include at-query($min,$large) {
+  @include at-query($min,$large ) {
 
     .row > .row > .col {
       &:first-child {

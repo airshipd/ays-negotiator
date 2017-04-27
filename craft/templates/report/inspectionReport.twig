@@ -45,6 +45,9 @@
         <div class="report-detail--wrap z-depth-1">
           <h2 class="form-assessmentTitle">Customer Review</h2>
           <div class="report-detail">
+            <label>Did customer request review</label> {{ inspection.reviewPrice is not empty and inspection.reviewPrice != 0 ? 'Yes' : 'No' }}
+          </div>
+          <div class="report-detail">
             <label>Customer Review Request Response</label> <p>{{inspection.reviewRequest}}</p>
           </div>
           <div class="report-detail">
