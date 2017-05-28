@@ -42,6 +42,11 @@ $('#form-review').validate({
             $('#reviewModal').modal('close');
             $("html, body").animate({ scrollTop: 0 }, "fast");
 
+            $(".countdown").jCounter({
+              customDuration: 60*10,
+              fallback: function() { console.log("Counter finished!") }
+            });
+
             setTimeout(function(){
               $('#processing').hide();
               $('#review').removeClass('processing');
@@ -82,7 +87,17 @@ $('.modal').modal({
       <p>We have received your request for review and are re-processing your offer.</p>
     </div>
     <div class="col s12 m3 container-time">
-      <span>10 Mins</span>
+      <div class="time-remaining">
+        <ul class="countdown">
+          <li>
+            <span class="minutes">00</span>
+          </li>
+          <li>
+            <span class="seconds">00</span>
+            <span>Mins</span>
+          </li>
+        </ul>
+      </div>
       <p>Estimate time remaining</p>
     </div>
   </div>

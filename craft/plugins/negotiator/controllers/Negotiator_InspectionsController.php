@@ -38,4 +38,42 @@ class Negotiator_InspectionsController extends BaseController {
     }
   }
 
+  public function actionSavePurchaseHistory() {
+
+    $this->requirePostRequest();
+    $thePost = craft()->request->getPost();
+
+    $isAjax = array_key_exists( 'isAjax', $thePost );
+
+    $criteria = craft()->elements->getCriteria(ElementType::Entry);
+    $criteria->id = $thePost['id'];
+    $assessment = $criteria->first();
+
+    $thePost['hasCarBeenPurchased'] = array_key_exists( 'hasCarBeenPurchased', $thePost ) ? $thePost['hasCarBeenPurchased'] : 0;
+
+    $assessment->getContent()->hasCarBeenPurchased = $thePost['hasCarBeenPurchased'];
+    $assessment->getContent()->purchasePrice = (float) $thePost['purchasePrice'];
+    $success = craft()->entries->saveEntry( $assessment );
+
+    if( $success ) {
+      NegotiatorPlugin::log("Successfully Saved the purchase history for Inspection:".$assessment->id , LogLevel::Info);
+      craft()->userSession->setNotice(Craft::t('Purchased history saved.'));
+      
+      if( $isAjax ) {
+        $this->returnJson( [ "msg"=>"succsss" ] );
+      } else {
+        $this->redirectToPostedUrl();
+      }
+
+    } else {
+      NegotiatorPlugin::log("An issue occured when trying to saved a review for Inspection:".$assessment->id , LogLevel::Info);
+      craft()->userSession->setError(Craft::t('Couldn’t save purchase history.'));
+      if( $isAjax ) {
+        $this->returnErrorJson( [ "msg"=>"failure" ] );
+      } else {
+        $this->redirectToPostedUrl();
+      }
+    }
+  }
+
 }

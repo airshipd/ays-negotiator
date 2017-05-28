@@ -42,13 +42,20 @@
     <div class="z-depth-2">
       <ul class="list-inpsections">
       {% for inspection in inspections %}
-        <li class="{{  inspection.inspectionStatus != 'UpComing' ? 'in-active':'' }}">
-          {% if inspection.inspectionStatus == 'UpComing' %}<a href="{{inspection.url}}" class="valign-wrapper">{% endif %}
-            <div class="list-item title {% if inspection.inspectionStatus == 'UpComing' %}title-upComing{% endif %}">{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} <span>- {{inspection.inspectionLocation}}</span></div>
+
+        {% if inspection.inspectionStatus != 'UpComing' and inspection.inspectionStatus != 'Accepted' %}
+          {% set status = inspection.hasCarBeenPurchased ? 'Accepted' : 'Rejected' %}
+        {% else %}
+          {% set status = inspection.inspectionStatus %}
+        {% endif %}
+
+        <li class="{{  status != 'UpComing' ? 'in-active':'' }}">
+          {% if status == 'UpComing' %}<a href="{{inspection.url}}" class="valign-wrapper">{% endif %}
+            <div class="list-item title {% if status == 'UpComing' %}title-upComing{% endif %}">{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} <span>- {{inspection.inspectionLocation}}</span></div>
             <div class="list-item date">{{inspection.inspectionDate|date('M d') }}</div>
-            <div class="list-item status-{{ inspection.inspectionStatus|lower }}"><span>{{ inspection.inspectionStatus }}</span></div>
-          {% if inspection.inspectionStatus == 'UpComing'  %}</a>{% endif %}
-          {% if inspection.inspectionStatus == 'Rejected' or inspection.inspectionStatus == 'Accepted' %}
+            <div class="list-item status-{{ status|lower }}"><span>{{ status }}</span></div>
+          {% if status == 'UpComing'  %}</a>{% endif %}
+          {% if status == 'Rejected' or status == 'Accepted' %}
             <div class="list-item report"><a href="/report/{{inspection.id}}">Report</a></div>
           {% endif %}
         </li>

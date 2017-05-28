@@ -16064,15 +16064,6 @@ n.init = function() {
     formatSubmit: 'yyyy/mm/dd H:i:s',
     hiddenName: true
   });
-
-  $(".countdown").jCounter({
-    customDuration: 60*6,
-    callback: function() {
-      $('.time-remaining').hide();
-      $('.text-offer').show();
-    }
-  });
-
 }
 
 //main body function go here

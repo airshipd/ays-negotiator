@@ -11155,6 +11155,22 @@ header {
 main {
   margin: 0 40px; }
 
+.purchaseForm {
+  display: block;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  margin-bottom: 10px; }
+
+#purchaseModal .input-field {
+  text-align: left; }
+
+#purchaseModal .input-fieldLast {
+  margin-top: 0px;
+  margin-bottom: 30px; }
+
 .list-inspectionsTitles {
   font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
   font-size: 14px;
@@ -11646,13 +11662,19 @@ main {
       color: #888888;
       line-height: 22px;
       padding-bottom: 38px; }
-  .offer-viewProcessing .container-time span {
-    padding: 34px 0 0px;
+  .offer-viewProcessing .container-time .time-remaining {
+    padding: 34px 0 0;
     font-weight: 300;
     font-size: 30px;
-    color: #111111;
-    display: block;
     text-align: center; }
+    .offer-viewProcessing .container-time .time-remaining ul {
+      margin: 0;
+      padding: 0; }
+      .offer-viewProcessing .container-time .time-remaining ul li {
+        margin: 0;
+        padding: 0;
+        display: inline;
+        text-transform: capitalize; }
   .offer-viewProcessing .container-time p {
     font-weight: 300;
     font-size: 16px;
@@ -11946,7 +11968,7 @@ main {
 
 .offer-rejected .offer-container {
   text-align: center; }
-  .offer-rejected .offer-container .fa {
+  .offer-rejected .offer-container .valign .fa {
     background: #AA5A5A;
     border-radius: 100px;
     color: white;
@@ -12120,6 +12142,19 @@ main {
     padding-left: 0; }
   .report .row > .row > .col:last-child {
     padding-right: 0; } }
+
+.form-isCarBought .alert {
+  text-align: center;
+  background: #e2e2e2;
+  border-radius: 4px;
+  margin-bottom: 22px; }
+
+.form-isCarBought div:nth-last-of-type(2) {
+  margin-bottom: 33px;
+  margin-top: 0; }
+
+.form-isCarBought #purchasePrice {
+  margin-bottom: 10px; }
 
 .report-detail--wrap {
   background: white;

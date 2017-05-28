@@ -17,7 +17,7 @@
   <div class="row">
 
     <div class="row">
-      <div class="col s12 m6 l6">
+      <div class="col s12 m4 l4">
         <div class="report-detail--wrap z-depth-1">
           <h2 class="form-assessmentTitle">Offer</h2>
           <div class="report-detail">
@@ -41,7 +41,7 @@
         </div>
       </div>
 
-      <div class="col s12 m6 l6">
+      <div class="col s12 m4 l4">
         <div class="report-detail--wrap z-depth-1">
           <h2 class="form-assessmentTitle">Customer Review</h2>
           <div class="report-detail">
@@ -56,6 +56,39 @@
           <div class="report-detail">
             <label>Car Slider Valuation shown to customer</label> ${{inspection.averageTotalForCarType}}
           </div>
+        </div>
+      </div>
+
+      <div class="col s12 m4 l4">
+        <div class="report-detail--wrap z-depth-1">
+          <h2 class="form-assessmentTitle">Purchase History</h2>
+
+          <form method="post" action="" class="form-isCarBought" accept-charset="UTF-8"> 
+            {{ getCsrfInput() }}
+            <input type="hidden" name="id" value="{{inspection.id}}">
+            <input type="hidden" name="action" value="negotiator/inspections/savePurchaseHistory">
+            <input type="hidden" name="redirect" value="report/{{inspection.id}}">
+
+            <div class="row">
+              {% set message = craft.session.getFlash('notice') %}
+              {% if message %}<div class="alert">{{message}}</div>{% endif %}
+
+              <div class="input-field col s12">
+                <input type="number" id="purchasePrice" name="purchasePrice" value="{{inspection.purchasePrice}}" step="0.01">
+                <label for="purchasePrice">Car Purchase Price</label>
+              </div>
+
+              <div class="input-field col s12">
+                <input type="checkbox" id="carBought" name="hasCarBeenPurchased" value="1" {%if inspection.hasCarBeenPurchased%}checked="checked"{%endif%}>
+                <label for="carBought">Was Car Bought</label>
+              </div>
+
+              <div class="row">
+                <button type="submit" class="btn left btn-medium waves-effect">Submit</button>
+              </div>
+            </div>
+          </form>
+
         </div>
       </div>
     </div>

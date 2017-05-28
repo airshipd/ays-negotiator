@@ -40,6 +40,26 @@
   }
 }
 
+.form-isCarBought {
+
+    .alert {
+      text-align: center;
+      background: #e2e2e2;
+      border-radius: 4px;
+      margin-bottom: 22px;
+    }
+
+    div:nth-last-of-type(2) {
+      margin-bottom: 33px;
+      margin-top: 0;
+    }
+
+    #purchasePrice {
+      margin-bottom: 10px;
+    }
+    
+  }
+
 .report-detail--wrap {
   background: white;
   padding: 10px;

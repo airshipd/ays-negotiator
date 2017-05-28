@@ -345,14 +345,33 @@
 
   .container-time {
 
-    span {
-      padding: 34px 0 0px;
+    .time-remaining {
+      padding: 34px 0 0;
       font-weight: 300;
       font-size: 30px;
-      color: #111111;
-      display: block;
       text-align: center;
+
+      ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+          margin: 0;
+          padding: 0;
+          display: inline;
+          text-transform:capitalize;
+        }
+      }
     }
+
+    // span {
+    //   padding: 34px 0 0px;
+    //   font-weight: 300;
+    //   font-size: 30px;
+    //   color: #111111;
+    //   display: block;
+    //   text-align: center;
+    // }
 
     p {
       font-weight: 300;

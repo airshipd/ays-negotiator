@@ -10,6 +10,14 @@ setTimeout(function(){
   $('.time-remaining').hide();
   $('.text-offer').show();
 }, 180000);
+
+$(".countdown").jCounter({
+  customDuration: 60*6,
+  callback: function() {
+    $('.time-remaining').hide();
+    $('.text-offer').show();
+  }
+});
 {% endset %}
 {% includeJs timeOutJs %}
 
