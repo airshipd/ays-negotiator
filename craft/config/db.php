@@ -10,8 +10,12 @@
 return array(
 
 	'*' => array(
-		'server' => 'localhost',
 		'tablePrefix' => 'craft',
+		'server' => getenv('DB_HOST'),
+		'port' => getenv('DB_PORT'),
+		'user' => getenv('DB_USER'),
+		'password' => getenv('DB_PASS'),
+		'database' => getenv('DB_NAME')
 	),
 
 	'139.59.111.16' => array (
