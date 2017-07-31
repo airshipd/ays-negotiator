@@ -1,5 +1,5 @@
 {
-  "name": "Coles-Serve-Up",
+  "name": "ays-app",
   "version": "0.1.0",
   "devDependencies": {
     "babel-preset-es2015": "^6.5.0",
