@@ -2,7 +2,7 @@
 lock "3.8.2"
 
 set :application, "ays"
-set :repo_url, "git@git.gooddogdesign.com:gooddog/BA-002-Butler-Armsden-Craft.git"
+set :repo_url, "git@bitbucket.org:airshipd/ays-negotiator.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
