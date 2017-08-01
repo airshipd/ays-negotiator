@@ -11,7 +11,6 @@
 // BASE STYLES
 @import "base/fonts";
 @import "base/variables";
-@import "patterns/animations";
 @import "base/helper";
 @import "base/typography";
 @import "base/forms";
@@ -20,9 +19,11 @@
 @import "base/layout";
 @import "base/components";
 
-// PATTERNS
-@import "patterns/buttons";
-@import "patterns/icons";
+// ELEMENTS
+@import "elements/icons";
+@import "elements/buttons";
+@import "elements/signaturePad";
+
 
 // SECTIONS
 @import "sections/home";
