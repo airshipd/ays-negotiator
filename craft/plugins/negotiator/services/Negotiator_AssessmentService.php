@@ -134,6 +134,7 @@ class Negotiator_AssessmentService extends BaseApplicationComponent {
 
     private function calculateExtras( $sunRoof, $satNav, $tradeExtras, $sportsKit, $leather, $wheels, $upgradesMods ) {
 
+      $wheels = $wheels != '' ? 1 : 0;
       //Add all weighted variables and divide by total points to get the percentage in this case its 6
       $weightedPercentage = ( ( $sunRoof * $this->weightMedium )
                             + ( $satNav * $this->weightMedium )
