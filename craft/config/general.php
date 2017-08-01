@@ -10,7 +10,7 @@
 // Define some constants that let us set up some environment variables:
 // (eg. siteUrl)
 define('URI_SCHEME', (isset($_SERVER['HTTPS'] ) ) ? "https://" : "http://");
-define('SITE_URL',    URI_SCHEME.$_SERVER['SERVER_NAME']);
+define('SITE_URL',    URI_SCHEME.getenv('CRAFT_SITE_URL'));
 
 return array(
 
@@ -23,6 +23,9 @@ return array(
     'logoutPath' => 'logout',
     'userSessionDuration' => 'P2W',
     'localDevelopment' => false,
+    // Base site URL
+    'siteUrl' => SITE_URL,
+    'siteName' => getenv('CRAFT_SITE_NAME'),
     'environmentVariables' => array(
       // siteUrl is set automatically based on server name (see above):
       // Use it to, eg. set assets location: {siteUrl}/assets
