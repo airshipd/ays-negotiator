@@ -81,8 +81,11 @@
     }
   }
 
-  img.signature {
-    display: block;
+  .signature-display {
     width: 50%;
+  }
+  
+  .signature-image {
+    display: block;
   }
 }

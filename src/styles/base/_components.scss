@@ -7,7 +7,7 @@
     text-align: center;
     margin-bottom: 10px;
 }
-    
+
 #purchaseModal {
 
   .input-field {
@@ -18,4 +18,20 @@
     margin-top: 0px;
     margin-bottom: 30px;
   }
+}
+
+.signature-display {
+  display: block;
+  border : none;
+  border-bottom: 1px solid $medium-grey;
+  border-radius: 0;
+  outline: none;
+  height: 3rem;
+  width: 100%;
+}
+
+.signature-image {
+  padding: 0.4rem 0;
+  display: none;
+  height: 100%;
 }

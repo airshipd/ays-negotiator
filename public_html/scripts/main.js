@@ -16676,10 +16676,11 @@ $(function(){
       var signatureClone = jQuery.extend(true, {}, signaturePad);
       // trim white spaces
       signatureClone.removeBlanks();
+      var imageData = signatureClone.toDataURL();
       $('.signature-image')
-        .attr('src',signatureClone.toDataURL())
+        .attr('src',imageData)
         .show();
-      // $('#customer-signature-string').val(signaturePad.toDataURL());
+      $('#customer-signature-string').val(imageData);
     }
   });
 
