@@ -11362,6 +11362,11 @@ main {
   outline: none;
   height: 3rem;
   width: 100%; }
+  .signature-display img {
+    margin: 0.5rem 0;
+    display: none;
+    max-width: 100%;
+    max-height: 100%; }
 
 .login h3 {
   font-weight: 500;

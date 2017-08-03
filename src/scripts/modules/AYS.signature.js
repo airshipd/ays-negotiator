@@ -24,8 +24,13 @@ $(function(){
       // hide signaturePad
       $('#signature-modal').removeClass('md-show');
 
-      signaturePad.removeBlanks();
-      console.log(signaturePad)
+      // clone signaturePad so the canvas is not messed up by the trim if the user decides sign again
+      var signatureClone = jQuery.extend(true, {}, signaturePad);
+      // trim white spaces
+      signatureClone.removeBlanks();
+      $('.signature-image')
+        .attr('src',signatureClone.toDataURL())
+        .show();
       // $('#customer-signature-string').val(signaturePad.toDataURL());
     }
   });
@@ -39,14 +44,13 @@ $(function(){
     signaturePad.clear(); // otherwise isEmpty() might return incorrect value
   }
 
-
-  resizeCanvas();
   $(window).resize(function(){
     resizeCanvas();
   });
 
   // modal
   $('#md-launch').click(function(){
+    resizeCanvas();
     $('#signature-modal').addClass('md-show');
   });
   $('.md-overlay').click(function(){
