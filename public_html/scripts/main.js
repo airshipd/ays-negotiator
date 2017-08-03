@@ -16657,18 +16657,20 @@ $(function(){
   if (!$wrapper) return;
 
   var $clearButton = $wrapper.find("[data-action=clear]");
-  var $savePNGButton = $wrapper.find("[data-action=save-png]"); $wrapper.find("[data-action=save-svg]");
+  var $saveButton = $wrapper.find("[data-action=save-png]"); $wrapper.find("[data-action=save-svg]");
   var canvas = $wrapper.find("canvas")[0];
   var signaturePad = new SignaturePad(canvas);
 
-  $clearButton.on("click", function (event) {
+  $clearButton.click( function (event) {
     signaturePad.clear();
   });
 
-  $savePNGButton.on("click", function (event) {
+  $saveButton.click( function (event) {
     if (signaturePad.isEmpty()) {
       alert("Please provide signature first.");
     } else {
+      $('#signature-modal').removeClass('md-show');
+      $('#customer-signature-string').val(signaturePad.toDataURL());
       console.log(signaturePad.toDataURL());
     }
   });
@@ -16688,6 +16690,13 @@ $(function(){
     resizeCanvas();
   });
 
+  // modal
+  $('#md-launch').click(function(){
+    $('#signature-modal').addClass('md-show');
+  });
+  $('.md-overlay').click(function(){
+    $('#signature-modal').removeClass('md-show');
+  });
 });
 
 'use strict';
