@@ -12235,5 +12235,8 @@ main {
     margin-top: 0; }
     .report-detail p:empty {
       display: none; }
+  .report-detail img.signature {
+    display: block;
+    width: 50%; }
 
 /*# sourceMappingURL=main.css.map */

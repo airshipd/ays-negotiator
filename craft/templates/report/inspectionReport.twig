@@ -63,7 +63,7 @@
         <div class="report-detail--wrap z-depth-1">
           <h2 class="form-assessmentTitle">Purchase History</h2>
 
-          <form method="post" action="" class="form-isCarBought" accept-charset="UTF-8"> 
+          <form method="post" action="" class="form-isCarBought" accept-charset="UTF-8">
             {{ getCsrfInput() }}
             <input type="hidden" name="id" value="{{inspection.id}}">
             <input type="hidden" name="action" value="negotiator/inspections/savePurchaseHistory">
@@ -388,5 +388,14 @@
           </div>
         </div>
       </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 m6">
+      {% include 'report/_partials/financial' %}
+    </div>
+    <div class="col s12 m6">
+      {% include 'report/_partials/legal' %}
+    </div>
   </div>
 {% endblock %}

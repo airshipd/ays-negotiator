@@ -57,7 +57,7 @@
     #purchasePrice {
       margin-bottom: 10px;
     }
-    
+
   }
 
 .report-detail--wrap {
@@ -79,5 +79,10 @@
     &:empty {
       display: none;
     }
+  }
+
+  img.signature {
+    display: block;
+    width: 50%;
   }
 }
