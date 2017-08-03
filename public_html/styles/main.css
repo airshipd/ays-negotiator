@@ -11096,32 +11096,49 @@ p {
   font-size: 12px;
   text-align: center; }
 
-form .row .input-field.col:first-of-type label {
+.form-page form h2 {
+  margin-top: 20px;
+  margin-bottom: 1px;
+  font-size: 20px; }
+
+.form-page form .row {
+  margin-bottom: 0; }
+
+.form-page form .col:first-of-type {
+  padding-left: 0; }
+
+.form-page form .col:last-of-type {
+  padding-right: 0; }
+
+.form-page form .row-submit {
+  padding-top: 45px; }
+
+.form-page form .row .input-field.col:first-of-type label {
   left: 0; }
 
-.row .radio-field {
+.row .form-page form .radio-field {
   margin-top: 23px; }
 
-.radio-field label:first-child {
+.form-page form .radio-field label:first-child {
   display: inline;
   font-size: 16px;
   color: rgba(0, 0, 0, 0.87);
   line-height: 24px; }
 
-.radio-field .radio-inline {
+.form-page form .radio-field .radio-inline {
   display: inline-block; }
-  .radio-field .radio-inline:first-of-type label {
+  .form-page form .radio-field .radio-inline:first-of-type label {
     text-align: left;
     width: 60px; }
-  .radio-field .radio-inline:last-of-type label {
+  .form-page form .radio-field .radio-inline:last-of-type label {
     text-align: left;
     width: 50px; }
 
-.radio-field [type="radio"]:not(:checked) + label,
-.radio-field [type="radio"]:checked + label {
+.form-page form .radio-field [type="radio"]:not(:checked) + label,
+.form-page form .radio-field [type="radio"]:checked + label {
   padding-left: 25px; }
 
-em.error {
+.form-page form em.error {
   position: static;
   display: block;
   margin-bottom: 40px; }
@@ -11152,6 +11169,12 @@ header {
 
 main {
   margin: 0 40px; }
+
+.form-page main {
+  background: white;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); }
 
 .purchaseForm {
   display: block;
@@ -11325,34 +11348,20 @@ main {
       font-size: 10px;
       color: #FFFFFF; }
 
-.inspection-form main {
-  background: white;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); }
-
-.form-assessment .row {
-  margin-bottom: 0; }
-
-.form-assessment .col:first-of-type {
-  padding-left: 0; }
-
-.form-assessment .col:last-of-type {
-  padding-right: 0; }
-
-.form-assessment .row-submit {
-  padding-top: 45px; }
-
 #damageAndFaults {
   margin-bottom: 1px; }
 
 .form-assessmentFlatLine input {
   margin-bottom: 0; }
 
-.form-assessmentTitle {
-  margin-top: 20px;
-  margin-bottom: 1px;
-  font-size: 20px; }
+.signature-display {
+  display: block;
+  border: none;
+  border-bottom: 1px solid #9e9e9e;
+  border-radius: 0;
+  outline: none;
+  height: 3rem;
+  width: 100%; }
 
 .login h3 {
   font-weight: 500;
