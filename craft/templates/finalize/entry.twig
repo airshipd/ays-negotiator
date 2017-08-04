@@ -8,7 +8,7 @@
 {% block content %}
   <div class="row">
 
-    <form method="post" accept-charset="UTF-8" class="form-finalize col s12">
+    <form method="post" accept-charset="UTF-8" class="form-finalize col s12" enctype="multipart/form-data">
       {{ getCsrfInput() }}
 
       <input type="hidden" name="action" value="entries/saveEntry">
@@ -20,6 +20,8 @@
       <h3 class="form-heading">Finalization Form</h1>
 
       {% include '_form/customerAndCar' %}
+
+      {% include '_form/imageUpload' %}
 
       {% include '_form/terms' %}
 
