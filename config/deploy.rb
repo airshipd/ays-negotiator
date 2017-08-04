@@ -24,7 +24,7 @@ set :repo_url, "git@bitbucket.org:airshipd/ays-negotiator.git"
 append :linked_files, ".env"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "craft/storage"
+append :linked_dirs, ["craft/storage", "public_html/uploads"]
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
