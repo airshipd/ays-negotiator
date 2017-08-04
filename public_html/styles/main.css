@@ -11364,11 +11364,16 @@ main {
       font-size: 10px;
       color: #FFFFFF; }
 
-#damageAndFaults {
+.form-assessment #damageAndFaults {
   margin-bottom: 1px; }
 
-.form-assessmentFlatLine input {
+.form-assessment .form-assessmentFlatLine input {
   margin-bottom: 0; }
+
+.form-finalize .row-submit {
+  padding-bottom: 1.5rem; }
+  .form-finalize .row-submit .btn, .form-finalize .row-submit .btn-large {
+    width: 100%; }
 
 .login h3 {
   font-weight: 500;
@@ -12197,6 +12202,12 @@ main {
     border-top: 1px solid rgba(0, 0, 0, 0.12);
     border-bottom: 0;
     margin: 37px 0; }
+
+.report .signature-display {
+  width: 50%; }
+
+.report .signature-image {
+  display: block; }
 
 .report #page {
   max-width: none; }
