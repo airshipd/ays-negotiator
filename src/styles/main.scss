@@ -19,16 +19,12 @@
 @import "base/layout";
 @import "base/components";
 
-// ELEMENTS
-@import "elements/icons";
-@import "elements/buttons";
+// elements
 @import "elements/signaturePad";
-
 
 // SECTIONS
 @import "sections/home";
 @import "sections/assessments";
-@import "sections/finalize";
 @import "sections/login";
 @import "sections/offer-pending";
 @import "sections/offer-view";

@@ -57,7 +57,7 @@
     #purchasePrice {
       margin-bottom: 10px;
     }
-
+    
   }
 
 .report-detail--wrap {
@@ -79,13 +79,5 @@
     &:empty {
       display: none;
     }
-  }
-
-  .signature-display {
-    width: 50%;
-  }
-  
-  .signature-image {
-    display: block;
   }
 }

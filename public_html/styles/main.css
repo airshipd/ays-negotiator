@@ -11096,49 +11096,49 @@ p {
   font-size: 12px;
   text-align: center; }
 
-.form-page form h2 {
+form h2 {
   margin-top: 20px;
   margin-bottom: 1px;
   font-size: 20px; }
 
-.form-page form .row {
+form .row {
   margin-bottom: 0; }
 
-.form-page form .col:first-of-type {
+form .col:first-of-type {
   padding-left: 0; }
 
-.form-page form .col:last-of-type {
+form .col:last-of-type {
   padding-right: 0; }
 
-.form-page form .row-submit {
-  padding-top: 45px; }
-
-.form-page form .row .input-field.col:first-of-type label {
+form .row .input-field.col:first-of-type label {
   left: 0; }
 
-.row .form-page form .radio-field {
+form .row-submit {
+  padding-top: 45px; }
+
+.row .radio-field {
   margin-top: 23px; }
 
-.form-page form .radio-field label:first-child {
+.radio-field label:first-child {
   display: inline;
   font-size: 16px;
   color: rgba(0, 0, 0, 0.87);
   line-height: 24px; }
 
-.form-page form .radio-field .radio-inline {
+.radio-field .radio-inline {
   display: inline-block; }
-  .form-page form .radio-field .radio-inline:first-of-type label {
+  .radio-field .radio-inline:first-of-type label {
     text-align: left;
     width: 60px; }
-  .form-page form .radio-field .radio-inline:last-of-type label {
+  .radio-field .radio-inline:last-of-type label {
     text-align: left;
     width: 50px; }
 
-.form-page form .radio-field [type="radio"]:not(:checked) + label,
-.form-page form .radio-field [type="radio"]:checked + label {
+.radio-field [type="radio"]:not(:checked) + label,
+.radio-field [type="radio"]:checked + label {
   padding-left: 25px; }
 
-.form-page form em.error {
+em.error {
   position: static;
   display: block;
   margin-bottom: 40px; }
@@ -11369,11 +11369,6 @@ main {
 
 .form-assessmentFlatLine input {
   margin-bottom: 0; }
-
-.row-submit {
-  padding-bottom: 2rem; }
-  .row-submit .btn, .row-submit .btn-large {
-    width: 100%; }
 
 .login h3 {
   font-weight: 500;
@@ -12256,9 +12251,5 @@ main {
     margin-top: 0; }
     .report-detail p:empty {
       display: none; }
-  .report-detail .signature-display {
-    width: 50%; }
-  .report-detail .signature-image {
-    display: block; }
 
 /*# sourceMappingURL=main.css.map */
