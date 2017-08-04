@@ -1,14 +1,6 @@
-.signature-display {
-  display: block;
-  border : none;
-  border-bottom: 1px solid $medium-grey;
-  border-radius: 0;
-  outline: none;
-  height: 3rem;
-  width: 100%;
-  img {
-    padding: 0.4rem 0;
-    display: none;
-    height: 100%;
+.row-submit {
+  padding-bottom: 2rem;
+  .btn {
+    width: 100%;
   }
 }

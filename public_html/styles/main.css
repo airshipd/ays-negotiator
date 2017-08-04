@@ -11370,18 +11370,10 @@ main {
 .form-assessmentFlatLine input {
   margin-bottom: 0; }
 
-.signature-display {
-  display: block;
-  border: none;
-  border-bottom: 1px solid #9e9e9e;
-  border-radius: 0;
-  outline: none;
-  height: 3rem;
-  width: 100%; }
-  .signature-display img {
-    padding: 0.4rem 0;
-    display: none;
-    height: 100%; }
+.row-submit {
+  padding-bottom: 2rem; }
+  .row-submit .btn, .row-submit .btn-large {
+    width: 100%; }
 
 .login h3 {
   font-weight: 500;
