@@ -12,6 +12,8 @@
 define('URI_SCHEME', (isset($_SERVER['HTTPS'] ) ) ? "https://" : "http://");
 define('SITE_URL',    URI_SCHEME.getenv('CRAFT_SITE_URL'));
 
+define('BASE_PATH', realpath(CRAFT_BASE_PATH . '/../public_html'));
+
 return array(
 
   // Defaults for all environments:
@@ -29,7 +31,8 @@ return array(
     'environmentVariables' => array(
       // siteUrl is set automatically based on server name (see above):
       // Use it to, eg. set assets location: {siteUrl}/assets
-      'siteUrl' => SITE_URL
+      'siteUrl' => SITE_URL.'/',
+      'basePath' => BASE_PATH.'/'
     ),
   ),
 
