@@ -5,4 +5,17 @@
       width: 100%;
     }
   }
+  .image-upload {
+    margin: 16px 0;
+    .image-upload__trigger,
+    .image-upload__preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        height: 64px;
+        width: 64px;
+      }
+    }
+  }
 }

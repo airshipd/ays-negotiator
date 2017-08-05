@@ -170,7 +170,7 @@ gulp.task('scripts', function(){
     path.src + '/scripts/vendor/jquery.matchHeight.js',
     path.src + '/scripts/vendor/nouislider.js',
     path.src + '/scripts/vendor/signature_pad.js',
-    path.src + '/scripts/modules/AYS.signature.js',
+    path.src + '/scripts/modules/*',
     path.src + '/scripts/main.js',
     ])
       .pipe(plugins.sourcemaps.init())

@@ -11375,6 +11375,21 @@ main {
   .form-finalize .row-submit .btn, .form-finalize .row-submit .btn-large {
     width: 100%; }
 
+.form-finalize .image-upload {
+  margin: 16px 0; }
+  .form-finalize .image-upload .image-upload__trigger,
+  .form-finalize .image-upload .image-upload__preview {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+        align-items: center;
+    -ms-flex-pack: center;
+        justify-content: center; }
+    .form-finalize .image-upload .image-upload__trigger img,
+    .form-finalize .image-upload .image-upload__preview img {
+      height: 64px;
+      width: 64px; }
+
 .login h3 {
   font-weight: 500;
   font-size: 12px;

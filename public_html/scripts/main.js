@@ -16648,6 +16648,40 @@ return SignaturePad;
 
 // *************************************
 //
+//   AYS Image Upload
+//   -> Upload images one at a time
+//
+// *************************************
+$(function(){
+  var $wrapper = $("#image-upload");
+  if (!$wrapper) return;
+  var currentInput = 1;
+  function setPreviewImage(file, inputNumber) {
+    var reader = new FileReader();
+    // read the image file as a data URL.
+    console.log(file)
+    reader.readAsDataURL(file);
+    reader.onload = function (e) {
+      // get loaded data and render thumbnail.
+      $('#preview-image-'+inputNumber)
+        .attr('src', e.target.result)
+        .removeClass('visuallyhidden');
+    };
+  };
+
+  $('#upload-trigger').click(function(){
+    $('#image-upload-'+currentInput).trigger('click');
+  });
+
+  $('.image-upload__input').change(function(){
+    var $this = $(this);
+    setPreviewImage($this[0].files[0],$this.data('inputnumber'));
+    currentInput++;
+  })
+});
+
+// *************************************
+//
 //   AYS Signature
 //   -> Signature capture
 //
@@ -16660,6 +16694,14 @@ $(function(){
   var $saveButton = $wrapper.find("[data-action=save-png]"); $wrapper.find("[data-action=save-svg]");
   var canvas = $wrapper.find("canvas")[0];
   var signaturePad = new SignaturePad(canvas);
+  // function to correctly size canvas
+  function resizeCanvas() {
+    var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    canvas.getContext("2d").scale(ratio, ratio);
+    signaturePad.clear(); // otherwise isEmpty() might return incorrect value
+  }
 
   $clearButton.click( function (event) {
     signaturePad.clear();
@@ -16682,19 +16724,11 @@ $(function(){
         .show();
       $('#customer-signature-string').val(imageData);
     }
-  });
 
-  // to correctly size canvas
-  function resizeCanvas() {
-    var ratio =  Math.max(window.devicePixelRatio || 1, 1);
-    canvas.width = canvas.offsetWidth * ratio;
-    canvas.height = canvas.offsetHeight * ratio;
-    canvas.getContext("2d").scale(ratio, ratio);
-    signaturePad.clear(); // otherwise isEmpty() might return incorrect value
-  }
-
-  $(window).resize(function(){
-    resizeCanvas();
+    $(window).resize(function(){
+      resizeCanvas();
+    });
+    
   });
 
   // modal

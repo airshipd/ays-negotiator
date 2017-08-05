@@ -1,7 +1,16 @@
-<div class="row">
-  <div class="col s12 m6">
-    <input type="file" id="image-upload" name="fields[vehicleImages][]" accept="image/*">
-    <input type="file" id="image-upload-2" name="fields[vehicleImages][]" accept="image/*">
-    <input type="file" id="image-upload-3" name="fields[vehicleImages][]" accept="image/*">
+<h2>Vehicle Images</h2>
+<div class="row image-upload" id="image-upload">
+  <div class="col s12 m2">
+    <div class="image-upload__trigger">
+      <img id="upload-trigger" src="/images/camera.png" alt="">
+    </div>
   </div>
+  {% for i in 1..5 %}
+  <div class="col s12 m2">
+    <div class="image-upload__preview">
+      <img id="preview-image-{{ i }}" src="" alt="image-preview" class="visuallyhidden">
+    </div>
+    <input type="file" class="image-upload__input visuallyhidden" id="image-upload-{{ i }}" data-inputnumber="{{ i }}" name="fields[vehicleImages][]" accept="image/*">
+  </div>
+  {% endfor %}
 </div>
