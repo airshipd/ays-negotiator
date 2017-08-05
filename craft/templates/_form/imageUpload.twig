@@ -8,7 +8,9 @@
   {% for i in 1..5 %}
   <div class="col s12 m2">
     <div class="image-upload__preview">
-      <img id="preview-image-{{ i }}" src="" alt="image-preview" class="visuallyhidden">
+      <div class="image-wrapper">
+        <img id="preview-image-{{ i }}" src="" alt="image-preview" class="visuallyhidden">
+      </div>
     </div>
     <input type="file" class="image-upload__input visuallyhidden" id="image-upload-{{ i }}" data-inputnumber="{{ i }}" name="fields[vehicleImages][]" accept="image/*">
   </div>

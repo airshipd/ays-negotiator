@@ -11377,7 +11377,16 @@ main {
 
 .form-finalize .image-upload {
   margin: 16px 0; }
-  .form-finalize .image-upload .image-upload__trigger,
+  .form-finalize .image-upload .image-upload__trigger {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+        align-items: center;
+    -ms-flex-pack: center;
+        justify-content: center; }
+    .form-finalize .image-upload .image-upload__trigger img {
+      width: 64px;
+      height: 64px; }
   .form-finalize .image-upload .image-upload__preview {
     display: -ms-flexbox;
     display: flex;
@@ -11385,10 +11394,19 @@ main {
         align-items: center;
     -ms-flex-pack: center;
         justify-content: center; }
-    .form-finalize .image-upload .image-upload__trigger img,
-    .form-finalize .image-upload .image-upload__preview img {
+    .form-finalize .image-upload .image-upload__preview .image-wrapper {
+      width: 64px;
       height: 64px;
-      width: 64px; }
+      overflow: hidden;
+      position: relative; }
+      .form-finalize .image-upload .image-upload__preview .image-wrapper img {
+        width: 100%;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0; }
 
 .login h3 {
   font-weight: 500;
