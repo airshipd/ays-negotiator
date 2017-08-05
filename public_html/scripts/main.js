@@ -16655,29 +16655,46 @@ return SignaturePad;
 $(function(){
   var $wrapper = $("#image-upload");
   if (!$wrapper) return;
-  var currentInput = 1;
-  function setPreviewImage(file, inputNumber) {
+
+  var fileCounter = 0;
+
+  function cloneDomTemplate() {
+    return $wrapper.find('#input-template').clone().attr('id','');
+  }
+
+  function setPreviewImage(file, $node) {
     var reader = new FileReader();
     // read the image file as a data URL.
-    console.log(file)
     reader.readAsDataURL(file);
     reader.onload = function (e) {
       // get loaded data and render thumbnail.
-      $('#preview-image-'+inputNumber)
-        .attr('src', e.target.result)
-        .removeClass('visuallyhidden');
+      $node
+        .show()
+        .find('.image-wrapper img').attr('src', e.target.result);
     };
   };
 
-  $('#upload-trigger').click(function(){
-    $('#image-upload-'+currentInput).trigger('click');
+  $(document).on("click",".remove-file",function(){
+    var inputNumber = $(this).data('inputnumber');
+    $('#preview-image-'+inputNumber).attr('src','');
+    $('#image-upload-'+inputNumber).val('');
   });
 
-  $('.image-upload__input').change(function(){
-    var $this = $(this);
-    setPreviewImage($this[0].files[0],$this.data('inputnumber'));
-    currentInput++;
-  })
+  $wrapper.find('#upload-trigger').click(function(){
+    var $node = cloneDomTemplate();
+    $wrapper.append($node);
+    $node.find('.image-upload__input').trigger('click');
+  });
+
+  $(document).on("change",".image-upload__input", function(){
+    var $input = $(this);
+    var $complex = $input.closest('.image-upload__complex');
+    setPreviewImage($input[0].files[0], $complex);
+  });
+
+  $(document).on("click",".image-upload__remove", function() {
+    $(this).closest('.image-upload__complex').remove();
+  });
 });
 
 // *************************************

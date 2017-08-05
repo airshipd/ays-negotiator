@@ -1,18 +1,19 @@
 <h2>Vehicle Images</h2>
 <div class="row image-upload" id="image-upload">
   <div class="col s12 m2">
-    <div class="image-upload__trigger">
-      <img id="upload-trigger" src="/images/camera.png" alt="">
+    <div class="image-upload__trigger ">
+      <i id="upload-trigger" class="material-icons medium">photo_camera</i>
     </div>
   </div>
-  {% for i in 1..5 %}
-  <div class="col s12 m2">
+
+  <!-- used to make clones of input fields via jQuery -->
+  <div class="col s12 m2 image-upload__complex" id="input-template">
     <div class="image-upload__preview">
       <div class="image-wrapper">
-        <img id="preview-image-{{ i }}" src="" alt="image-preview" class="visuallyhidden">
+        <i class="material-icons image-upload__remove">delete_forever</i>
+        <img src="" alt="image-preview">
       </div>
     </div>
-    <input type="file" class="image-upload__input visuallyhidden" id="image-upload-{{ i }}" data-inputnumber="{{ i }}" name="fields[vehicleImages][]" accept="image/*">
+    <input type="file" class="image-upload__input" name="fields[vehicleImages][]" accept="image/*" value="">
   </div>
-  {% endfor %}
 </div>

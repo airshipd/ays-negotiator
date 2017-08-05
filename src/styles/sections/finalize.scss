@@ -11,10 +11,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      img {
-        width: 64px;
-        height: 64px;
+      i {
+        cursor: pointer;
       }
+    }
+    .image-upload__complex {
+      display: none;
+    }
+    .image-upload__input {
+      display: none;
     }
     .image-upload__preview {
       display: flex;
@@ -28,11 +33,19 @@
         img {
           width: 100%;
           position: absolute;
+          z-index: 1;
           margin: auto;
           top: 0;
           bottom: 0;
           left: 0;
           right: 0;
+        }
+        .image-upload__remove {
+          cursor: pointer;
+          position: absolute;
+          z-index: 2;
+          right: -2px;
+          top: -2px;
         }
       }
     }
