@@ -15,8 +15,9 @@
         cursor: pointer;
       }
     }
-    .image-upload__complex {
+    .col.image-upload__complex {
       display: none;
+      padding: 0;
     }
     .image-upload__input {
       display: none;

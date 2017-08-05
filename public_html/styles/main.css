@@ -11394,8 +11394,9 @@ main {
         justify-content: center; }
     .form-finalize .image-upload .image-upload__trigger i {
       cursor: pointer; }
-  .form-finalize .image-upload .image-upload__complex {
-    display: none; }
+  .form-finalize .image-upload .col.image-upload__complex {
+    display: none;
+    padding: 0; }
   .form-finalize .image-upload .image-upload__input {
     display: none; }
   .form-finalize .image-upload .image-upload__preview {
