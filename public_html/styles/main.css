@@ -11206,10 +11206,18 @@ main {
   display: none;
   height: 100%; }
 
+.close-btn {
+  cursor: pointer; }
+
 .signature-pad {
   width: 100%;
   height: 100%;
-  padding: 32px; }
+  padding: 32px;
+  position: relative; }
+  .signature-pad .close-btn {
+    position: absolute;
+    right: 4px;
+    top: 4px; }
   .signature-pad .signature-pad__body {
     width: 100%;
     min-height: 200px;

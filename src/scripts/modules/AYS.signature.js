@@ -21,6 +21,13 @@ $(function(){
     signaturePad.clear(); // otherwise isEmpty() might return incorrect value
   }
 
+  function openModal() {
+    $('#signature-modal').addClass('md-show');
+  }
+  function closeModal() {
+    $('#signature-modal').removeClass('md-show');
+  }
+
   $clearButton.click( function (event) {
     signaturePad.clear();
   });
@@ -46,16 +53,19 @@ $(function(){
     $(window).resize(function(){
       resizeCanvas();
     });
-    
+
   });
 
   // modal
   $('#md-launch').click(function(){
     resizeCanvas();
-    $('#signature-modal').addClass('md-show');
+    openModal();
   });
   $('.md-overlay').click(function(){
-    $('#signature-modal').removeClass('md-show');
+    closeModal();
+  });
+  $('#close-modal').click(function() {
+    closeModal();
   });
 });
 
