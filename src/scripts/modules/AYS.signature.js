@@ -12,6 +12,8 @@ $(function(){
   var $saveButton = $wrapper.find("[data-action=save-png]"); $wrapper.find("[data-action=save-svg]");
   var canvas = $wrapper.find("canvas")[0];
   var signaturePad = new SignaturePad(canvas);
+  var currentSignatureTarget = '';
+
   // function to correctly size canvas
   function resizeCanvas() {
     var ratio =  Math.max(window.devicePixelRatio || 1, 1);
@@ -44,10 +46,10 @@ $(function(){
       // trim white spaces
       signatureClone.removeBlanks();
       var imageData = signatureClone.toDataURL();
-      $('.signature-image')
+      $('#'+currentSignatureTarget+'-signature-image')
         .attr('src',imageData)
         .show();
-      $('#customer-signature-string').val(imageData);
+      $('#'+currentSignatureTarget+'-signature-string').val(imageData);
     }
 
     $(window).resize(function(){
@@ -57,7 +59,9 @@ $(function(){
   });
 
   // modal
-  $('#md-launch').click(function(){
+  $('.md-launch').click(function(){
+    currentSignatureTarget = $(this).data('target');
+    console.log(currentSignatureTarget)
     resizeCanvas();
     openModal();
   });
