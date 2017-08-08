@@ -4,6 +4,7 @@
 {% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Finalize' %}
 
 {% extends "_layout" %}
+{% import "_form/macros" as _formMacros %}
 
 {% block content %}
 <form method="post" accept-charset="UTF-8" class="form-finalize col s12" enctype="multipart/form-data">
@@ -21,6 +22,7 @@
       <h2>Customer & Car Details</h2>
       {% include '_form/customerDetails' %}
       {% include '_form/carDetails' %}
+      {% include '_form/carRegistration' %}
       {% include '_form/imageUpload' %}
   </div>
 

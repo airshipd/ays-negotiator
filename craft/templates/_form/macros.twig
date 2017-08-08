@@ -1,0 +1,12 @@
+{% macro textInput(entry, field, label) %}
+  {% set label = label|default(field)|title %}
+  <input type="text" id="{{ field }}" name="fields[{{ field }}]" value="{{ attribute(entry, field) }}" required>
+  <label for="{{ field }}">{{ label }}</label>
+{% endmacro %}
+
+
+{% macro dateInput(entry, field, label) %}
+  {% set label = label|default(field)|title %}
+  <input type="text" id="{{ field }}" name="fields[{{ field }}][date]" placeholder="dd/mm/yyyy" value="{{ attribute(entry, field)|date('d/m/Y') }}" required>
+  <label for="{{ field }}">{{ label }}</label>
+{% endmacro %}
