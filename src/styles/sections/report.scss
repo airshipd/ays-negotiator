@@ -3,9 +3,16 @@
   .signature-display {
     width: 50%;
   }
-  
+
   .signature-image {
     display: block;
+  }
+
+  .vehicle-images {
+    margin-top: 35px;
+    img {
+      width: 100%;
+    }
   }
 
   #page {

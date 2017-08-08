@@ -12264,6 +12264,11 @@ main {
 .report .signature-image {
   display: block; }
 
+.report .vehicle-images {
+  margin-top: 35px; }
+  .report .vehicle-images img {
+    width: 100%; }
+
 .report #page {
   max-width: none; }
 
