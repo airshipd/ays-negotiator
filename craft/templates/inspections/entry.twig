@@ -9,9 +9,8 @@
 
 {% block content %}
 
+  <form method="post" accept-charset="UTF-8" class="form-assessment">
     <div class="row">
-
-      <form method="post" accept-charset="UTF-8" class="form-assessment col s12">
         {{ getCsrfInput() }}
 
         <input type="hidden" name="action" value="entries/saveEntry">
@@ -39,8 +38,7 @@
           </div>
         </div>
 
-      </form>
 
     </div>
-
+  </form>
 {% endblock %}

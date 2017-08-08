@@ -6,35 +6,36 @@
 {% extends "_layout" %}
 
 {% block content %}
+<form method="post" accept-charset="UTF-8" class="form-finalize col s12" enctype="multipart/form-data">
+  {{ getCsrfInput() }}
+
+  <input type="hidden" name="action" value="entries/saveEntry">
+  <input type="hidden" name="redirect" value="/">
+  <input type="hidden" name="sectionId" value="{{ entry.sectionId }}">
+  <input type="hidden" name="entryId" value="{{ entry.id }}">
+  <input type="hidden" name="enabled" value="1">
+
   <div class="row">
-
-    <form method="post" accept-charset="UTF-8" class="form-finalize col s12" enctype="multipart/form-data">
-      {{ getCsrfInput() }}
-
-      <input type="hidden" name="action" value="entries/saveEntry">
-      <input type="hidden" name="redirect" value="/">
-      <input type="hidden" name="sectionId" value="{{ entry.sectionId }}">
-      <input type="hidden" name="entryId" value="{{ entry.id }}">
-      <input type="hidden" name="enabled" value="1">
-
       <h3 class="form-heading">Finalization Form</h1>
 
       {% include '_form/customerAndCar' %}
 
       {% include '_form/imageUpload' %}
-
-      {% include '_form/terms' %}
-
-      <div class="row row-submit">
-        <div class="col s12 m4 offset-m4">
-            <button type="submit" class="btn btn-large waves-effect">Submit</button>
-        </div>
-      </div>
-
-    </form>
-
   </div>
 
+  <div class="row">
+    {% include '_form/terms' %}
+  </div>
+
+  <div class="row">
+    <div class="row row-submit">
+      <div class="col s12 m4 offset-m4">
+          <button type="submit" class="btn btn-large waves-effect">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  </form>
   {% include '_partials/signaturePad' %}
 
 {% endblock %}

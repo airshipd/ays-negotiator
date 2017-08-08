@@ -1,108 +1,111 @@
 <h2>Customer & Car Details</h2>
-<div class="input-field col s12 m5">
-  <input type="text" id="customerName" name="fields[customerName]" value="{{ entry.customerName }}" required>
-  <label for="customerName">Customer Name</label>
+<div class="row">
+  <div class="input-field col s12 m5">
+    <input type="text" id="customerName" name="fields[customerName]" value="{{ entry.customerName }}" required>
+    <label for="customerName">Customer Name</label>
+  </div>
+  
+  <div class="input-field col s12 m2">
+    <input type="text" id="date" name="fields[buildDate][date]" placeholder="dd/mm/yyyy" value="{{entry.buildDate|date('d/m/Y')}}" required>
+    <label for="date">Build Date</label>
+  </div>
+
+  <div class="input-field col s12 m2 offset-m3">
+    <input type="text" name="fields[odometer]" id="odometer" value="{{ entry.odometer }}" required>
+    <label for="odometer">Odometer</label>
+  </div>
 </div>
 
-<div class="input-field col s12 m2">
-  <input type="text" id="date" name="fields[buildDate][date]" placeholder="dd/mm/yyyy" value="{{entry.buildDate|date('d/m/Y')}}" required>
-  <label for="date">Build Date</label>
-</div>
 
-<div class="input-field col s12 m2 offset-m3">
-  <input type="text" name="fields[odometer]" id="odometer" value="{{ entry.odometer }}" required>
-  <label for="odometer">Odometer</label>
+<div class="row">
+
+  <div class="input-field col s12 m1">
+    <input type="text" id="year" name="fields[year]" value="{{entry.year}}" required>
+    <label for="year">Year</label>
+  </div>
+
+  <div class="input-field col s12 m3">
+    <input type="text" id="make" name="fields[make]" value="{{entry.make}}" required>
+    <label for="make">Make</label>
+  </div>
+
+  <div class="input-field col s12 m3">
+    <input type="text" id="model" name="fields[model]" value="{{entry.model}}" required>
+    <label for="model">Model</label>
+  </div>
+
+  <div class="input-field col s12 m3">
+    <input type="text" id="body" name="fields[carBody]" value="{{entry.carBody}}" required>
+    <label for="carBody">Body</label>
+  </div>
+
+  <div class="input-field col s12 m2">
+    <input type="text" id="series" name="fields[series]" value="{{entry.series}}" required>
+    <label for="series">Series</label>
+  </div>
+
 </div>
 
 <div class="row">
 
-<div class="input-field col s12 m1">
-  <input type="text" id="year" name="fields[year]" value="{{entry.year}}" required>
-  <label for="year">Year</label>
-</div>
+  <div class="input-field col s12 m2">
+    <input type="text" id="badge" name="fields[badge]" value="{{entry.badge}}" required>
+    <label for="badge">Badge</label>
+  </div>
 
-<div class="input-field col s12 m3">
-  <input type="text" id="make" name="fields[make]" value="{{entry.make}}" required>
-  <label for="make">Make</label>
-</div>
-
-<div class="input-field col s12 m3">
-  <input type="text" id="model" name="fields[model]" value="{{entry.model}}" required>
-  <label for="model">Model</label>
-</div>
-
-<div class="input-field col s12 m3">
-  <input type="text" id="body" name="fields[carBody]" value="{{entry.carBody}}" required>
-  <label for="carBody">Body</label>
-</div>
-
-<div class="input-field col s12 m2">
-  <input type="text" id="series" name="fields[series]" value="{{entry.series}}" required>
-  <label for="series">Series</label>
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="input-field col s12 m2">
-  <input type="text" id="badge" name="fields[badge]" value="{{entry.badge}}" required>
-  <label for="badge">Badge</label>
-</div>
-
-<div class="input-field col s12 m2">
-  {# <input type="text" id="colour" name="fields[colour]" value="{{entry.colour}}"> #}
-  <select class="" name="fields[colour]" id="colour" required>
-    {% for option in craft.fields.getFieldByHandle('colour').settings.options %}
+  <div class="input-field col s12 m2">
+    {# <input type="text" id="colour" name="fields[colour]" value="{{entry.colour}}"> #}
+    <select class="" name="fields[colour]" id="colour" required>
+      {% for option in craft.fields.getFieldByHandle('colour').settings.options %}
       <option value="{{option.value}}" {% if entry.colour == option.value %}selected{% endif %} >{{option.label}}</option>
-    {% endfor %}
-  </select>
-  <label for="colour">Colour</label>
-</div>
+      {% endfor %}
+    </select>
+    <label for="colour">Colour</label>
+  </div>
 
-<div class="input-field col s12 m2">
-  <input type="text" id="engineSize" name="fields[engineSize]" value="{{entry.engineSize}}" required>
-  <label for="engineSize">Engine Size</label>
-</div>
+  <div class="input-field col s12 m2">
+    <input type="text" id="engineSize" name="fields[engineSize]" value="{{entry.engineSize}}" required>
+    <label for="engineSize">Engine Size</label>
+  </div>
 
-<div class="input-field col s12 m3">
-  <select class="" name="fields[transmission]" id="transmission" required>
-    {% for option in craft.fields.getFieldByHandle('transmission').settings.options %}
+  <div class="input-field col s12 m3">
+    <select class="" name="fields[transmission]" id="transmission" required>
+      {% for option in craft.fields.getFieldByHandle('transmission').settings.options %}
       <option value="{{option.value}}" {% if entry.transmission == option.value %}selected{% endif %} >{{option.label}}</option>
-    {% endfor %}
-  </select>
-  <label for="transmission">Transmission</label>
-</div>
+      {% endfor %}
+    </select>
+    <label for="transmission">Transmission</label>
+  </div>
 
-<div class="input-field col s12 m3">
-  <select class="" id="engineType" name="fields[engineType]" required>
-    {% for option in craft.fields.getFieldByHandle('engineType').settings.options %}
+  <div class="input-field col s12 m3">
+    <select class="" id="engineType" name="fields[engineType]" required>
+      {% for option in craft.fields.getFieldByHandle('engineType').settings.options %}
       <option value="{{option.value}}" {% if entry.engineType == option.value %}selected{% endif %} >{{option.label}}</option>
-    {% endfor %}
-  </select>
-  <label for="engineType">Engine Type</label>
-</div>
+      {% endfor %}
+    </select>
+    <label for="engineType">Engine Type</label>
+  </div>
 
 </div>
 
 <div class="row">
 
-<div class="input-field col s12 m4">
-  <select class="" id="driveTrain" name="fields[driveTrain]" required>
-    {% for option in craft.fields.getFieldByHandle('driveTrain').settings.options %}
+  <div class="input-field col s12 m4">
+    <select class="" id="driveTrain" name="fields[driveTrain]" required>
+      {% for option in craft.fields.getFieldByHandle('driveTrain').settings.options %}
       <option value="{{option.value}}" {% if entry.driveTrain == option.value %}selected{% endif %} >{{option.label}}</option>
-    {% endfor %}
-  </select>
-  <label for="driveTrain">Drive Type</label>
-</div>
+      {% endfor %}
+    </select>
+    <label for="driveTrain">Drive Type</label>
+  </div>
 
-<div class="input-field col s12 m4">
-  <input type="number" id="doors" name="fields[doors]" value="{{entry.doors}}" required>
-  <label for="doors">Doors</label>
-</div>
+  <div class="input-field col s12 m4">
+    <input type="number" id="doors" name="fields[doors]" value="{{entry.doors}}" required>
+    <label for="doors">Doors</label>
+  </div>
 
-<div class="input-field col s12 m4">
-  <input type="number" id="seats" name="fields[seats]" value="{{entry.seats}}" required>
-  <label for="seats">Seats</label>
-</div>
+  <div class="input-field col s12 m4">
+    <input type="number" id="seats" name="fields[seats]" value="{{entry.seats}}" required>
+    <label for="seats">Seats</label>
+  </div>
 </div>
