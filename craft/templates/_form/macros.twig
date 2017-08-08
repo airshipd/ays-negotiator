@@ -10,3 +10,18 @@
   <input type="text" id="{{ field }}" name="fields[{{ field }}][date]" placeholder="dd/mm/yyyy" value="{{ attribute(entry, field)|date('d/m/Y') }}" required>
   <label for="{{ field }}">{{ label }}</label>
 {% endmacro %}
+
+{% macro radioInput(entry, field, label) %}
+  {% set label = label|default(field)|title %}
+  <label>{{ label }}</label>
+  <div class="right">
+    <div class="radio-inline">
+      <input type="radio" class="with-gap" id="{{ field }}1" name="fields[{{ field }}]" value="1" {{ attribute(entry, field) ? 'checked' : '' }} required>
+      <label for="{{ field }}1">Yes</label>
+    </div>
+    <div class="radio-inline">
+      <input type="radio" class="with-gap" id="{{ field }}0" name="fields[{{ field }}]" value="0" {{ not attribute(entry, field) ? 'checked' : '' }}>
+      <label for="{{ field }}0">No</label>
+    </div>
+  </div>
+{% endmacro %}
