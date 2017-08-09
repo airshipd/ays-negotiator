@@ -1,3 +1,39 @@
-<div class="radio-field col s12 m6">
-  {{ _formMacros.radioInput(entry, 'finance') }}
+<div class="row">
+  <div class="radio-field col s12 m6">
+    {{ _formMacros.radioInput(entry, 'finance') }}
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="input-field col s12">
+    {{ _formMacros.textInput(entry, 'financeCompany', 'If yes, which company') }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="radio-field col s12 m6">
+    {{ _formMacros.radioInput(entry, 'writeOff', 'Write Off') }}
+  </div>
+  <div class="radio-field col s12 m6">
+    {{ _formMacros.radioInput(entry, 'serviceBooks', 'Service Books') }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="radio-field col s12 m9">
+    {{ _formMacros.radioInput(entry, 'registrationPapers', 'Registration Papers') }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="input-field col s12 m6 offset-m3">
+    {{ _formMacros.textInput(entry, 'agreedPrice', 'Agreed Price') }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="radio-field col s12">
+    {{ _formMacros.radioInput(entry, 'customerReceivedContract', 'Has the customer received a copy of this contract?') }}
+  </div>
 </div>

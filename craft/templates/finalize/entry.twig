@@ -16,9 +16,7 @@
   <input type="hidden" name="entryId" value="{{ entry.id }}">
   <input type="hidden" name="enabled" value="1">
 
-  <div class="row">
-      <h3 class="form-heading">Finalization Form</h1>
-
+  <div class="row customer-and-car">
       <h2>Customer & Car Details</h2>
       {% include '_form/customerDetails' %}
       {% include '_form/carDetails' %}
@@ -26,11 +24,11 @@
       {% include '_form/imageUpload' %}
   </div>
 
-  <div class="row">
+  <div class="row finance">
     {% include '_form/finance' %}
   </div>
 
-  <div class="row">
+  <div class="row terms">
     {% include '_form/terms' %}
   </div>
 

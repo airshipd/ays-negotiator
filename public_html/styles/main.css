@@ -11430,6 +11430,9 @@ main {
         right: -2px;
         top: -2px; }
 
+.form-finalize .terms .terms__content {
+  margin-bottom: 64px; }
+
 .login h3 {
   font-weight: 500;
   font-size: 12px;
