@@ -78,9 +78,58 @@
     }
   }
 
+  .agreedPriceWrapper {
+    position: relative;
+    &::before {
+      content: "$";
+      position: absolute;
+      top: 12px;
+      left: -12px;
+    }
+  }
+
   .terms {
     .terms__content {
       margin-bottom: 64px;
+    }
+    .customerNameWrapper {
+      position: relative;
+      input {
+        padding-left: 12px;
+      }
+      &::before {
+        content: "I,";
+        position: absolute;
+        top: 12px;
+      }
+    }
+    .customerAddressWrapper {
+      position: relative;
+      input {
+        padding-left: 20px;
+      }
+      &::before {
+        content: "of,";
+        position: absolute;
+        top: 12px;
+      }
+    }
+    .agreedPriceWrapper {
+      input {
+        padding-left: 10px;
+      }
+      &::before {
+        left: 0;
+      }
+    }
+  }
+  .legal-footer {
+    margin-top: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+      padding-right: 32px;
     }
   }
 }

@@ -16826,6 +16826,16 @@ SignaturePad.prototype.removeBlanks = function () {
   return relevantData;
 };
 
+// show signature images if they already exist
+$(document).ready(function(){
+  $('.signature-image').each(function(){
+    var $this = $(this);
+    if ($this.attr('src')) {
+      $this.show();
+    }
+  });
+});
+
 'use strict';
 
 window.n = window.n || {};

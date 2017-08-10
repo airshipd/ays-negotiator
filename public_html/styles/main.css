@@ -11450,8 +11450,51 @@ main {
   .form-finalize .bank .bank__section-title span {
     margin: 0 20px; }
 
+.form-finalize .agreedPriceWrapper {
+  position: relative; }
+  .form-finalize .agreedPriceWrapper::before {
+    content: "$";
+    position: absolute;
+    top: 12px;
+    left: -12px; }
+
 .form-finalize .terms .terms__content {
   margin-bottom: 64px; }
+
+.form-finalize .terms .customerNameWrapper {
+  position: relative; }
+  .form-finalize .terms .customerNameWrapper input {
+    padding-left: 12px; }
+  .form-finalize .terms .customerNameWrapper::before {
+    content: "I,";
+    position: absolute;
+    top: 12px; }
+
+.form-finalize .terms .customerAddressWrapper {
+  position: relative; }
+  .form-finalize .terms .customerAddressWrapper input {
+    padding-left: 20px; }
+  .form-finalize .terms .customerAddressWrapper::before {
+    content: "of,";
+    position: absolute;
+    top: 12px; }
+
+.form-finalize .terms .agreedPriceWrapper input {
+  padding-left: 10px; }
+
+.form-finalize .terms .agreedPriceWrapper::before {
+  left: 0; }
+
+.form-finalize .legal-footer {
+  margin-top: 96px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center; }
+  .form-finalize .legal-footer span {
+    padding-right: 32px; }
 
 .login h3 {
   font-weight: 500;

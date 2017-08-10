@@ -21,14 +21,14 @@
 </div>
 
 <div class="row">
-  <div class="input-field col s12">
-    <input type="text" id="customerName" name="fields[customerName]" value="{{ entry.customerName }}" required>
+  <div class="input-field col s12 customerNameWrapper">
+    <input type="text" id="termsCustomerName" name="fields[customerName]" value="{{ entry.customerName }}" required>
   </div>
 </div>
 
 <div class="row">
-  <div class="input-field col s12">
-    <input type="text" id="customerAddress" name="fields[customerAddress]" value="{{ entry.customerAddress }}" required>
+  <div class="input-field col s12 customerAddressWrapper">
+    <input type="text" id="termsCustomerAddress" name="fields[customerAddress]" value="{{ entry.customerAddress }}" required>
   </div>
 </div>
 
@@ -39,8 +39,8 @@
 </div>
 
 <div class="row">
-  <div class="input-field col s12 m5">
-    <input type="text" id="agreedPrice" name="fields[agreedPrice]" value="{{ entry.agreedPrice }}" required>
+  <div class="input-field col s12 m5 agreedPriceWrapper">
+    <input type="text" id="termsAgreedPrice" name="fields[agreedPrice]" value="{{ entry.agreedPrice }}" required>
   </div>
 </div>
 
@@ -53,16 +53,16 @@
 <div class="row">
   <div class="col s12 m6">
     <label for="signature">Customer Signature</label>
-    <input type="hidden" id="customer-signature-string" name="fields[customerSignatureString]" >
+    <input type="hidden" id="customer-signature-string" name="fields[customerSignatureString]" value="{{ entry.customerSignatureString }}" >
     <div class="signature-display md-launch" data-target="customer">
-      <img class="signature-image" id="customer-signature-image" src="" alt="customer signature">
+      <img class="signature-image" id="customer-signature-image" src="{{ entry.customerSignatureString }}" alt="customer signature">
     </div>
   </div>
   <div class="col s12 m6">
     <label for="signature">AreYouSelling Rep (Witness) Signature</label>
-    <input type="hidden" id="rep-signature-string" name="fields[repSignatureString]" >
+    <input type="hidden" id="rep-signature-string" name="fields[repSignatureString]" value="{{ entry.repSignatureString }}">
     <div class="signature-display md-launch" data-target="rep">
-      <img class="signature-image" id="rep-signature-image" src="" alt="rep signature">
+      <img class="signature-image" id="rep-signature-image" src="{{ entry.repSignatureString }}" alt="rep signature">
     </div>
   </div>
 </div>
@@ -93,6 +93,12 @@
   </div>
 
   <div class="input-field col s12 m5">
-    {{ _formMacros.textInput(entry, 'contractDate', 'Date') }}
+    {{ _formMacros.dateInput(entry, 'contractDate', 'Date') }}
   </div>
+</div>
+
+<div class="legal-footer">
+  <span>Car Buyers Australia Pty Ltd.</span>
+  <span>ABN: 46 159 545 758</span>
+  <span>LMCT 11137</span>
 </div>
