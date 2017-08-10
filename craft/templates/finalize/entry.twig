@@ -16,29 +16,38 @@
   <input type="hidden" name="entryId" value="{{ entry.id }}">
   <input type="hidden" name="enabled" value="1">
 
-  <div class="row customer-and-car">
+  <section class="row customer-and-car">
       <h2>Customer & Car Details</h2>
       {% include '_form/customerDetails' %}
       {% include '_form/carDetails' %}
       {% include '_form/carRegistration' %}
       {% include '_form/imageUpload' %}
-  </div>
+  </section>
 
-  <div class="row finance">
+  <section class="row finance">
     {% include '_form/finance' %}
-  </div>
+  </section>
 
-  <div class="row terms">
+  <section class="row bank">
+    <div class="bank__section-title">
+      <h2>Bank Details</h2>
+      <span>-</span>
+      <p>Must be the registered owner of the vehicle unless a letter of authority is signed with additional information supplied</p>
+    </div>
+    {% include '_form/bank' %}
+  </section>
+
+  <section class="row terms">
     {% include '_form/terms' %}
-  </div>
+  </section>
 
-  <div class="row">
+  <section class="row">
     <div class="row row-submit">
       <div class="col s12 m4 offset-m4">
           <button type="submit" class="btn btn-large waves-effect">Submit</button>
       </div>
     </div>
-  </div>
+  </section>
 
   </form>
   {% include '_partials/signaturePad' %}

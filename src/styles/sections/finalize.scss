@@ -1,4 +1,13 @@
 .form-finalize {
+  > section.row {
+    padding: 48px;
+    > .row {
+      margin: 16px 0;
+    }
+    &.customer-and-car {
+      padding: 24px 32px;
+    }
+  }
   .row-submit {
     padding-bottom: 1.5rem;
     .btn {
@@ -48,6 +57,23 @@
           right: -2px;
           top: -2px;
         }
+      }
+    }
+  }
+
+  .bank {
+    .bank__section-title {
+      display: flex;
+      align-items: center;
+      p {
+        margin: 0;
+      }
+      h2  {
+        margin: 0;
+        white-space: nowrap;
+      }
+      span {
+        margin: 0 20px;
       }
     }
   }

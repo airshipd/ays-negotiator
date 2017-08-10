@@ -11381,6 +11381,13 @@ main {
 .form-assessment .form-assessmentFlatLine input {
   margin-bottom: 0; }
 
+.form-finalize > section.row {
+  padding: 48px; }
+  .form-finalize > section.row > .row {
+    margin: 16px 0; }
+  .form-finalize > section.row.customer-and-car {
+    padding: 24px 32px; }
+
 .form-finalize .row-submit {
   padding-bottom: 1.5rem; }
   .form-finalize .row-submit .btn, .form-finalize .row-submit .btn-large {
@@ -11429,6 +11436,19 @@ main {
         z-index: 2;
         right: -2px;
         top: -2px; }
+
+.form-finalize .bank .bank__section-title {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center; }
+  .form-finalize .bank .bank__section-title p {
+    margin: 0; }
+  .form-finalize .bank .bank__section-title h2 {
+    margin: 0;
+    white-space: nowrap; }
+  .form-finalize .bank .bank__section-title span {
+    margin: 0 20px; }
 
 .form-finalize .terms .terms__content {
   margin-bottom: 64px; }
