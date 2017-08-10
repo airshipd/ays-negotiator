@@ -24,7 +24,24 @@
         <div class="row">
 
         <h2>Customer & Car Details</h2>
-        {% include '_form/customerDetails' %}
+        
+        <div class="row">
+          <div class="input-field col s12 m5">
+            <input type="text" id="customerName" name="fields[customerName]" value="{{ entry.customerName }}" required>
+            <label for="customerName">Customer Name</label>
+          </div>
+
+          <div class="input-field col s12 m2">
+            <input type="text" id="buildDate" name="fields[buildDate][date]" placeholder="dd/mm/yyyy" value="{{entry.buildDate|date('d/m/Y')}}" required>
+            <label for="buildDate">Build Date</label>
+          </div>
+
+          <div class="input-field col s12 m2 offset-m3">
+            <input type="text" name="fields[odometer]" id="odometer" value="{{ entry.odometer }}" required>
+            <label for="odometer">Odometer</label>
+          </div>
+        </div>
+
         {% include '_form/carDetails' %}
 
         {% include '_form/specificVehicleInfo' %}

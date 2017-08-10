@@ -1,19 +1,21 @@
-{% macro textInput(entry, field, label) %}
-  {% set label = label|default(field)|title %}
-  <input type="text" id="{{ field }}" name="fields[{{ field }}]" value="{{ attribute(entry, field) }}" required>
-  <label for="{{ field }}">{{ label }}</label>
+{% macro textInput(entry, field, label, required) %}
+  {% set label = label ?? field|title %}
+  {% set required = required ?? true %}
+  <input type="text" id="{{ field }}" name="fields[{{ field }}]" value="{{ attribute(entry, field) }}" {% if required %}required{% endif %}>
+  <label for="{{ field }}">{{ label|nl2br }}</label>
 {% endmacro %}
 
 
-{% macro dateInput(entry, field, label) %}
-  {% set label = label|default(field)|title %}
-  <input type="text" id="{{ field }}" name="fields[{{ field }}][date]" placeholder="dd/mm/yyyy" value="{{ attribute(entry, field)|date('d/m/Y') }}" required>
-  <label for="{{ field }}">{{ label }}</label>
+{% macro dateInput(entry, field, label, required) %}
+  {% set label = label ?? field|title %}
+  {% set required = required ?? true %}
+  <input type="text" id="{{ field }}" name="fields[{{ field }}][date]" placeholder="dd/mm/yyyy" value="{{ attribute(entry, field)|date('d/m/Y') }}" {% if required %}required{% endif %}>
+  <label for="{{ field }}">{{ label|nl2br }}</label>
 {% endmacro %}
 
 {% macro radioInput(entry, field, label) %}
-  {% set label = label|default(field)|title %}
-  <label>{{ label }}</label>
+  {% set label = label ?? field|title %}
+  <label>{{ label|nl2br }}</label>
   <div class="right">
     <div class="radio-inline">
       <input type="radio" class="with-gap" id="{{ field }}1" name="fields[{{ field }}]" value="1" {{ attribute(entry, field) ? 'checked' : '' }} required>

@@ -1,16 +1,51 @@
 <div class="row">
   <div class="input-field col s12 m5">
-    <input type="text" id="customerName" name="fields[customerName]" value="{{ entry.customerName }}" required>
-    <label for="customerName">Customer Name</label>
+    {{ _formMacros.textInput(entry, 'customerName', 'Name') }}
   </div>
 
-  <div class="input-field col s12 m2">
-    <input type="text" id="buildDate" name="fields[buildDate][date]" placeholder="dd/mm/yyyy" value="{{entry.buildDate|date('d/m/Y')}}" required>
-    <label for="buildDate">Build Date</label>
+  <div class="input-field col s12 m3">
+    {{ _formMacros.textInput(entry, 'customerMobileNumber', 'Mobile Number') }}
   </div>
 
-  <div class="input-field col s12 m2 offset-m3">
-    <input type="text" name="fields[odometer]" id="odometer" value="{{ entry.odometer }}" required>
-    <label for="odometer">Odometer</label>
+  <div class="input-field col s12 m4">
+    {{ _formMacros.textInput(entry, 'customerEmail', 'Email') }}
   </div>
+
+</div>
+
+<div class="row">
+  <div class="input-field col s12 m8">
+    {{ _formMacros.textInput(entry, 'customerAddress', 'Address') }}
+  </div>
+
+  <div class="input-field col s12 m4">
+    {{ _formMacros.textInput(entry, 'customerState', 'State') }}
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="input-field col s12 m8">
+    {{ _formMacros.textInput(entry, 'customerSuburb', 'Customer Suburb') }}
+  </div>
+
+  <div class="input-field col s12 m4">
+    {{ _formMacros.textInput(entry, 'customerPostcode', 'Customer Postcode') }}
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="input-field col s12 m5">
+    {{ _formMacros.textInput(entry, 'customerDriversLicense', 'Drivers License') }}
+  </div>
+
+  <div class="input-field col s12 m3">
+    {{ _formMacros.dateInput(entry, 'customerDriversLicenseExpirationDate', 'Exp') }}
+  </div>
+
+  <div class="input-field col s12 m4">
+    {{ _formMacros.dateInput(entry, 'customerDob', 'D.O.B') }}
+  </div>
+
 </div>

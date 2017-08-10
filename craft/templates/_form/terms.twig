@@ -1,22 +1,98 @@
 <h2>Terms & Conditions </h2>
+
+<div class="row">
+  <div class="input-field col s12 m6">
+    {{ _formMacros.textInput(entry, 'make') }}
+  </div>
+
+  <div class="input-field col s12 m6">
+    {{ _formMacros.textInput(entry, 'year') }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="input-field col s12 m6">
+    {{ _formMacros.textInput(entry, 'model') }}
+  </div>
+
+  <div class="input-field col s12 m6">
+    {{ _formMacros.textInput(entry, 'kilometres') }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="input-field col s12">
+    <input type="text" id="customerName" name="fields[customerName]" value="{{ entry.customerName }}" required>
+  </div>
+</div>
+
+<div class="row">
+  <div class="input-field col s12">
+    <input type="text" id="customerAddress" name="fields[customerAddress]" value="{{ entry.customerAddress }}" required>
+  </div>
+</div>
+
+<div class="row">
+  <div class="input-field col s12">
+    <p>hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of:</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="input-field col s12 m5">
+    <input type="text" id="agreedPrice" name="fields[agreedPrice]" value="{{ entry.agreedPrice }}" required>
+  </div>
+</div>
+
 <div class="row terms__content">
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 </div>
+
 <div class="row">
-  <div class="col s12 m5">
+  <div class="col s12 m6">
     <label for="signature">Customer Signature</label>
     <input type="hidden" id="customer-signature-string" name="fields[customerSignatureString]" >
     <div class="signature-display md-launch" data-target="customer">
       <img class="signature-image" id="customer-signature-image" src="" alt="customer signature">
     </div>
   </div>
-  <div class="col s12 m5 m5 offset-m2">
+  <div class="col s12 m6">
     <label for="signature">AreYouSelling Rep (Witness) Signature</label>
     <input type="hidden" id="rep-signature-string" name="fields[repSignatureString]" >
     <div class="signature-display md-launch" data-target="rep">
       <img class="signature-image" id="rep-signature-image" src="" alt="rep signature">
     </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="input-field col s12 m6">
+    {{ _formMacros.textInput(entry, 'model') }}
+  </div>
+
+  <div class="input-field col s12 m6">
+    {{ _formMacros.textInput(entry, 'kilometres') }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="input-field col s12 m6">
+    {{ _formMacros.textInput(entry, 'customerName', 'Customer Name (Please Print)') }}
+  </div>
+
+  <div class="input-field col s12 m6">
+    {{ _formMacros.textInput(entry, 'repName', 'AreYouSelling Rep (Witness) Name') }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="input-field col s12 m7">
+    {{ _formMacros.textInput(entry, 'pickupAddressAndContact', "Pickup Address & Contact (if different from above)", false) }}
+  </div>
+
+  <div class="input-field col s12 m5">
+    {{ _formMacros.textInput(entry, 'contractDate', 'Date') }}
   </div>
 </div>
