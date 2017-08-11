@@ -1,16 +1,18 @@
-{% macro textInput(entry, field, label, required) %}
+{% macro textInput(entry, field, label, required, instance) %}
   {% set label = label ?? field|title %}
   {% set required = required ?? true %}
-  <input type="text" id="{{ field }}" name="fields[{{ field }}]" value="{{ attribute(entry, field) }}" {% if required %}required{% endif %}>
-  <label for="{{ field }}">{{ label|nl2br }}</label>
+  {% set instance = instance ?? 1 %}
+  <input type="text" id="{{ field}}-{{ instance }}" name="fields[{{ field }}]" value="{{ attribute(entry, field) }}" {% if required %}required{% endif %}>
+  <label for="{{ field}}-{{ instance }}">{{ label|nl2br }}</label>
 {% endmacro %}
 
 
-{% macro dateInput(entry, field, label, required) %}
+{% macro dateInput(entry, field, label, required, instance) %}
   {% set label = label ?? field|title %}
   {% set required = required ?? true %}
-  <input type="text" id="{{ field }}" name="fields[{{ field }}][date]" placeholder="dd/mm/yyyy" value="{{ attribute(entry, field)|date('d/m/Y') }}" {% if required %}required{% endif %}>
-  <label for="{{ field }}">{{ label|nl2br }}</label>
+  {% set instance = instance ?? 1 %}
+  <input type="text" for="{{ field}}-{{ instance }}" name="fields[{{ field }}][date]" placeholder="dd/mm/yyyy" value="{{ attribute(entry, field)|date('d/m/Y') }}" {% if required %}required{% endif %}>
+  <label for="{{ field}}-{{ instance }}">{{ label|nl2br }}</label>
 {% endmacro %}
 
 {% macro radioInput(entry, field, label) %}
