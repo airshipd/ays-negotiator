@@ -13,6 +13,12 @@ foreach($sections as $sectionTitle => $sectionFields) {
   }
 }
 
+echo "<h2>Vehicle Images</h2>";
+
+foreach($image_urls as $url) {
+
+  echo "<p><img style='width:360px;margin:20px 0;' src='" . $url . "'></p>";
+}
 
 
 

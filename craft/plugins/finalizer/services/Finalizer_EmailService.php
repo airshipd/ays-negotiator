@@ -6,21 +6,27 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
   public function sendNotificationEmail($entry)
   {
     $sections = $this->groupFieldsByTabs($entry);
+    $images = $this->getImages($entry);
+    $image_urls = array();
+
+    foreach($images as $image) {
+      array_push($image_urls, craft()->assets->getUrlForFile($image));
+    }
+
     ob_start();
     include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/notification.php");
     $body =  ob_get_clean();
 
     // send email with the finalized data
+    $mail = new EmailModel();
+    $mail->toEmail = 'jchai002@gmail.com';
+    $mail->subject = 'test';
+    $mail->body    = $body;
+    craft()->email->sendEmail($mail);
+  }
 
-    // $mail = new EmailModel();
-    // $mail->toEmail = 'jchai002@gmail.com';
-    // $mail->subject = 'test';
-    // $mail->body    = $body;
-    // craft()->email->sendEmail($mail);
-
-    echo $body;
-    // echo "<pre>";print_r($sections);echo "</pre>";
-    exit;die;
+  private function getImages($entry) {
+    return $entry->vehicleImages;
   }
 
   private function groupFieldsByTabs($entry) {
@@ -43,7 +49,7 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
       }
       $grouped[$tab['name']] = $tabContent;
     }
-
+    unset($grouped["Car Details"]["Vehicle Images"]);
     return $grouped;
   }
 }
