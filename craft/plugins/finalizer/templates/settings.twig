@@ -1,0 +1,15 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+	label: "Email Subject"|t,
+	instructions: "Set the subject for the notification emails"|t,
+	name: 'emailSubject',
+	value: settings.emailSubject
+}) }}
+
+{{ forms.textField({
+	label: "Email To"|t,
+	instructions: "Set where to send emails to"|t,
+	name: 'emailTo',
+	value: settings.emailTo
+}) }}

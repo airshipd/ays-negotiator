@@ -5,6 +5,9 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
 
   public function sendNotificationEmail($entry)
   {
+    // get plugin settings
+    $settings = craft()->plugins->getPlugin('finalizer')->getSettings();
+
     $sections = $this->groupFieldsByTabs($entry);
     $images = $this->getImages($entry);
     $image_urls = array();
@@ -19,8 +22,8 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
 
     // send email with the finalized data
     $mail = new EmailModel();
-    $mail->toEmail = 'jchai002@gmail.com';
-    $mail->subject = 'test';
+    $mail->toEmail = $settings['emailTo'];
+    $mail->subject = $settings['emailSubject'];
     $mail->body    = $body;
     craft()->email->sendEmail($mail);
   }
