@@ -9,7 +9,7 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
     $settings = craft()->plugins->getPlugin('finalizer')->getSettings();
 
     $sections = $this->groupFieldsByTabs($entry);
-    $images = $this->getImages($entry);
+    $images = $entry->vehicleImages;
     $image_urls = array();
 
     foreach($images as $image) {
@@ -26,10 +26,6 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
     $mail->subject = $settings['emailSubject'];
     $mail->body    = $body;
     craft()->email->sendEmail($mail);
-  }
-
-  private function getImages($entry) {
-    return $entry->vehicleImages;
   }
 
   private function groupFieldsByTabs($entry) {
@@ -52,7 +48,11 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
       }
       $grouped[$tab['name']] = $tabContent;
     }
+
+    // remove fields that we don't want to show up in the final email
     unset($grouped["Car Details"]["Vehicle Images"]);
+    unset($grouped["Pre Inspection Details"]["Mechanic"]);
+    unset($grouped["Pre Inspection Details"]["Inspection Status"]);
     return $grouped;
   }
 }
