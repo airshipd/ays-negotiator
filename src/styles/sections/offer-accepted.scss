@@ -21,8 +21,7 @@
     text-align: center;
 
     .fa {
-      background:#7CAA5A;
-      border-radius: 100px;
+      @include bg-circle-green;
       color: white;
       height: 60px;
       width: 60px;

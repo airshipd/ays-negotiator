@@ -1,0 +1,21 @@
+{% set entry = craft.entries.id( craft.request.getSegment(2) ).first() %}
+
+{% set pageClass = 'thank-you' %}
+{% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Offer' %}
+
+{% extends "_layout" %}
+
+{% block content %}
+
+<div class="wrapper">
+
+
+    <h2>Offer Finalized</h2>
+
+    <i class="fa fa-thumbs-up"></i>
+
+    <h3>Thank You For Using Are You Selling!</h3>
+
+
+</div>
+{% endblock %}

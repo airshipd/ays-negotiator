@@ -11497,6 +11497,34 @@ main {
   .form-finalize .legal-footer span {
     padding-right: 32px; }
 
+.thank-you .wrapper {
+  margin: 20px 0;
+  padding: 48px;
+  background-color: white;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.thank-you .fa {
+  text-align: center;
+  background: #7CAA5A;
+  border-radius: 50%;
+  color: white;
+  height: 96px;
+  width: 96px;
+  line-height: 96px;
+  font-size: 48px;
+  margin: 32px 0; }
+
+.thank-you h3 {
+  font-size: 2rem; }
+
 .login h3 {
   font-weight: 500;
   font-size: 12px;
@@ -12254,8 +12282,9 @@ main {
 .offer-accepted .offer-container {
   text-align: center; }
   .offer-accepted .offer-container .fa {
+    text-align: center;
     background: #7CAA5A;
-    border-radius: 100px;
+    border-radius: 50%;
     color: white;
     height: 60px;
     width: 60px;
