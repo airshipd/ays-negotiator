@@ -3,10 +3,22 @@
   <h2 class="form-assessmentTitle">Legal</h2>
 
   <div class="report-detail">
+    <label for="damageAndFaults">Agreed Price</label> <p>${{inspection.agreedPrice|number_format(2, '.', ',')}}</p>
+  </div>
+
+  <div class="report-detail">
+    <label for="damageAndFaults">Customer Name<label> <p>{{inspection.customerName|striptags}}</p>
+  </div>
+
+  <div class="report-detail">
     <label>Customer Signature</label>
     <div class="signature-display">
       <img class="signature-image" src="{{inspection.customerSignatureString}}" alt="signature-image">
     </div>
+  </div>
+
+  <div class="report-detail">
+    <label for="damageAndFaults">Rep Name<label> <p>{{inspection.repName|striptags}}</p>
   </div>
 
   <div class="report-detail">

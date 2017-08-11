@@ -1,0 +1,25 @@
+<div class="report-detail--wrap z-depth-1">
+
+  <h2 class="form-assessmentTitle">Finance</h2>
+
+  <div class="report-detail">
+    <label>Finance</label> {{ inspection.finance ? 'Yes' : 'No' }}
+  </div>
+
+  <div class="report-detail">
+    <label for="damageAndFaults">Finance Company</label> <p>{{inspection.financeCompany|striptags}}</p>
+  </div>
+
+  <div class="report-detail">
+    <label>Service Books</label> {{ inspection.serviceBooks ? 'Yes' : 'No' }}
+  </div>
+
+  <div class="report-detail">
+    <label>Write Off</label> {{ inspection.writeOff ? 'Yes' : 'No' }}
+  </div>
+
+  <div class="report-detail">
+    <label>Customer Received Contract</label> {{ inspection.writeOff ? 'Yes' : 'No' }}
+  </div>
+
+</div>
