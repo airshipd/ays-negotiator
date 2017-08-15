@@ -11232,7 +11232,8 @@ main {
     -ms-flex-pack: justify;
         justify-content: space-between;
     -ms-flex-align: center;
-        align-items: center; }
+        align-items: center;
+    padding-top: 16px; }
 
 .md-modal {
   position: fixed;
