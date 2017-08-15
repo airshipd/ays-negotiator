@@ -18,7 +18,7 @@ return array(
 
   // Defaults for all environments:
   '*' => array(
-    'devMode' => false,
+    'devMode' => true,
     'omitScriptNameInUrls' => true,
     'autoLoginAfterAccountActivation' => true,
     'loginPath' => 'login',
