@@ -16,11 +16,11 @@ class FinalizerPlugin extends BasePlugin {
   }
 
   public function getDeveloper() {
-    return 'Matthew Attanasio';
+    return 'Jerry Chai';
   }
 
   public function getDeveloperUrl() {
-    return 'http://skyfoundry.agency';
+    return 'https://github.com/jchai002';
   }
 
   public function hasCpSection() {
@@ -30,8 +30,8 @@ class FinalizerPlugin extends BasePlugin {
   protected function defineSettings()
   {
     return array(
-      'emailSubject' => array(AttributeType::String, 'default' => "Sales Finalized"),
-      'emailTo' => array(AttributeType::String, 'default' => "")
+      'staffEmailSubject' => array(AttributeType::String, 'default' => "Sales Finalized"),
+      'customerEmailSubject' => array(AttributeType::String, 'default' => "")
     );
   }
 
@@ -46,10 +46,7 @@ class FinalizerPlugin extends BasePlugin {
     //Event: onSaveEntry
     craft()->on('entries.saveEntry', function(Event $event) {
       $entry = $event->params['entry'];
-      $statusId = $entry['inspectionStatus']->selected;
-      // if the status of entry is finalized
-      if ($statusId == '3') {
-        craft()->finalizer_email->sendNotificationEmail($entry);
+      if ($entry['inspectionStatus'] == 'finalized') {    craft()->finalizer_email->sendNotificationEmails($entry);
       }
     });
   }

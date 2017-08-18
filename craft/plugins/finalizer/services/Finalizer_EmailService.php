@@ -3,11 +3,10 @@ namespace Craft;
 
 class Finalizer_EmailService extends BaseApplicationComponent  {
 
-  public function sendNotificationEmail($entry)
+  public function sendNotificationEmails($entry)
   {
     // get plugin settings
     $settings = craft()->plugins->getPlugin('finalizer')->getSettings();
-
     $sections = $this->groupFieldsByTabs($entry);
     $images = $entry->vehicleImages;
     $image_urls = array();
@@ -17,13 +16,26 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
     }
 
     ob_start();
-    include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/notification.php");
-    $body =  ob_get_clean();
+    include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/customerNotification.php");
+    $customerEmailBody =  ob_get_clean();
+    $this->sendEmail($entry->customerEmail, $settings->customerEmailSubject, $customerEmailBody);
 
+
+    ob_start();
+    include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/staffNotification.php");
+    $staffEmailBody =  ob_get_clean();
+    $this->sendEmail($entry->author->email, $settings->staffEmailSubject, $staffEmailBody);
+
+    // echo'<pre>';print_r($customerEmailBody);echo'</pre>';
+    // echo'<pre>';print_r($staffEmailBody);echo'</pre>';
+    // exit;die;
+  }
+
+  private function sendEmail($emailTo, $subject, $body) {
     // send email with the finalized data
     $mail = new EmailModel();
-    $mail->toEmail = $settings['emailTo'];
-    $mail->subject = $settings['emailSubject'];
+    $mail->toEmail = $emailTo;
+    $mail->subject = $subject;
     $mail->body    = $body;
     craft()->email->sendEmail($mail);
   }

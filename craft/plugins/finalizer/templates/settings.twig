@@ -1,15 +1,15 @@
 {% import "_includes/forms" as forms %}
 
 {{ forms.textField({
-	label: "Email Subject"|t,
-	instructions: "Set the subject for the notification emails"|t,
-	name: 'emailSubject',
-	value: settings.emailSubject
+	label: "Staff Email Subject"|t,
+	instructions: "Set the subject for staff notification emails"|t,
+	name: 'staffEmailSubject',
+	value: settings.staffEmailSubject
 }) }}
 
 {{ forms.textField({
-	label: "Email To"|t,
-	instructions: "Set where to send emails to"|t,
-	name: 'emailTo',
-	value: settings.emailTo
+	label: "Customer Email Subject"|t,
+	instructions: "Set the subject for customer notification emails"|t,
+	name: 'customerEmailSubject',
+	value: settings.customerEmailSubject
 }) }}
