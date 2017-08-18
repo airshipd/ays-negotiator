@@ -21,9 +21,6 @@
 
 {% block content %}
 
-  {# force users to login before accessing website #}
-  {% requireLogin %}
-
   <div class="index-inspection">
 
     {% if currentUser.admin %}

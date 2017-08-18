@@ -4,6 +4,12 @@
  #}
 
 <!DOCTYPE html>
+{% set publicPage = false %}
+{% if not publicPage %}
+{# force users to login before accessing website #}
+{% requireLogin %}
+{% endif %}
+
 <html class="no-js {% if pageClass is defined %}{{pageClass}}{% endif %}">
 <head>
   <meta charset="utf-8" />
@@ -33,6 +39,11 @@
           <ul class="left">
             <li><a href="/"><i class="material-icons">view_list</i></a></li>
           </ul>
+          {% if currentUser %}
+          <ul class="right">
+            <li><a href="{{ logoutUrl }}"><i class="material-icons">exit_to_app</i></a></li>
+          </ul>
+          {% endif %}
         </div>
       </nav>
     </header>
@@ -62,6 +73,6 @@
     {% endif %}
   {% endblock %}
 
-  
+
 </body>
 </html>
