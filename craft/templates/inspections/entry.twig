@@ -9,7 +9,7 @@
 
 {% block content %}
 
-  <form method="post" accept-charset="UTF-8" class="form-assessment">
+  <form method="post" accept-charset="UTF-8" class="form-assessment form-styles">
     <div class="row">
         {{ getCsrfInput() }}
 
@@ -24,7 +24,7 @@
         <div class="row">
 
         <h2>Customer & Car Details</h2>
-        
+
         <div class="row">
           <div class="input-field col s12 m5">
             <input type="text" id="customerName" name="fields[customerName]" value="{{ entry.customerName }}" required>

@@ -1,5 +1,5 @@
 {% set entry = craft.entries.id( craft.request.getSegment(2) ).first() %}
-{# TODO set seperate styles for finalization  #}
+
 {% set pageClass = 'form-page' %}
 {% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Finalize' %}
 
@@ -7,7 +7,7 @@
 {% import "_form/macros" as _formMacros %}
 
 {% block content %}
-<form method="post" accept-charset="UTF-8" class="form-finalize col s12" enctype="multipart/form-data">
+<form method="post" accept-charset="UTF-8" class="form-finalize form-styles col s12" enctype="multipart/form-data">
   {{ getCsrfInput() }}
 
   <input type="hidden" name="action" value="entries/saveEntry">

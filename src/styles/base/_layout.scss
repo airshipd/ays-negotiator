@@ -36,7 +36,8 @@ main {
 }
 
 
-.form-page form > .row {
+.form-page form > .row,
+.display-wrapper > .row {
   background: white;
   margin-top: 20px;
   margin-bottom:20px;

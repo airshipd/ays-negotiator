@@ -15,137 +15,137 @@
       width: 100%;
     }
   }
-  .image-upload {
-    margin: 16px 0;
-    .image-upload__trigger {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      i {
-        cursor: pointer;
-      }
-    }
-    .col.image-upload__complex {
-      display: none;
-      padding: 0;
-    }
-    .image-upload__input {
-      display: none;
-    }
-    .image-upload__preview {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .image-wrapper {
-        width: 64px;
-        height: 64px;
-        overflow: hidden;
-        position: relative;
-        img {
-          width: 100%;
-          position: absolute;
-          z-index: 1;
-          margin: auto;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-        }
-        .image-upload__remove {
-          cursor: pointer;
-          position: absolute;
-          z-index: 2;
-          right: -2px;
-          top: -2px;
-        }
-      }
-    }
-  }
+}
 
-  .bank {
-    .bank__section-title {
-      display: flex;
-      align-items: center;
-      p {
-        margin: 0;
-      }
-      h2  {
-        margin: 0;
-        white-space: nowrap;
-      }
-      span {
-        margin: 0 20px;
-      }
-    }
-  }
-
-  .agreedPriceWrapper {
-    position: relative;
-    &::before {
-      content: "$";
-      position: absolute;
-      top: 12px;
-      left: -12px;
-    }
-  }
-
-  .terms {
-    .terms__content {
-      margin-bottom: 64px;
-    }
-    .customerNameWrapper {
-      position: relative;
-      input {
-        padding-left: 12px;
-      }
-      &::before {
-        content: "I,";
-        position: absolute;
-        top: 12px;
-      }
-    }
-    .customerAddressWrapper {
-      position: relative;
-      input {
-        padding-left: 20px;
-      }
-      &::before {
-        content: "of,";
-        position: absolute;
-        top: 12px;
-      }
-    }
-    .agreedPriceWrapper {
-      input {
-        padding-left: 10px;
-      }
-      &::before {
-        left: 0;
-      }
-    }
-  }
-  .legal-footer {
-    margin-top: 96px;
+.image-upload {
+  margin: 16px 0;
+  .image-upload__trigger {
     display: flex;
     align-items: center;
     justify-content: center;
-    span {
-      padding-right: 32px;
+    i {
+      cursor: pointer;
+    }
+  }
+  .col.image-upload__complex {
+    display: none;
+    padding: 0;
+  }
+  .image-upload__input {
+    display: none;
+  }
+  .image-upload__preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .image-wrapper {
+      width: 64px;
+      height: 64px;
+      overflow: hidden;
+      position: relative;
+      img {
+        width: 100%;
+        position: absolute;
+        z-index: 1;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+      .image-upload__remove {
+        cursor: pointer;
+        position: absolute;
+        z-index: 2;
+        right: -2px;
+        top: -2px;
+      }
     }
   }
 }
 
-.thank-you {
-  .wrapper {
-    margin: 20px 0;
-    padding: 48px;
-    background-color: white;
-    @include app-box-shadow;
+.bank {
+  .bank__section-title {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    p {
+      margin: 0;
+    }
+    h2  {
+      margin: 0;
+      white-space: nowrap;
+    }
+    span {
+      margin: 0 20px;
+    }
   }
+}
+
+.agreedPriceWrapper {
+  position: relative;
+  &::before {
+    content: "$";
+    position: absolute;
+    top: 12px;
+    left: -12px;
+  }
+}
+
+.terms {
+  .terms__content {
+    margin-bottom: 64px;
+  }
+  .customerNameWrapper {
+    position: relative;
+    input {
+      padding-left: 12px;
+    }
+    &::before {
+      content: "I,";
+      position: absolute;
+      top: 12px;
+    }
+  }
+  .customerAddressWrapper {
+    position: relative;
+    input {
+      padding-left: 20px;
+    }
+    &::before {
+      content: "of,";
+      position: absolute;
+      top: 12px;
+    }
+  }
+  .agreedPriceWrapper {
+    input {
+      padding-left: 10px;
+    }
+    &::before {
+      left: 0;
+    }
+  }
+}
+.legal-footer {
+  margin-top: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    padding-right: 32px;
+  }
+}
+
+
+.thank-you-page .display-wrapper {
+  margin: 20px 0;
+  padding: 48px;
+  background-color: white;
+  @include app-box-shadow;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   .fa {
     @include bg-circle-green;
@@ -159,5 +159,14 @@
 
   h3 {
     font-size: 2rem;
+  }
+}
+
+.contract-page .display-wrapper {
+  > section.row {
+    padding: 48px;
+    label, input {
+      pointer-events: none;
+    }
   }
 }

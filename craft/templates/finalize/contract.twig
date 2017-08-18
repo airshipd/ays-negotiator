@@ -1,0 +1,15 @@
+{% set entry = craft.entries.id( craft.request.getSegment(2) ).first() %}
+
+{% set pageClass = 'contract-page' %}
+{% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Contract' %}
+
+{% extends "_layout" %}
+{% import "_form/macros" as _formMacros %}
+
+{% block content %}
+<div class="display-wrapper form-styles">
+  <section class="row terms">
+    {% include '_form/terms' %}
+  </section>
+</div>
+{% endblock %}

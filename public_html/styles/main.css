@@ -11096,24 +11096,24 @@ p {
   font-size: 12px;
   text-align: center; }
 
-form h2 {
+.form-styles h2 {
   margin-top: 20px;
   margin-bottom: 1px;
   font-size: 20px; }
 
-form .row {
+.form-styles .row {
   margin-bottom: 0; }
 
-form .col:first-of-type {
+.form-styles .col:first-of-type {
   padding-left: 0; }
 
-form .col:last-of-type {
+.form-styles .col:last-of-type {
   padding-right: 0; }
 
-form .input-field.col:first-of-type label {
+.form-styles .input-field.col:first-of-type label {
   left: 0; }
 
-form .row-submit {
+.form-styles .row-submit {
   padding-top: 45px; }
 
 .row .radio-field {
@@ -11170,13 +11170,15 @@ header {
 main {
   margin: 0 40px; }
 
-.form-page form > .row {
+.form-page form > .row,
+.display-wrapper > .row {
   background: white;
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 0.75rem;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); }
-  .form-page form > .row h3 {
+  .form-page form > .row h3,
+  .display-wrapper > .row h3 {
     margin-top: 0; }
 
 .purchaseForm {
@@ -11395,35 +11397,35 @@ main {
   .form-finalize .row-submit .btn, .form-finalize .row-submit .btn-large {
     width: 100%; }
 
-.form-finalize .image-upload {
+.image-upload {
   margin: 16px 0; }
-  .form-finalize .image-upload .image-upload__trigger {
+  .image-upload .image-upload__trigger {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
         align-items: center;
     -ms-flex-pack: center;
         justify-content: center; }
-    .form-finalize .image-upload .image-upload__trigger i {
+    .image-upload .image-upload__trigger i {
       cursor: pointer; }
-  .form-finalize .image-upload .col.image-upload__complex {
+  .image-upload .col.image-upload__complex {
     display: none;
     padding: 0; }
-  .form-finalize .image-upload .image-upload__input {
+  .image-upload .image-upload__input {
     display: none; }
-  .form-finalize .image-upload .image-upload__preview {
+  .image-upload .image-upload__preview {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
         align-items: center;
     -ms-flex-pack: center;
         justify-content: center; }
-    .form-finalize .image-upload .image-upload__preview .image-wrapper {
+    .image-upload .image-upload__preview .image-wrapper {
       width: 64px;
       height: 64px;
       overflow: hidden;
       position: relative; }
-      .form-finalize .image-upload .image-upload__preview .image-wrapper img {
+      .image-upload .image-upload__preview .image-wrapper img {
         width: 100%;
         position: absolute;
         z-index: 1;
@@ -11432,62 +11434,62 @@ main {
         bottom: 0;
         left: 0;
         right: 0; }
-      .form-finalize .image-upload .image-upload__preview .image-wrapper .image-upload__remove {
+      .image-upload .image-upload__preview .image-wrapper .image-upload__remove {
         cursor: pointer;
         position: absolute;
         z-index: 2;
         right: -2px;
         top: -2px; }
 
-.form-finalize .bank .bank__section-title {
+.bank .bank__section-title {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
       align-items: center; }
-  .form-finalize .bank .bank__section-title p {
+  .bank .bank__section-title p {
     margin: 0; }
-  .form-finalize .bank .bank__section-title h2 {
+  .bank .bank__section-title h2 {
     margin: 0;
     white-space: nowrap; }
-  .form-finalize .bank .bank__section-title span {
+  .bank .bank__section-title span {
     margin: 0 20px; }
 
-.form-finalize .agreedPriceWrapper {
+.agreedPriceWrapper {
   position: relative; }
-  .form-finalize .agreedPriceWrapper::before {
+  .agreedPriceWrapper::before {
     content: "$";
     position: absolute;
     top: 12px;
     left: -12px; }
 
-.form-finalize .terms .terms__content {
+.terms .terms__content {
   margin-bottom: 64px; }
 
-.form-finalize .terms .customerNameWrapper {
+.terms .customerNameWrapper {
   position: relative; }
-  .form-finalize .terms .customerNameWrapper input {
+  .terms .customerNameWrapper input {
     padding-left: 12px; }
-  .form-finalize .terms .customerNameWrapper::before {
+  .terms .customerNameWrapper::before {
     content: "I,";
     position: absolute;
     top: 12px; }
 
-.form-finalize .terms .customerAddressWrapper {
+.terms .customerAddressWrapper {
   position: relative; }
-  .form-finalize .terms .customerAddressWrapper input {
+  .terms .customerAddressWrapper input {
     padding-left: 20px; }
-  .form-finalize .terms .customerAddressWrapper::before {
+  .terms .customerAddressWrapper::before {
     content: "of,";
     position: absolute;
     top: 12px; }
 
-.form-finalize .terms .agreedPriceWrapper input {
+.terms .agreedPriceWrapper input {
   padding-left: 10px; }
 
-.form-finalize .terms .agreedPriceWrapper::before {
+.terms .agreedPriceWrapper::before {
   left: 0; }
 
-.form-finalize .legal-footer {
+.legal-footer {
   margin-top: 96px;
   display: -ms-flexbox;
   display: flex;
@@ -11495,10 +11497,10 @@ main {
       align-items: center;
   -ms-flex-pack: center;
       justify-content: center; }
-  .form-finalize .legal-footer span {
+  .legal-footer span {
     padding-right: 32px; }
 
-.thank-you .wrapper {
+.thank-you-page .display-wrapper {
   margin: 20px 0;
   padding: 48px;
   background-color: white;
@@ -11511,20 +11513,23 @@ main {
       align-items: center;
   -ms-flex-pack: center;
       justify-content: center; }
+  .thank-you-page .display-wrapper .fa {
+    text-align: center;
+    background: #7CAA5A;
+    border-radius: 50%;
+    color: white;
+    height: 96px;
+    width: 96px;
+    line-height: 96px;
+    font-size: 48px;
+    margin: 32px 0; }
+  .thank-you-page .display-wrapper h3 {
+    font-size: 2rem; }
 
-.thank-you .fa {
-  text-align: center;
-  background: #7CAA5A;
-  border-radius: 50%;
-  color: white;
-  height: 96px;
-  width: 96px;
-  line-height: 96px;
-  font-size: 48px;
-  margin: 32px 0; }
-
-.thank-you h3 {
-  font-size: 2rem; }
+.contract-page .display-wrapper > section.row {
+  padding: 48px; }
+  .contract-page .display-wrapper > section.row label, .contract-page .display-wrapper > section.row input {
+    pointer-events: none; }
 
 .login h3 {
   font-weight: 500;
