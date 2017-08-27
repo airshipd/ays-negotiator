@@ -62,49 +62,80 @@ px2mm = function(pixel) {
 $(function() {
   var doc = new jsPDF();
   var pageWidth = 210; // mm
-  var pageMargin = 10; // mm
+  var marginX = 10; // mm
+  var marginY = 16; // mm
   var pageHeight = doc.internal.pageSize.height;
-  var content_width = pageWidth - pageMargin * 2;
+  var content_width = pageWidth - marginX * 2;
   var fontSm = 10;
   var fontMd = 14;
   var fontLg = 16;
   var spaceSm = 8;
+  var spaceMd = 12;
   var spaceLg = 16;
-  var _y = pageMargin + spaceSm;
+  var _y = marginY;
 
   // title
   doc.setFontSize(20);
-  doc.textAlign('Terms & Conditions', {}, pageMargin, _y);
+  doc.textAlign('Terms & Conditions', {}, marginX, _y);
   _y += spaceLg;
 
   // label row 1
   doc.setFontSize(fontSm);
-  doc.textAlign('Make', {}, pageMargin, _y);
+  doc.textAlign('Make', {}, marginX, _y);
   doc.textAlign('Year', {}, content_width / 2, _y);
   _y += spaceSm;
 
   // content row 1
   doc.setFontSize(fontLg);
-  doc.textAlign($('input#make-1').val(), {}, pageMargin, _y);
+  doc.textAlign($('input#make-1').val(), {}, marginX, _y);
   doc.textAlign($('input#year-1').val(), {}, content_width / 2, _y);
+  _y += spaceLg;
+
+  // label row 2
+  doc.setFontSize(fontSm);
+  doc.textAlign('Model', {}, marginX, _y);
+  doc.textAlign('Kilometres', {}, content_width / 2, _y);
+  _y += spaceSm;
+
+  // content row 2
+  doc.setFontSize(fontLg);
+  doc.textAlign($('input#model-1').val(), {}, marginX, _y);
+  doc.textAlign($('input#kilometres-1').val(), {}, content_width / 2, _y);
   _y += spaceLg;
 
   doc.setFontSize(fontMd);
   // contract content
   $('.terms__content > p').each(function() {
-    var lineHeight = px2mm(doc.getLineHeight(paragraph));
     var paragraph = $(this).text();
     var lines = doc.splitTextToSize(paragraph, content_width);
-    var offset = lines.length * lineHeight;
-    doc.text(pageMargin, _y, lines);
-    _y += offset + spaceSm;
+    var lineHeight = px2mm(doc.getLineHeight(paragraph));
+    for (var i = 0; i < lines.length; i++) {
+      var newY = _y + lineHeight;
+      if (newY >= pageHeight) {
+        doc.addPage();
+        _y = marginY;
+        doc.text(marginX, _y, lines[i]);
+        _y += lineHeight;
+      } else {
+        doc.text(marginX, _y, lines[i]);
+        _y = newY;
+      }
+    }
+    // add gap for each paragraph
+    _y += spaceMd - lineHeight;
   });
 
+  // label row 2
+  doc.setFontSize(fontSm);
+  doc.textAlign('Model', {}, marginX, _y);
+  doc.textAlign('Kilometres', {}, content_width / 2, _y);
+  _y += spaceSm;
+
+  // content row 2
   doc.setFontSize(fontLg);
-  doc.textAlign($('input#make-1').val(), {}, pageMargin, _y);
-  doc.textAlign($('input#year-1').val(), {}, content_width / 2, _y);
+  doc.textAlign($('input#model-1').val(), {}, marginX, _y);
+  doc.textAlign($('input#kilometres-1').val(), {}, content_width / 2, _y);
   _y += spaceLg;
 
-  console.log(_y);
   doc.save('ays-contract.pdf');
 });
