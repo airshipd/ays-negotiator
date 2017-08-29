@@ -28983,10 +28983,12 @@ $(function(){
         if (new_y >= this.settings.contentBottomY) {
           this.addPage();
           this.settings._y = this.settings.marginY;
+          this.text(x, this.settings._y, lines[i]);
+          this.settings._y += lineHeight;
         } else {
+          this.text(x, this.settings._y, lines[i]);
           this.settings._y = new_y;
         }
-        this.text(x, this.settings._y, lines[i]);
       }
     } else {
       this.text(x, this.settings._y, txt);
@@ -29001,7 +29003,7 @@ var px2mm = function(pixel) {
 };
 
 $(function() {
-  var doc = new jsPDF();
+  var doc = new jsPDF('p', 'mm', 'a4');
   doc.settings = {};
   doc.settings.pageWidth = 210; // mm
   doc.settings.marginX = 10; // mm
@@ -29047,9 +29049,26 @@ $(function() {
   // content row 2
   doc.setFontSize(fontLg);
   doc.addText($('input#model-1').val(), xStartLeft);
-  doc.addText($('input#kilometres-1').val(), xStartMid, {
-    stayInSameLine: true
-  });
+  doc.addText($('input#kilometres-1').val(), xStartMid);
+  doc.settings._y += spaceLg;
+
+  // content row 3
+  doc.addText('I, ' + $('input#termsCustomerName').val(), xStartLeft);
+  doc.settings._y += spaceMd;
+
+  // content row 4
+  doc.addText('of, ' + $('input#termsCustomerAddress').val(), xStartLeft);
+  doc.settings._y += spaceMd;
+
+  // content row 5
+  doc.addText(
+    'hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of:',
+    xStartLeft
+  );
+  doc.settings._y += spaceMd;
+
+  // content row 6
+  doc.addText('$ ' + $('input#termsAgreedPrice').val(), xStartLeft);
   doc.settings._y += spaceLg;
 
   doc.setFontSize(fontMd);
