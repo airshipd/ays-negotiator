@@ -29022,7 +29022,7 @@ function generatePDF() {
   var spaceLg = 16;
 
   var xStartLeft = doc.settings.marginX;
-  var xStartMid = doc.settings.contentWidth / 2;
+  var xStartMid = doc.settings.contentWidth / 2 + doc.settings.marginX;
   // title
   doc.setFontSize(20);
   doc.addText('Terms & Conditions', xStartLeft);
@@ -29047,7 +29047,7 @@ function generatePDF() {
   doc.settings._y += spaceSm;
 
   // content row 2
-  doc.setFontSize(fontLg);
+  doc.setFontSize(fontMd);
   doc.addText($('input#model-1').val(), xStartLeft);
   doc.addText($('input#kilometres-1').val(), xStartMid);
   doc.settings._y += spaceMd;
@@ -29065,13 +29065,12 @@ function generatePDF() {
     'hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of:',
     xStartLeft
   );
-  doc.settings._y += spaceLg;
+  doc.settings._y += spaceMd;
 
   // content row 6
   doc.addText('$ ' + $('input#termsAgreedPrice').val(), xStartLeft);
-  doc.settings._y += spaceMd;
+  doc.settings._y += spaceLg;
 
-  doc.setFontSize(fontMd);
   // contract content
   $('.terms__content > p').each(function() {
     doc.addText($(this).text(), xStartLeft);
@@ -29152,6 +29151,8 @@ function generatePDF() {
 }
 
 $(document).ready(function() {
+  var $wrapper = $('.contract-page');
+  if (!$wrapper) return;
   $('#save-contract').click(function(e) {
     generatePDF();
   });

@@ -15,6 +15,8 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
       array_push($image_urls, craft()->assets->getUrlForFile($image));
     }
 
+    $contractUrl = craft()->getSiteUrl() . 'contract/' . $entry->id;
+
     ob_start();
     include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/customerNotification.php");
     $customerEmailBody =  ob_get_clean();
@@ -27,7 +29,7 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
     $this->sendEmail($entry->author->email, $settings->staffEmailSubject, $staffEmailBody);
 
     // echo'<pre>';print_r($customerEmailBody);echo'</pre>';
-    // echo'<pre>';print_r($staffEmailBody);echo'</pre>';
+    // echo'<pre>';print_r($contractUrl);echo'</pre>';
     // exit;die;
   }
 
