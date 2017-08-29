@@ -5,55 +5,30 @@
 //
 // *************************************
 (function(API) {
-  API.textAlign = function(txt, options, x, y) {
-    options = options || {};
-    // Use the options align property to specify desired text alignment
-    // Param x will be ignored if desired text alignment is 'center'.
-    // Usage of options can easily extend the function to apply different text
-    // styles and sizes
-
-    // Get current font size
-    var fontSize = this.internal.getFontSize();
-
-    // Get page width
-    var pageWidth = this.internal.pageSize.width;
-
-    // Get the actual text's width
-    // You multiply the unit width of your string by your font size and divide
-    // by the internal scale factor. The division is necessary
-    // for the case where you use units other than 'pt' in the constructor
-    // of jsPDF.
-
-    var txtWidth =
-      this.getStringUnitWidth(txt) * fontSize / this.internal.scaleFactor;
-
-    if (options.align === 'center') {
-      // Calculate text's x coordinate
-      x = (pageWidth - txtWidth) / 2;
-    } else if (options.align === 'centerAtX') {
-      // center on X value
-
-      x = x - txtWidth / 2;
-    } else if (options.align === 'right') {
-      x = x - txtWidth;
+  API.addText = function(txt, x, options) {
+    var options = options || {};
+    var lines = this.splitTextToSize(txt, this.settings.contentWidth);
+    // if there are more than 1 lines needed
+    if (lines.length > 1) {
+      var lineHeight = px2mm(this.internal.getLineHeight(txt));
+      for (var i = 0; i < lines.length; i++) {
+        var new_y = this.settings._y + lineHeight;
+        // if the new_y will exceed the page height, add a new page and reset _y
+        if (new_y >= this.settings.contentBottomY) {
+          this.addPage();
+          this.settings._y = this.settings.marginY;
+        } else {
+          this.settings._y = new_y;
+        }
+        this.text(x, this.settings._y, lines[i]);
+      }
+    } else {
+      this.text(x, this.settings._y, txt);
     }
-
-    // Draw text at x,y
-    this.text(txt, x, y);
-  };
-  /*
-            API.textWidth = function(txt) {
-                var fontSize = this.internal.getFontSize();
-                return this.getStringUnitWidth(txt)*fontSize / this.internal.scaleFactor;
-            };
-        */
-
-  API.getLineHeight = function(txt) {
-    return this.internal.getLineHeight();
   };
 })(jsPDF.API);
 
-px2mm = function(pixel) {
+var px2mm = function(pixel) {
   // px to inches
   var inches = pixel / 72;
   return inches * 25.4;
@@ -61,81 +36,95 @@ px2mm = function(pixel) {
 
 $(function() {
   var doc = new jsPDF();
-  var pageWidth = 210; // mm
-  var marginX = 10; // mm
-  var marginY = 16; // mm
-  var pageHeight = doc.internal.pageSize.height;
-  var content_width = pageWidth - marginX * 2;
+  doc.settings = {};
+  doc.settings.pageWidth = 210; // mm
+  doc.settings.marginX = 10; // mm
+  doc.settings.marginY = 16; // mm
+  doc.settings.contentBottomY =
+    doc.internal.pageSize.height - doc.settings.marginY;
+  doc.settings.contentWidth = doc.settings.pageWidth - doc.settings.marginX * 2;
+  doc.settings._y = doc.settings.marginY;
+
+  // some number variables
   var fontSm = 10;
   var fontMd = 14;
   var fontLg = 16;
   var spaceSm = 8;
   var spaceMd = 12;
   var spaceLg = 16;
-  var _y = marginY;
 
+  var xStartLeft = doc.settings.marginX;
+  var xStartMid = doc.settings.contentWidth / 2;
   // title
   doc.setFontSize(20);
-  doc.textAlign('Terms & Conditions', {}, marginX, _y);
-  _y += spaceLg;
+  doc.addText('Terms & Conditions', xStartLeft);
+  doc.settings._y += spaceLg;
 
-  // label row 1
+  // // label row 1
   doc.setFontSize(fontSm);
-  doc.textAlign('Make', {}, marginX, _y);
-  doc.textAlign('Year', {}, content_width / 2, _y);
-  _y += spaceSm;
+  doc.addText('Make', xStartLeft);
+  doc.addText('Year', xStartMid);
+  doc.settings._y += spaceSm;
 
   // content row 1
   doc.setFontSize(fontLg);
-  doc.textAlign($('input#make-1').val(), {}, marginX, _y);
-  doc.textAlign($('input#year-1').val(), {}, content_width / 2, _y);
-  _y += spaceLg;
+  doc.addText($('input#make-1').val(), xStartLeft);
+  doc.addText($('input#year-1').val(), xStartMid);
+  doc.settings._y += spaceLg;
 
   // label row 2
   doc.setFontSize(fontSm);
-  doc.textAlign('Model', {}, marginX, _y);
-  doc.textAlign('Kilometres', {}, content_width / 2, _y);
-  _y += spaceSm;
+  doc.addText('Model', xStartLeft);
+  doc.addText('Kilometres', xStartMid);
+  doc.settings._y += spaceSm;
 
   // content row 2
   doc.setFontSize(fontLg);
-  doc.textAlign($('input#model-1').val(), {}, marginX, _y);
-  doc.textAlign($('input#kilometres-1').val(), {}, content_width / 2, _y);
-  _y += spaceLg;
+  doc.addText($('input#model-1').val(), xStartLeft);
+  doc.addText($('input#kilometres-1').val(), xStartMid, {
+    stayInSameLine: true
+  });
+  doc.settings._y += spaceLg;
 
   doc.setFontSize(fontMd);
   // contract content
   $('.terms__content > p').each(function() {
-    var paragraph = $(this).text();
-    var lines = doc.splitTextToSize(paragraph, content_width);
-    var lineHeight = px2mm(doc.getLineHeight(paragraph));
-    for (var i = 0; i < lines.length; i++) {
-      var newY = _y + lineHeight;
-      if (newY >= pageHeight) {
-        doc.addPage();
-        _y = marginY;
-        doc.text(marginX, _y, lines[i]);
-        _y += lineHeight;
-      } else {
-        doc.text(marginX, _y, lines[i]);
-        _y = newY;
-      }
-    }
+    doc.addText($(this).text(), xStartLeft);
     // add gap for each paragraph
-    _y += spaceMd - lineHeight;
+    var new_y = doc.settings._y + spaceSm;
+    // if the new_y will exceed the page height, add a new page and reset _y
+    console.log(new_y);
+    if (new_y >= doc.settings.contentBottomY) {
+      doc.addPage(new_y);
+      doc.settings._y = doc.settings.marginY;
+    } else {
+      doc.settings._y = new_y;
+    }
   });
 
-  // label row 2
+  // bottom label row 2
   doc.setFontSize(fontSm);
-  doc.textAlign('Model', {}, marginX, _y);
-  doc.textAlign('Kilometres', {}, content_width / 2, _y);
-  _y += spaceSm;
+  doc.addText('Model', xStartLeft);
+  doc.addText('Kilometres', xStartMid);
+  doc.settings._y += spaceSm;
 
-  // content row 2
+  // bottom content row 2
   doc.setFontSize(fontLg);
-  doc.textAlign($('input#model-1').val(), {}, marginX, _y);
-  doc.textAlign($('input#kilometres-1').val(), {}, content_width / 2, _y);
-  _y += spaceLg;
+  doc.addText($('input#model-1').val(), xStartLeft);
+  doc.addText($('input#kilometres-1').val(), xStartMid);
+  doc.settings._y += spaceLg;
+
+  // bottom label row 3
+  doc.setFontSize(fontSm);
+  doc.addText('Customer Name', xStartLeft);
+  doc.addText('AreYouSelling Rep (Witness) Name', xStartMid);
+  doc.settings._y += spaceSm;
+
+  // bottom content row 3
+  doc.setFontSize(fontLg);
+  doc.addText($('input#customerName-3').val(), xStartLeft);
+  doc.addText($('input#repName-1').val(), xStartMid);
+  doc.settings._y += spaceLg;
 
   doc.save('ays-contract.pdf');
 });
