@@ -30,13 +30,13 @@
   };
 })(jsPDF.API);
 
-var px2mm = function(pixel) {
+function px2mm(pixel) {
   // px to inches
   var inches = pixel / 72;
   return inches * 25.4;
-};
+}
 
-$(function() {
+function generatePDF() {
   var doc = new jsPDF('p', 'mm', 'a4');
   doc.settings = {};
   doc.settings.pageWidth = 210; // mm
@@ -112,7 +112,6 @@ $(function() {
     // add gap for each paragraph
     var new_y = doc.settings._y + spaceSm;
     // if the new_y will exceed the page height, add a new page and reset _y
-    console.log(new_y);
     if (new_y >= doc.settings.contentBottomY) {
       doc.addPage(new_y);
       doc.settings._y = doc.settings.marginY;
@@ -184,4 +183,10 @@ $(function() {
   doc.addText($('input#contractDate-1').val(), xStartLeft);
 
   doc.save('ays-contract.pdf');
+}
+
+$(document).ready(function() {
+  $('#save-contract').click(function(e) {
+    generatePDF();
+  });
 });

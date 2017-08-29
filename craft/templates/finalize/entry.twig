@@ -7,7 +7,7 @@
 {% import "_form/macros" as _formMacros %}
 
 {% block content %}
-<form method="post" accept-charset="UTF-8" class="form-finalize form-styles col s12" enctype="multipart/form-data">
+<form method="post" accept-charset="UTF-8" class="form-finalize form-styles col s12" enctype="multipart/form-data" id="form-finalize">
   {{ getCsrfInput() }}
 
   <input type="hidden" name="action" value="entries/saveEntry">
@@ -46,12 +46,13 @@
   <section class="row">
     <div class="row row-submit">
       <div class="col s12 m4 offset-m4">
-          <button type="submit" class="btn btn-large waves-effect">Submit</button>
+          <button type="submit" id="form-finalize-submit" class="btn btn-large waves-effect">Submit</button>
       </div>
     </div>
   </section>
 
   </form>
+  
   {% include '_partials/signaturePad' %}
 
 {% endblock %}
