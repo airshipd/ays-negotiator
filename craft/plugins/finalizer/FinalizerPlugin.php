@@ -30,8 +30,9 @@ class FinalizerPlugin extends BasePlugin {
   protected function defineSettings()
   {
     return array(
-      'staffEmailSubject' => array(AttributeType::String, 'default' => "Sales Finalized"),
-      'customerEmailSubject' => array(AttributeType::String, 'default' => "")
+      'staffEmailSubject' => array(AttributeType::String, 'default' => ""),
+      'customerEmailSubject' => array(AttributeType::String, 'default' => "Thank You for Using Are You Selling"),
+      'defaultToEmail' => array(AttributeType::String, 'default' => "")
     );
   }
 

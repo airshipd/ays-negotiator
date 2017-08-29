@@ -1,6 +1,13 @@
 {% import "_includes/forms" as forms %}
 
 {{ forms.textField({
+	label: "Default To Email"|t,
+	instructions: "set the default email address that staff notification emails go to"|t,
+	name: 'defaultToEmail',
+	value: settings.defaultToEmail
+}) }}
+
+{{ forms.textField({
 	label: "Staff Email Subject"|t,
 	instructions: "Set the subject for staff notification emails"|t,
 	name: 'staffEmailSubject',
