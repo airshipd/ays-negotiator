@@ -72,7 +72,7 @@ $(function() {
   doc.setFontSize(fontLg);
   doc.addText($('input#make-1').val(), xStartLeft);
   doc.addText($('input#year-1').val(), xStartMid);
-  doc.settings._y += spaceLg;
+  doc.settings._y += spaceMd;
 
   // label row 2
   doc.setFontSize(fontSm);
@@ -84,7 +84,7 @@ $(function() {
   doc.setFontSize(fontLg);
   doc.addText($('input#model-1').val(), xStartLeft);
   doc.addText($('input#kilometres-1').val(), xStartMid);
-  doc.settings._y += spaceLg;
+  doc.settings._y += spaceMd;
 
   // content row 3
   doc.addText('I, ' + $('input#termsCustomerName').val(), xStartLeft);
@@ -99,11 +99,11 @@ $(function() {
     'hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of:',
     xStartLeft
   );
-  doc.settings._y += spaceMd;
+  doc.settings._y += spaceLg;
 
   // content row 6
   doc.addText('$ ' + $('input#termsAgreedPrice').val(), xStartLeft);
-  doc.settings._y += spaceLg;
+  doc.settings._y += spaceMd;
 
   doc.setFontSize(fontMd);
   // contract content
@@ -121,6 +121,35 @@ $(function() {
     }
   });
 
+  // bottom label row 1
+  doc.setFontSize(fontSm);
+  doc.addText('Customer Signature', xStartLeft);
+  doc.addText('AreYouSelling Rep (Witness) Signature', xStartMid);
+  doc.settings._y += spaceSm;
+
+  // bottom content row 1
+  var signatureAspectRatio = 1 / 8;
+  var signatureWidth = doc.settings.contentWidth / 3;
+  var signatureHeight = signatureWidth * signatureAspectRatio;
+
+  doc.addImage(
+    $('input#customer-signature-string').val(),
+    'PNG',
+    xStartLeft,
+    doc.settings._y,
+    signatureWidth,
+    signatureHeight
+  );
+  doc.addImage(
+    $('input#rep-signature-string').val(),
+    'PNG',
+    xStartMid,
+    doc.settings._y,
+    signatureWidth,
+    signatureHeight
+  );
+  doc.settings._y += signatureHeight + spaceMd;
+
   // bottom label row 2
   doc.setFontSize(fontSm);
   doc.addText('Model', xStartLeft);
@@ -131,7 +160,7 @@ $(function() {
   doc.setFontSize(fontLg);
   doc.addText($('input#model-1').val(), xStartLeft);
   doc.addText($('input#kilometres-1').val(), xStartMid);
-  doc.settings._y += spaceLg;
+  doc.settings._y += spaceMd;
 
   // bottom label row 3
   doc.setFontSize(fontSm);
@@ -143,7 +172,16 @@ $(function() {
   doc.setFontSize(fontLg);
   doc.addText($('input#customerName-3').val(), xStartLeft);
   doc.addText($('input#repName-1').val(), xStartMid);
-  doc.settings._y += spaceLg;
+  doc.settings._y += spaceMd;
+
+  // bottom label row 4
+  doc.setFontSize(fontSm);
+  doc.addText('Date', xStartLeft);
+  doc.settings._y += spaceSm;
+
+  // bottom content row 4
+  doc.setFontSize(fontLg);
+  doc.addText($('input#contractDate-1').val(), xStartLeft);
 
   doc.save('ays-contract.pdf');
 });
