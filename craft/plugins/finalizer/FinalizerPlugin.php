@@ -12,7 +12,7 @@ class FinalizerPlugin extends BasePlugin {
   }
 
   public function getVersion() {
-    return '1.0.0';
+    return '1.1.0';
   }
 
   public function getDeveloper() {
@@ -30,9 +30,11 @@ class FinalizerPlugin extends BasePlugin {
   protected function defineSettings()
   {
     return array(
-      'staffEmailSubject' => array(AttributeType::String, 'default' => ""),
+      'staffEmailSubject' => array(AttributeType::String, 'default' => "Order Finalized"),
       'customerEmailSubject' => array(AttributeType::String, 'default' => "Thank You for Using Are You Selling"),
-      'defaultToEmail' => array(AttributeType::String, 'default' => "")
+      'defaultStaffEmail' => array(AttributeType::String, 'default' => ""),
+      'sendToLoggedInUser' => array(AttributeType::Bool, 'default' => 1),
+      'sendToInspectionCreator' => array(AttributeType::Bool, 'default' => 0)
     );
   }
 

@@ -1,10 +1,10 @@
 {% import "_includes/forms" as forms %}
 
 {{ forms.textField({
-	label: "Default To Email"|t,
-	instructions: "set the default email address that staff notification emails go to"|t,
-	name: 'defaultToEmail',
-	value: settings.defaultToEmail
+	label: "Default Staff Email"|t,
+	instructions: "Set the default email address that all staff notification emails will go to"|t,
+	name: 'defaultStaffEmail',
+	value: settings.defaultStaffEmail
 }) }}
 
 {{ forms.textField({
@@ -19,4 +19,18 @@
 	instructions: "Set the subject for customer notification emails"|t,
 	name: 'customerEmailSubject',
 	value: settings.customerEmailSubject
+}) }}
+
+{{ forms.lightswitchField({
+	label: "Send To Logged In User"|t,
+	instructions: "Send staff notification email to the current logged in user"|t,
+	name: 'sendToLoggedInUser',
+	on: settings.sendToLoggedInUser
+}) }}
+
+{{ forms.lightswitchField({
+	label: "Send To Inspection Creator"|t,
+	instructions: "Send staff notification email to the creator of the inspection job"|t,
+	name: 'sendToInspectionCreator',
+	on: settings.sendToInspectionCreator
 }) }}

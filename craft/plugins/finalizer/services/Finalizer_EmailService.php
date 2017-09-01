@@ -17,16 +17,32 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
 
     $contractUrl = craft()->getSiteUrl() . 'contract/' . $entry->id;
 
+    // get customer email body
     ob_start();
     include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/customerNotification.php");
     $customerEmailBody =  ob_get_clean();
     $this->sendEmail($entry->customerEmail, $settings->customerEmailSubject, $customerEmailBody);
 
-
+    // get staff email body
     ob_start();
     include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/staffNotification.php");
     $staffEmailBody =  ob_get_clean();
-    $this->sendEmail($entry->author->email, $settings->staffEmailSubject, $staffEmailBody);
+
+    $defaultStaffEmail = $settings->defaultStaffEmail;
+
+    if($defaultStaffEmail !== '') {
+      $this->sendEmail($defaultStaffEmail, $settings->staffEmailSubject, $staffEmailBody);
+    }
+
+    if ($settings->sendToLoggedInUser == 1) {
+      $currentUser = craft()->userSession->getUser();
+      $this->sendEmail($currentUser->email, $settings->staffEmailSubject, $staffEmailBody);
+    }
+
+
+    if ($settings->sendToInspectionCreator = 1) {
+        $this->sendEmail($entry->author->email, $settings->staffEmailSubject, $staffEmailBody);
+    }
 
     // echo'<pre>';print_r($customerEmailBody);echo'</pre>';
     // echo'<pre>';print_r($contractUrl);echo'</pre>';
