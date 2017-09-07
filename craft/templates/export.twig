@@ -1,0 +1,22 @@
+{% for entry in craft.entries.section('inspections') %}
+  <entry>
+    <title>{{ entry.title }}</title>
+    <slug>{{ entry.slug }}</slug>
+    <postdate>{{ entry.postDate }}</postdate>
+    <author>{{ entry.author.id }}</author>
+    <mechanic>{{ entry.mechanic.first.id }}</mechanic>
+  {% for fieldLayoutField in entry.getFieldLayout().getFields() %}
+    {# get the field Model from the fieldId #}
+    {% set field = craft.fields.getFieldById(fieldLayoutField.fieldId) %}
+    {# print the field handle and the field content  #}
+    <{{ field.handle }}>
+      {% if field.handle != 'mechanic' %}
+          {{ entry.getContent()[field.handle] }}
+      {% endif %}
+    </{{ field.handle }}>
+
+  {% endfor %}
+
+  </entry>
+
+{% endfor %}
