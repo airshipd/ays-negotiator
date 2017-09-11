@@ -1,10 +1,11 @@
-{% for entry in craft.entries.section('inspections') %}
+{% for entry in craft.entries.section('inspections').order('dateCreated desc').limit(null) %}
   <entry>
     <title>{{ entry.title }}</title>
     <slug>{{ entry.slug }}</slug>
     <postdate>{{ entry.postDate }}</postdate>
     <author>{{ entry.author.id }}</author>
-    <mechanic>{{ entry.mechanic.first.id }}</mechanic>
+    {% set mechanic = entry.mechanic[0] ?? null %}
+    <mechanic>{% if mechanic %}{{ mechanic.id }}{% endif %}</mechanic>
   {% for fieldLayoutField in entry.getFieldLayout().getFields() %}
     {# get the field Model from the fieldId #}
     {% set field = craft.fields.getFieldById(fieldLayoutField.fieldId) %}
