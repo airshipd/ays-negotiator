@@ -5,7 +5,7 @@
 
   <p>Here is a link to the contract you signed​.​ Please download it for your records.</p>
 
-  <a href="<?php echo $contractUrl ?>"><?php echo $contractUrl ?></a>
+  <a href="<?php echo $contractUrl ?>">Download Agreement</a>
 
   <p>This is a courtesy email to let you know that we have received your paperwork and it is currently with our Administration team. We are conducting the necessary checks on your vehicle, which include an ownership check and a PPSR check to make sure the vehicle is not stolen, written off or under any unexpected finance. Once verified, we will arrange payment into your nominated bank account and then advise you of when your vehicle will be collected.</p>
 
