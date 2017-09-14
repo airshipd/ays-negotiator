@@ -28976,22 +28976,22 @@ $(function(){
     var lines = this.splitTextToSize(txt, this.settings.contentWidth);
     // if there are more than 1 lines needed
     if (lines.length > 1) {
-      var lineHeight = px2mm(this.internal.getLineHeight(txt));
       for (var i = 0; i < lines.length; i++) {
-        var new_y = this.settings._y + lineHeight;
-        // if the new_y will exceed the page height, add a new page and reset _y
-        if (new_y >= this.settings.contentBottomY) {
-          this.addPage();
-          this.settings._y = this.settings.marginY;
-          this.text(x, this.settings._y, lines[i]);
-          this.settings._y += lineHeight;
-        } else {
-          this.text(x, this.settings._y, lines[i]);
-          this.settings._y = new_y;
-        }
+        this.checkOrUpdatePaging();
+        this.text(x, this.settings._y, lines[i]);
+        var lineHeight = px2mm(this.internal.getLineHeight(txt));
+        this.settings._y += lineHeight;
       }
     } else {
+      this.checkOrUpdatePaging();
       this.text(x, this.settings._y, txt);
+    }
+  };
+
+  API.checkOrUpdatePaging = function() {
+    if (this.settings._y >= this.settings.contentBottomY) {
+      this.addPage('p', 'mm', 'a4');
+      this.settings._y = this.settings.marginY;
     }
   };
 })(jsPDF.API);
@@ -29091,7 +29091,7 @@ function generatePDF() {
   $('.terms__content > p').each(function() {
     doc.addText($(this).text(), xStartLeft);
     // add gap for each paragraph
-    var new_y = doc.settings._y + spaceSm;
+    doc.settings._y += spaceSm;
   });
 
   // bottom label row 1
@@ -29152,6 +29152,7 @@ function generatePDF() {
   doc.addText('Date', xStartLeft);
   doc.settings._y += spaceSm;
 
+  console.log(doc.settings.contentBottomY, doc.settings._y);
   // bottom content row 4
   doc.setFontSize(fontLg);
   doc.addText($('input#contractDate-1').val(), xStartLeft);
