@@ -29041,7 +29041,7 @@ function generatePDF() {
 
   // title
   doc.setFontSize(20);
-  doc.addText('Terms & Conditions', xStartLeft);
+  doc.addText('Contract of Sale', xStartLeft);
   doc.settings._y += spaceLg;
 
   // // label row 1
@@ -29069,11 +29069,11 @@ function generatePDF() {
   doc.settings._y += spaceMd;
 
   // content row 3
-  doc.addText('I, ' + $('input#termsCustomerName').val(), xStartLeft);
+  doc.addText('I, ' + $('input#contractCustomerName').val(), xStartLeft);
   doc.settings._y += spaceMd;
 
   // content row 4
-  doc.addText('of, ' + $('input#termsCustomerAddress').val(), xStartLeft);
+  doc.addText('of, ' + $('input#contractCustomerAddress').val(), xStartLeft);
   doc.settings._y += spaceMd;
 
   // content row 5
@@ -29084,11 +29084,11 @@ function generatePDF() {
   doc.settings._y += spaceMd;
 
   // content row 6
-  doc.addText('$ ' + $('input#termsAgreedPrice').val(), xStartLeft);
+  doc.addText('$ ' + $('input#contractAgreedPrice').val(), xStartLeft);
   doc.settings._y += spaceLg;
 
   // contract content
-  $('.terms__content > p').each(function() {
+  $('.contract__content > p').each(function() {
     doc.addText($(this).text(), xStartLeft);
     // add gap for each paragraph
     doc.settings._y += spaceSm;

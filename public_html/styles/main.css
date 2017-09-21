@@ -11462,31 +11462,31 @@ main {
     top: 12px;
     left: -12px; }
 
-.terms .terms__content {
+.contract .contract__content {
   margin-bottom: 64px; }
 
-.terms .customerNameWrapper {
+.contract .customerNameWrapper {
   position: relative; }
-  .terms .customerNameWrapper input {
+  .contract .customerNameWrapper input {
     padding-left: 12px; }
-  .terms .customerNameWrapper::before {
+  .contract .customerNameWrapper::before {
     content: "I,";
     position: absolute;
     top: 12px; }
 
-.terms .customerAddressWrapper {
+.contract .customerAddressWrapper {
   position: relative; }
-  .terms .customerAddressWrapper input {
+  .contract .customerAddressWrapper input {
     padding-left: 20px; }
-  .terms .customerAddressWrapper::before {
+  .contract .customerAddressWrapper::before {
     content: "of,";
     position: absolute;
     top: 12px; }
 
-.terms .agreedPriceWrapper input {
+.contract .agreedPriceWrapper input {
   padding-left: 10px; }
 
-.terms .agreedPriceWrapper::before {
+.contract .agreedPriceWrapper::before {
   left: 0; }
 
 .legal-footer {
