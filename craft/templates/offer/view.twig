@@ -43,7 +43,7 @@ $('#form-review').validate({
             $("html, body").animate({ scrollTop: 0 }, "fast");
 
             $(".countdown").jCounter({
-              customDuration: 60*10,
+              customDuration: 60*2,
               fallback: function() { console.log("Counter finished!") }
             });
 
@@ -56,7 +56,7 @@ $('#form-review').validate({
               $('#dollar-review').text('+ $' + data.reviewAdjustment);
               $('#dollar-final').text('$' + data.totalOffer.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') );
               $('.offer-viewTotal').addClass('offer-final');
-            },  120000 );
+            },  60000 );
 
         },
         error: function(xhr, status, error) {
