@@ -9,12 +9,15 @@
 
 {% block content %}
 <div class="display-wrapper form-styles">
-  <section class="row terms">
+  <section class="row terms visuallyhidden">
     {% include '_form/terms' %}
   </section>
   <section class="row">
-    <div class="col s12 m4 offset-m4">
-      <a id="save-contract" class="btn btn-large waves-effect">Save Contract</a>
+    <div class="col s12">
+      <a id="save-contract">
+        <i class="material-icons">file_download</i>
+        <span>Download Contract of Sale</span>
+      </a>
     </div>
   </section>
 </div>

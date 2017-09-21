@@ -71,7 +71,7 @@
     p {
       margin: 0;
     }
-    h2  {
+    h2 {
       margin: 0;
       white-space: nowrap;
     }
@@ -136,7 +136,6 @@
   }
 }
 
-
 .thank-you-page .display-wrapper {
   margin: 20px 0;
   padding: 48px;
@@ -164,9 +163,17 @@
 
 .contract-page .display-wrapper {
   > section.row {
-    padding: 48px;
-    label, input {
+    label,
+    input {
       pointer-events: none;
+    }
+    #save-contract {
+      padding: 48px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

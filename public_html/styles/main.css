@@ -11526,10 +11526,20 @@ main {
   .thank-you-page .display-wrapper h3 {
     font-size: 2rem; }
 
-.contract-page .display-wrapper > section.row {
-  padding: 48px; }
-  .contract-page .display-wrapper > section.row label, .contract-page .display-wrapper > section.row input {
-    pointer-events: none; }
+.contract-page .display-wrapper > section.row label,
+.contract-page .display-wrapper > section.row input {
+  pointer-events: none; }
+
+.contract-page .display-wrapper > section.row #save-contract {
+  padding: 48px;
+  font-size: 20px;
+  cursor: pointer;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center; }
 
 .login h3 {
   font-weight: 500;
