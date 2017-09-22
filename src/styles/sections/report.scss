@@ -1,5 +1,4 @@
 .report {
-
   .signature-display {
     width: 50%;
   }
@@ -8,7 +7,7 @@
     display: block;
   }
 
-  .vehicle-images {
+  .photos {
     margin-top: 35px;
     img {
       width: 100%;
@@ -43,7 +42,6 @@
   }
 
   @include at-query($min,$large ) {
-
     .row > .row > .col {
       &:first-child {
         padding-left: 0;
@@ -56,24 +54,22 @@
 }
 
 .form-isCarBought {
-
-    .alert {
-      text-align: center;
-      background: #e2e2e2;
-      border-radius: 4px;
-      margin-bottom: 22px;
-    }
-
-    div:nth-last-of-type(2) {
-      margin-bottom: 33px;
-      margin-top: 0;
-    }
-
-    #purchasePrice {
-      margin-bottom: 10px;
-    }
-
+  .alert {
+    text-align: center;
+    background: #e2e2e2;
+    border-radius: 4px;
+    margin-bottom: 22px;
   }
+
+  div:nth-last-of-type(2) {
+    margin-bottom: 33px;
+    margin-top: 0;
+  }
+
+  #purchasePrice {
+    margin-bottom: 10px;
+  }
+}
 
 .report-detail--wrap {
   background: white;
