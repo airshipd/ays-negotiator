@@ -29002,7 +29002,7 @@ function px2mm(pixel) {
   return inches * 25.4;
 }
 
-function generatePDF() {
+function generateSalesContract() {
   var doc = new jsPDF('p', 'mm', 'a4');
   doc.settings = {};
   doc.settings.pageWidth = 210; // mm
@@ -29105,22 +29105,29 @@ function generatePDF() {
   var signatureWidth = doc.settings.contentWidth / 3;
   var signatureHeight = signatureWidth * signatureAspectRatio;
 
-  doc.addImage(
-    $('input#customer-signature-string').val(),
-    'PNG',
-    xStartLeft,
-    doc.settings._y,
-    signatureWidth,
-    signatureHeight
-  );
-  doc.addImage(
-    $('input#rep-signature-string').val(),
-    'PNG',
-    xStartMid,
-    doc.settings._y,
-    signatureWidth,
-    signatureHeight
-  );
+  var customerSig = $('input#customer-signature-string').val();
+  if (customerSig) {
+    doc.addImage(
+      customerSig,
+      'PNG',
+      xStartLeft,
+      doc.settings._y,
+      signatureWidth,
+      signatureHeight
+    );
+  }
+
+  var repSig = $('input#rep-signature-string').val();
+  if (repSig) {
+    doc.addImage(
+      repSig,
+      xStartMid,
+      doc.settings._y,
+      signatureWidth,
+      signatureHeight
+    );
+  }
+
   doc.settings._y += signatureHeight + spaceMd;
 
   // bottom label row 2
@@ -29160,11 +29167,13 @@ function generatePDF() {
   doc.save('ays-contract.pdf');
 }
 
+function generateAdminPdf() {}
+
 $(document).ready(function() {
   var $wrapper = $('.contract-page');
   if (!$wrapper) return;
   $('#save-contract').click(function(e) {
-    generatePDF();
+    generateSalesContract();
   });
 });
 
