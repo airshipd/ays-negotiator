@@ -29002,8 +29002,8 @@ function px2mm(pixel) {
   return inches * 25.4;
 }
 
-function generateSalesContract() {
-  var doc = new jsPDF('p', 'mm', 'a4');
+// returns nothing, modifies a doc object
+function addDocSettings(doc) {
   doc.settings = {};
   doc.settings.pageWidth = 210; // mm
   doc.settings.marginX = 10; // mm
@@ -29012,6 +29012,11 @@ function generateSalesContract() {
     doc.internal.pageSize.height - doc.settings.marginY;
   doc.settings.contentWidth = doc.settings.pageWidth - doc.settings.marginX * 2;
   doc.settings._y = doc.settings.marginY;
+}
+
+function generateSalesContract() {
+  var doc = new jsPDF('p', 'mm', 'a4');
+  addDocSettings(doc);
 
   // some number variables
   var fontSm = 10;
@@ -29159,7 +29164,6 @@ function generateSalesContract() {
   doc.addText('Date', xStartLeft);
   doc.settings._y += spaceSm;
 
-  console.log(doc.settings.contentBottomY, doc.settings._y);
   // bottom content row 4
   doc.setFontSize(fontLg);
   doc.addText($('input#contractDate-1').val(), xStartLeft);
@@ -29167,7 +29171,21 @@ function generateSalesContract() {
   doc.save('ays-contract.pdf');
 }
 
-function generateAdminPdf() {}
+function generateAdminPdf() {
+  var doc = new jsPDF('p', 'mm', 'a4');
+  addDocSettings(doc);
+
+  // some number variables
+  var fontSm = 10;
+  var fontMd = 14;
+  var fontLg = 16;
+  var spaceSm = 8;
+  var spaceMd = 12;
+  var spaceLg = 16;
+
+  var xStartLeft = doc.settings.marginX;
+  var xStartMid = doc.settings.contentWidth / 2 + doc.settings.marginX;
+}
 
 $(document).ready(function() {
   var $wrapper = $('.contract-page');
