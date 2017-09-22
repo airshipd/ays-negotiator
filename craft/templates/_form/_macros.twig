@@ -29,3 +29,25 @@
     </div>
   </div>
 {% endmacro %}
+
+{% macro imageUpload(field, title) %}
+<h2>{{ title }}</h2>
+<div class="row image-upload" id="{{ field }}-upload">
+  <div class="col s12 m2">
+    <div class="image-upload__trigger ">
+      <i class="material-icons medium">photo_camera</i>
+    </div>
+  </div>
+
+  <!-- used to make clones of input fields via jQuery -->
+  <div class="col s12 m2 image-upload__complex" template>
+    <div class="image-upload__preview">
+      <div class="image-wrapper">
+        <i class="material-icons image-upload__remove">delete_forever</i>
+        <img src="" alt="image-preview">
+      </div>
+    </div>
+    <input type="file" class="image-upload__input" name="fields[{{ field }}][]" accept="image/*" value="">
+  </div>
+</div>
+{% endmacro %}

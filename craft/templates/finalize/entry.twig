@@ -4,7 +4,7 @@
 {% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Finalize' %}
 
 {% extends "layouts/loginRequired" %}
-{% import "_form/macros" as _formMacros %}
+{% import "_form/_macros" as _formMacros %}
 
 {% block content %}
 <form method="post" accept-charset="UTF-8" class="form-finalize form-styles col s12" enctype="multipart/form-data" id="form-finalize">
@@ -52,7 +52,7 @@
   </section>
 
   </form>
-  
+
   {% include '_partials/signaturePad' %}
 
 {% endblock %}
