@@ -25,8 +25,9 @@
 <body>
 
   <div class="page" id="page">
+    {% set hideNav = hideNav ?? false %}
     <header class="z-depth-2">
-      <nav >
+      <nav {% if hideNav %}class="visuallyhidden" {% endif %}>
         <div class="nav-wrapper">
           <a href="/" class="brand-logo center">{% if pageTitle is defined %}{{ pageTitle }}{% else %}{{ siteName }}{% endif %}</a>
           <ul class="left">

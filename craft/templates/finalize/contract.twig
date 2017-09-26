@@ -1,5 +1,6 @@
 {% set entry = craft.entries.id( craft.request.getSegment(2) ).first() %}
 
+{% set hideNav = true %}
 {% set pageClass = 'contract-page' %}
 {% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Contract' %}
 
