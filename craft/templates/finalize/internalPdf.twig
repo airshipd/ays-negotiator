@@ -1,0 +1,37 @@
+{% set entry = craft.entries.id( craft.request.getSegment(2) ).first() %}
+
+{% set hideNav = true %}
+{% set pageClass = 'contract-page' %}
+{% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Contract' %}
+
+{% extends "layouts/public" %}
+
+{% import "_form/_macros" as _formMacros %}
+
+{% block content %}
+<div class="display-wrapper form-styles">
+  <section class="row">
+    {% set allFields = craft.finalizer.getEntryData(entry) %}
+    {% for tab, tabFields in allFields %}
+    <div class="tab">
+      <div class="tabTitle">{{ tab }}</div>
+      <div class="tabFields">
+        {% for fieldName, value in tabFields %}
+            <div class="fieldName">{{ fieldName }}</div>
+            <div class="fieldValue">{{ value|striptags }}</div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </section>
+  <section class="row">
+    <div class="col s12">
+      <a id="save-contract">
+        <i class="material-icons">file_download</i>
+        <span>Download Internal PDF</span>
+      </a>
+    </div>
+  </section>
+</div>
+
+{% endblock %}
