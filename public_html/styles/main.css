@@ -11527,10 +11527,15 @@ main {
     font-size: 2rem; }
 
 .contract-page .display-wrapper > section.row label,
-.contract-page .display-wrapper > section.row input {
+.contract-page .display-wrapper > section.row input,
+.internalRecord-page .display-wrapper > section.row label,
+.internalRecord-page .display-wrapper > section.row input {
   pointer-events: none; }
 
-.contract-page .display-wrapper > section.row #save-contract {
+.contract-page .display-wrapper > section.row #save-contract,
+.contract-page .display-wrapper > section.row #save-record,
+.internalRecord-page .display-wrapper > section.row #save-contract,
+.internalRecord-page .display-wrapper > section.row #save-record {
   padding: 48px;
   font-size: 20px;
   cursor: pointer;

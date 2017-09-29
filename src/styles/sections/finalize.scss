@@ -161,13 +161,15 @@
   }
 }
 
-.contract-page .display-wrapper {
-  > section.row {
+.contract-page,
+.internalRecord-page {
+  .display-wrapper > section.row {
     label,
     input {
       pointer-events: none;
     }
-    #save-contract {
+    #save-contract,
+    #save-record {
       padding: 48px;
       font-size: 20px;
       cursor: pointer;
