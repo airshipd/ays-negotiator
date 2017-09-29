@@ -23,3 +23,6 @@ foreach($image_urls as $url) {
 
 <h2>Contract of Sale</h2>
 <a href="<?php echo $contractUrl ?>">Download Contract of Sale</a>
+
+<h2>Internal Record</h2>
+<a href="<?php echo $recordUrl ?>">Download Internal Record</a>

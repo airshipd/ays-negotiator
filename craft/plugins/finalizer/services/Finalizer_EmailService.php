@@ -19,6 +19,8 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
 
     $contractUrl = craft()->getSiteUrl() . 'contract/' . $entry->id;
 
+    $recordUrl = craft()->getSiteUrl() . 'internalrecord/' . $entry->id;
+
     // get customer email body
     ob_start();
     include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/customerNotification.php");
