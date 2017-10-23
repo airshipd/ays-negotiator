@@ -9,14 +9,14 @@
 {% import "_form/_macros" as _formMacros %}
 
 {% block content %}
-<section id="vehiclePhotos">
+<section id="vehiclePhotos" class="visuallyhidden">
 {% for photo in entry.vehiclePhotos %}
-  <img class="inspection-image" src="{{ photo.url }}" dataurl="">
+  <img class="inspection-image" src="{{ photo.url }}">
 {% endfor %}
 </section>
-<section id="licenseAndRegistrationPhotos">
+<section id="licenseAndRegistrationPhotos" class="visuallyhidden">
 {% for photo in entry.licenseAndRegistrationPhotos %}
-  <img class="inspection-image" src="{{ photo.url }}" dataurl="">
+  <img class="inspection-image" src="{{ photo.url }}">
 {% endfor %}
 </section>
 <div class="display-wrapper form-styles">
