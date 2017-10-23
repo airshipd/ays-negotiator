@@ -303,28 +303,6 @@ function generateInternalRecord() {
   var photoWidth = doc.settings.contentWidth / 2;
   doc.setFontSize(16);
 
-  $('#vehiclePhotos img').each(function(index) {
-    var photoHeight = photoWidth * photoAspectRatio;
-    doc.checkOrUpdatePaging(
-      photoHeight + px2mm(doc.internal.getLineHeight()) + spaceMd
-    );
-    if (index == 0) {
-      doc.addText('Vehicle Photos', xStartLeft);
-      doc.settings._y += spaceMd;
-    }
-    doc.addImage(
-      $(this).attr('src'),
-      'PNG',
-      xStartLeft,
-      doc.settings._y,
-      photoWidth,
-      photoHeight
-    );
-    doc.settings._y += photoHeight + spaceMd;
-  });
-
-  doc.settings._y += spaceLg;
-
   $('#licenseAndRegistrationPhotos img').each(function(index) {
     var photoHeight = photoWidth * photoAspectRatio;
     doc.checkOrUpdatePaging(
