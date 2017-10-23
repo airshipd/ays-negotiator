@@ -30,4 +30,8 @@ class Finalizer_FieldsService extends BaseApplicationComponent  {
     unset($grouped["Pre Inspection Details"]["Inspection Status"]);
     return $grouped;
   }
+
+  function getCustomerName($entry) {
+    return $entry->customerName;
+  }
 }

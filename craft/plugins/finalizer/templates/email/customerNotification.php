@@ -1,4 +1,4 @@
-<h2>Dear <?php echo $sections['Customer Details']['Customer Name'].','?></h2>
+<h2>Dear <?php echo $customerName .','?></h2>
 
 <div class="email-body">
   <p>Congratulations on selling your car! We hope the sale was easy and stress free!</p>

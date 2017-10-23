@@ -8,7 +8,7 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
     // get plugin settings
     $settings = craft()->plugins->getPlugin('finalizer')->getSettings();
 
-    $sections = craft()->finalizer_fields->groupFieldsByTabs($entry);
+    $customerName = craft()->finalizer_fields->getCustomerName($entry);
 
     $images = $entry->licenseAndRegistrationPhotos;
     $image_urls = array();

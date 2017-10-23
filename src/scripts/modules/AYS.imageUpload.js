@@ -13,16 +13,21 @@ $(function() {
     $wrapper.find('.image-upload__trigger').click(function() {
       var $node = cloneDomTemplate($wrapper);
       $wrapper.append($node);
-      // console.log($node);
       $node.find('.image-upload__input').trigger('click');
     });
   });
 
   function cloneDomTemplate($el) {
-    var clone = $el.find('[template]').clone().removeAttr('template');
+    var clone = $el
+      .find('[template]')
+      .clone()
+      .removeAttr('template');
 
     console.log(clone);
-    return $el.find('[template]').clone().removeAttr('template');
+    return $el
+      .find('[template]')
+      .clone()
+      .removeAttr('template');
   }
 
   function setPreviewImage(file, $node) {
@@ -31,7 +36,10 @@ $(function() {
     reader.readAsDataURL(file);
     reader.onload = function(e) {
       // get loaded data and render thumbnail.
-      $node.show().find('.image-wrapper img').attr('src', e.target.result);
+      $node
+        .show()
+        .find('.image-wrapper img')
+        .attr('src', e.target.result);
     };
   }
 
@@ -42,6 +50,8 @@ $(function() {
   });
 
   $(document).on('click', '.image-upload__remove', function() {
-    $(this).closest('.image-upload__complex').remove();
+    $(this)
+      .closest('.image-upload__complex')
+      .remove();
   });
 });
