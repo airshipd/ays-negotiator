@@ -22,8 +22,9 @@
     }
   };
 
-  API.checkOrUpdatePaging = function() {
-    if (this.settings._y >= this.settings.contentBottomY) {
+  API.checkOrUpdatePaging = function(elementHeight) {
+    var elementHeight = elementHeight || 0;
+    if (this.settings._y + elementHeight >= this.settings.contentBottomY) {
       this.addPage('p', 'mm', 'a4');
       this.settings._y = this.settings.marginY;
     }
@@ -34,6 +35,22 @@ function px2mm(pixel) {
   // px to inches
   var inches = pixel / 72;
   return inches * 25.4;
+}
+
+function toDataURL(src, callback) {
+  var img = new Image();
+  img.crossOrigin = 'Anonymous';
+  img.onload = function() {
+    var canvas = document.createElement('CANVAS');
+    var ctx = canvas.getContext('2d');
+    var dataURL;
+    canvas.height = this.naturalHeight;
+    canvas.width = this.naturalWidth;
+    ctx.drawImage(this, 0, 0);
+    dataURL = canvas.toDataURL();
+    callback(dataURL);
+  };
+  img.src = src;
 }
 
 var logoDataString =
@@ -153,20 +170,14 @@ function generateSalesContract() {
       'PNG',
       xStartLeft,
       doc.settings._y,
-      signatureWidth,
+      image,
       signatureHeight
     );
   }
 
   var repSig = $('input#rep-signature-string').val();
   if (repSig) {
-    doc.addImage(
-      repSig,
-      xStartMid,
-      doc.settings._y,
-      signatureWidth,
-      signatureHeight
-    );
+    doc.addImage(repSig, xStartMid, doc.settings._y, image, signatureHeight);
   }
 
   doc.settings._y += signatureHeight + spaceMd;
@@ -279,6 +290,56 @@ function generateInternalRecord() {
     doc.settings._y += spaceMd;
   });
 
+  // photos
+
+  // photo sizing
+  var photoAspectRatio = 3 / 5;
+  var photoWidth = doc.settings.contentWidth / 2;
+  doc.setFontSize(16);
+
+  $('#vehiclePhotos img').each(function(index) {
+    var photoHeight = photoWidth * photoAspectRatio;
+    doc.checkOrUpdatePaging(
+      photoHeight + px2mm(doc.internal.getLineHeight()) + spaceMd
+    );
+    if (index == 0) {
+      doc.addText('Vehicle Photos', xStartLeft);
+      doc.settings._y += spaceMd;
+    }
+    doc.addImage(
+      $(this).attr('src'),
+      'PNG',
+      xStartLeft,
+      doc.settings._y,
+      photoWidth,
+      photoHeight
+    );
+    doc.settings._y += photoHeight + spaceMd;
+  });
+
+  doc.settings._y += spaceLg;
+
+  $('#licenseAndRegistrationPhotos img').each(function(index) {
+    var photoHeight = photoWidth * photoAspectRatio;
+    doc.checkOrUpdatePaging(
+      photoHeight + px2mm(doc.internal.getLineHeight()) + spaceMd
+    );
+    if (index == 0) {
+      doc.addText('License and Registration Photos', xStartLeft);
+      doc.settings._y += spaceMd;
+    }
+
+    doc.addImage(
+      $(this).attr('src'),
+      'PNG',
+      xStartLeft,
+      doc.settings._y,
+      photoWidth,
+      photoHeight
+    );
+    doc.settings._y += photoHeight + spaceMd;
+  });
+
   doc.save('ays-internal-record.pdf');
 }
 
@@ -293,7 +354,27 @@ $(document).ready(function() {
 $(document).ready(function() {
   var $wrapper = $('.internalRecord-page');
   if (!$wrapper) return;
+  var imageCount = $('.inspection-image').length;
+  var updatedImageCount = 0;
+  $('.inspection-image').each(function() {
+    var $img = $(this);
+    toDataURL($img.attr('src'), function(dataURL) {
+      $img.attr('src', dataURL);
+      updatedImageCount++;
+    });
+  });
+
+  function checkAllImagesUpdated() {
+    if (imageCount == updatedImageCount) {
+      // only generateInternalRecord after all image url updated to data uri format
+      generateInternalRecord();
+      return;
+    } else {
+      setTimeout(checkAllImagesUpdated, 300);
+    }
+  }
+
   $('#save-record').click(function(e) {
-    generateInternalRecord();
+    checkAllImagesUpdated();
   });
 });

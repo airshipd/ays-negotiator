@@ -9,6 +9,16 @@
 {% import "_form/_macros" as _formMacros %}
 
 {% block content %}
+<section id="vehiclePhotos">
+{% for photo in entry.vehiclePhotos %}
+  <img class="inspection-image" src="{{ photo.url }}" dataurl="">
+{% endfor %}
+</section>
+<section id="licenseAndRegistrationPhotos">
+{% for photo in entry.licenseAndRegistrationPhotos %}
+  <img class="inspection-image" src="{{ photo.url }}" dataurl="">
+{% endfor %}
+</section>
 <div class="display-wrapper form-styles">
   <section class="row visuallyhidden">
     {% set allFields = craft.finalizer.getEntryData(entry) %}
