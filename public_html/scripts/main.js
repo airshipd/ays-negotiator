@@ -29136,14 +29136,20 @@ function generateSalesContract() {
       'PNG',
       xStartLeft,
       doc.settings._y,
-      image,
+      signatureWidth,
       signatureHeight
     );
   }
 
   var repSig = $('input#rep-signature-string').val();
   if (repSig) {
-    doc.addImage(repSig, xStartMid, doc.settings._y, image, signatureHeight);
+    doc.addImage(
+      repSig,
+      xStartMid,
+      doc.settings._y,
+      signatureWidth,
+      signatureHeight
+    );
   }
 
   doc.settings._y += signatureHeight + spaceMd;
