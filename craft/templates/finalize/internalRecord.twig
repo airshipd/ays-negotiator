@@ -15,20 +15,15 @@
 {% endfor %}
 </section>
 <div class="display-wrapper form-styles">
-  <section class="row visuallyhidden">
+  <section class="row">
     {% set allFields = craft.finalizer.getEntryData(entry) %}
     {% for tab, tabFields in allFields %}
-    <div class="tab">
-      <h3 class="tabTitle">{{ tab }}</h3>
-      <div class="tabFields">
         {% for fieldName, value in tabFields %}
         <div class="field">
           <div class="fieldName">{{ fieldName }}</div>
           <div class="fieldValue">{{ value|striptags }}</div>
         </div>
         {% endfor %}
-      </div>
-    </div>
     {% endfor %}
   </section>
   <section class="row">

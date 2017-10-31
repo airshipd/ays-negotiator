@@ -250,50 +250,25 @@ function generateInternalRecord() {
   doc.settings._y += logoHeight + spaceLg;
 
   // title
-  doc.setFontSize(20);
-  doc.addText('Internal Record', xStartLeft);
-  doc.settings._y += spaceLg;
+  // doc.setFontSize(20);
+  // doc.addText('Internal Record', xStartLeft);
+  // doc.settings._y += spaceLg;
 
   // signature sizing
   var signatureAspectRatio = 1 / 8;
   var signatureWidth = doc.settings.contentWidth / 3;
   var signatureHeight = signatureWidth * signatureAspectRatio;
 
-  $('.tab').each(function() {
-    $tab = $(this);
-    var tabTitle = $tab.find('.tabTitle').html();
-    doc.setFontSize(16);
-    doc.addText(tabTitle, xStartLeft);
-    doc.settings._y += spaceMd;
-
-    doc.setFontSize(12);
-    $tab.find('.field').each(function() {
-      var $field = $(this);
-      var fieldName = $field.find('.fieldName').html();
-      var fieldValue = $field.find('.fieldValue').html();
-      if (
-        fieldName == 'Rep Signature String' ||
-        fieldName == 'Customer Signature String'
-      ) {
-        doc.addText(fieldName, xStartLeft);
-        doc.settings._y += spaceMd;
-        doc.addImage(
-          fieldValue,
-          'PNG',
-          xStartLeft,
-          doc.settings._y,
-          signatureWidth,
-          signatureHeight
-        );
-        doc.settings._y += 20;
-      } else {
-        doc.addText(fieldName + ': ' + fieldValue, xStartLeft);
-        // add space after every line
-        doc.settings._y += spaceSm;
-      }
-    });
-
-    doc.settings._y += spaceMd;
+  doc.setFontSize(12);
+  $('.field').each(function(index) {
+    var xStart = index % 2 == 0 ? xStartMid : xStartLeft;
+    var yIncrease = index % 2 == 0 && index != 0 ? spaceSm : 0;
+    console.log(index, yIncrease);
+    var $field = $(this);
+    var fieldName = $field.find('.fieldName').html();
+    var fieldValue = $field.find('.fieldValue').html();
+    doc.settings._y += yIncrease;
+    doc.addText(fieldName + ': ' + fieldValue, xStart);
   });
 
   // photos
