@@ -16,14 +16,13 @@
 </section>
 <div class="display-wrapper form-styles">
   <section class="row">
-    {% set allFields = craft.finalizer.getEntryData(entry) %}
-    {% for tab, tabFields in allFields %}
-        {% for fieldName, value in tabFields %}
-        <div class="field">
-          <div class="fieldName">{{ fieldName }}</div>
-          <div class="fieldValue">{{ value|striptags }}</div>
-        </div>
-        {% endfor %}
+    {% set allFields = ['customerName'] %}
+    {% for field in allFields %}
+    <div class="field">
+      {% set fieldName = field %}
+      <div class="fieldName">{{ fieldName|camelToSpace|title }}</div>
+      <div class="fieldValue">{{ attribute(entry, field)|striptags }}</div>
+    </div>
     {% endfor %}
   </section>
   <section class="row">

@@ -29233,7 +29233,6 @@ function generateInternalRecord() {
     var $field = $(this);
     var fieldName = $field.find('.fieldName').html();
     var fieldValue = $field.find('.fieldValue').html();
-
     doc.settings._y += yIncrease;
     doc.addText(fieldName + ': ' + fieldValue, xStart);
   });
