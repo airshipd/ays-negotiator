@@ -16,12 +16,75 @@
 </section>
 <div class="display-wrapper form-styles">
   <section class="row">
-    {% set allFields = ['customerName'] %}
+    {% set allFields = [
+    'customerName',
+    'customerPhoneNumber',
+    'customerAddress',
+    'customerState',
+    'customerSuburb',
+    'customerPostcode',
+    'customerDriversLicense',
+    'customerDriversLicenseExpirationDate',
+    'customerDob',
+    'year',
+    'make',
+    'model',
+    'badge',
+    'series',
+    'carBody',
+    'colour',
+    'engineSize',
+    'transmission',
+    'odometer',
+    'seats',
+    'doors',
+    'engineType',
+    'driveTrain',
+    'chassisVinNumber',
+    'engineNumber',
+    'registrationNumber',
+    'expirationDate',
+    'buildDate',
+    'complianceDate',
+    'writeOff',
+    'serviceBooks',
+    'registrationPapers',
+    'ownersManual',
+    'spareKey',
+    'sunroof',
+    'leatherUpholstery',
+    'satNav',
+    'wheels',
+    'tradesmanExtras',
+    'tradesmanExtrasDescription',
+    'upgradesMods',
+    'upgradesAndModsDescription',
+    'sportsKit',
+    'sportsKitDescription',
+    'damageAndFaults',
+    'approximateExpenditure',
+    'agreedPrice',
+    'finance',
+    'financeCompany',
+    'bank',
+    'bsb',
+    'bankAccountNumber',
+    'contractCopy'
+    ] %}
     {% for field in allFields %}
     <div class="field">
       {% set fieldName = field %}
-      <div class="fieldName">{{ fieldName|camelToSpace|title }}</div>
-      <div class="fieldValue">{{ attribute(entry, field)|striptags }}</div>
+      <div class="fieldName">{{ fieldName|camelToSpace|title|replace({'Customer ':''}) }}</div>
+      {% set value = attribute(entry, field)|striptags %}
+      {% switch value %}
+        {% case '1' %}
+          {% set value = 'yes' %}
+        {% case '0' %}
+          {% set value = 'no' %}
+        {% case '' %}
+          {% set value = 'not filled out' %}
+      {% endswitch %}
+      <div class="fieldValue">{{ value }}</div>
     </div>
     {% endfor %}
   </section>
