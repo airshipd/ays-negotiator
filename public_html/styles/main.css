@@ -11291,7 +11291,7 @@ main {
   opacity: 1; }
 
 .list-inspectionsTitles {
-  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: #999999;
   padding: 20px 26px 14px;
@@ -11312,7 +11312,7 @@ main {
   background: white; }
   .list-inpsections li {
     padding: 13px 26px 13px;
-    border-bottom: 1px solid #DDDDDD; }
+    border-bottom: 1px solid #dddddd; }
     .list-inpsections li a {
       display: -ms-flexbox;
       display: flex; }
@@ -11352,15 +11352,19 @@ main {
     text-align: center;
     font-size: 10px; }
   .list-inpsections .status-upcoming span {
-    border: 1px solid #7CAA5A;
-    color: #7CAA5A; }
+    border: 1px solid #7caa5a;
+    color: #7caa5a; }
   .list-inpsections .status-accepted span {
     background: rgba(123, 170, 89, 0.35);
     font-size: 10px;
-    color: #FFFFFF; }
+    color: #ffffff; }
+  .list-inpsections .status-finalized span {
+    background: rgba(66, 165, 245, 0.35);
+    font-size: 10px;
+    color: #ffffff; }
   .list-inpsections .status-rejected span {
     background: rgba(170, 89, 89, 0.35);
-    color: #FFFFFF; }
+    color: #ffffff; }
   .list-inpsections .report {
     text-align: center; }
     .list-inpsections .report a {
@@ -11376,7 +11380,7 @@ main {
       display: inline-block;
       background: rgba(0, 0, 0, 0.45);
       font-size: 10px;
-      color: #FFFFFF; }
+      color: #ffffff; }
 
 .form-assessment #damageAndFaults {
   margin-bottom: 1px; }

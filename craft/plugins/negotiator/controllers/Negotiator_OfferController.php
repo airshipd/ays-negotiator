@@ -12,7 +12,9 @@ class Negotiator_OfferController extends BaseController {
       $action = craft()->request->getSegment(4);
 
       $template = ( $action == 'accept' ) ? 'offer/accept' : 'offer/reject';
-      
+
+      // set inspection status
+      $inspection->getContent()->inspectionStatus = ( $action == 'accept' ) ? 'Accepted' : 'Rejected';
       if ( craft()->entries->saveEntry( $inspection ) ) {
          $this->renderTemplate($template);
       } else {
