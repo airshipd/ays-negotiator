@@ -7,37 +7,6 @@
 
 {% block content %}
 
-{% set sliderJS %}
-$('#form-purchase').validate({
-  errorElement: "em",
-  errorPlacement: function(error, element) {
-    $(element).parent().append(error);
-  },
-  submitHandler: function(form) {
-    $.ajax({
-       type: "POST",
-        url: '/index.php?p=actions/negotiator/inspections/savePurchaseHistory',
-        data: $(form).serialize(),
-        success: function(data) {
-            $('#purchaseModal').modal('close');
-        },
-        error: function(xhr, status, error) {
-          var err = eval("(" + xhr.responseText + ")");
-          alert(err.Message);
-        }
-    });
-  }
-});
-
-$('.modal').modal({
-  dismissible: false,
-  ready: function(modal, trigger) {
-    console.log(modal, trigger);
-  }
-});
-{% endset %}
-{% includeJs sliderJS %}
-
 <div class="offer-container valign-wrapper">
 
   <div class="valign z-depth-1">
