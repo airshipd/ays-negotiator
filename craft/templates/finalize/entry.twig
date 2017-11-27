@@ -1,7 +1,7 @@
 {% set entry = craft.entries.id( craft.request.getSegment(2) ).first() %}
 
 {% set pageClass = 'form-page' %}
-{% set pageTitle = entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model ~ ' Finalize' %}
+{% set pageTitle = entry.title ?? entry.year ~ ' ' ~ entry.make ~ ' ' ~ entry.model %}
 
 {% extends "layouts/loginRequired" %}
 {% import "_form/_macros" as _formMacros %}
