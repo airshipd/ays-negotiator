@@ -11,7 +11,7 @@
   {{ getCsrfInput() }}
 
   <input type="hidden" name="action" value="entries/saveEntry">
-  <input type="hidden" name="redirect" value="{{ url('thankyou/' ~ entry.id) }}">
+  <input type="hidden" name="redirect" value="{{ url('thankyou') }}">
   <input type="hidden" name="sectionId" value="{{ entry.sectionId }}">
   <input type="hidden" name="entryId" value="{{ entry.id }}">
   <input type="hidden" name="enabled" value="1">

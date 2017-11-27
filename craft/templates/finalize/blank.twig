@@ -11,12 +11,17 @@
   {{ getCsrfInput() }}
 
   <input type="hidden" name="action" value="entries/saveEntry">
-  <input type="hidden" name="redirect" value="{{ url('thankyou/' ~ entry.id) }}">
-  <input type="hidden" name="sectionId" value="{{ entry.sectionId }}">
-  <input type="hidden" name="entryId" value="{{ entry.id }}">
+  <input type="hidden" name="redirect" value="{{ url('thankyou') }}">
+  <input type="hidden" name="sectionId" value="{{ craft.entries.section('inspections').first.sectionId }}">
   <input type="hidden" name="enabled" value="1">
   <!-- set inspectionStatus to 3: finalized -->
   <input type="hidden" name="fields[inspectionStatus]" value="finalized">
+  <input type="hidden" name="fields[inspectionDate][date]" value="{{ now|date('d/m/Y') }}">
+  <input type="hidden" name="fields[inspectionLocation]" value="Walk In">
+  <input type="hidden" name="fields[phoneValuation]" value="0">
+  <input type="hidden" name="fields[physicalValuation]" value="0">
+  <input type="hidden" name="fields[reviewValuation]" value="0">
+  <input type="hidden" name="fields[averageTotalForCarType]" value="0">
 
   <section class="row customer-and-car">
       <h2>Customer & Car Details</h2>
