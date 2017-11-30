@@ -16,13 +16,19 @@
       <nav >
         <div class="nav-wrapper">
           <a href="/" class="brand-logo center">{% if pageTitle is defined %}{{ pageTitle }}{% else %}{{ siteName }}{% endif %}</a>
-          <ul class="left">
-            <li><a href="/"><i class="material-icons">view_list</i></a></li>
-          </ul>
+          <div class="left">
+            <a class="header-icon--list" href="/"><i class="material-icons">view_list</i></a>
+            <ul class="header-list">
+              <li>Nearby</li>
+              <li>Up Coming</li>
+            </ul>
+          </div>
+
           {% if currentUser %}
-          <ul class="right">
-            <li><a href="{{ logoutUrl }}"><i class="material-icons">exit_to_app</i></a></li>
-          </ul>
+          <div class="right">
+            <div class="header-date"></div>
+            <a class="header-icon--logout" href="{{ logoutUrl }}"><i class="material-icons">exit_to_app</i></a>
+          </div>
           {% endif %}
         </div>
       </nav>
@@ -50,6 +56,14 @@
       <script src="/scripts/main.js"></script>
     {% else %}
       <script src="/scripts/main.min.js?v=1"></script>
+    {% endif %}
+
+    <script src="/scripts/app.js"></script>
+
+    {% if craft.config.devMode %}
+    <script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.13'><\/script>".replace("HOST", location.hostname));
+//]]></script>
     {% endif %}
   {% endblock %}
 

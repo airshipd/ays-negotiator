@@ -1,27 +1,15 @@
 {#
  # Homepage template
  # ---------------
- #
- # When this template gets loaded, it will be because someone has accessed
- # http://yoursite.com/ (without any URI). Craft checks to see if you have
- # a Single section set to be the Homepage (as you do, by default), and
- # loads the section’s Template (this file). A special ‘entry’ variable
- # will already be set for you, assigned to the Homepage entry.
- #
- # It's worth noting that even if you didn't have a Homepage Single section,
- # as long as this template remains at craft/templates/index.html, it
- # would still be the one to get loaded when accessing http://yoursite.com/,
- # albeit without an ‘entry’ variable already set for you.
- #
- # See this page for more details on how Craft routes requests:
- # http://buildwithcraft.com/docs/routing
  #}
 
 {% extends "layouts/loginRequired" %}
 
 {% block content %}
 
-  <div class="index-inspection">
+  <div id="app"></div>
+
+  {# <div class="index-inspection">
 
     {% if currentUser.admin %}
       {% set inspections = craft.entries({ section: "inspections" }).order("dateCreated desc") %}
@@ -30,33 +18,59 @@
     {% endif %}
 
     {% if inspections|length %}
+    <div class="row">
+      <div class="col inspection-list">
+        <ul class="list-inpsections">
+        {% for inspection in inspections %}
+          {% set status = inspection.inspectionStatus %}
+          <li class="{{  status != 'UpComing' ? 'in-active':'' }}">
+            {% if status == 'UpComing' %}<a href="{{inspection.url}}" class="valign-wrapper">{% endif %}
+              <div class="list-item title {% if status == 'UpComing' %}title-upComing{% endif %}">{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} <span>- {{inspection.inspectionLocation}}</span></div>
+              <div class="list-item date">{{inspection.inspectionDate|date('M d') }}</div>
+              <div class="list-item status-{{ status|lower }}"><span>{{ status }}</span></div>
+            {% if status == 'UpComing'  %}</a>{% endif %}
+            {% if status != 'UpComing' %}
+              <div class="list-item report"><a href="/report/{{inspection.id}}">Report</a></div>
+            {% endif %}
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="col inspection-map">
+        <div id="map"></div>
+        <script>
+        var map;
 
-    <div class="list-inspectionsTitles">
-      <div class="">Vehicle</div>
-      <div class="">Date</div>
-      <div class="">Status</div>
-    </div>
-    <div class="z-depth-2">
-      <ul class="list-inpsections">
-      {% for inspection in inspections %}
-        {% set status = inspection.inspectionStatus %}
-        <li class="{{  status != 'UpComing' ? 'in-active':'' }}">
-          {% if status == 'UpComing' %}<a href="{{inspection.url}}" class="valign-wrapper">{% endif %}
-            <div class="list-item title {% if status == 'UpComing' %}title-upComing{% endif %}">{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} <span>- {{inspection.inspectionLocation}}</span></div>
-            <div class="list-item date">{{inspection.inspectionDate|date('M d') }}</div>
-            <div class="list-item status-{{ status|lower }}"><span>{{ status }}</span></div>
-          {% if status == 'UpComing'  %}</a>{% endif %}
-          {% if status != 'UpComing' %}
-            <div class="list-item report"><a href="/report/{{inspection.id}}">Report</a></div>
-          {% endif %}
-        </li>
-      {% endfor %}
-      </ul>
-    </div>
+        function initMap() {
+          map = new google.maps.Map(document.getElementById("map"), {
+            center: {
+              lat: 0,
+              lng: 0
+            },
+            zoom: 0
+          });
 
+          var infowindow = new google.maps.InfoWindow({
+            content: ''
+          });
+
+          var marker = new google.maps.Marker({
+            position: uluru,
+            map: map,
+            title: 'Uluru (Ayers Rock)'
+          });
+
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+        }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ craft.simpleMap.apiKey }}&callback=initMap" async defer></script>
+      </div>
+    </div>
     {% else %}
     <p class="center-align">No Inspections are currency assigned to you.</p>
     {% endif %}
-  </div>
+  </div> #}
 
 {% endblock %}

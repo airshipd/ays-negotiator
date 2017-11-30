@@ -8,7 +8,7 @@
 
   {# Let's use uncompressed CSS if we're in dev mode, for easier debugging: #}
   {% if craft.config.devMode %}
-  <link rel="stylesheet" href="{{ rev(siteUrl ~ 'styles/main.min.css') }}" />
+  <link rel="stylesheet" href="{{ rev(siteUrl ~ 'styles/main.css') }}" />
   {% else %}
   <link rel="stylesheet" href="{{ rev(siteUrl ~ 'styles/main.min.css') }}" />
   {% endif %}
