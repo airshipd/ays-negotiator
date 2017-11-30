@@ -28972,8 +28972,10 @@ $(function(){
 // *************************************
 (function(API) {
   API.addText = function(txt, x, options) {
-    var options = options || {};
-    var lines = this.splitTextToSize(txt, this.settings.contentWidth);
+    var options = options || {
+      lineWidth: 1
+    };
+    var lines = this.splitTextToSize(txt, this.settings.contentWidth * options.lineWidth);
     // if there are more than 1 lines needed
     if (lines.length > 1) {
       for (var i = 0; i < lines.length; i++) {
@@ -29234,7 +29236,7 @@ function generateInternalRecord() {
     var fieldName = $field.find(".fieldName").html();
     var fieldValue = $field.find(".fieldValue").html();
     doc.settings._y += yIncrease;
-    doc.addText(fieldName + ": " + fieldValue, xStart);
+    doc.addText(fieldName + ": " + fieldValue, xStart, { lineWidth: 1/2 });
   });
 
   // photos
@@ -29289,18 +29291,18 @@ $(document).ready(function() {
     });
   });
 
-  function checkAllImagesUpdated() {
+  function ensureAllImagesUpdated() {
     if (imageCount == updatedImageCount) {
       // only generateInternalRecord after all image url updated to data uri format
       generateInternalRecord();
       return;
     } else {
-      setTimeout(checkAllImagesUpdated, 300);
+      setTimeout(ensureAllImagesUpdated, 300);
     }
   }
 
   $("#save-record").click(function(e) {
-    checkAllImagesUpdated();
+    ensureAllImagesUpdated();
   });
 });
 
