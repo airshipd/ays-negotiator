@@ -1,10 +1,27 @@
 <template>
-  <div class="row">
-    <h1>test</h1>
-  </div>
+  <section clas="section-inspection--main">
+
+    <div class="row">
+      <div class="col">
+        <input-text :label="'Odometer'"></input-text>
+      </div>
+      <div class="col">
+        <input-text :label="'Colour'"></input-text>
+      </div>
+      <div class="col">
+        <input-text :label="'Body'"></input-text>
+      </div>
+      <div class="col">
+        <choice-group :label="'Drive Type'"></choice-group>
+      </div>
+    </div>
+
+  </section>
 </template>
 
 <script>
+import inputText from './inputs/N1_Text.vue'
+import choiceGroup from './inputs/N2_ChoiceGroup.vue'
 
 import axios from 'axios'
 import { urlGetInspection } from '../config.js'
@@ -16,20 +33,22 @@ export default {
   },
   data () {
     return {
-
+      inspection: {}
     }
   },
   methods: {
     getInspection() {
       axios.get(urlGetInspection+'/'+this.$router.params.id)
       .then(response => {
-        this.inspections = response.data
+        this.inspection = response.data
       }).catch(e => {
         console.log(e)
       })
     }
   },
   components: {
+    inputText,
+    choiceGroup
   },
   computed: {
   }

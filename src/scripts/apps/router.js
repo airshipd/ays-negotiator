@@ -16,7 +16,7 @@ const router = new Router({
     },
     {
       path: '/inspection/:id',
-      name: 'Negotiations',
+      name: 'Inspection',
       component: Inspection
     },
   ]
