@@ -5,24 +5,6 @@ class Negotiator_ApiController extends BaseController {
 
   protected $allowAnonymous = true;
 
-  public function actionMap() {
-
-    $criteria = craft()->elements->getCriteria(ElementType::Entry);
-    $criteria->id = craft()->request->getSegment(2);
-    $inspection = $criteria->first();
-
-    $map = array (
-      'content' => '',
-      'lat' => $inspection->location->lat,
-      'lng' => $inspection->location->lng,
-      'zoom' => $inspection->location->zoom,
-      'address' => $inspection->location->parts['route_short'] . ' ' . $inspection->location->parts['locality'],
-      'title' => $inspection->getContent()->year . ' ' . $inspection->getContent()->make . ' ' . $inspection->getContent()->model
-    );
-
-    $this->returnJson($map);
-  }
-
   public function actionInspections() {
 
     $user = craft()->userSession->getUser();
@@ -46,12 +28,13 @@ class Negotiator_ApiController extends BaseController {
         if(count($i->location->parts)) {
           $temp = array (
             'id' => $i->id,
-            'lat' => $i->location->lat,
-            'lng' => $i->location->lng,
-            'zoom' => $i->location->zoom,
+            'lat' => floatval($i->location->lat),
+            'lng' => floatval($i->location->lng),
+            'zoom' => intval($i->location->zoom),
             'address' => $i->location->parts['route_short'] . ' ' . $i->location->parts['locality'],
             'title' => $i->getContent()->year . ' ' . $i->getContent()->make . ' ' . $i->getContent()->model,
             'status' => $i->getContent()->inspectionStatus,
+            'url' => $i->url
           );
           array_push($ret,$temp);
         }

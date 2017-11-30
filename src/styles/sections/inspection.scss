@@ -1,7 +1,71 @@
 .inspections {
   background: #F7F7F7;
 
+  .col {
+    width: 50%;
+  }
+
   .list {
-    background: white;
+    color: #4A4A4A;
+  }
+
+  .map {
+    padding: 0;
+    height: 400px;
+  }
+
+  .inspection {
+    padding: 15px;
+    font-size: 1.5rem;
+    position: relative;
+
+    .click-wrapper {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20%;
+      content: "";
+      height: 100%;
+    }
+
+    .row {
+      margin-bottom: 0;
+
+      &:first-of-type {
+        margin-bottom: 8px;
+      }
+    }
+
+    &.active {
+      background: white;
+    }
+
+    .col {
+      padding: 0;
+    }
+
+    .title {
+      font-weight: bold;
+    }
+
+    .status {
+      color: #5FB3E3;
+    }
+
+    .status, .distance, .report {
+      text-align: right;
+    }
+
+    .distance, .report {
+      .material-icons {
+        font-size: 1.4rem;
+      }
+    }
+
+    .report {
+      color: #DF5735;
+      text-transform: uppercase;
+    }
   }
 }

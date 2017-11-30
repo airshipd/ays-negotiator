@@ -4,6 +4,7 @@ require('dotenv').config();
 
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var gulpsync = require('gulp-sync')(gulp);
 
 // Load plugins:
 var plugins = require('gulp-load-plugins')({
@@ -62,8 +63,9 @@ gulp.task('watch:tasks', ['default'], function() {
  * - calls 'gulp watch:tasks' using Browsersync for live updating
  */
 gulp.task('watch', ['watch:tasks'], function() {
-  plugins.browserSync.init({
-    open: true,
+  return plugins.browserSync.init({
+    // open: true,
+    // injectChanges: true,
   });
 });
 
@@ -101,7 +103,7 @@ gulp.task('images', function() {
  * - Compile Sass --> CSS, autoprefix, and minify
  */
 gulp.task('styles', function() {
-  gulp
+  return gulp
     .src(path.src + '/styles/main.scss')
     .pipe(plugins.sourcemaps.init())
     // Compile Sass:
@@ -126,13 +128,11 @@ gulp.task('styles', function() {
     .pipe(gulp.dest(path.dest + '/styles'))
     // Report file size:
     .pipe(plugins.size({ showFiles: true }))
-    // Minify main.css and rename it to 'main.min.css':
     .pipe(plugins.cssmin())
+    .pipe(plugins.browserSync.stream())
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(plugins.size({ showFiles: true }))
     .pipe(gulp.dest(path.dest + '/styles'))
-    .pipe(plugins.browserSync.stream())
-    .on('error', gutil.log)
     .pipe(plugins.browserSync.stream());
 });
 
@@ -142,7 +142,7 @@ gulp.task('styles', function() {
  * - Bundle Javascript and concatenate
  */
 gulp.task('scripts', function() {
-  gulp
+  return gulp
     .src([
       path.src + '/scripts/main/vendor/fastclick.js',
       path.src + '/scripts/main/vendor/materialize.js',
@@ -172,12 +172,18 @@ gulp.task('scripts', function() {
 /**
  * $ gulp Vue app js
  *
- * - lint Javascript files and Gulpfile.js
+ * -
  */
 gulp.task('js-vue', function() {
-	plugins.browserify('src/scripts/apps/index.js', { debug: true })
-	.transform(["vueify", { "presets": ["es2015", "stage-2"] }])
-	.bundle()
+	let b = plugins.browserify('src/scripts/apps/index.js', { debug: true })
+  .transform(["vueify", { "presets": ["es2015", "stage-2"] }])
+  return b.bundle()
+  .on('error', function(err){
+    // print the error (can replace with gulp-util)
+    console.log(err.message);
+    // end this stream
+    this.emit('end');
+  })
 	.pipe(plugins.source('app.js'))
 	.pipe(plugins.buffer())
 	.pipe(plugins.sourcemaps.init({
@@ -196,4 +202,4 @@ gulp.task('js-vue', function() {
  * - optimise images (including SVGs)
  * - create custom Modernizr build
  */
-gulp.task('default', ['styles', 'scripts', 'js-vue', 'images']);
+gulp.task('default', gulpsync.sync(['styles', 'scripts', 'js-vue', 'images']));

@@ -1,15 +1,15 @@
 <template>
 
-  <li @click="clickAction">
+  <li @click.stop="toggleRowActive" :class="itemClass" >
     <div class="row">
       <div class="col title">{{inspection.title}}</div>
       <div class="col status">{{showProperStatus(inspection.status)}}</div>
     </div>
     <div class="row">
       <div class="col address">{{inspection.address}}</div>
-      <div :class="classObj"></div>
+      <div :class="bottomClass"><i class="material-icons">keyboard_arrow_right</i></div>
     </div>
-    <div class="icon-chevronRight"></div>
+    <div class="click-wrapper" @click="goToInspection()"></div>
   </li>
 
 </template>
@@ -17,18 +17,15 @@
 <script>
   export default {
     name: 'list-items',
-    props: ['inspection', 'action'],
+    props: ['inspection', 'action', 'active', 'index'],
     mounted () {
-      console.log(this.inspection)
     },
     data () {
       return {
+
       }
     },
     methods: {
-      clickAction () {
-        console.log('i happed')
-      },
       showProperStatus(status) {
         let theStatus = ''
         switch(status) {
@@ -46,13 +43,27 @@
         }
         return theStatus
       },
+      toggleRowActive() {
+        this.$emit('newactive', this.index);
+        this.$store.commit('updateLocation', {lat: this.inspection.lat, lng: this.inspection.lng })
+      },
+      goToInspection() {
+        this.$router.push('inspection/'+this.inspection.id)
+      }
     },
     computed: {
-      classObj () {
+      bottomClass () {
         return {
           col: true,
           distance: this.inspection.status !== 'finalized' ? true : false,
           report: this.inspection.status === 'finalized' ? true : false
+        }
+      },
+      itemClass () {
+        return {
+          inspection: true,
+          active: this.active,
+          'z-depth-1': this.active
         }
       }
     },

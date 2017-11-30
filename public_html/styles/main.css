@@ -11144,7 +11144,8 @@ em.error {
   margin-bottom: 40px; }
 
 html {
-  overflow-x: hidden; }
+  overflow-x: hidden;
+  font-size: 62.5%; }
   html.hidden {
     display: block !important; }
 
@@ -12466,7 +12467,43 @@ nav {
 
 .inspections {
   background: #F7F7F7; }
+  .inspections .col {
+    width: 50%; }
   .inspections .list {
-    background: white; }
+    color: #4A4A4A; }
+  .inspections .map {
+    padding: 0;
+    height: 400px; }
+  .inspections .inspection {
+    padding: 15px;
+    font-size: 1.5rem;
+    position: relative; }
+    .inspections .inspection .click-wrapper {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20%;
+      content: "";
+      height: 100%; }
+    .inspections .inspection .row {
+      margin-bottom: 0; }
+      .inspections .inspection .row:first-of-type {
+        margin-bottom: 8px; }
+    .inspections .inspection.active {
+      background: white; }
+    .inspections .inspection .col {
+      padding: 0; }
+    .inspections .inspection .title {
+      font-weight: bold; }
+    .inspections .inspection .status {
+      color: #5FB3E3; }
+    .inspections .inspection .status, .inspections .inspection .distance, .inspections .inspection .report {
+      text-align: right; }
+    .inspections .inspection .distance .material-icons, .inspections .inspection .report .material-icons {
+      font-size: 1.4rem; }
+    .inspections .inspection .report {
+      color: #DF5735;
+      text-transform: uppercase; }
 
 /*# sourceMappingURL=main.css.map */

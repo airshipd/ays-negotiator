@@ -55,8 +55,13 @@
   "dependencies": {
     "axios": "^0.17.1",
     "babel-preset-stage-2": "^6.24.1",
+    "gulp-sync": "^0.1.4",
+    "install": "^0.10.2",
     "jquery": "^3.2.1",
+    "npm": "^5.5.1",
     "vue": "^2.5.2",
+    "vue-router": "^3.0.1",
+    "vue2-google-maps": "^0.8.4",
     "vueify": "^9.4.1",
     "vuex": "^3.0.1"
   }
