@@ -15,7 +15,8 @@ export default new Vuex.Store({
     userLocation: {
       lat: 0,
       lng: 0
-    }
+    },
+    inspection: {}
   },
   mutations: {
     updateLocation(state, data) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     updateUserLocation(state, data) {
       state.userLocation = Object.assign({}, state.userLocation, data)
+    },
+    updateInspection(state,data) {
+      state.inspection = Object.assign({}, state.inspection, data)
     }
   }
 })

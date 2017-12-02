@@ -1,7 +1,9 @@
 <template>
 
   <div class="input-field">
-    <input type="text" class="input-text" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)">
+    <select class="input-select" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)">
+      <option v-for="option in options" :key="option.value" >{{option.value}}</option>
+    </select>
     <label :for="uniqueID">{{label}}</label>
   </div>
 
@@ -9,8 +11,8 @@
 
 <script>
   export default {
-    name: 'input-n-1-text',
-    props: ['name','label','value'],
+    name: 'input-n-5-select',
+    props: ['label','value','options'],
     mounted () {
     },
     data () {

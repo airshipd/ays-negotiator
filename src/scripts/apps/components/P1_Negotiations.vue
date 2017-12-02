@@ -1,30 +1,34 @@
 <template>
-  <div class="row">
-    <div class="col list">
-      <ul>
-        <list v-for="(item, index) in inspections"
-        :inspection="item"
-        :active="index === activeLiIndex"
-        :key="item.id"
-        :index="index"
-        @newactive="activeLiIndex = $event" >
-        </list>
-      </ul>
+
+  <section class="section-inspections">
+    <div class="row">
+      <div class="col list">
+        <ul>
+          <list v-for="(item, index) in inspections"
+          :inspection="item"
+          :active="index === activeLiIndex"
+          :key="item.id"
+          :index="index"
+          @newactive="activeLiIndex = $event" >
+          </list>
+        </ul>
+      </div>
+      <div class="col map">
+        <gmap-map
+          :center="location"
+          :zoom="13"
+          :style="{width: '100%', height: '100%'}"
+        >
+          <gmap-marker
+            :position="location"
+            :clickable="false"
+            :draggable="false"
+          ></gmap-marker>
+        </gmap-map>
+      </div>
     </div>
-    <div class="col map">
-      <gmap-map
-        :center="location"
-        :zoom="13"
-        :style="{width: '100%', height: '100%'}"
-      >
-        <gmap-marker
-          :position="location"
-          :clickable="false"
-          :draggable="false"
-        ></gmap-marker>
-      </gmap-map>
-    </div>
-  </div>
+  </section>
+
 </template>
 
 <script>

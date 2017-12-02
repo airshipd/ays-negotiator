@@ -43,4 +43,46 @@ class Negotiator_ApiController extends BaseController {
 
     $this->returnJson($ret);
   }
+
+  public function actionInspection() {
+
+    $ret = [];
+    $retData = [];
+    $retOptions = [];
+
+    $criteria = craft()->elements->getCriteria(ElementType::Entry);
+    $criteria->id = craft()->request->getSegment(3);
+    $inspection = $criteria->first();
+
+    $fieldsToReturn = 'buildDate,odometer,inspectionStatus,make,model,series,year,colour,carBody,driveTrain,doors,seats,badge,engineType,engineSize,transmission,wheels,serviceBooks,servicePapers,sunroof,satNav,spareKey,leatherUpholstery,tradesmanExtras,tradesmanExtrasDescription,upgradesMods,upgradesAndModsDescription,sportsKit,sportsKitDescription,damageAndFaults';
+
+    foreach( $inspection->getFieldLayout()->getFields() as $fieldLayoutField ) {
+      $field = craft()->fields->getFieldById($fieldLayoutField->fieldId);
+
+      if( in_array( $field->handle, explode(',',$fieldsToReturn) ) ) {
+        $fieldName = $field->handle;
+        $retData[$fieldName] = $inspection->getContent()->$fieldName;
+      }
+    }
+
+    foreach( $inspection->getFieldLayout()->getFields() as $fieldLayoutField ) {
+      $field = craft()->fields->getFieldById($fieldLayoutField->fieldId);
+
+      if( in_array( $field->handle, explode(',',$fieldsToReturn) ) ) {
+        $fieldName = $field->handle;
+        $fieldType = $field->type;
+        $fieldSettings = $field->settings;
+
+        $retOptions[$fieldName] = array(
+          'type' => $fieldType,
+          'settings' => $fieldSettings
+        );
+      }
+    }
+
+    $ret['data'] = $retData;
+    $ret['options'] = $retOptions;
+
+    $this->returnJson($ret);
+  }
 }

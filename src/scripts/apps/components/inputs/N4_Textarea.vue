@@ -1,15 +1,15 @@
 <template>
 
-  <div class="input-field">
-    <input type="text" class="input-text" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)">
+  <div class="input-textarea">
     <label :for="uniqueID">{{label}}</label>
+    <textarea type="text" class="input-textarea" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)"></textarea>
   </div>
 
 </template>
 
 <script>
   export default {
-    name: 'input-n-1-text',
+    name: 'input-n-4-textarea',
     props: ['name','label','value'],
     mounted () {
     },

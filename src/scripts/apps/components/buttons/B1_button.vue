@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'buttons-b-3-button',
+    name: 'b-1-button',
     props: ['label', 'action', 'fullWidth'],
     mounted () {
 
