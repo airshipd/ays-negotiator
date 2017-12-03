@@ -54,7 +54,7 @@ class Negotiator_ApiController extends BaseController {
     $criteria->id = craft()->request->getSegment(3);
     $inspection = $criteria->first();
 
-    $fieldsToReturn = 'buildDate,odometer,inspectionStatus,make,model,series,year,colour,carBody,driveTrain,doors,seats,badge,engineType,engineSize,transmission,wheels,serviceBooks,servicePapers,sunroof,satNav,spareKey,leatherUpholstery,tradesmanExtras,tradesmanExtrasDescription,upgradesMods,upgradesAndModsDescription,sportsKit,sportsKitDescription,damageAndFaults';
+    $fieldsToReturn = 'buildDate,odometer,inspectionStatus,make,model,series,year,colour,carBody,driveTrain,doors,seats,badge,engineType,engineSize,transmission,wheels,serviceBooks,servicePapers,sunroof,satNav,spareKey,leatherUpholstery,tradesmanExtras,tradesmanExtrasDescription,upgradesMods,upgradesAndModsDescription,sportsKit,sportsKitDescription,damageAndFaults,approximateExpenditure';
 
     foreach( $inspection->getFieldLayout()->getFields() as $fieldLayoutField ) {
       $field = craft()->fields->getFieldById($fieldLayoutField->fieldId);

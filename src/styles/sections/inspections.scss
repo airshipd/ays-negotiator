@@ -1,5 +1,10 @@
 .section-inspections {
   background: #F7F7F7;
+  height: calc(100vh - 80px);
+
+  > .row {
+    height: 100%;
+  }
 
   .col {
     width: 50%;
@@ -11,7 +16,7 @@
 
   .map {
     padding: 0;
-    height: 400px;
+    height: 100%;
   }
 
   .inspection {

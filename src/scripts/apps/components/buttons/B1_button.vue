@@ -1,6 +1,6 @@
 <template>
 
-  <button class="btn" :class="{'btn--full-width': fullWidth}" @click="clickAction">{{label}}</button>
+  <button class="btn" :class="{'btn-fullWidth': fullWidth}" @click="clickAction">{{label}}</button>
 
 </template>
 

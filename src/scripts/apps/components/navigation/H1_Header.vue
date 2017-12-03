@@ -40,7 +40,7 @@
               </div>
               <div class="col">
                 <label>Build Date</label>
-                {{inspection.buildDate}}
+                {{buildDate}}
               </div>
             </div>
           </div>
@@ -58,10 +58,12 @@
     mounted () {
 
     },
+    created() {
+      this.currentRoute = this.$route.name
+    },
     data () {
       return {
         currentRoute: 'Negotiations',
-        showHeader: true,
         title: '',
       }
     },
@@ -70,6 +72,7 @@
         this.action()
       },
       updateTitle (route) {
+        console.log('udpate route',route)
         switch(route) {
           case 'Inspection':
             this.title = 'Vehicle Assesment form'
@@ -80,18 +83,33 @@
           default:
             this.title = ''
         }
-      }
+      },
+
     },
     watch: {
       '$route': function(r) {
         this.currentRoute = r.name
-        this.updateTitle()
       },
+      currentRoute: function(n,o) {
+        this.updateTitle(n)
+      }
     },
     computed: {
       inspection () {
         return this.$store.state.inspection
+      },
+      buildDate () {
+        let theDate = null
+        if( this.inspection.buildDate != null ) {
+          let d = new Date(this.inspection.buildDate.date)
+          theDate = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`
+        }
+        return theDate
+      },
+      showHeader () {
+        return this.currentRoute === 'Waiting' || this.currentRoute === 'decline' ? false : true
       }
+
     }
 }
 </script>

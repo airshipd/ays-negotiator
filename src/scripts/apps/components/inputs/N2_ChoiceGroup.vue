@@ -2,11 +2,13 @@
 
   <div class="input-group">
     <label>{{label}}</label>
-    <div class="group-divider" v-for="(item, index) in options" :key="item.value">
-      <input type="radio" ref="input" v-bind:value="item.value" v-on:click="updateValue($event.target.value)" :name="name" :id="index+'-label'" >
-      <label :for="index+'-label'">{{item.value}}</label>
-    </div>
 
+    <div class="group-wrapper row">
+      <div class="group-divider col" v-for="(item, index) in options" :key="item.value">
+        <input type="radio" ref="input" v-bind:value="item.value" v-on:click="updateValue($event.target.value)" :name="name" :id="index+'-label-'+name" >
+        <label :for="index+'-label-'+name">{{item.label}}</label>
+      </div>
+    </div>
   </div>
 
 </template>

@@ -1,7 +1,7 @@
 <template>
 
   <div class="input-textarea">
-    <label :for="uniqueID">{{label}}</label>
+    <label v-if="{label}" :for="uniqueID">{{label}}</label>
     <textarea type="text" class="input-textarea" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)"></textarea>
   </div>
 

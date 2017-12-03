@@ -64,6 +64,8 @@
     "vue-router": "^3.0.1",
     "vue2-google-maps": "^0.8.4",
     "vueify": "^9.4.1",
+    "vuejs-count-down": "0.0.5",
+    "vuejs-countdown": "^0.1.0",
     "vuex": "^3.0.1"
   }
 }

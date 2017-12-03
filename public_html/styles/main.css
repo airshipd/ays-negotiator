@@ -10095,6 +10095,119 @@ p {
   font-size: 12px;
   text-align: center; }
 
+.input-field,
+.input-group,
+.input-checkbox {
+  position: relative; }
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+  width: 80%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(64, 86, 144, 0.2);
+  line-height: 3rem;
+  font-size: 1.6rem;
+  padding: 0 5px; }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="number"]:focus {
+    outline: 0; }
+  .input-field input[type="text"], .input-field
+  input[type="email"], .input-field
+  input[type="number"] {
+    margin-top: 1.6rem; }
+    .input-field input[type="text"] + label, .input-field
+    input[type="email"] + label, .input-field
+    input[type="number"] + label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #405690;
+      font-size: 1.5rem; }
+
+select {
+  -webkit-appearance: none;
+  background: transparent url("/images/input-arrow.svg") 100% 50% no-repeat;
+  width: 80%;
+  border: none;
+  border-bottom: 1px solid rgba(64, 86, 144, 0.2);
+  padding: 0 5px;
+  line-height: 3rem;
+  font-size: 1.6rem;
+  border-radius: 0; }
+  select:focus {
+    outline: 0; }
+  .input-field select {
+    margin-top: 1.6rem; }
+    .input-field select + label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #405690;
+      font-size: 1.5rem; }
+
+input[type="radio"],
+input[type="checkbox"] {
+  position: absolute;
+  visibility: hidden; }
+
+.input-group > label {
+  font-size: 1.5rem;
+  color: #405690;
+  display: block; }
+
+.input-group .group-wrapper {
+  display: -ms-flexbox;
+  display: flex;
+  margin: 4px 0 0; }
+
+.input-group .group-divider {
+  padding: 0; }
+  .input-group .group-divider label {
+    line-height: 1em;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid #405690;
+    padding: 12px 13px;
+    font-size: 1.4rem;
+    margin-right: 10px;
+    cursor: pointer;
+    min-width: 60px;
+    display: block; }
+  .input-group .group-divider input[type="radio"]:checked ~ label {
+    background: #405690;
+    color: white; }
+  .input-group .group-divider:last-of-type label {
+    margin-right: 0; }
+
+.input-checkbox input[type="checkbox"] + label {
+  display: block;
+  color: #405690;
+  line-height: 1em;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid #405690;
+  padding: 12px 13px;
+  font-size: 1.4rem;
+  margin-right: 10px;
+  cursor: pointer;
+  min-width: 60px;
+  display: block;
+  color: #333849; }
+
+input[type="checkbox"]:checked ~ label {
+  background: #405690;
+  color: white; }
+
+textarea {
+  width: 100%;
+  border: none;
+  min-height: 84px; }
+  textarea:focus {
+    outline: 0; }
+
 .form-styles h2 {
   margin-top: 20px;
   margin-bottom: 1px;
@@ -10152,23 +10265,37 @@ body {
   background: #f7f7f7;
   color: #333849;
   overflow: hidden;
-  width: 100%; }
+  width: 100%;
+  min-height: 100%; }
 
 #page {
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  min-height: 100%; }
   @media screen and (min-width: 500px) {
     #page {
       max-width: 1024px; } }
 
+html,
+body {
+  min-height: 100vh; }
+
+#page,
+main {
+  min-height: 100%; }
+
 header {
-  margin-top: 0px; }
+  margin-top: 0px;
+  z-index: 20;
+  position: relative; }
 
 .page + nav {
   display: none; }
 
 main {
-  margin: 0; }
+  margin: 0;
+  z-index: 10;
+  position: relative; }
 
 .form-page form > .row,
 .display-wrapper > .row {
@@ -11464,15 +11591,28 @@ nav {
     .report-detail p:empty {
       display: none; }
 
+.section-inspection {
+  padding-top: 40px; }
+  .section-inspection > .row {
+    padding-left: 56px;
+    padding-right: 56px; }
+
+.inspection-dark {
+  background: #3F425C;
+  padding: 30px 0; }
+
 .section-inspections {
-  background: #F7F7F7; }
+  background: #F7F7F7;
+  height: calc(100vh - 80px); }
+  .section-inspections > .row {
+    height: 100%; }
   .section-inspections .col {
     width: 50%; }
   .section-inspections .list {
     color: #4A4A4A; }
   .section-inspections .map {
     padding: 0;
-    height: 400px; }
+    height: 100%; }
   .section-inspections .inspection {
     padding: 15px;
     font-size: 1.5rem;
@@ -11504,5 +11644,15 @@ nav {
     .section-inspections .inspection .report {
       color: #DF5735;
       text-transform: uppercase; }
+
+.section-waiting {
+  background-image: radial-gradient(50% 143%, #485A89 50%, #111536 100%);
+  height: 100vh; }
+  .section-waiting h3 {
+    margin: 0; }
+  .section-waiting .time {
+    color: white; }
+  .section-waiting p {
+    color: white; }
 
 /*# sourceMappingURL=main.css.map */

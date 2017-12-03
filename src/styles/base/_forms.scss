@@ -1,3 +1,145 @@
+.input-field,
+.input-group,
+.input-checkbox {
+  position: relative;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+  width: 80%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba($dark-blue,0.2);
+  line-height: 3rem;
+  font-size: 1.6rem;
+  padding: 0 5px;
+
+  &:focus {
+    outline: 0;
+  }
+
+  .input-field & {
+    margin-top: 1.6rem;
+
+    + label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: $dark-blue;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+select {
+  -webkit-appearance: none;
+  background: transparent url('/images/input-arrow.svg') 100% 50% no-repeat;
+  width: 80%;
+  border: none;
+  border-bottom: 1px solid rgba($dark-blue,0.2);
+  padding: 0 5px;
+  line-height: 3rem;
+  font-size: 1.6rem;
+  border-radius: 0;
+
+  &:focus {
+    outline: 0;
+  }
+
+  .input-field & {
+    margin-top: 1.6rem;
+
+    + label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: $dark-blue;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  position: absolute;
+  visibility: hidden;
+}
+
+.input-group {
+
+  > label {
+    font-size: 1.5rem;
+    color: $dark-blue;
+    display: block;
+  }
+
+  .group-wrapper {
+    display: flex;
+    margin: 4px 0 0;
+  }
+
+  .group-divider {
+    padding: 0;
+
+    label {
+      line-height: 1em;
+      text-align: center;
+      border-radius: 4px;
+      border: 1px solid $dark-blue;
+      padding: 12px 13px;
+      font-size: 1.4rem;
+      margin-right: 10px;
+      cursor: pointer;
+      min-width: 60px;
+      display: block;
+    }
+
+    input[type="radio"]:checked ~ label {
+      background: $dark-blue;
+      color: white;
+    }
+
+    &:last-of-type label {
+      margin-right: 0;
+    }
+  }
+}
+
+input[type="checkbox"] {
+
+  .input-checkbox & + label {
+    display: block;
+    color: $dark-blue;
+    line-height: 1em;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid $dark-blue;
+    padding: 12px 13px;
+    font-size: 1.4rem;
+    margin-right: 10px;
+    cursor: pointer;
+    min-width: 60px;
+    display: block;
+    color: $black;
+  }
+
+  &:checked ~ label {
+    background: $dark-blue;
+    color: white;
+  }
+}
+
+textarea {
+  width: 100%;
+  border: none;
+  min-height: 84px;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
 .form-styles {
 
   h2 {
