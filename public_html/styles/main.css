@@ -10085,10 +10085,15 @@ body .ui-tooltip {
   max-width: 100%; }
 
 body {
-  font-family: "Helvetica Neue"; }
+  font-family: "Helvetica Neue";
+  font-weight: 300; }
+
+h1, h2, h3, h4, h5 {
+  font-weight: 300; }
 
 p {
-  color: #333333; }
+  color: #333333;
+  font-weight: 300; }
 
 .form-heading {
   color: #CCCCCC;
@@ -10103,11 +10108,12 @@ p {
 input[type="text"],
 input[type="email"],
 input[type="number"] {
+  font-weight: 300;
   width: 80%;
   background: transparent;
   border: none;
   border-bottom: 1px solid rgba(64, 86, 144, 0.2);
-  line-height: 3rem;
+  line-height: 4rem;
   font-size: 1.6rem;
   padding: 0 5px; }
   input[type="text"]:focus,
@@ -10121,6 +10127,7 @@ input[type="number"] {
     .input-field input[type="text"] + label, .input-field
     input[type="email"] + label, .input-field
     input[type="number"] + label {
+      font-weight: 300;
       position: absolute;
       top: 0;
       left: 0;
@@ -10134,14 +10141,16 @@ select {
   border: none;
   border-bottom: 1px solid rgba(64, 86, 144, 0.2);
   padding: 0 5px;
-  line-height: 3rem;
+  line-height: 4rem;
   font-size: 1.6rem;
-  border-radius: 0; }
+  border-radius: 0;
+  font-weight: 300; }
   select:focus {
     outline: 0; }
   .input-field select {
     margin-top: 1.6rem; }
     .input-field select + label {
+      font-weight: 300;
       position: absolute;
       top: 0;
       left: 0;
@@ -10154,6 +10163,7 @@ input[type="checkbox"] {
   visibility: hidden; }
 
 .input-group > label {
+  font-weight: 300;
   font-size: 1.5rem;
   color: #405690;
   display: block; }
@@ -10166,6 +10176,7 @@ input[type="checkbox"] {
 .input-group .group-divider {
   padding: 0; }
   .input-group .group-divider label {
+    font-weight: 300;
     line-height: 1em;
     text-align: center;
     border-radius: 4px;
@@ -10183,6 +10194,7 @@ input[type="checkbox"] {
     margin-right: 0; }
 
 .input-checkbox input[type="checkbox"] + label {
+  font-weight: 300;
   display: block;
   color: #405690;
   line-height: 1em;
@@ -10204,9 +10216,48 @@ input[type="checkbox"]:checked ~ label {
 textarea {
   width: 100%;
   border: none;
-  min-height: 84px; }
+  min-height: 84px;
+  font-size: 1.6rem;
+  padding: 20px;
+  font-size: 1.6rem;
+  line-height: 1.8rem;
+  font-weight: 300; }
   textarea:focus {
     outline: 0; }
+
+.input-checkbox--switch {
+  font-size: 1.9rem;
+  color: #405690;
+  font-weight: 300;
+  margin-bottom: 20px; }
+  .input-checkbox--switch > label {
+    display: inline-block;
+    position: relative;
+    cursor: pointer; }
+    .input-checkbox--switch > label:before {
+      position: absolute;
+      right: -87px;
+      top: 0;
+      content: "";
+      width: 52px;
+      height: 31px;
+      background: #E5EBF1;
+      border-radius: 50px; }
+    .input-checkbox--switch > label:after {
+      position: absolute;
+      right: -59px;
+      top: 1px;
+      content: "";
+      width: 28px;
+      height: 28px;
+      background: #405690;
+      border-radius: 50px;
+      transition: all 0.3s; }
+  .input-checkbox--switch > input[type="checkbox"]:checked ~ label {
+    background: transparent;
+    color: #405690; }
+    .input-checkbox--switch > input[type="checkbox"]:checked ~ label:after {
+      right: -87px; }
 
 .form-styles h2 {
   margin-top: 20px;
@@ -10341,6 +10392,36 @@ main {
 .close-btn {
   cursor: pointer; }
 
+.time {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  margin-top: 90px; }
+  .time .block {
+    margin-right: 10px;
+    position: relative; }
+    .time .block p {
+      display: inline-block; }
+    .time .block:after {
+      display: inline-block;
+      right: 0;
+      content: ":";
+      width: 10px;
+      text-align: center;
+      font-size: 4rem;
+      line-height: 1em;
+      margin-left: 10px; }
+    .time .block:last-of-type {
+      margin-right: 0; }
+      .time .block:last-of-type:after {
+        display: none; }
+    .time .block .digit {
+      line-height: 1em;
+      font-size: 5rem;
+      color: white;
+      font-weight: 300; }
+
 .signature-pad {
   width: 100%;
   height: 100%;
@@ -10418,11 +10499,47 @@ main {
   opacity: 1; }
 
 nav {
-  position: relative; }
-  @media screen and (min-width: 500px) {
-    nav {
-      height: 80px;
-      line-height: 80px; } }
+  position: relative;
+  height: auto;
+  line-height: auto; }
+  .fixed-height nav {
+    height: 80px;
+    line-height: 80px; }
+  nav .brand-logo {
+    font-size: 1.3rem;
+    color: #5FB3E3;
+    line-height: 80px; }
+  nav .left {
+    line-height: 80px;
+    padding-left: 20px; }
+  nav .right {
+    line-height: 80px;
+    padding-right: 20px; }
+  nav .inspection-header {
+    line-height: 1em;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    height: 70px;
+    width: 100%; }
+    nav .inspection-header .row {
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+      margin: 0;
+      display: -ms-flexbox;
+      display: flex;
+      width: 100%;
+      font-size: 2.3rem;
+      color: white;
+      line-height: 1em; }
+      nav .inspection-header .row .col {
+        font-weight: 300; }
+      nav .inspection-header .row label {
+        color: #26AAE1;
+        display: block;
+        font-weight: 300;
+        font-size: 1.5rem; }
 
 .header-list {
   position: absolute;
@@ -11595,7 +11712,8 @@ nav {
   padding-top: 40px; }
   .section-inspection > .row {
     padding-left: 56px;
-    padding-right: 56px; }
+    padding-right: 56px;
+    margin-bottom: 60px; }
 
 .inspection-dark {
   background: #3F425C;
@@ -11649,10 +11767,49 @@ nav {
   background-image: radial-gradient(50% 143%, #485A89 50%, #111536 100%);
   height: 100vh; }
   .section-waiting h3 {
-    margin: 0; }
+    margin: 0;
+    color: #5FB3E3;
+    padding-top: 98px;
+    font-size: 2.4rem;
+    text-align: center; }
   .section-waiting .time {
     color: white; }
   .section-waiting p {
-    color: white; }
+    color: white;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-top: 0;
+    line-height: 1em; }
+  .section-waiting .vehicles {
+    width: 100%;
+    height: 66px;
+    position: absolute;
+    transform: translate3d(0, 0, 0);
+    content: "";
+    bottom: 15px;
+    left: 0;
+    overflow-x: hidden; }
+    .section-waiting .vehicles:after {
+      background: url("/images/cars.svg") 0 0 repeat-x;
+      width: 600%;
+      height: 66px;
+      animation: slideshow 180s linear infinite;
+      content: "";
+      position: absolute;
+      left: 0; }
+  .section-waiting .mountains {
+    background: url("/images/mountains.svg") 0 100% no-repeat;
+    width: 100%;
+    position: absolute;
+    height: 190px;
+    content: "";
+    bottom: 0;
+    left: 0; }
+
+@keyframes slideshow {
+  0% {
+    transform: translateX(-100%); }
+  100% {
+    transform: translateX(0); } }
 
 /*# sourceMappingURL=main.css.map */

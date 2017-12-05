@@ -1,9 +1,9 @@
 <template>
 
-  <header class="z-depth-2" v-if="showHeader">
+  <header :class="classObj" v-if="showHeader">
     <nav >
       <div class="nav-wrapper">
-        <a href="/" class="brand-logo center">{{title}}</a>
+        <span class="brand-logo center">{{title}}</span>
 
         <div class="heading-secondary">
           <div class="left" v-if="currentRoute === 'Negotiations'">
@@ -53,7 +53,7 @@
 
 <script>
   export default {
-    name: 'buttons-b-3-button',
+    name: 'h-1-header',
     props: ['label', 'action', 'fullWidth'],
     mounted () {
 
@@ -108,6 +108,13 @@
       },
       showHeader () {
         return this.currentRoute === 'Waiting' || this.currentRoute === 'decline' ? false : true
+      },
+      classObj () {
+        console.log(this.currentRoute)
+        return {
+          'z-depth-2': true,
+          'fixed-height': this.currentRoute === 'Negotiations' || this.currentRoute === 'Report' ? true : false
+        }
       }
 
     }

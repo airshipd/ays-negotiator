@@ -70,21 +70,21 @@
     <div class="row">
       <div class="col m12">
         <input-checkbox-switch :label="'Tradesmen Extras'" v-model="inspection.tradesmanExtras" ></input-checkbox-switch>
-        <input-textarea v-model="inspection.tradesmanExtrasDescription" ></input-textarea>
+        <input-textarea v-if="inspection.tradesmanExtras" v-model="inspection.tradesmanExtrasDescription" ></input-textarea>
       </div>
     </div>
 
     <div class="row">
       <div class="col m12">
         <input-checkbox-switch :label="'Upgrades / Mods'" v-model="inspection.upgradesMods" ></input-checkbox-switch>
-        <input-textarea v-model="inspection.upgradesAndModsDescription" ></input-textarea>
+        <input-textarea v-if="inspection.upgradesMods" v-model="inspection.upgradesAndModsDescription" ></input-textarea>
       </div>
     </div>
 
     <div class="row">
       <div class="col m12">
         <input-checkbox-switch :label="'Sports Kit'" v-model="inspection.sportsKit" ></input-checkbox-switch>
-        <input-textarea v-model="inspection.sportsKitDescription" ></input-textarea>
+        <input-textarea v-if="inspection.sportsKit" v-model="inspection.sportsKitDescription" ></input-textarea>
       </div>
     </div>
 
@@ -160,7 +160,7 @@ export default {
       axios.post('/',qs.stringify(sendObj))
       .then(response => {
         console.log(response)
-        // this.$router.push('waiting/'+this.$route.params.id)
+        this.$router.push('/waiting/'+this.$route.params.id)
       }).catch(e => {
         console.log(e)
       })

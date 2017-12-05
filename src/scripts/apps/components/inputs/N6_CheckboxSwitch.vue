@@ -1,8 +1,8 @@
 <template>
 
   <div class="input-checkbox--switch">
-    <label :for="uniqueID">{{label}}</label>
     <input type="checkbox" :checked="shouldBeChecked" :value="value" @change="updateInput" :id="uniqueID">
+    <label :for="uniqueID">{{label}}</label>
   </div>
 
 </template>

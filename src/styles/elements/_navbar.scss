@@ -1,13 +1,58 @@
 nav {
   position: relative;
+  height: auto;
+  line-height: auto;
 
-  @include at-query($min, $medium) {
+  .fixed-height & {
     height: 80px;
     line-height: 80px;
   }
+
+  .brand-logo {
+    font-size: 1.3rem;
+    color: $light-blue;
+    line-height: 80px;
+  }
+
+  .left {
+    line-height: 80px;
+    padding-left: 20px;
+  }
+
+  .right {
+    line-height: 80px;
+    padding-right: 20px;
+  }
+
+  .inspection-header {
+    line-height: 1em;
+    display: flex;
+    flex-direction: column;
+    height: 70px;
+    width: 100%;
+
+    .row {
+      justify-content: space-around;
+      margin: 0;
+      display: flex;
+      width: 100%;
+      font-size: 2.3rem;
+      color: white;
+      line-height: 1em;
+
+      .col {
+        font-weight: 300;
+      }
+
+      label {
+        color: #26AAE1;
+        display: block;
+        font-weight: 300;
+        font-size: 1.5rem;
+      }
+    }
+  }
 }
-
-
 
 .header-list {
   position: absolute;

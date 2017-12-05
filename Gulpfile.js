@@ -155,6 +155,7 @@ gulp.task('scripts', function() {
       path.src + '/scripts/main/vendor/signature_pad.js',
       path.src + '/scripts/main/vendor/jsPDF.js',
       path.src + '/scripts/main/modules/*',
+      path.src + '/scripts/main/vendor/jquery.countdown.js',
       path.src + '/scripts/main/main.js'
     ])
     .pipe(plugins.sourcemaps.init())
@@ -194,6 +195,39 @@ gulp.task('js-vue', function() {
   .pipe(plugins.browserSync.stream());
 });
 
+
+/**
+ * $ gulp scripts
+ *
+ * - Bundle Javascript and concatenate
+ */
+gulp.task('js-vue-jquery-scripts', function() {
+  return gulp
+    .src([
+      path.src + '/scripts/main/vendor/fastclick.js',
+      path.src + '/scripts/main/vendor/materialize.js',
+      path.src + '/scripts/main/vendor/jquery-ui.min.js',
+      path.src + '/scripts/main/vendor/jquery.validate.js',
+      path.src + '/scripts/main/vendor/jquery.jCounter-0.1.4.js',
+      path.src + '/scripts/main/vendor/jquery.inputmask.bundle.js',
+      path.src + '/scripts/main/vendor/jquery.matchHeight.js',
+      path.src + '/scripts/main/vendor/nouislider.js',
+      path.src + '/scripts/main/vendor/signature_pad.js',
+      path.src + '/scripts/main/vendor/jsPDF.js',
+      path.src + '/scripts/main/vendor/jquery.countdown.js',
+      // path.src + '/scripts/main/modules/*',
+    ])
+    .pipe(plugins.sourcemaps.init())
+    .pipe(plugins.concat('vue-jquery-plugins.js'))
+    .pipe(gulp.dest(path.dest + '/scripts'))
+    .pipe(plugins.rename('vue-jquery-plugins.min.js'))
+    .pipe(plugins.uglify())
+    .pipe(plugins.sourcemaps.write('./'))
+    .pipe(gulp.dest(path.dest + '/scripts'))
+    .pipe(plugins.size({ showFiles: true }))
+    .pipe(plugins.browserSync.stream());
+});
+
 /**
  * $ gulp
  *
@@ -202,4 +236,4 @@ gulp.task('js-vue', function() {
  * - optimise images (including SVGs)
  * - create custom Modernizr build
  */
-gulp.task('default', gulpsync.sync(['styles', 'scripts', 'js-vue', 'images']));
+gulp.task('default', gulpsync.sync(['styles', 'scripts', 'js-vue', 'js-vue-jquery-scripts', 'images']));
