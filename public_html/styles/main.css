@@ -11833,7 +11833,7 @@ nav {
     left: 0;
     overflow-x: hidden; }
     .section-waiting .vehicles:after {
-      background: url("/images/cars.svg") 0 0 repeat-x;
+      background: url("/images/cars.svg") -46px 0 repeat-x;
       width: 600%;
       height: 66px;
       animation: slideshow 180s linear infinite;

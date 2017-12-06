@@ -8,10 +8,6 @@
         <div class="heading-secondary">
           <div class="left" v-if="currentRoute === 'Negotiations'">
             <a class="header-icon--list" href="/"><i class="material-icons">view_list</i></a>
-            <ul class="header-list">
-              <li>Nearby</li>
-              <li>Up Coming</li>
-            </ul>
           </div>
           <div class="right" v-if="currentRoute === 'Negotiations'">
             <div class="header-date"></div>
