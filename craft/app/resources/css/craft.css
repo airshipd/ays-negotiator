@@ -399,7 +399,7 @@ body.rtl .buttons > .btn, body.rtl .buttons > .btngroup { margin: 5px 0 0 5px ; 
 
 .btn { display: inline-block; border-radius: 3px; padding: 6px 12px; border: none; text-align: center; white-space: nowrap; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; cursor: pointer; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -webkit-appearance: none; }
 
-.btn[type='color'] { padding: 6px !important; }
+.btn[type='color'] { padding: 6px !important; width: 36px; }
 
 .btn.active { cursor: default; }
 

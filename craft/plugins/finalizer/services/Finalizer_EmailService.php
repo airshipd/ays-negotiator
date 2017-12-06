@@ -38,14 +38,15 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
       $this->sendEmail($defaultStaffEmail, $settings->staffEmailSubject, $staffEmailBody);
     }
 
-    if ($settings->sendToLoggedInUser == 1) {
-      $currentUser = craft()->userSession->getUser();
+    $currentUser = craft()->userSession->getUser();
+    if ($settings->sendToLoggedInUser == 1 && $currentUser) {
       $this->sendEmail($currentUser->email, $settings->staffEmailSubject, $staffEmailBody);
     }
 
 
-    if ($settings->sendToInspectionCreator = 1) {
-        $this->sendEmail($entry->author->email, $settings->staffEmailSubject, $staffEmailBody);
+    $inspectionCreator = $entry->author;
+    if ($settings->sendToInspectionCreator = 1 && $inspectionCreator) {
+        $this->sendEmail($inspectionCreator->email, $settings->staffEmailSubject, $staffEmailBody);
     }
 
     // echo'<pre>';print_r($customerEmailBody);echo'</pre>';

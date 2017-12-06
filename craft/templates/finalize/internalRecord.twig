@@ -11,7 +11,7 @@
 {% block content %}
 <section id="licenseAndRegistrationPhotos" class="visuallyhidden">
 {% for photo in entry.licenseAndRegistrationPhotos %}
-  <img class="inspection-image" src="{{ photo.url }}">
+  <img class="inspection-image" src="{{ photo.getUrl('photo') }}">
 {% endfor %}
 </section>
 <div class="display-wrapper form-styles">
