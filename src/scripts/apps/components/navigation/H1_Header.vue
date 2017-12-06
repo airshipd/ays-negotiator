@@ -73,14 +73,13 @@
           case 'Inspection':
             this.title = 'Vehicle Assesment form'
             break
-          case 'Report':
+          case 'Offer':
             this.title = 'Report'
             break
           default:
             this.title = ''
         }
       },
-
     },
     watch: {
       '$route': function(r) {
@@ -95,13 +94,13 @@
         return this.$store.state.inspection
       },
       showHeader () {
-        return this.currentRoute === 'Waiting' || this.currentRoute === 'decline' ? false : true
+        return this.currentRoute === 'Waiting' || this.currentRoute === 'Decline' ? false : true
       },
       classObj () {
         console.log(this.currentRoute)
         return {
           'z-depth-2': true,
-          'fixed-height': this.currentRoute === 'Negotiations' || this.currentRoute === 'Report' ? true : false
+          'fixed-height': this.currentRoute === 'Negotiations' || this.currentRoute === 'Offer' ? true : false
         }
       }
 

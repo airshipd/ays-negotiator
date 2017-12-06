@@ -45,7 +45,6 @@ class Negotiator_ApiController extends BaseController {
   }
 
   public function actionInspection() {
-
     $ret = [];
     $retData = [];
     $retOptions = [];
@@ -55,17 +54,60 @@ class Negotiator_ApiController extends BaseController {
     $inspection = $criteria->first();
 
     $fieldsToReturn = 'buildDate,odometer,inspectionStatus,make,model,series,year,colour,carBody,driveTrain,doors,seats,badge,engineType,engineSize,transmission,wheels,serviceBooks,servicePapers,sunroof,satNav,spareKey,leatherUpholstery,tradesmanExtras,tradesmanExtrasDescription,upgradesMods,upgradesAndModsDescription,sportsKit,sportsKitDescription,damageAndFaults,approximateExpenditure,customerName';
+    $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
+    $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
+    $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
 
-    foreach( $inspection->getFieldLayout()->getFields() as $fieldLayoutField ) {
+    $ret['data'] = $retData;
+    $ret['options'] = $retOptions;
+
+    $this->returnJson($ret);
+  }
+
+  public function actionOffer() {
+    $ret = [];
+    $retData = [];
+    $retOptions = [];
+    $retReport = [];
+    $retTotal = [];
+    $id = craft()->request->getSegment(3);
+
+    $criteria = craft()->elements->getCriteria(ElementType::Entry);
+    $criteria->id = $id;
+    $inspection = $criteria->first();
+
+    $fieldsToReturn = 'buildDate,odometer,inspectionStatus,make,model,series,year,colour,carBody,driveTrain,doors,seats,badge,engineType,engineSize,transmission,wheels,serviceBooks,servicePapers,sunroof,satNav,spareKey,leatherUpholstery,tradesmanExtras,tradesmanExtrasDescription,upgradesMods,upgradesAndModsDescription,sportsKit,sportsKitDescription,damageAndFaults,approximateExpenditure,customerName';
+    $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
+    $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
+    $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
+
+    $ret['data'] = $retData;
+    $ret['options'] = $retOptions;
+    $ret['report'] = craft()->negotiator_assessment->calculateOffer($inspection);
+    $ret['total'] = craft()->negotiator_offer->calculateOfferTotal($inspection);
+
+    $this->returnJson($ret);
+  }
+
+
+  private function _processFieldData($fieldsArray,$fieldsToReturn,$entry) {
+    $ret = [];
+
+    foreach( $fieldsArray as $fieldLayoutField ) {
       $field = craft()->fields->getFieldById($fieldLayoutField->fieldId);
 
       if( in_array( $field->handle, explode(',',$fieldsToReturn) ) ) {
         $fieldName = $field->handle;
-        $retData[$fieldName] = $inspection->getContent()->$fieldName;
+        $ret[$fieldName] = $entry->getContent()->$fieldName;
       }
     }
+    return $ret;
+  }
 
-    foreach( $inspection->getFieldLayout()->getFields() as $fieldLayoutField ) {
+  private function _processOptionData($fieldsArray,$fieldsToReturn) {
+    $ret = [];
+
+    foreach( $fieldsArray as $fieldLayoutField ) {
       $field = craft()->fields->getFieldById($fieldLayoutField->fieldId);
 
       if( in_array( $field->handle, explode(',',$fieldsToReturn) ) ) {
@@ -73,16 +115,12 @@ class Negotiator_ApiController extends BaseController {
         $fieldType = $field->type;
         $fieldSettings = $field->settings;
 
-        $retOptions[$fieldName] = array(
+        $ret[$fieldName] = array(
           'type' => $fieldType,
           'settings' => $fieldSettings
         );
       }
     }
-
-    $ret['data'] = $retData;
-    $ret['options'] = $retOptions;
-
-    $this->returnJson($ret);
+    return $ret;
   }
 }

@@ -5,8 +5,8 @@
     <countdown :time="date" v-once></countdown>
     <div class="loader">
       <p v-if="loadingState === 1">Checking details of your vehicle</p>
-      <p v-if="loadingState === 2">this happened</p>
-      <p v-if="loadingState === 3">that happened</p>
+      <p v-if="loadingState === 2">We're just comparing your {{inspection.make}} {{inspection.model}} with others in the market</p>
+      <p v-if="loadingState === 3">Sit tight, one of our team members is now preparing your offer, we won't be a minute!</p>
       <div :class="stateClass1"></div>
       <div :class="stateClass2"></div>
       <div :class="stateClass3"></div>
@@ -34,7 +34,7 @@ export default {
     },1000*90);
 
     window.setInterval(() => {
-      this.$router.push('/report/'+this.$route.params.id)
+      this.$router.push('/offer/'+this.$route.params.id)
     },1000*110);
   },
   data () {
@@ -66,6 +66,9 @@ export default {
         'state-3': true,
         'active': this.loadingState === 3
       }
+    },
+    inspection () {
+      return this.$store.state.inspection
     }
   },
 }

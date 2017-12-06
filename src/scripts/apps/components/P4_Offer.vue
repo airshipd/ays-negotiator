@@ -1,24 +1,24 @@
 <template>
 
-  <section class="section-report">
+  <section class="section-offer">
 
-    <div class="report">
+    <div class="offer">
       <!-- Report Meta -->
-      <div class="row report-meta">
-        <div class="col">
+      <div class="row offer-meta">
+        <div class="col m6">
           <h3>Inspection Done By:</h3>
-          <p>{{report.mechanicName}} / {{report.jobTitle}}</p>
+          <p>{{offer.mechanicName}} / {{offer.jobTitle}}</p>
         </div>
-        <div class="col">
+        <div class="col m6">
           <h3>Prepared For:</h3>
-          <p>{{report.customerName}}</p>
+          <p>{{offer.customerName}}</p>
         </div>
       </div>
 
       <!-- Report Comparison -->
-      <div class="row">
-        <div class="col m12 report-main">
-          <h3>Comparison</h3>
+      <div class="row offer-main">
+        <h3>Comparison</h3>
+        <div class="col m12 ">
           <div class="comparison">
             <div class="comparison-average"></div>
             <div class="comparison-max"></div>
@@ -30,18 +30,18 @@
         </div>
       </div>
 
-      <!-- Report Issues -->
-      <div class="row">
+
+      <div class="row offer-issues">
         <h3>Issues</h3>
-        <div class="col m9 report-condition">
-          Your car is in better condition than the average {{report.make}} {{report.model}} we buy, nice one!
+        <div class="col m8 offer-condition">
+          Your car is in better condition than the average {{offer.make}} {{offer.model}} we buy, nice one!
         </div>
-        <div class="col m3 report-grade">
-          Overall <span>{{report.grade}}</span>
+        <div class="col m3 push-m1 offer-grade">
+          Overall <span>{{offer.grade}}</span>
         </div>
       </div>
 
-      <div class="row report-issues">
+      <div class="row offer-issues--list">
         <p>We have identified the following issues:</p>
         <ul>
           <li v-for="item in issues">
@@ -59,24 +59,24 @@
     <div class="side">
       <div class="divider offer-estimation">
         <h3>Phone Estimation</h3>
-        {{report.estimation}}
+        {{offer.estimation}}
       </div>
       <div class="divider offer-valuation">
         <h3>On-site Valuation</h3>
-        {{report.valuation}}
+        {{offer.valuation}}
       </div>
       <div class="divider offer-repairs">
         <h3>Repair Needs</h3>
-        <span class="discounted">{{report.discount}} <span>Discounted</span></span>
+        <span class="discounted">{{offer.discount}} <span>Discounted</span></span>
         <p>available if you accept today</p>
       </div>
       <div class="divider offer-previous">
         <h3>Previous Offer</h3>
-        {{report.discount}}
+        {{offer.discount}}
       </div>
       <div class="divider offer-final">
         <h3>Final Offer</h3>
-        {{report.discount}}
+        {{offer.discount}}
         <p>Get Paid by Friday 24th Novemeber</p>
       </div>
       <div class="buttons">
@@ -91,23 +91,39 @@
 
 <script>
   // import b1Button from './buttons/B1_button.vue'
+  import axios from 'axios'
+  import { urlGetOffer } from '../config.js'
 
   export default {
-    name: 'p-4-report',
+    name: 'p-4-offer',
     props: [],
     mounted () {
-
+      this.getOffer()
     },
     data () {
       return {
-        report: {}
+        offer: {},
+        options: [],
       }
     },
     methods: {
       getIssueIconClass (item) {
         return 'icon-'+item.type
-      }
-
+      },
+      getOffer () {
+        axios.get(urlGetOffer+'/'+this.$route.params.id)
+        .then(response => {
+          console.log('Offer data', response.data)
+          this.formatData(response.data)
+        }).catch(e => {
+          console.error(e)
+        })
+      },
+      formatData (res) {
+        this.offer = res.data
+        this.options = res.options
+        this.$store.commit('updateInspection',res.data)
+      },
     },
     components: {
       // B1Button

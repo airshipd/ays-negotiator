@@ -5,7 +5,7 @@ import Router from 'vue-router'
 import Negotiations from './components/P1_Negotiations.vue'
 import Inspection from './components/P2_Inspection.vue'
 import Waiting from './components/P3_Waiting.vue'
-import Report from './components/P4_Report.vue'
+import Offer from './components/P4_Offer.vue'
 
 Vue.use(Router)
 
@@ -27,9 +27,9 @@ const router = new Router({
       component: Waiting
     },
     {
-      path: '/report/:id',
-      name: 'Report',
-      component: Report
+      path: '/offer/:id',
+      name: 'Offer',
+      component: Offer
     },
   ]
 })

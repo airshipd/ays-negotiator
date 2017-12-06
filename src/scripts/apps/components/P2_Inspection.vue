@@ -149,8 +149,6 @@ export default {
       res.data.engineType = res.data.engineType ? res.data.engineType : 'petrol'
       res.data.seats = res.data.seats === "0" ? "2" : res.data.seats
       res.data.doors = res.data.doors === "0" ? "2" : res.data.doors
-
-
       this.inspection = res.data
       this.options = res.options
       this.$store.commit('updateInspection',res.data)
@@ -174,6 +172,7 @@ export default {
           axios.post('/',qs.stringify(sendObj))
           .then(response => {
             console.log(response)
+            this.$store.commit('updateInspection',this.inspection)
             this.$router.push('/waiting/'+this.$route.params.id)
           }).catch(e => {
             console.log(e)
