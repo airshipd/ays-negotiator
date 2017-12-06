@@ -7,14 +7,14 @@
 <script>
 export default {
   name: 'c-2-countdown',
-  props: [],
+  props: ['time'],
   mounted () {
-    $(this.$el).countdown('2018/01/01', function(event) {
-      $(this).html(event.strftime('%H:%M:%S'))
+    $(this.$el).countdown(this.time, function(event) {
+      $(this).html(event.strftime('<span>%M</span>:<span>%S</span>'))
     });
   },
   beforeDestroy () {
-    $(this.$el).countdown('destroy')
+    $(this.$el).off()
   },
   data () {
     return {

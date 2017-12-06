@@ -2,7 +2,7 @@
 
   <div class="input-field">
     <select class="input-select" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)">
-      <option v-for="option in options" :key="option.value">{{option.value}}</option>
+      <option v-for="option in options" :key="option.value" :selected="value === option.value">{{option.value}}</option>
     </select>
     <label :for="uniqueID">{{label}}</label>
   </div>

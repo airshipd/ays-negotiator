@@ -3,13 +3,13 @@
 
     <div class="row">
       <div class="col m3">
-        <input-text :label="'Odometer'" v-model="inspection.odometer"></input-text>
+        <input-text :label="'Odometer'" v-model="inspection.odometer" :validationRules="{required:true}" :name="'odometer'"></input-text>
       </div>
       <div class="col m3">
         <input-select v-if="inspection.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
       </div>
       <div class="col m3">
-        <input-text :label="'Body'" v-model="inspection.carBody"></input-text>
+        <input-text :label="'Body'" v-model="inspection.carBody" :name="'body'"></input-text>
       </div>
       <div class="col m3">
         <choice-group v-if="inspection.driveTrain" :label="'Drive Type'" v-model="inspection.driveTrain" :options="options.driveTrain.settings.options" :name="'choice'" ></choice-group>
@@ -18,25 +18,25 @@
 
     <div class="row">
       <div class="col m3">
-        <choice-group v-if="inspection.doors" :label="'Doors'" v-model="inspection.doors" :options="[{value:2,label:2},{value:4,label:4},{value:6,label:6}]" :name="'doors'" ></choice-group>
+        <choice-group v-if="inspection.doors" :label="'Doors'" v-model="inspection.doors" :options="[{value:'2',label:2},{value:'4',label:4},{value:'6',label:6}]" :name="'doors'" ></choice-group>
       </div>
       <div class="col m7">
-        <choice-group v-if="inspection.seats" :label="'Seats'" v-model="inspection.seats" :options="[{value:2,label:2},{value:4,label:4},{value:6,label:6},{value:7,label:7},{value:8,label:8}]" :name="'seats'" ></choice-group>
+        <choice-group v-if="inspection.seats" :label="'Seats'" v-model="inspection.seats" :options="[{value:'2',label:2},{value:'4',label:4},{value:'6',label:6},{value:'7',label:7},{value:'8',label:8}]" :name="'seats'" ></choice-group>
       </div>
     </div>
 
     <div class="row">
       <div class="col m3">
-        <input-text :label="'Series'" v-model="inspection.series"></input-text>
+        <input-text :label="'Series'" v-model="inspection.series" :name="'series'"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Badge'" v-model="inspection.badge"></input-text>
+        <input-text :label="'Badge'" v-model="inspection.badge" :name="'badge'"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Engine'" v-model="inspection.engine"></input-text>
+        <input-text :label="'Engine'" v-model="inspection.engine" :name="'engine'"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Engine Type'" v-model="inspection.engineType"></input-text>
+        <input-select v-if="inspection.engineType" :label="'Engine Type'" v-model="inspection.engineType" :options="options.engineType.settings.options"></input-select>
       </div>
     </div>
 
@@ -90,10 +90,11 @@
 
     <div class="inspection-dark">
       <div class="row">
-        <div class="col">
+        <div class="col m7">
           <input-textarea :label="'Damage & Faults'" v-model="inspection.sportsKitDescription" ></input-textarea>
         </div>
-        <div class="col">
+        <div class="col m5 total-expenditure">
+          <div></div>
           <input-number :label="'Total Approx Expenditure'" v-model="inspection.approximateExpenditure"></input-number>
         </div>
       </div>
@@ -114,12 +115,14 @@ import inputSelect from './inputs/N5_Select.vue'
 import b1Button from './buttons/B1_button.vue'
 
 import qs from 'qs'
-
+import moment from 'moment'
 import axios from 'axios'
 import { urlGetInspection } from '../config.js'
 
 export default {
   name: 'negotiator',
+  provideValidator: true,
+  inject: ['$validator'],
   mounted () {
     this.getInspection()
   },
@@ -134,35 +137,51 @@ export default {
       axios.get(urlGetInspection+'/'+this.$route.params.id)
       .then(response => {
         console.log('inspection data', response.data)
-        this.inspection = response.data.data
-        this.options = response.data.options
-        this.$store.commit('updateInspection', response.data.data)
+        this.formatData(response.data)
       }).catch(e => {
-        console.log(e)
+        console.error(e)
       })
     },
-    submitForm() {
-      // lets build out data object
-      let sendObj = {
-        action: 'entries/saveEntry',
-        sectionId: '3',
-        entryId: '2003',
-        enabled: '1',
-      }
+    formatData (res) {
+      res.data.buildDate = res.data.buildDate ? moment(res.data.buildDate.date).format('DD/MM/YYYY') : null
+      res.data.transmission = res.data.transmission ? res.data.transmission : 'auto'
+      res.data.colour = res.data.colour ? res.data.colour : 'silver'
+      res.data.engineType = res.data.engineType ? res.data.engineType : 'petrol'
+      res.data.seats = res.data.seats === "0" ? "2" : res.data.seats
+      res.data.doors = res.data.doors === "0" ? "2" : res.data.doors
 
-      //loop through all field entries and build out
-      for (let key in this.inspection) {
-        if (this.inspection.hasOwnProperty(key)) {
-            sendObj['fields['+key+']'] = this.inspection[key]
+
+      this.inspection = res.data
+      this.options = res.options
+      this.$store.commit('updateInspection',res.data)
+    },
+    submitForm () {
+      this.$validator.validateAll().then((result) => {
+        if(result) {
+          // lets build out data object
+          let sendObj = {
+            action: 'entries/saveEntry',
+            sectionId: '3',
+            entryId: '2003',
+            enabled: '1',
+          }
+          //loop through all field entries and build out
+          for (let key in this.inspection) {
+            if (this.inspection.hasOwnProperty(key)) {
+                sendObj['fields['+key+']'] = this.inspection[key]
+            }
+          }
+          axios.post('/',qs.stringify(sendObj))
+          .then(response => {
+            console.log(response)
+            this.$router.push('/waiting/'+this.$route.params.id)
+          }).catch(e => {
+            console.log(e)
+          })
+        } else {
+          //scroll up to top of page
+          $(window).scrollTop(0)
         }
-      }
-
-      axios.post('/',qs.stringify(sendObj))
-      .then(response => {
-        console.log(response)
-        this.$router.push('/waiting/'+this.$route.params.id)
-      }).catch(e => {
-        console.log(e)
       })
     }
   },

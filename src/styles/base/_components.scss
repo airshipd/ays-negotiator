@@ -40,43 +40,19 @@
   cursor: pointer;
 }
 
-.time {
-  display: flex;
-  justify-content: center;
-  margin-top: 90px;
+.countdown {
+  color: white;
+  font-size: 5rem;
+  text-align: center;
+  margin-top: 70px;
+}
 
-  .block {
-    margin-right: 10px;
-    position: relative;
+.help {
 
-    p {
-      display: inline-block;
-    }
-
-    &:after {
-      display: inline-block;
-      right: 0;
-      content: ":";
-      width: 10px;
-      text-align: center;
-      font-size: 4rem;
-      line-height: 1em;
-      margin-left: 10px;
-    }
-
-    &:last-of-type {
-      margin-right: 0;
-
-      &:after {
-        display: none;
-      }
-    }
-
-    .digit {
-      line-height: 1em;
-      font-size: 5rem;
-      color: white;
-      font-weight: 300;
-    }
+  &.is-danger {
+    color: red;
+    display: block;
+    margin-top: 7px;
+    font-size: 1.3rem;
   }
 }

@@ -40,7 +40,7 @@
               </div>
               <div class="col">
                 <label>Build Date</label>
-                {{buildDate}}
+                {{inspection.buildDate}}
               </div>
             </div>
           </div>
@@ -97,14 +97,6 @@
     computed: {
       inspection () {
         return this.$store.state.inspection
-      },
-      buildDate () {
-        let theDate = null
-        if( this.inspection.buildDate != null ) {
-          let d = new Date(this.inspection.buildDate.date)
-          theDate = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`
-        }
-        return theDate
       },
       showHeader () {
         return this.currentRoute === 'Waiting' || this.currentRoute === 'decline' ? false : true

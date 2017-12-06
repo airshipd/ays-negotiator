@@ -34,6 +34,16 @@ input[type="number"] {
   }
 }
 
+input[type="number"] {
+  -webkit-appearance: none;
+  margin-right: 0;
+  margin-left: 0;
+
+  &:hover {
+    -webkit-appearance: none;
+  }
+}
+
 select {
   -webkit-appearance: none;
   background: transparent url('/images/input-arrow.svg') 100% 50% no-repeat;

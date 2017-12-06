@@ -5,6 +5,7 @@ import Router from 'vue-router'
 import Negotiations from './components/P1_Negotiations.vue'
 import Inspection from './components/P2_Inspection.vue'
 import Waiting from './components/P3_Waiting.vue'
+import Report from './components/P4_Report.vue'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ const router = new Router({
       path: '/waiting/:id',
       name: 'Waiting',
       component: Waiting
+    },
+    {
+      path: '/report/:id',
+      name: 'Report',
+      component: Report
     },
   ]
 })

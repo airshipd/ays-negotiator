@@ -10,10 +10,6 @@
     text-align: center;
   }
 
-  .time {
-    color: white;
-  }
-
   p {
     color: white;
     font-size: 2.5rem;
@@ -56,5 +52,41 @@
   @keyframes slideshow {
     0%    { transform: translateX(-100%); }
     100%  { transform: translateX(0); }
+  }
+}
+
+.loader {
+  border-top: 3px solid #1FA7E0;
+  width: 50%;
+  margin: 30px auto 0;
+  padding-top: 36px;
+  position: relative;
+
+
+  [class^="state"] {
+    position: absolute;
+    top: -14px;
+    background: $dark-blue;
+    border: 3px solid $light-blue;
+    height: 24px;
+    width: 24px;
+    border-radius: 50px;
+    transform: translateX(-50%);
+
+    &.active {
+      background: $light-blue;
+    }
+  }
+
+  .state-1 {
+    left: 0;
+  }
+
+  .state-2 {
+    left: 50%;
+  }
+
+  .state-3 {
+    left: 100%;
   }
 }

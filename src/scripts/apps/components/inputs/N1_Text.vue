@@ -1,8 +1,9 @@
 <template>
 
   <div class="input-field">
-    <input type="text" class="input-text" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)">
+    <input type="text" class="input-text" :id="uniqueID" ref="input" v-bind:value="value" :name="name" v-on:input="updateValue($event.target.value)" v-validate="validationRules">
     <label :for="uniqueID">{{label}}</label>
+    <span v-show="errors.has(name)" class="help is-danger">{{ errors.first(name) }}</span>
   </div>
 
 </template>
@@ -10,7 +11,26 @@
 <script>
   export default {
     name: 'input-n-1-text',
-    props: ['name','label','value'],
+    inject: ['$validator'],
+    props: {
+      name: {
+        type: String
+      },
+      label: {
+        type: String
+      },
+      value: {
+        type: String
+      },
+      validationRules: {
+        type: Object,
+        default () {
+          return {
+            required: false
+          }
+        }
+      }
+    },
     mounted () {
     },
     data () {

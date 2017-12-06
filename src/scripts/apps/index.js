@@ -3,6 +3,7 @@ import App from './app.vue'
 import Vuex from 'vuex'
 import store from './store.js'
 import router from './router'
+import VeeValidate from 'vee-validate';
 import { googleMapKey } from './config.js'
 import * as VueGoogleMaps from 'vue2-google-maps'
 
@@ -12,6 +13,7 @@ window.jQuery = window.$ = $
 require('../main/vendor/jquery.countdown.js')
 
 Vue.use(Vuex)
+Vue.use(VeeValidate, { inject: false })
 Vue.use(VueGoogleMaps, {
   load: {
     key: googleMapKey,
