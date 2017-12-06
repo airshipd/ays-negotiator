@@ -1,0 +1,92 @@
+.section-waiting {
+  background-image: radial-gradient(50% 143%, #485A89 50%, #111536 100%);
+  height: 100vh;
+
+  h3 {
+    margin: 0;
+    color: $light-blue;
+    padding-top: 98px;
+    font-size: 2.4rem;
+    text-align: center;
+  }
+
+  p {
+    color: white;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-top: 0;
+    line-height: 1em;
+  }
+
+  .vehicles {
+    width: 100%;
+    height: 66px;
+    position: absolute;
+    transform: translate3d(0, 0, 0);
+    content: "";
+    bottom: 15px;
+    left: 0;
+    overflow-x: hidden;
+
+    &:after {
+      background: url('/images/cars.svg') -46px 0 repeat-x;
+      width: 600%;
+      height: 66px;
+      animation: slideshow 180s linear infinite;
+      content: "";
+      position: absolute;
+      left: 0;
+    }
+  }
+
+  .mountains {
+    background: url('/images/mountains.svg') 0 100% no-repeat;
+    width: 100%;
+    position: absolute;
+    height: 190px;
+    content: "";
+    bottom: 0;
+    left: 0;
+  }
+
+  @keyframes slideshow {
+    0%    { transform: translateX(-100%); }
+    100%  { transform: translateX(0); }
+  }
+}
+
+.loader {
+  border-top: 3px solid #1FA7E0;
+  width: 50%;
+  margin: 30px auto 0;
+  padding-top: 36px;
+  position: relative;
+
+
+  [class^="state"] {
+    position: absolute;
+    top: -14px;
+    background: $dark-blue;
+    border: 3px solid $light-blue;
+    height: 24px;
+    width: 24px;
+    border-radius: 50px;
+    transform: translateX(-50%);
+
+    &.active {
+      background: $light-blue;
+    }
+  }
+
+  .state-1 {
+    left: 0;
+  }
+
+  .state-2 {
+    left: 50%;
+  }
+
+  .state-3 {
+    left: 100%;
+  }
+}

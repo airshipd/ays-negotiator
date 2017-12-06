@@ -4,6 +4,7 @@ require('dotenv').config();
 
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var gulpsync = require('gulp-sync')(gulp);
 
 // Load plugins:
 var plugins = require('gulp-load-plugins')({
@@ -12,12 +13,15 @@ var plugins = require('gulp-load-plugins')({
     'gulp.*',
     'browserify',
     'babelify',
+    'vueify',
     'vinyl-source-stream',
     'vinyl-buffer',
     'browser-sync'
   ],
   rename: {
-    'gulp-sourcemaps': 'sourcemaps'
+    'gulp-sourcemaps': 'sourcemaps',
+    'vinyl-source-stream': 'source',
+    'vinyl-buffer': 'buffer'
   }
 });
 
@@ -31,33 +35,26 @@ var path = {
 };
 
 /**
- * $ gulp
- *
- * - compile, autoprefix, and minify Sass
- * - bundle Javascript
- * - optimise images (including SVGs)
- * - create custom Modernizr build
- */
-gulp.task('default', ['styles', 'scripts', 'images', 'modernizr']);
-
-/**
  * $ gulp watch:tasks
  *
  * - watch for updates to scripts, styles, and Gulpfile
  * - process files appropriately on change
  */
 gulp.task('watch:tasks', ['default'], function() {
-  // Gulpfile.js:
-  gulp.watch('Gulpfile.js', []);
-
   // Scripts:
-  gulp.watch(path.src + '/scripts/**/*.js', ['scripts']);
+  gulp.watch(path.src + '/scripts/main/**/*.js', ['scripts']);
+
+  // Vue js main
+  gulp.watch([path.src + '/scripts/apps/**/*.js', path.src + '/scripts/apps/**/*.vue'], ['js-vue']);
 
   // Styles:
   gulp.watch(path.src + '/styles/**/*.scss', ['styles']);
 
   // Images:
   gulp.watch(path.src + '/images/{,*/}*.{gif,jpg,png,svg}', ['images']);
+
+  // Craft templates:
+  gulp.watch(['./craft/templates/**/*', './src/craft/templates/**/*']).on('change', plugins.browserSync.reload)
 });
 
 /**
@@ -66,16 +63,10 @@ gulp.task('watch:tasks', ['default'], function() {
  * - calls 'gulp watch:tasks' using Browsersync for live updating
  */
 gulp.task('watch', ['watch:tasks'], function() {
-  // Connect to craft.dev via BrowserSync:
-  plugins.browserSync.init({
-    open: false,
-    proxy: 'colesserveup.local'
+  return plugins.browserSync.init({
+    // open: true,
+    // injectChanges: true,
   });
-
-  // Do a full page reload when any templates are updated:
-  gulp
-    .watch(['./craft/templates/**/*', './src/craft/templates/**/*'])
-    .on('change', plugins.browserSync.reload);
 });
 
 /**
@@ -102,7 +93,8 @@ gulp.task('images', function() {
           ]
         })
       )
-      .pipe(gulp.dest(dest)) );
+      .pipe(gulp.dest(dest)) )
+      .pipe(plugins.browserSync.stream());
 });
 
 /**
@@ -111,7 +103,7 @@ gulp.task('images', function() {
  * - Compile Sass --> CSS, autoprefix, and minify
  */
 gulp.task('styles', function() {
-  gulp
+  return gulp
     .src(path.src + '/styles/main.scss')
     .pipe(plugins.sourcemaps.init())
     // Compile Sass:
@@ -136,13 +128,12 @@ gulp.task('styles', function() {
     .pipe(gulp.dest(path.dest + '/styles'))
     // Report file size:
     .pipe(plugins.size({ showFiles: true }))
-    // Minify main.css and rename it to 'main.min.css':
     .pipe(plugins.cssmin())
+    .pipe(plugins.browserSync.stream())
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(plugins.size({ showFiles: true }))
     .pipe(gulp.dest(path.dest + '/styles'))
-    .pipe(plugins.browserSync.stream())
-    .on('error', gutil.log);
+    .pipe(plugins.browserSync.stream());
 });
 
 /**
@@ -151,20 +142,21 @@ gulp.task('styles', function() {
  * - Bundle Javascript and concatenate
  */
 gulp.task('scripts', function() {
-  gulp
+  return gulp
     .src([
-      path.src + '/scripts/vendor/fastclick.js',
-      path.src + '/scripts/vendor/materialize.js',
-      path.src + '/scripts/vendor/jquery-ui.min.js',
-      path.src + '/scripts/vendor/jquery.validate.js',
-      path.src + '/scripts/vendor/jquery.jCounter-0.1.4.js',
-      path.src + '/scripts/vendor/jquery.inputmask.bundle.js',
-      path.src + '/scripts/vendor/jquery.matchHeight.js',
-      path.src + '/scripts/vendor/nouislider.js',
-      path.src + '/scripts/vendor/signature_pad.js',
-      path.src + '/scripts/vendor/jsPDF.js',
-      path.src + '/scripts/modules/*',
-      path.src + '/scripts/main.js'
+      path.src + '/scripts/main/vendor/fastclick.js',
+      path.src + '/scripts/main/vendor/materialize.js',
+      path.src + '/scripts/main/vendor/jquery-ui.min.js',
+      path.src + '/scripts/main/vendor/jquery.validate.js',
+      path.src + '/scripts/main/vendor/jquery.jCounter-0.1.4.js',
+      path.src + '/scripts/main/vendor/jquery.inputmask.bundle.js',
+      path.src + '/scripts/main/vendor/jquery.matchHeight.js',
+      path.src + '/scripts/main/vendor/nouislider.js',
+      path.src + '/scripts/main/vendor/signature_pad.js',
+      path.src + '/scripts/main/vendor/jsPDF.js',
+      path.src + '/scripts/main/modules/*',
+      path.src + '/scripts/main/vendor/jquery.countdown.js',
+      path.src + '/scripts/main/main.js'
     ])
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.concat('main.js'))
@@ -173,98 +165,42 @@ gulp.task('scripts', function() {
     .pipe(plugins.uglify())
     .pipe(plugins.sourcemaps.write('./'))
     .pipe(gulp.dest(path.dest + '/scripts'))
-    .pipe(plugins.size({ showFiles: true }));
-});
-
-/**
- * $ gulp jshint
- *
- * - lint Javascript files and Gulpfile.js
- */
-gulp.task('jshint', function() {
-  var src = ['Gulpfile.js', path.src + '/scripts/{,*/}*.js'];
-
-  gulp
-    .src(src)
-    .pipe(plugins.jshint())
-    .pipe(plugins.jshint.reporter(require('jshint-stylish')));
-});
-
-/**
- * $ gulp modernizr
- *
- * - create a custom Modernizr build based on tests used
- *   in bundle.js and main.css
- */
-gulp.task('modernizr', function() {
-  var src = [path.dest + '/scripts/bundle.js', path.dest + '/styles/main.css'];
-
-  gulp
-    .src(src)
-    .pipe(
-      plugins.modernizr({
-        options: ['setClasses']
-      })
-    )
-    .pipe(plugins.uglify())
-    .pipe(gulp.dest(path.dest + '/scripts'))
     .pipe(plugins.size({ showFiles: true }))
-    .on('error', gutil.log);
+    .pipe(plugins.browserSync.stream());
+});
+
+
+/**
+ * $ gulp Vue app js
+ *
+ * -
+ */
+gulp.task('js-vue', function() {
+	let b = plugins.browserify('src/scripts/apps/index.js', { debug: true })
+  .transform(["vueify", { "presets": ["es2015", "stage-2"] }])
+  return b.bundle()
+  .on('error', function(err){
+    // print the error (can replace with gulp-util)
+    console.log(err.message);
+    // end this stream
+    this.emit('end');
+  })
+	.pipe(plugins.source('app.js'))
+	.pipe(plugins.buffer())
+	.pipe(plugins.sourcemaps.init({
+		loadMaps: false
+	}))
+	.pipe(plugins.sourcemaps.write('.'))
+  .pipe(gulp.dest(path.dest + '/scripts'))
+  .pipe(plugins.browserSync.stream());
 });
 
 /**
- * $ gulp db:restore
+ * $ gulp
  *
- * - restore db from latest backup
- * - this is just a more user-friendly wrapper for
- *   `vagrant provision --provision-with shell`
+ * - compile, autoprefix, and minify Sass
+ * - bundle Javascript
+ * - optimise images (including SVGs)
+ * - create custom Modernizr build
  */
-gulp.task('db:restore', function() {
-  require('child_process').exec(
-    'vagrant provision --provision-with shell',
-    function(err, stdout, stderr) {
-      stdout && gutil.log(gutil.colors.green(stdout));
-      stderr && gutil.log(gutil.colors.red(stderr));
-    }
-  );
-});
-
-/**
- * $ gulp rsync:fromstage
- * $ gulp rsync:tostage
- *
- * - Sync assets from/to remote site
- */
-function syncFiles(src, dest) {
-  var rsync = require('rsyncwrapper');
-  var opts = {
-    src: src,
-    dest: dest,
-    args: ['--archive', '--compress', '--stats', '--verbose'],
-    delete: false,
-    exclude: ['.git*', '*.scss', 'node_modules'],
-    ssh: true,
-    recursive: true,
-    compareMode: 'checksum'
-  };
-
-  rsync(opts, function(err, stdout) {
-    gutil.log(stdout);
-  });
-}
-
-// From stage to local:
-gulp.task('rsync:fromstage', function() {
-  var src = path.stage + '/assets/';
-  var dest = path.dest + '/assets/';
-
-  syncFiles(src, dest);
-});
-
-// From local to stage:
-gulp.task('rsync:tostage', function() {
-  var src = path.dest + '/assets/';
-  var dest = path.stage + '/assets/';
-
-  syncFiles(src, dest);
-});
+gulp.task('default', gulpsync.sync(['styles', 'scripts', 'js-vue', 'images']));

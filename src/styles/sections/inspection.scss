@@ -1,0 +1,67 @@
+.section-inspection {
+  padding-top: 40px;
+
+  > .row {
+    padding-left: 56px;
+    padding-right: 56px;
+    margin-bottom: 60px;
+  }
+}
+
+.inspection-dark {
+  background: #3F425C;
+  padding: 30px;
+
+  .row {
+    margin-bottom: 0;
+    height: 100%;
+    display: flex;
+
+    .col {
+      height: 100%;
+      float: none;
+    }
+  }
+
+  .total-expenditure {
+    align-self: flex-end;
+
+  }
+
+  .input-textarea {
+    label {
+      color: #98B7D6;
+      font-size: 1.9rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    textarea {
+      background: rgba(#000000, 0.2);
+      color: white;
+    }
+  }
+
+  .input-field {
+    align-self: flex-end;
+    text-align: right;
+    margin-bottom: 4px;
+
+    input[type="number"] {
+      color: #fff;
+      border-bottom: 1px solid rgba(#fff,0.4);
+      text-align: right;
+      font-size: 3rem;
+
+      & + label {
+        width: 40%;
+        color: #98B7D6;
+        font-size: 1.7rem;
+        line-height: 1.3em;
+        top: -30px;
+        right: 0;
+        left: auto;
+      }
+    }
+  }
+}

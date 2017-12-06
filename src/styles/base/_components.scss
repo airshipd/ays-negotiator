@@ -45,3 +45,20 @@
   float: right;
   text-decoration: underline;
 }
+
+.countdown {
+  color: white;
+  font-size: 5rem;
+  text-align: center;
+  margin-top: 70px;
+}
+
+.help {
+
+  &.is-danger {
+    color: red;
+    display: block;
+    margin-top: 7px;
+    font-size: 1.3rem;
+  }
+}

@@ -12,6 +12,7 @@
 // BASE STYLES
 @import "base/fonts";
 @import "base/variables";
+@import "base/animations";
 @import "base/helper";
 @import "base/typography";
 @import "base/forms";
@@ -19,9 +20,11 @@
 @import "base/tables";
 @import "base/layout";
 @import "base/components";
+@import "base/button";
 
 // elements
 @import "elements/signaturePad";
+@import "elements/navbar";
 
 // SECTIONS
 @import "sections/home";
@@ -33,3 +36,6 @@
 @import "sections/offer-rejected";
 @import "sections/offer-accepted";
 @import "sections/report";
+@import "sections/inspection";
+@import "sections/inspections";
+@import "sections/waiting";

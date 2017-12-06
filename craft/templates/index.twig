@@ -1,45 +1,9 @@
-{% extends "layouts/loginRequired" %}
+{% extends "layouts/loginRequiredApp" %}
 
 {% block content %}
 
   <a href="{{ url('blank') }}" class="paperwork-link">Proceed To Paperwork</a>
 
-  <div class="index-inspection">
-
-    {% if currentUser.admin %}
-      {% set inspections = craft.entries({ section: "inspections" }).order("dateCreated desc") %}
-    {% else %}
-      {% set inspections = craft.entries({ section: "inspections" }).relatedTo({ element: currentUser, field: 'mechanic' }).order("dateCreated desc") %}
-    {% endif %}
-
-    {% if inspections|length %}
-
-    <div class="list-inspectionsTitles">
-      <div class="">Vehicle</div>
-      <div class="">Date</div>
-      <div class="">Status</div>
-    </div>
-    <div class="z-depth-2">
-      <ul class="list-inpsections">
-      {% for inspection in inspections %}
-        {% set status = inspection.inspectionStatus %}
-        <li class="{{  status != 'UpComing' ? 'in-active':'' }}">
-          {% if status == 'UpComing' %}<a href="{{inspection.url}}" class="valign-wrapper">{% endif %}
-            <div class="list-item title {% if status == 'UpComing' %}title-upComing{% endif %}">{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} <span>- {{inspection.inspectionLocation}}</span></div>
-            <div class="list-item date">{{inspection.inspectionDate|date('M d') }}</div>
-            <div class="list-item status-{{ status|lower }}"><span>{{ status }}</span></div>
-          {% if status == 'UpComing'  %}</a>{% endif %}
-          {% if status != 'UpComing' %}
-            <div class="list-item report"><a href="/report/{{inspection.id}}">Report</a></div>
-          {% endif %}
-        </li>
-      {% endfor %}
-      </ul>
-    </div>
-
-    {% else %}
-    <p class="center-align">No Inspections are currency assigned to you.</p>
-    {% endif %}
-  </div>
+  <div id="app"></div>
 
 {% endblock %}

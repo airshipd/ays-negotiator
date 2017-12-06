@@ -1,0 +1,17 @@
+.btn {
+  background-color: #26AAE1;
+  color: white;
+  font-weight: 300;
+  font-size: 1.8rem;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 0;
+
+  &:hover {
+    background: $dark-blue;
+  }
+
+  &.btn-fullWidth {
+    width: 100%;
+  }
+}
