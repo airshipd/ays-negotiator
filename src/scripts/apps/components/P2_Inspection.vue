@@ -162,7 +162,7 @@ export default {
           let sendObj = {
             action: 'entries/saveEntry',
             sectionId: '3',
-            entryId: '2003',
+            entryId: this.$route.params.id,
             enabled: '1',
           }
           //loop through all field entries and build out
