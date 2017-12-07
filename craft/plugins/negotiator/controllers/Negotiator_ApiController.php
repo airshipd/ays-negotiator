@@ -76,7 +76,7 @@ class Negotiator_ApiController extends BaseController {
     $criteria->id = $id;
     $inspection = $criteria->first();
 
-    $fieldsToReturn = 'buildDate,odometer,inspectionStatus,make,model,series,year,colour,carBody,driveTrain,doors,seats,badge,engineType,engineSize,transmission,wheels,serviceBooks,servicePapers,sunroof,satNav,spareKey,leatherUpholstery,tradesmanExtras,tradesmanExtrasDescription,upgradesMods,upgradesAndModsDescription,sportsKit,sportsKitDescription,damageAndFaults,approximateExpenditure,customerName';
+    $fieldsToReturn = 'reviewPrice,reviewRequest,averageTotalForCarType,approximateExpenditure,onsitePhysicalValuation,telephoneEstimatedValuation,approximateExpenditure,customerName,mechanic';
     $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
     $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
     $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
@@ -97,8 +97,19 @@ class Negotiator_ApiController extends BaseController {
       $field = craft()->fields->getFieldById($fieldLayoutField->fieldId);
 
       if( in_array( $field->handle, explode(',',$fieldsToReturn) ) ) {
-        $fieldName = $field->handle;
-        $ret[$fieldName] = $entry->getContent()->$fieldName;
+        if( $field->type === "Users" ) {
+          $user = craft()->users->getUserById($entry->mechanic->ids()[0]);
+          if($user) {
+            $fieldName = $field->handle;
+            $ret[$fieldName] = array(
+              'firstName' => $user->firstName,
+              'lastName' => $user->lastName,
+            );
+          }
+        } else {
+          $fieldName = $field->handle;
+          $ret[$fieldName] = $entry->getContent()->$fieldName;
+        }
       }
     }
     return $ret;

@@ -7,7 +7,7 @@
       <div class="row offer-meta">
         <div class="col m6">
           <h3>Inspection Done By:</h3>
-          <p>{{offer.mechanicName}} / {{offer.jobTitle}}</p>
+          <p v-if="offer.mechanic">{{offer.mechanic.firstName}} {{offer.mechanic.lastName}} / Certified senior mechanic</p>
         </div>
         <div class="col m6">
           <h3>Prepared For:</h3>
@@ -29,7 +29,6 @@
           </div>
         </div>
       </div>
-
 
       <div class="row offer-issues">
         <h3>Issues</h3>
@@ -57,31 +56,42 @@
     </div>
 
     <div class="side">
-      <div class="divider offer-estimation">
-        <h3>Phone Estimation</h3>
-        {{offer.estimation}}
+      <div v-if="!loading">
+        <div v-if="offer.telephoneEstimatedValuation > 0" class="divider offer-estimation">
+          <h3>Phone Estimation</h3>
+          {{offer.telephoneEstimatedValuation | currency }}
+        </div>
+        <div class="divider offer-valuation">
+          <h3>On-site Valuation</h3>
+          {{offer.onsitePhysicalValuation | currency}}
+        </div>
+        <div class="divider offer-repairs">
+          <h3>Repair Needs</h3>
+          <span class="discounted">{{offer.approximateExpenditure | currency}} <span>Discounted</span></span>
+          <p>available if you accept today</p>
+        </div>
+        <div class="divider offer-previous">
+          <h3 v-if="!hasReview">Regular Offer</h3>
+          <h3 v-else>Previous Offer</h3>
+          <span v-if="!hasReview">{{offer.averageTotalForCarType | currency}}</span>
+          <span v-else>{{previousOffer | currency}}</span>
+        </div>
+        <div class="divider offer-final">
+          <h3 v-if="!hasReview">Our Offer</h3>
+          <h3 v-else>Final Offer</h3>
+          {{total | currency}}
+          <p v-if="hasReview">Get Paid by Friday 24th Novemeber</p>
+        </div>
+        <div class="buttons">
+          <b-1-button v-if="!hasReview" :label="'Request Review'" :action="actionReview" :fullWidth="true" :additionalClasses="{'btn-review':true}"></b-1-button>
+          <b-1-button v-else :label="'Decline'" :action="actionDecline" :fullWidth="true" :additionalClasses="{'btn-decline':true}"></b-1-button>
+          <b-1-button :label="'Accept Offer'" :action="actionAccept" :fullWidth="true" :additionalClasses="{'btn-accept':true}"></b-1-button>
+        </div>
       </div>
-      <div class="divider offer-valuation">
-        <h3>On-site Valuation</h3>
-        {{offer.valuation}}
-      </div>
-      <div class="divider offer-repairs">
-        <h3>Repair Needs</h3>
-        <span class="discounted">{{offer.discount}} <span>Discounted</span></span>
-        <p>available if you accept today</p>
-      </div>
-      <div class="divider offer-previous">
-        <h3>Previous Offer</h3>
-        {{offer.discount}}
-      </div>
-      <div class="divider offer-final">
-        <h3>Final Offer</h3>
-        {{offer.discount}}
-        <p>Get Paid by Friday 24th Novemeber</p>
-      </div>
-      <div class="buttons">
-        <!-- <b1-button :label="'Decline'" :action="actionDecline" :fullWidth="true"></b1-button>
-        <b1-button :label="'Accept'" :action="actionAccept" :fullWidth="true"></b1-button> -->
+      <div class="offer-loading" v-if="loading">
+        <p>We have received your request and are reprocessing your offer</p>
+        <h3>Estimate time remaining</h3>
+        <countdown :time="date" v-once></countdown>
       </div>
     </div>
   </section>
@@ -90,7 +100,10 @@
 
 
 <script>
-  // import b1Button from './buttons/B1_button.vue'
+  import b1Button from './buttons/B1_button.vue'
+  import countdown from './components/C2_countdown.vue'
+
+  import moment from 'moment'
   import axios from 'axios'
   import { urlGetOffer } from '../config.js'
 
@@ -99,11 +112,29 @@
     props: [],
     mounted () {
       this.getOffer()
+
+      //handle event of offer review updating
+      window.eventBus.$on('updateOfferReview', (data,totalOffer ) => {
+        this.loading = true
+        this.offer = Object.assign({}, this.offer, data)
+        this.total = totalOffer
+
+        //make loading only last one minute
+        window.setInterval(() => {
+          this.loading = false
+        },1000*60);
+      })
+    },
+    beforeDestroy () {
+      window.eventBus.$off('updateOfferReview')
     },
     data () {
       return {
         offer: {},
         options: [],
+        total: [],
+        loading: false,
+        date: moment(new Date(moment().add(10,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
       }
     },
     methods: {
@@ -122,12 +153,25 @@
       formatData (res) {
         this.offer = res.data
         this.options = res.options
+        this.total = res.total
         this.$store.commit('updateInspection',res.data)
       },
+      actionReview() {
+        this.$store.commit('updateReviewModalApperance', true)
+      }
     },
     components: {
-      // B1Button
+      b1Button,
+      countdown
     },
+    computed: {
+      hasReview () {
+        return this.offer.reviewPrice > 0
+      },
+      previousOffer () {
+        return this.offer.onsitePhysicalValuation - this.offer.approximateExpenditure
+      }
+    }
 }
 </script>
 

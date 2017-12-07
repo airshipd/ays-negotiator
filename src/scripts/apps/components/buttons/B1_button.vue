@@ -1,13 +1,13 @@
 <template>
 
-  <button class="btn" :class="{'btn-fullWidth': fullWidth}" @click="clickAction">{{label}}</button>
+  <button :class="classObj" @click="clickAction">{{label}}</button>
 
 </template>
 
 <script>
   export default {
     name: 'b-1-button',
-    props: ['label', 'action', 'fullWidth'],
+    props: ['label', 'action', 'fullWidth', 'additionalClasses'],
     mounted () {
 
     },
@@ -22,7 +22,13 @@
       }
     },
     computed: {
-
+      classObj () {
+        let retObj = {
+          'btn': true,
+          'btn-fullWidth': this.fullWidth
+        }
+        return Object.assign({}, retObj, this.additionalClasses)
+      }
     },
 }
 </script>

@@ -10,6 +10,8 @@
       </transition>
 
     </main>
+
+    <o-1-modal-review v-if="showReviewModal"></o-1-modal-review>
   </div>
 
 </template>
@@ -17,6 +19,7 @@
 <script>
 
 import H1Header from './components/navigation/H1_Header.vue'
+import O1ModalReview from './components/overlays/O1_Review.vue'
 
 export default {
   name: 'app',
@@ -29,9 +32,13 @@ export default {
   methods: {
   },
   components: {
-    H1Header
+    H1Header,
+    O1ModalReview
   },
   computed: {
+    showReviewModal () {
+      return this.$store.state.overlays.review
+    },
   }
 }
 </script>

@@ -16,7 +16,10 @@ export default new Vuex.Store({
       lat: 0,
       lng: 0
     },
-    inspection: {}
+    inspection: {},
+    overlays: {
+      review: false
+    }
   },
   mutations: {
     updateLocation(state, data) {
@@ -27,6 +30,9 @@ export default new Vuex.Store({
     },
     updateInspection(state,data) {
       state.inspection = Object.assign({}, state.inspection, data)
+    },
+    updateReviewModalApperance(state,value) {
+      state.overlays.review = value
     }
   }
 })

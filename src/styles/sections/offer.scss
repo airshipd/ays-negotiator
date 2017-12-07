@@ -1,8 +1,11 @@
 .section-offer {
-  overflow: hidden;
+  &:after {
+    content:"";
+    clear:both;
+    display:block;
+  }
 
   .offer {
-    height: 9000px;
     float: left;
     width: 749px;
     padding-right: 20px;
@@ -13,10 +16,70 @@
     width: 275px;
     position: sticky;
     float: right;
-    height: 100px;
     top: 0;
     background-image: linear-gradient(-143deg, #494E67 0%, #363B56 29%, #353A55 31%, #353955 31%, #080C2E 100%);
     box-shadow: inset 3px 3px 2px 0 rgba(0,0,0,0.07);
+  }
+
+  .btn {
+    font-size: 1.6rem;
+    display: block;
+  }
+
+  .btn-review {
+    background: transparent;
+    color: $light-blue;
+    border:1px solid $light-blue;
+    margin: 0 auto 10px;
+    width: 90%;
+  }
+
+  .btn-decline {
+    background: transparent;
+    color: #EB7E84;
+    border:1px solid #EB7E84;
+    margin: 0 auto 10px;
+    width: 90%;
+  }
+}
+
+.side .divider {
+  color: white;
+  border:1px solid #1C2148;
+  padding: 25px;
+  height: auto;
+  background-color: transparent;
+  font-size: 2rem;
+  overflow: visible;
+  text-align: right;
+
+  h3 {
+    color: #98B7D6;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  &.offer-repairs {
+    color: #FF8C8C;
+
+    span {
+      margin-top: 5px;
+      display: block;
+      font-size: 1.4rem;
+      line-height: 1em;
+
+      span {
+        text-transform: uppercase;
+      }
+    }
+
+    p {
+      margin-top: 5px;
+      font-size: 1.4rem;
+      color: white;
+      margin: 0;
+      line-height: 1.5em;
+    }
   }
 }
 
@@ -100,4 +163,37 @@
   }
 }
 
+.offer-final {
+  font-size: 3.6rem !important;
+  color: white;
+  line-height: 1em;
 
+  p {
+    font-size: 1.4rem;
+    color: white;
+    margin: 0;
+  }
+}
+
+.offer-loading {
+  padding: 35px 25px;
+
+  p {
+    font-size: 1.8rem;
+    color: #fff;
+    line-height: 1.6em;
+    margin-bottom: 78px;
+  }
+
+  h3 {
+    color: #6C8CAD;
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  .countdown {
+    text-align: left;
+    margin: 0;
+    font-size: 3.8rem;
+  }
+}

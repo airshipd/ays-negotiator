@@ -29,4 +29,5 @@ return array(
   'api/inspections' => ['action' => 'negotiator/api/inspections'],
   'api/inspection/(?P<id>\d+)' => ['action' => 'negotiator/api/inspection'],
   'api/offer/(?P<id>\d+)' => ['action' => 'negotiator/api/offer'],
+  'api/reviewOffer' => ['action' => 'negotiator/inspections/reviewInspection'],
 );

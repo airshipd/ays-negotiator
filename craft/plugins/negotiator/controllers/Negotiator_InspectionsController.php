@@ -58,7 +58,7 @@ class Negotiator_InspectionsController extends BaseController {
     if( $success ) {
       NegotiatorPlugin::log("Successfully Saved the purchase history for Inspection:".$assessment->id , LogLevel::Info);
       craft()->userSession->setNotice(Craft::t('Purchased history saved.'));
-      
+
       if( $isAjax ) {
         $this->returnJson( [ "msg"=>"succsss" ] );
       } else {
