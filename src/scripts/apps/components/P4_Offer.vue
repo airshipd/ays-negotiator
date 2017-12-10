@@ -20,12 +20,12 @@
         <h3>Comparison</h3>
         <div class="col m12 ">
           <div class="comparison">
-            <div class="comparison-average"></div>
-            <div class="comparison-max"></div>
+            <div class="comparison-average"><span>Average:</span>{{offer.averageTotalForCarType | currency}}</div>
+            <div class="comparison-max"><span>Max:</span>{{offer.maxTotalForCarType | currency}}</div>
             <div class="comparison-bar"></div>
-            <div class="comparison-needle"></div>
-            <div class="comparison-price--extra"></div>
-            <div class="comparison-yourCar"></div>
+            <div class="comparison-bar--extra" :style="styleBarExtra"></div>
+            <div class="comparison-needle" :style="styleComparisonNeedle">Your car: {{total | currency}}</div>
+            <div class="comparison-price--extra" :style="styleComparisonExtra">+ {{profitAverage | currency}}</div>
           </div>
         </div>
       </div>
@@ -110,6 +110,13 @@
   export default {
     name: 'p-4-offer',
     props: [],
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        if( $.isEmptyObject(vm.$store.state.inspection) ) {
+          next('/inspection/'+vm.$route.params.id)
+        }
+      })
+    },
     mounted () {
       this.getOffer()
 
@@ -156,8 +163,32 @@
         this.total = res.total
         this.$store.commit('updateInspection',res.data)
       },
-      actionReview() {
+      actionReview () {
         this.$store.commit('updateReviewModalApperance', true)
+      },
+      actionAccept () {
+        axios.get(urlGetOffer+'/'+this.$route.params.id+'/accept')
+        .then(response => {
+          if( typeof(response.data.error) === 'undefined' ) {
+            this.$router.push('/offer/'+this.$route.params.id+'/accept')
+          } else {
+            alert('error saving offer')
+          }
+        }).catch(e => {
+          console.error(e)
+        })
+      },
+      actionReject () {
+        axios.get(urlGetOffer+'/'+this.$route.params.id+'/reject')
+        .then(response => {
+          if( typeof(response.data.error) === 'undefined' ) {
+            this.$router.push('/offer/'+this.$route.params.id+'/reject')
+          } else {
+            alert('error saving offer')
+          }
+        }).catch(e => {
+          console.error(e)
+        })
       }
     },
     components: {
@@ -170,6 +201,24 @@
       },
       previousOffer () {
         return this.offer.onsitePhysicalValuation - this.offer.approximateExpenditure
+      },
+      profitAverage () {
+        return this.total - this.offer.averageTotalForCarType
+      },
+      styleComparisonNeedle () {
+        return {
+          left: '50%'
+        }
+      },
+      styleComparisonExtra () {
+        return {
+          left: '25%'
+        }
+      },
+      styleBarExtra () {
+        return {
+          width: '50%'
+        }
       }
     }
 }

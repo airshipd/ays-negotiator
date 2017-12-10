@@ -76,7 +76,7 @@ class Negotiator_ApiController extends BaseController {
     $criteria->id = $id;
     $inspection = $criteria->first();
 
-    $fieldsToReturn = 'reviewPrice,reviewRequest,averageTotalForCarType,approximateExpenditure,onsitePhysicalValuation,telephoneEstimatedValuation,approximateExpenditure,customerName,mechanic';
+    $fieldsToReturn = 'reviewPrice,reviewRequest,maxTotalForCarType,averageTotalForCarType,approximateExpenditure,onsitePhysicalValuation,telephoneEstimatedValuation,approximateExpenditure,customerName,mechanic';
     $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
     $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
     $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
@@ -87,6 +87,24 @@ class Negotiator_ApiController extends BaseController {
     $ret['total'] = craft()->negotiator_offer->calculateOfferTotal($inspection);
 
     $this->returnJson($ret);
+  }
+
+  public function actionFinalise() {
+    $criteria = craft()->elements->getCriteria(ElementType::Entry);
+    $criteria->id = craft()->request->getSegment(3);
+    $inspection = $criteria->first();
+    $action = craft()->request->getSegment(3);
+    $ret = [];
+
+    // set inspection status
+    $inspection->getContent()->inspectionStatus = ( $action == 'accept' ) ? 'Accepted' : 'Rejected';
+    if ( craft()->entries->saveEntry( $inspection ) ) {
+      $ret['status'] = "OK";
+      $this->returnJson($ret);
+    } else {
+      $this->returnErrorJson("Could not save Inspection");
+      NegotiatorPlugin::log("Could not save Inspection:".$inspection->id , LogLevel::Info);
+    }
   }
 
 

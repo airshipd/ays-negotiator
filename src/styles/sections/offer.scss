@@ -13,6 +13,7 @@
   }
 
   .side {
+    min-height: 100rem;
     width: 275px;
     position: sticky;
     float: right;
@@ -40,6 +41,87 @@
     border:1px solid #EB7E84;
     margin: 0 auto 10px;
     width: 90%;
+  }
+
+  .comparison {
+    width: 60%;
+    margin: 30px auto 50px;
+    position: relative;
+
+    .comparison-average {
+      position: absolute;
+      top: 0;
+      left: -58px;
+      font-size: 1.3rem;
+      transform: translateY(-50%);
+
+      span {
+        display: block;
+      }
+    }
+
+    .comparison-bar {
+      width: 100%;
+      height: 16px;
+      background: rgba(38,170,255,0.34);
+    }
+
+    .comparison-max {
+      position: absolute;
+      top: 0;
+      right: -50px;
+      font-size: 1.3rem;
+      transform: translateY(-50%);
+
+      span {
+        display: block;
+      }
+    }
+
+    .comparison-needle {
+      left: 50%;
+      position: absolute;
+      top: 8px;
+      padding-top: 26px;
+      padding-left: 10px;
+      font-size: 1.3rem;
+
+      &:before {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        height: 40px;
+        background: #242846;
+        width: 1px;
+      }
+
+      &:after {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: -7px;
+        height: 15px;
+        background: #242846;
+        width: 15px;
+        border-radius: 15px;
+      }
+    }
+
+    .comparison-price--extra {
+      color: $light-blue;
+      font-size: 1.3rem;
+      position: absolute;
+      top: 25px;
+    }
+
+    .comparison-bar--extra {
+      position: absolute;
+      height: 16px;
+      background: #5FB3E3;
+      top: 0;
+      left: 0;
+    }
   }
 }
 
@@ -85,7 +167,7 @@
 
 .offer-meta {
   margin-top: 25px;
-  margin-bottom: 0;
+  margin-bottom: 35px;
   padding-left: 30px;
 
   .col {

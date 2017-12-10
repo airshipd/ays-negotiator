@@ -24,6 +24,13 @@ import countdown from './components/C2_Countdown.vue'
 export default {
   name: 'waiting',
   props: [],
+  beforeRouteEnter (to, from, next) {
+     next(vm => {
+      if( $.isEmptyObject(vm.$store.state.inspection) ) {
+        next('/inspection/'+vm.$route.params.id)
+      }
+    })
+  },
   mounted () {
     window.setInterval(() => {
       this.loadingState = 2

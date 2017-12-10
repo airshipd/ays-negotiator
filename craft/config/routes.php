@@ -30,4 +30,6 @@ return array(
   'api/inspection/(?P<id>\d+)' => ['action' => 'negotiator/api/inspection'],
   'api/offer/(?P<id>\d+)' => ['action' => 'negotiator/api/offer'],
   'api/reviewOffer' => ['action' => 'negotiator/inspections/reviewInspection'],
+  'api/offer/(?P<id>\d+)/accept' => ['action' => 'negotiator/api/finalise'],
+  'api/offer/(?P<id>\d+)/reject' => ['action' => 'negotiator/api/finalise'],
 );

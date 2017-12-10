@@ -60,3 +60,71 @@
     transform: translate(-50%,-50%) rotate(-45deg);
   }
 }
+
+
+.modal-container--review {
+  padding: 0;
+
+  .modal-btn--close {
+    display: none;
+  }
+
+  .row {
+    margin: 0;
+
+    .col:first-of-type {
+      padding: 46px 44px;
+
+      p {
+        color: $light-blue;
+        font-size: 1.8rem;
+      }
+
+      textarea {
+        width: 100%;
+        border: 1px solid rgba(#000,0.1);
+      }
+    }
+
+    .col:last-of-type {
+      background: $light-blue;
+      color: white;
+      padding: 46px 44px;
+
+      p {
+        color: white;
+        font-size: 1.8rem;
+      }
+
+      input[type="number"] {
+        font-size: 3.6rem;
+        border-color: white;
+        width: 100%;
+      }
+
+      .buttons {
+        display: flex;
+        margin-top: 130px;
+
+        .btn {
+          height: 49px;
+          line-height: 49px;
+          font-size: 1.4rem;
+          box-shadow: none;
+
+          &:first-of-type {
+            background-color: transparent;
+            border: none;
+            color: #121737;
+          }
+
+          &:last-of-type {
+            background-color: #121737;
+            color: white;
+            flex-grow: 1;
+          }
+        }
+      }
+    }
+  }
+}

@@ -10128,7 +10128,8 @@ p {
 
 input[type="text"],
 input[type="email"],
-input[type="number"] {
+input[type="number"],
+input[type="password"] {
   font-weight: 300;
   width: 80%;
   background: transparent;
@@ -10139,15 +10140,18 @@ input[type="number"] {
   padding: 0 5px; }
   input[type="text"]:focus,
   input[type="email"]:focus,
-  input[type="number"]:focus {
+  input[type="number"]:focus,
+  input[type="password"]:focus {
     outline: 0; }
   .input-field input[type="text"], .input-field
   input[type="email"], .input-field
-  input[type="number"] {
+  input[type="number"], .input-field
+  input[type="password"] {
     margin-top: 1.6rem; }
     .input-field input[type="text"] + label, .input-field
     input[type="email"] + label, .input-field
-    input[type="number"] + label {
+    input[type="number"] + label, .input-field
+    input[type="password"] + label {
       font-weight: 300;
       position: absolute;
       top: 0;
@@ -10632,6 +10636,50 @@ nav {
     -ms-transform: translate(-50%, -50%) rotate(-45deg);
         transform: translate(-50%, -50%) rotate(-45deg); }
 
+.modal-container--review {
+  padding: 0; }
+  .modal-container--review .modal-btn--close {
+    display: none; }
+  .modal-container--review .row {
+    margin: 0; }
+    .modal-container--review .row .col:first-of-type {
+      padding: 46px 44px; }
+      .modal-container--review .row .col:first-of-type p {
+        color: #5FB3E3;
+        font-size: 1.8rem; }
+      .modal-container--review .row .col:first-of-type textarea {
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.1); }
+    .modal-container--review .row .col:last-of-type {
+      background: #5FB3E3;
+      color: white;
+      padding: 46px 44px; }
+      .modal-container--review .row .col:last-of-type p {
+        color: white;
+        font-size: 1.8rem; }
+      .modal-container--review .row .col:last-of-type input[type="number"] {
+        font-size: 3.6rem;
+        border-color: white;
+        width: 100%; }
+      .modal-container--review .row .col:last-of-type .buttons {
+        display: -ms-flexbox;
+        display: flex;
+        margin-top: 130px; }
+        .modal-container--review .row .col:last-of-type .buttons .btn, .modal-container--review .row .col:last-of-type .buttons .btn-large {
+          height: 49px;
+          line-height: 49px;
+          font-size: 1.4rem;
+          box-shadow: none; }
+          .modal-container--review .row .col:last-of-type .buttons .btn:first-of-type, .modal-container--review .row .col:last-of-type .buttons .btn-large:first-of-type {
+            background-color: transparent;
+            border: none;
+            color: #121737; }
+          .modal-container--review .row .col:last-of-type .buttons .btn:last-of-type, .modal-container--review .row .col:last-of-type .buttons .btn-large:last-of-type {
+            background-color: #121737;
+            color: white;
+            -ms-flex-positive: 1;
+                flex-grow: 1; }
+
 .list-inspectionsTitles {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -10955,6 +11003,107 @@ nav {
   padding-top: 9px;
   display: block; }
 
+.section-offer--accept {
+  background-image: url("/images/clouds.svg"), linear-gradient(-143deg, #494E67 0%, #363B56 29%, #353A55 31%, #353955 31%, #080C2E 100%);
+  box-shadow: inset 3px 3px 2px 0 rgba(0, 0, 0, 0.07);
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 100%, cover;
+  background-position: 0 0, 0 0;
+  height: 100vh;
+  overflow: hidden;
+  position: relative; }
+  .section-offer--accept:after {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    content: '';
+    top: 50%;
+    left: 0;
+    background: white;
+    z-index: 1; }
+  .section-offer--accept h1 {
+    margin: 0;
+    padding: 273px 0 0;
+    text-align: center;
+    color: #242846;
+    position: relative;
+    font-size: 5.6rem;
+    line-height: 1em;
+    margin-bottom: 23px; }
+    .section-offer--accept h1:before {
+      border-radius: 100px;
+      position: absolute;
+      bottom: 82px;
+      left: 50%;
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
+      height: 46px;
+      line-height: 46px;
+      width: 46px;
+      background: #BFDF9A;
+      color: white;
+      content: "check";
+      font-family: 'Material Icons';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 3.2rem;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased; }
+  .section-offer--accept p {
+    margin: 0;
+    line-height: 1em;
+    color: #242846;
+    text-align: center;
+    font-size: 2.6rem; }
+  .section-offer--accept .row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+        justify-content: space-between;
+    margin: 50px auto;
+    width: 752px; }
+    .section-offer--accept .row .col {
+      font-size: 1.6rem;
+      color: #242846;
+      text-align: center; }
+      .section-offer--accept .row .col:first-of-type {
+        margin-left: 0; }
+    .section-offer--accept .row [class^="icon"] {
+      margin: 0 auto 16px; }
+    .section-offer--accept .row .icon-paper {
+      background: url(/images/icon-paper.svg) 0 0 no-repeat;
+      background-size: cover;
+      width: 35px;
+      height: 35px;
+      display: block; }
+    .section-offer--accept .row .icon-money {
+      background: url(/images/icon-money.svg) 0 0 no-repeat;
+      background-size: cover;
+      width: 35px;
+      height: 35px;
+      display: block; }
+    .section-offer--accept .row .icon-car {
+      background: url(/images/icon-car.svg) 0 0 no-repeat;
+      background-size: cover;
+      width: 67px;
+      height: 35px;
+      display: block; }
+  .section-offer--accept .btn, .section-offer--accept .btn-large {
+    background-color: #5FB3E3;
+    color: white;
+    margin: 0 auto;
+    display: block; }
+
+.section-offer--acceptWrap {
+  position: relative;
+  z-index: 10; }
+
 .report .signature-display {
   width: 50%; }
 
@@ -11196,6 +11345,7 @@ nav {
   padding-left: 20px; }
 
 .section-offer .side {
+  min-height: 100rem;
   width: 275px;
   position: -webkit-sticky;
   position: sticky;
@@ -11221,6 +11371,68 @@ nav {
   border: 1px solid #EB7E84;
   margin: 0 auto 10px;
   width: 90%; }
+
+.section-offer .comparison {
+  width: 60%;
+  margin: 30px auto 50px;
+  position: relative; }
+  .section-offer .comparison .comparison-average {
+    position: absolute;
+    top: 0;
+    left: -58px;
+    font-size: 1.3rem;
+    -ms-transform: translateY(-50%);
+        transform: translateY(-50%); }
+    .section-offer .comparison .comparison-average span {
+      display: block; }
+  .section-offer .comparison .comparison-bar {
+    width: 100%;
+    height: 16px;
+    background: rgba(38, 170, 255, 0.34); }
+  .section-offer .comparison .comparison-max {
+    position: absolute;
+    top: 0;
+    right: -50px;
+    font-size: 1.3rem;
+    -ms-transform: translateY(-50%);
+        transform: translateY(-50%); }
+    .section-offer .comparison .comparison-max span {
+      display: block; }
+  .section-offer .comparison .comparison-needle {
+    left: 50%;
+    position: absolute;
+    top: 8px;
+    padding-top: 26px;
+    padding-left: 10px;
+    font-size: 1.3rem; }
+    .section-offer .comparison .comparison-needle:before {
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+      height: 40px;
+      background: #242846;
+      width: 1px; }
+    .section-offer .comparison .comparison-needle:after {
+      position: absolute;
+      content: "";
+      top: 0;
+      left: -7px;
+      height: 15px;
+      background: #242846;
+      width: 15px;
+      border-radius: 15px; }
+  .section-offer .comparison .comparison-price--extra {
+    color: #5FB3E3;
+    font-size: 1.3rem;
+    position: absolute;
+    top: 25px; }
+  .section-offer .comparison .comparison-bar--extra {
+    position: absolute;
+    height: 16px;
+    background: #5FB3E3;
+    top: 0;
+    left: 0; }
 
 .side .divider {
   color: white;
@@ -11253,7 +11465,7 @@ nav {
 
 .offer-meta {
   margin-top: 25px;
-  margin-bottom: 0;
+  margin-bottom: 35px;
   padding-left: 30px; }
   .offer-meta .col {
     padding: 0; }
