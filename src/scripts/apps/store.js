@@ -17,6 +17,7 @@ export default new Vuex.Store({
       lng: 0
     },
     inspection: {},
+    options: [],
     overlays: {
       review: false
     }
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     updateInspection(state,data) {
       state.inspection = Object.assign({}, state.inspection, data)
+    },
+    updateOptions(state,data) {
+      state.options = Object.assign({}, state.inspection, data)
     },
     updateReviewModalApperance(state,value) {
       state.overlays.review = value

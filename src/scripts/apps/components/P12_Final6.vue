@@ -3,32 +3,32 @@
   <section class="section-final--1">
 
     <div class="row">
-      <div class="col m4">
+      <div class="col m12">
         <input-text :label="'Name'" v-model="inspection.customerName" :name="'customerName'"></input-text>
       </div>
     </div>
     <div class="row">
-      <div class="col m4">
+      <div class="col m6">
         <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobile'"></input-text>
       </div>
-      <div class="col m4">
+      <div class="col m6">
         <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'"></input-text>
       </div>
     </div>
     <div class="row">
-      <div class="col m9">
+      <div class="col m8">
         <input-text :label="'Address'" v-model="inspection.customerAddress" :name="'customerAddress'"></input-text>
       </div>
-      <div class="col m3">
+      <div class="col m4">
         <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'"></input-text>
       </div>
     </div>
     <div class="row">
       <div class="col m4">
-        <input-text :label="'Customer Suburb'" v-model="inspection.customerSuburb" :name="'customerSuburb'"></input-text>
+        <input-text :label="'Custmer Suburb'" v-model="inspection.customerSuburb" :name="'customerSuburb'"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Customer Postcode'" v-model="inspection.customerPostcode" :name="'customerPostCode'"></input-text>
+        <input-text :label="'Custmer Suburb'" v-model="inspection.customerPostcode" :name="'customerSuburb'"></input-text>
       </div>
     </div>
     <div class="row">
@@ -42,7 +42,7 @@
         <input-text :label="'D/O/B'" v-model="inspection.customerDob" :name="'customerDOB'"></input-text>
       </div>
     </div>
-    <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
+    <b2-button :click="actionNext" :label="'Next Step'"></b2-button>
   </section>
 
 </template>
@@ -78,7 +78,7 @@ export default {
   methods: {
     actionNext () {
       this.$store.commit('updateInspection',this.inspection)
-      this.$router.push('/final/2/'+this.$route.params.id)
+      this.$router.push('/final/2/'+this.$router.params.id)
     }
   },
   components: {

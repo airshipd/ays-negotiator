@@ -15,3 +15,22 @@
     width: 100%;
   }
 }
+
+
+.btn-nextStep--wrap {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 1.6rem;
+  color: $light-blue;
+  align-items:center;
+
+  button {
+    margin-left: 19px;
+    background-color: transparent;
+    background-image: url(/images/icon-arrow--right.svg);
+    background-size: contain;
+    border: none;
+    height: 44px;
+    width: 44px;
+  }
+}

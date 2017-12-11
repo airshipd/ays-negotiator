@@ -40,6 +40,30 @@
               </div>
             </div>
           </div>
+          <div class="header-final" v-if="currentRoute.includes('Final')">
+            <div class="row">
+              <div class="col">
+                <i class="icon-user"></i>
+                Customer Details
+              </div>
+              <div class="col">
+                <i class="icon-car2"></i>
+                Car Details
+              </div>
+              <div class="col">
+                <i class="icon-moneySymbol"></i>
+                Finance
+              </div>
+              <div class="col">
+                <i class="icon-bank"></i>
+                Bank Details
+              </div>
+              <div class="col">
+                <i class="icon-complete"></i>
+                Contract Of Sale
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </nav>

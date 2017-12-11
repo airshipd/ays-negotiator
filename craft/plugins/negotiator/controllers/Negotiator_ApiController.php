@@ -48,12 +48,17 @@ class Negotiator_ApiController extends BaseController {
     $ret = [];
     $retData = [];
     $retOptions = [];
+    $tempArray = [];
 
     $criteria = craft()->elements->getCriteria(ElementType::Entry);
     $criteria->id = craft()->request->getSegment(3);
     $inspection = $criteria->first();
 
-    $fieldsToReturn = 'buildDate,odometer,inspectionStatus,make,model,series,year,colour,carBody,driveTrain,doors,seats,badge,engineType,engineSize,transmission,wheels,serviceBooks,servicePapers,sunroof,satNav,spareKey,leatherUpholstery,tradesmanExtras,tradesmanExtrasDescription,upgradesMods,upgradesAndModsDescription,sportsKit,sportsKitDescription,damageAndFaults,approximateExpenditure,customerName';
+    foreach($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
+      array_push($tempArray,craft()->fields->getFieldById($fieldLayoutField->fieldId)->handle);
+    }
+
+    $fieldsToReturn = implode(',', $tempArray);
     $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
     $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
     $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
@@ -115,18 +120,25 @@ class Negotiator_ApiController extends BaseController {
       $field = craft()->fields->getFieldById($fieldLayoutField->fieldId);
 
       if( in_array( $field->handle, explode(',',$fieldsToReturn) ) ) {
-        if( $field->type === "Users" ) {
-          $user = craft()->users->getUserById($entry->mechanic->ids()[0]);
-          if($user) {
+        switch($field->type) {
+          case "Users":
+            $user = craft()->users->getUserById($entry->mechanic->ids()[0]);
+            if($user) {
+              $fieldName = $field->handle;
+              $ret[$fieldName] = array(
+                'firstName' => $user->firstName,
+                'lastName' => $user->lastName,
+              );
+            }
+            break;
+          case "Date":
             $fieldName = $field->handle;
-            $ret[$fieldName] = array(
-              'firstName' => $user->firstName,
-              'lastName' => $user->lastName,
-            );
-          }
-        } else {
-          $fieldName = $field->handle;
-          $ret[$fieldName] = $entry->getContent()->$fieldName;
+            $value = $entry->$fieldName !== null ? $entry->$fieldName->format('d/m/Y') : null;
+            $ret[$fieldName] = $value;
+            break;
+          default:
+            $fieldName = $field->handle;
+            $ret[$fieldName] = $entry->getContent()->$fieldName;
         }
       }
     }

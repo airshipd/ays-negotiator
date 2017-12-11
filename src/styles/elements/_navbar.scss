@@ -65,3 +65,52 @@ nav {
     line-height: 1em;
   }
 }
+
+.header-final {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  width: 100%;
+
+  .row {
+    justify-content: space-around;
+    margin: 0;
+    display: flex;
+    width: 100%;
+    font-size: 1.6rem;
+    color: white;
+    line-height: 1em;
+
+    .col {
+      padding: 0 20px 6px;
+      border-bottom:5px solid $light-blue;
+    }
+  }
+
+  [class^="icon"] {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    height: 20px;
+    width: 20px;
+    display: block;
+    margin: 44px auto 8px;
+  }
+
+  .icon-user {
+    background-image: url(/images/icon-user.svg);
+  }
+  .icon-car2 {
+    background-image: url(/images/icon-car2.svg);
+  }
+  .icon-moneySymbol {
+    background-image: url(/images/icon-moneySymbol.svg);
+  }
+  .icon-bank {
+    background-image: url(/images/icon-bank.svg);
+  }
+  .icon-complete {
+    background-image: url(/images/icon-complete.svg);
+  }
+
+}
