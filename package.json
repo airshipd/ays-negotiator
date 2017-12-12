@@ -62,6 +62,8 @@
     "moment": "^2.19.3",
     "npm": "^5.5.1",
     "qs": "^6.5.1",
+    "signature_pad": "^2.3.2",
+    "trim-canvas": "^0.1.2",
     "vee-validate": "^2.0.0-rc.25",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

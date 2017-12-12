@@ -1,7 +1,7 @@
 <template>
 
   <div class="input-field">
-    <input type="text" class="input-text" :id="uniqueID" ref="input" v-bind:value="value" :name="name" v-on:input="updateValue($event.target.value)" v-validate="validationRules">
+    <input type="text" class="input-text" :id="uniqueID" ref="input" v-bind:value="value" :name="name" v-on:input="updateValue($event.target.value)" v-validate="validationRules" :disabled="disabled">
     <label :for="uniqueID">{{label}}</label>
     <span v-show="errors.has(name)" class="help is-danger">{{ errors.first(name) }}</span>
   </div>
@@ -21,6 +21,9 @@
       },
       value: {
         type: String
+      },
+      disabled: {
+        type: Boolean
       },
       validationRules: {
         type: Object,

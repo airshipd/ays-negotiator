@@ -64,19 +64,19 @@
 
     <div class="row">
       <div class="col m2">
-        <input-checkbox :label="'Service Book'" v-model="inspection.servicePapers" ></input-checkbox>
+        <input-checkbox :label="'Service Book'" v-model="inspection.servicePapers" :model-value="inspection.servicePapers" ></input-checkbox>
       </div>
       <div class="col m2">
-         <input-checkbox :label="'Sun Roof'" v-model="inspection.sunroof" ></input-checkbox>
+         <input-checkbox :label="'Sun Roof'" v-model="inspection.sunroof" :model-value="inspection.sunroof" ></input-checkbox>
       </div>
       <div class="col m2">
-         <input-checkbox :label="'Sat Nav'" v-model="inspection.satNav" ></input-checkbox>
+         <input-checkbox :label="'Sat Nav'" v-model="inspection.satNav" :model-value="inspection.satNav"></input-checkbox>
       </div>
       <div class="col m2">
-         <input-checkbox :label="'Spare Key'" v-model="inspection.spareKey" ></input-checkbox>
+         <input-checkbox :label="'Spare Key'" v-model="inspection.spareKey" :model-value="inspection.spareKey"></input-checkbox>
       </div>
       <div class="col m2">
-         <input-checkbox :label="'Leather'" v-model="inspection.leatherUpholstery" ></input-checkbox>
+         <input-checkbox :label="'Leather'" v-model="inspection.leatherUpholstery" :model-value="inspection.leatherUpholstery"></input-checkbox>
       </div>
     </div>
 
@@ -124,7 +124,7 @@ import inputFileList from './inputs/N8_PhotoList.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 
 export default {
-  name: 'final-1',
+  name: 'final-2',
   provideValidator: true,
   inject: ['$validator'],
   // beforeRouteEnter (to, from, next) {

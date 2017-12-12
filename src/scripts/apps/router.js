@@ -13,7 +13,7 @@ import Final2 from './components/P8_Final2.vue'
 import Final3 from './components/P9_Final3.vue'
 import Final4 from './components/P10_Final4.vue'
 import Final5 from './components/P11_Final5.vue'
-import Final6 from './components/P12_Final6.vue'
+import offerFinalized from './components/P12_OfferFinalized.vue'
 
 Vue.use(Router)
 
@@ -55,32 +55,47 @@ const router = new Router({
     {
       path: '/final/1/:id',
       name: 'Final 1',
-      component: Final1
+      component: Final1,
+      meta: {
+        step: 1
+      }
     },
     {
       path: '/final/2/:id',
       name: 'Final 2',
-      component: Final2
+      component: Final2,
+      meta: {
+        step: 2
+      }
     },
     {
       path: '/final/3/:id',
       name: 'Final 3',
-      component: Final3
+      component: Final3,
+      meta: {
+        step: 3
+      }
     },
     {
-      path: '/final/1/:id',
+      path: '/final/4/:id',
       name: 'Final 4',
-      component: Final4
+      component: Final4,
+      meta: {
+        step: 4
+      }
     },
     {
-      path: '/final/1/:id',
+      path: '/final/5/:id',
       name: 'Final 5',
-      component: Final5
+      component: Final5,
+      meta: {
+        step: 5
+      }
     },
     {
-      path: '/final/1/:id',
-      name: 'Final 6',
-      component: Final6
+      path: '/finalized',
+      name: 'Finalized',
+      component: offerFinalized
     },
   ]
 })

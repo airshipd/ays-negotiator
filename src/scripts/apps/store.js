@@ -19,7 +19,9 @@ export default new Vuex.Store({
     inspection: {},
     options: [],
     overlays: {
-      review: false
+      review: false,
+      signatureCustomer: false,
+      signatureRep: false
     }
   },
   mutations: {
@@ -37,6 +39,12 @@ export default new Vuex.Store({
     },
     updateReviewModalApperance(state,value) {
       state.overlays.review = value
+    },
+    updateSignaturCustomereModalApperance(state,value) {
+      state.overlays.signatureCustomer = value
+    },
+    updateSignatureRepModalApperance(state,value) {
+      state.overlays.signatureRep = value
     }
   }
 })

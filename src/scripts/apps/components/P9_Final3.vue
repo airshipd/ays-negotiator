@@ -25,7 +25,10 @@
       </div>
     </div>
     <div class="row">
-
+      Agreed Price {{inspection.total | currency}}
+    </div>
+    <div class="row">
+      Has the customer received a copy of this contract? <choice-group v-if="inspection.registrationPapers" :label="'Registration Papers'" v-model="inspection.customerReceivedContract" :name="'customerReceivedContract'" :options="booleanOptions"></choice-group>
     </div>
     <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
   </section>
@@ -43,7 +46,7 @@ import inputSelect from './inputs/N5_Select.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 
 export default {
-  name: 'final-1',
+  name: 'final-3',
   provideValidator: true,
   inject: ['$validator'],
   // beforeRouteEnter (to, from, next) {

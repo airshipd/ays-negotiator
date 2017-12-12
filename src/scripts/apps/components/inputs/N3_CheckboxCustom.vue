@@ -15,18 +15,21 @@
       event: 'change'
     },
     props: {
+      value: {
+        type: String,
+      },
       modelValue: {
-        default: "0"
+        default: '0'
       },
       label: {
         type: String,
         required: true
       },
       trueValue: {
-        default: "1"
+        default: '1'
       },
       falseValue: {
-        default: "0"
+        default: '0'
       }
     },
     mounted () {
@@ -60,9 +63,6 @@
           var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
           return v.toString(16);
         });
-      },
-      isChecked () {
-        return parseInt(this.value) ? true : false
       },
       shouldBeChecked() {
         if (this.modelValue instanceof Array) {

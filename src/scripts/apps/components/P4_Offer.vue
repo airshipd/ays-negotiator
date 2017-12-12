@@ -161,7 +161,7 @@
         this.offer = res.data
         this.options = res.options
         this.total = res.total
-        this.$store.commit('updateInspection',res.data)
+        // this.$store.commit('updateInspection',res.data)
       },
       actionReview () {
         this.$store.commit('updateReviewModalApperance', true)

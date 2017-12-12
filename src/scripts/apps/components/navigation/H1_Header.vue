@@ -40,25 +40,37 @@
               </div>
             </div>
           </div>
+          <div class="header-report" v-if="currentRoute === 'Offer'">
+            <div class="left">
+              <a @click="actionMenu"><i class="material-icons">view_list</i></a>
+              Your {{inspection.year}} {{inspection.make}} {{inspection.model}}
+            </div>
+            <div class="right">
+              Offer Expires in <countdown :time="date" v-once></countdown>
+            </div>
+          </div>
           <div class="header-final" v-if="currentRoute.includes('Final')">
+            <div class="left">
+               <a @click="actionFinalGoBack"><i class="material-icons">arrow_back</i></a>
+            </div>
             <div class="row">
-              <div class="col">
+              <div :class="{col: true, active: this.$route.meta.step === 1 }">
                 <i class="icon-user"></i>
                 Customer Details
               </div>
-              <div class="col">
+              <div :class="{col: true, active: this.$route.meta.step === 2 }">
                 <i class="icon-car2"></i>
                 Car Details
               </div>
-              <div class="col">
+              <div :class="{col: true, active: this.$route.meta.step === 3 }">
                 <i class="icon-moneySymbol"></i>
                 Finance
               </div>
-              <div class="col">
+              <div :class="{col: true, active: this.$route.meta.step === 4 }">
                 <i class="icon-bank"></i>
                 Bank Details
               </div>
-              <div class="col">
+              <div :class="{col: true, active: this.$route.meta.step === 5 }">
                 <i class="icon-complete"></i>
                 Contract Of Sale
               </div>
@@ -72,6 +84,9 @@
 </template>
 
 <script>
+  import countdown from '../components/C2_Countdown.vue'
+  import moment from 'moment'
+
   export default {
     name: 'h-1-header',
     props: ['label', 'action', 'fullWidth'],
@@ -85,11 +100,23 @@
       return {
         currentRoute: 'Negotiations',
         title: '',
+        date: moment(new Date(moment().add(10,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
       }
     },
     methods: {
       clickAction () {
         this.action()
+      },
+      actionMenu () {
+        this.$router.push('/')
+      },
+      actionFinalGoBack () {
+        console.log(this.$route.meta.step)
+        if( this.$route.meta.step !== 1 ) {
+          this.$router.push(`/final/${this.$route.meta.step - 1}/${this.$route.params.id}`)
+        } else {
+          this.$router.push(`/offer/${this.$route.params.id}`)
+        }
       },
       updateTitle (route) {
         console.log('udpate route',route)
@@ -127,7 +154,9 @@
           'fixed-height': this.currentRoute === 'Negotiations' || this.currentRoute === 'Offer' ? true : false
         }
       }
-
+    },
+    components: {
+      countdown
     }
 }
 </script>

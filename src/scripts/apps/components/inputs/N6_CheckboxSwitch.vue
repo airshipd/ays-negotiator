@@ -61,9 +61,6 @@
           return v.toString(16);
         });
       },
-      isChecked () {
-        return parseInt(this.value) ? true : false
-      },
       shouldBeChecked() {
         if (this.modelValue instanceof Array) {
           return this.modelValue.includes(this.value)

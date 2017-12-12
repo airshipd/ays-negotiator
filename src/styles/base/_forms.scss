@@ -21,6 +21,10 @@ input[type="password"] {
     outline: 0;
   }
 
+  &:disabled {
+    border-bottom: none;
+  }
+
   .input-field & {
     margin-top: 1.6rem;
 

@@ -72,6 +72,13 @@ nav {
   height: 100px;
   width: 100%;
 
+  .left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+  }
+
   .row {
     justify-content: space-around;
     margin: 0;
@@ -83,7 +90,10 @@ nav {
 
     .col {
       padding: 0 20px 6px;
-      border-bottom:5px solid $light-blue;
+
+      &.active {
+        border-bottom:5px solid $light-blue;
+      }
     }
   }
 
@@ -113,4 +123,47 @@ nav {
     background-image: url(/images/icon-complete.svg);
   }
 
+}
+
+
+.header-report {
+
+  .left {
+    line-height: 1em;
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    position: absolute;
+    bottom: 13px;
+    left: 0;
+    float: none !important;
+
+     a {
+       margin-right: 15px;
+       display: inline-block;
+
+       i {
+        line-height: 1em;
+        height: auto;
+       }
+     }
+  }
+
+  .right {
+    line-height: 1.7em;
+    display: flex;
+    align-items: flex-end;
+    position: absolute;
+    bottom: 13px;
+    font-size: 1.3rem;
+    right: 0;
+    float: none !important;
+
+    .countdown {
+      line-height: 1em;
+      display: inline-block;
+      margin: 0 0 0 5px;
+      font-size: 3.8rem;
+    }
+  }
 }

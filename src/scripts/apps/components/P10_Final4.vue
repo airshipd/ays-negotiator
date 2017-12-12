@@ -1,48 +1,30 @@
 <template>
 
-  <section class="section-final--1">
+  <section class="section-final--4">
 
     <div class="row">
-      <div class="col m12">
-        <input-text :label="'Name'" v-model="inspection.customerName" :name="'customerName'"></input-text>
+      <div class="col m12 bank-details">
+        <h2>Bank Details</h2>
+        <p>Must be the registered owner of the vehicle unless a letter of authority with additional information supplied</p>
       </div>
     </div>
     <div class="row">
       <div class="col m6">
-        <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobile'"></input-text>
+        <input-text :label="'BSB'" v-model="inspection.bsb" :name="'customerMobile'"></input-text>
       </div>
       <div class="col m6">
-        <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'"></input-text>
+        <input-text :label="'Account No'" v-model="inspection.bankAccountNumber" :name="'bankAccountNumber'"></input-text>
       </div>
     </div>
     <div class="row">
-      <div class="col m8">
-        <input-text :label="'Address'" v-model="inspection.customerAddress" :name="'customerAddress'"></input-text>
+      <div class="col m6">
+        <input-text :label="'Name'" v-model="inspection.bank" :name="'bank'"></input-text>
       </div>
-      <div class="col m4">
-        <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'"></input-text>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col m4">
-        <input-text :label="'Custmer Suburb'" v-model="inspection.customerSuburb" :name="'customerSuburb'"></input-text>
-      </div>
-      <div class="col m4">
-        <input-text :label="'Custmer Suburb'" v-model="inspection.customerPostcode" :name="'customerSuburb'"></input-text>
+      <div class="col m6">
+        <input-text :label="'Bank'" v-model="inspection.customerName" :name="'customerEmail'"></input-text>
       </div>
     </div>
-    <div class="row">
-      <div class="col m5">
-        <input-text :label="'Drivers License'" v-model="inspection.customerDriversLicense" :name="'customerDriversLicense'"></input-text>
-      </div>
-      <div class="col m2">
-        <input-text :label="'Expired'" v-model="inspection.customerDriversLicenseExpirationDate" :name="'customerExpirationDate'"></input-text>
-      </div>
-      <div class="col m2">
-        <input-text :label="'D/O/B'" v-model="inspection.customerDob" :name="'customerDOB'"></input-text>
-      </div>
-    </div>
-    <b2-button :click="actionNext" :label="'Next Step'"></b2-button>
+    <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
   </section>
 
 </template>
@@ -58,7 +40,7 @@ import inputSelect from './inputs/N5_Select.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 
 export default {
-  name: 'final-1',
+  name: 'final-4',
   provideValidator: true,
   inject: ['$validator'],
   // beforeRouteEnter (to, from, next) {
@@ -78,7 +60,7 @@ export default {
   methods: {
     actionNext () {
       this.$store.commit('updateInspection',this.inspection)
-      this.$router.push('/final/2/'+this.$router.params.id)
+      this.$router.push('/final/5/'+this.$route.params.id)
     }
   },
   components: {
