@@ -44,18 +44,18 @@
       </div>
     </div>
     <div class="row">
-      <div class="col">
+      <div class="col m5">
         <input-text :label="'Model'" v-model="inspection.model" :name="'model'" :disabled="true"></input-text>
       </div>
-      <div class="col">
-        <input-text :label="'Kilometers'" v-model="inspection.kilometers" :name="'kilometers'" :disabled="true"></input-text>
+      <div class="col m3">
+        <input-text :label="'Kilometers'" v-model="inspection.kilometers" :name="'kilometers'"></input-text>
       </div>
     </div>
     <div class="row">
-      <div class="col">
+      <div class="col m9">
         <input-text :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact" :name="'pickupAddressAndContact'"></input-text>
       </div>
-      <div class="col">
+      <div class="col m3">
         <input-text :label="'Date'" v-model="inspection.contractDate" :name="'contractDate'"></input-text>
       </div>
     </div>
@@ -64,7 +64,7 @@
       <div class="co">ABN: 46 159 545 758. </div>
       <div class="col">LMCT 11137</div>
     </div>
-    <b2-button :click="actionSubmit" :label="'Submit'"></b2-button>
+    <b1-button :click="actionSubmit" :full-width="true" :label="'Submit'"></b1-button>
   </section>
 
 </template>
@@ -77,6 +77,7 @@ import inputCheckbox from './inputs/N3_CheckboxCustom.vue'
 import inputCheckboxSwitch from './inputs/N6_CheckboxSwitch.vue'
 import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
+import b1Button from './buttons/B1_button.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 import signature from './overlays/O2_Signature.vue'
 
@@ -135,6 +136,7 @@ export default {
     inputTextarea,
     inputSelect,
     b2Button,
+    b1Button,
     inputCheckboxSwitch,
     inputNumber,
     signature

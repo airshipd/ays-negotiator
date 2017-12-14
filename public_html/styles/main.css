@@ -11439,8 +11439,6 @@ nav {
       height: 100%; }
     .section-inspections .inspection .row {
       margin-bottom: 0; }
-      .section-inspections .inspection .row:first-of-type {
-        margin-bottom: 8px; }
     .section-inspections .inspection.active {
       background: white; }
     .section-inspections .inspection .col {

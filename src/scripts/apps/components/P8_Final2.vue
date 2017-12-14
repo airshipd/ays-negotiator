@@ -4,25 +4,25 @@
 
     <div class="row">
       <div class="col m3">
-        <input-text :label="'Make'" v-model="inspection.make" :name="'make'"></input-text>
+        <input-text :label="'Make'" v-model="inspection.make" :name="'make'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Model'" v-model="inspection.model" :name="'model'"></input-text>
+        <input-text :label="'Model'" v-model="inspection.model" :name="'model'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Year'" v-model="inspection.year" :name="'year'"></input-text>
+        <input-text :label="'Year'" v-model="inspection.year" :name="'year'" :validation-rules="{required:true}"></input-text>
       </div>
     </div>
 
     <div class="row">
       <div class="col m3">
-        <input-text :label="'Odometer'" v-model="inspection.odometer" :name="'odometer'"></input-text>
+        <input-text :label="'Odometer'" v-model="inspection.odometer" :name="'odometer'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
         <input-select v-if="inspection.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
       </div>
       <div class="col m3">
-        <input-text :label="'Body'" v-model="inspection.body" :name="'body'"></input-text>
+        <input-text :label="'Body'" v-model="inspection.body" :name="'body'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
         <choice-group v-if="inspection.driveTrain" :label="'Drive Type'" v-model="inspection.driveTrain" :options="options.driveTrain.settings.options" :name="'driveType'" ></choice-group>
@@ -40,13 +40,13 @@
 
     <div class="row">
       <div class="col m3">
-        <input-text :label="'Series'" v-model="inspection.series" :name="'series'"></input-text>
+        <input-text :label="'Series'" v-model="inspection.series" :name="'series'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Badge'" v-model="inspection.badge" :name="'badge'"></input-text>
+        <input-text :label="'Badge'" v-model="inspection.badge" :name="'badge'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Engine'" v-model="inspection.engine" :name="'engine'"></input-text>
+        <input-text :label="'Engine'" v-model="inspection.engine" :name="'engine'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
         <input-select v-if="inspection.engineType" :label="'Engine Type'" v-model="inspection.engineType" :options="options.engineType.settings.options"></input-select>
@@ -82,25 +82,25 @@
 
     <div class="row">
       <div class="col m3">
-        <input-text :label="'Chassis/Vin No'" v-model="inspection.chassisVinNumber" :name="'chassisVinNumber'"></input-text>
+        <input-text :label="'Chassis/Vin No'" v-model="inspection.chassisVinNumber" :name="'chassisVinNumber'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Engine Number'" v-model="inspection.engineNumber" :name="'engineNumber'"></input-text>
+        <input-text :label="'Engine Number'" v-model="inspection.engineNumber" :name="'engineNumber'" :validation-rules="{required:true}"></input-text>
       </div>
     </div>
 
     <div class="row">
       <div class="col m3">
-        <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'"></input-text>
+        <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Exp Date'" v-model="inspection.registrationExpirationDate" :name="'registrationExpirationDate'"></input-text>
+        <input-text :label="'Exp Date'" v-model="inspection.registrationExpirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Build Date'" v-model="inspection.buildDate" :name="'buildDate'"></input-text>
+        <input-text :label="'Build Date'" v-model="inspection.buildDate" :name="'buildDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Complience Date'" v-model="inspection.complianceDate" :name="'complianceDate'"></input-text>
+        <input-text :label="'Complience Date'" v-model="inspection.complianceDate" :name="'complianceDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
       </div>
     </div>
 

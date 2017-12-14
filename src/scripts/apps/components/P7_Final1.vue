@@ -4,42 +4,42 @@
 
     <div class="row">
       <div class="col m4">
-        <input-text :label="'Name'" v-model="inspection.customerName" :name="'customerName'"></input-text>
+        <input-text :label="'Name'" v-model="inspection.customerName" :name="'customerName'" :validation-rules="{required:true}"></input-text>
       </div>
     </div>
     <div class="row">
       <div class="col m4">
-        <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobile'"></input-text>
+        <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobile'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'"></input-text>
+        <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'" :validation-rules="{required:true}"></input-text>
       </div>
     </div>
     <div class="row">
       <div class="col m9">
-        <input-text :label="'Address'" v-model="inspection.customerAddress" :name="'customerAddress'"></input-text>
+        <input-text :label="'Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'"></input-text>
+        <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'" :validation-rules="{required:true}"></input-text>
       </div>
     </div>
     <div class="row">
       <div class="col m4">
-        <input-text :label="'Customer Suburb'" v-model="inspection.customerSuburb" :name="'customerSuburb'"></input-text>
+        <input-text :label="'Customer Suburb'" v-model="inspection.customerSuburb" :name="'customerSuburb'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Customer Postcode'" v-model="inspection.customerPostcode" :name="'customerPostCode'"></input-text>
+        <input-text :label="'Customer Postcode'" v-model="inspection.customerPostcode" :name="'customerPostCode'" :validation-rules="{required:true}"></input-text>
       </div>
     </div>
     <div class="row">
       <div class="col m5">
-        <input-text :label="'Drivers License'" v-model="inspection.customerDriversLicense" :name="'customerDriversLicense'"></input-text>
+        <input-text :label="'Drivers License'" v-model="inspection.customerDriversLicense" :name="'customerDriversLicense'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m2">
-        <input-text :label="'Expired'" v-model="inspection.customerDriversLicenseExpirationDate" :name="'customerExpirationDate'"></input-text>
+        <input-text :label="'Expired'" v-model="inspection.customerDriversLicenseExpirationDate" :name="'customerExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
       </div>
       <div class="col m2">
-        <input-text :label="'D/O/B'" v-model="inspection.customerDob" :name="'customerDOB'"></input-text>
+        <input-text :label="'D/O/B'" v-model="inspection.customerDob" :name="'customerDOB'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
       </div>
     </div>
     <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
