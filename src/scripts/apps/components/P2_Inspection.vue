@@ -114,6 +114,7 @@ import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import b1Button from './buttons/B1_button.vue'
 
+import striptags from 'striptags'
 import qs from 'qs'
 import moment from 'moment'
 import axios from 'axios'
@@ -148,6 +149,7 @@ export default {
       res.data.engineType = res.data.engineType ? res.data.engineType : 'petrol'
       res.data.seats = res.data.seats === "0" ? "2" : res.data.seats
       res.data.doors = res.data.doors === "0" ? "2" : res.data.doors
+      res.data.damageAndFaults = striptags(res.data.damageAndFaults)
       this.inspection = res.data
       this.options = res.options
       this.$store.commit('updateInspection',res.data)
