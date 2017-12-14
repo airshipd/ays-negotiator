@@ -34,20 +34,20 @@ export default {
   mounted () {
     window.setInterval(() => {
       this.loadingState = 2
-    },1000*60);
+    },1000*30);
 
     window.setInterval(() => {
       this.loadingState = 3
-    },1000*90);
+    },1000*60);
 
     window.setInterval(() => {
       this.$router.push('/offer/'+this.$route.params.id)
-    },1000*110);
+    },1000*80);
   },
   data () {
     return {
       loadingState: 1,
-      date: moment(new Date(moment().add(10,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
+      date: moment(new Date(moment().add(90,'seconds').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
     }
   },
   methods: {

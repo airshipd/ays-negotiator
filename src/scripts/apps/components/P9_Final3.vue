@@ -26,7 +26,7 @@
     </div>
     <div class="row row-agreedPrice">
       <div class="col">
-        Agreed Price: {{inspection.total | currency}}
+        Agreed Price: <span>{{inspection.total | currency}}</span>
       </div>
     </div>
     <div class="row row-recievedContract">
@@ -52,6 +52,8 @@ import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 
+import cloneDeep from 'clone-deep'
+
 export default {
   name: 'final-3',
   provideValidator: true,
@@ -67,7 +69,7 @@ export default {
   },
   data () {
     return {
-      inspection: Object.assign({},this.$store.state.inspection),
+      inspection: cloneDeep(this.$store.state.inspection),
       booleanOptions: [
         {value:'0',label:'No'},
         {value:'1',label:'Yes'}

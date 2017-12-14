@@ -45,9 +45,6 @@
               <a @click="actionMenu"><i class="material-icons">view_list</i></a>
               Your {{inspection.year}} {{inspection.make}} {{inspection.model}}
             </div>
-            <div class="right">
-              Offer Expires in <countdown :time="date" v-once></countdown>
-            </div>
           </div>
           <div class="header-final" v-if="currentRoute.includes('Final')">
             <div class="left">

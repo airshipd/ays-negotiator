@@ -125,6 +125,7 @@
         this.loading = true
         this.offer = Object.assign({}, this.offer, data)
         this.total = totalOffer
+        this.date = moment(new Date(moment().add(10,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
 
         //make loading only last one minute
         window.setInterval(() => {
@@ -133,6 +134,7 @@
       })
     },
     beforeDestroy () {
+      console.log('removing update offer')
       window.eventBus.$off('updateOfferReview')
     },
     data () {
@@ -141,7 +143,7 @@
         options: [],
         total: [],
         loading: false,
-        date: moment(new Date(moment().add(10,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
+        date: null
       }
     },
     methods: {
@@ -162,6 +164,7 @@
         this.options = res.options
         this.total = res.total
         this.$store.commit('updateInspection',res.data)
+        this.$store.commit('updateInspection',{total: res.total})
         this.$store.commit('updateOptions',res.options)
       },
       actionReview () {

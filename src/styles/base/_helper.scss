@@ -32,3 +32,14 @@
   width: 100%;
   max-width: 100%;
 }
+
+.help {
+
+  &.is-danger {
+    position: absolute;
+    color: red;
+    display: block;
+    margin-top: 7px;
+    font-size: 1.3rem;
+  }
+}

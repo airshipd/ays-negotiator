@@ -7,11 +7,11 @@
           <button class="modal-btn--close" @click="closeAction"></button>
 
           <div class="row">
-            <div class="col m8">
+            <div class="col m7">
               <p>Tell us why you believe your car should be valued higher</p>
               <textarea-input v-model="reviewRequest"></textarea-input>
             </div>
-            <div class="col m4">
+            <div class="col m5">
               <p>what figure in dollars you were expecting to receive?</p>
               <number-input v-model="reviewPrice"></number-input>
               <div class="buttons">

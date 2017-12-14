@@ -15,9 +15,14 @@
 <script>
 export default {
   name: 'n-8-photolist',
-  props: ['value','label'],
+  props: ['value','label','initialImages'],
   mounted () {
-
+    if( this.initialImages !== undefined && this.initialImages !== null ) {
+      // if is array of files
+      if( typeof this.initialImages[0].name == 'string' ) {
+        this.initialImages.forEach((item) => { this.createPreview(item) })
+      }
+    }
   },
   data () {
     return {

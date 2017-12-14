@@ -104,8 +104,8 @@
       </div>
     </div>
 
-    <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto"></input-file-list>
-    <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos"></input-file-list>
+    <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
+    <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
     <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
   </section>
@@ -123,6 +123,8 @@ import inputSelect from './inputs/N5_Select.vue'
 import inputFileList from './inputs/N8_PhotoList.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 
+import cloneDeep from 'clone-deep'
+
 export default {
   name: 'final-2',
   provideValidator: true,
@@ -138,8 +140,8 @@ export default {
   },
   data () {
     return {
-      inspection: Object.assign({},this.$store.state.inspection),
-      options: Object.assign({},this.$store.state.options),
+      inspection: cloneDeep(this.$store.state.inspection),
+      options: cloneDeep(this.$store.state.options),
     }
   },
   methods: {
@@ -172,11 +174,6 @@ export default {
     inputCheckboxSwitch,
     inputNumber,
     inputFileList
-  },
-  watch: {
-    'inspection.vehiclePhotos' (newVal, oldVal) {
-      console.log('watching vehicle photos',newVal)
-    }
-  },
+  }
 }
 </script>

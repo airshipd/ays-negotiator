@@ -12,7 +12,7 @@
         <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobile'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'" :validation-rules="{required:true}"></input-text>
+        <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'" :validation-rules="{required:true,email:true}"></input-text>
       </div>
     </div>
     <div class="row">
@@ -57,6 +57,8 @@ import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 
+import cloneDeep from 'clone-deep'
+
 export default {
   name: 'final-1',
   provideValidator: true,
@@ -72,7 +74,7 @@ export default {
   },
   data () {
     return {
-      inspection: Object.assign({},this.$store.state.inspection)
+      inspection: cloneDeep(this.$store.state.inspection)
     }
   },
   methods: {

@@ -114,10 +114,11 @@ import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import b1Button from './buttons/B1_button.vue'
 
-import striptags from 'striptags'
-import qs from 'qs'
-import moment from 'moment'
+import PostService from '../services/PostService.js'
+
 import axios from 'axios'
+import striptags from 'striptags'
+import moment from 'moment'
 import { urlGetInspection } from '../config.js'
 
 export default {
@@ -158,33 +159,7 @@ export default {
     submitForm () {
       this.$validator.validateAll().then((result) => {
         if(result) {
-          // lets build out data object
-          let sendObj = {
-            action: 'entries/saveEntry',
-            sectionId: '3',
-            entryId: this.$route.params.id,
-            enabled: '1',
-          }
-          //setup array of properties to not include for saving
-          let itemsToNotInclude = ['mechanic']
-          //loop through all field entries and build out
-          for (let key in this.inspection) {
-            if (this.inspection.hasOwnProperty(key)
-                && this.inspection[key] !== null
-                && itemsToNotInclude.find(x=>x===key) === undefined ) {
-
-              try {
-                if(this.options[key].type === "Date") {
-                  sendObj['fields['+key+'][date]'] = this.inspection[key]
-                }  else {
-                  sendObj['fields['+key+']'] = this.inspection[key]
-                }
-              } catch(err) {
-                console.error(err)
-              }
-            }
-          }
-          axios.post('/',qs.stringify(sendObj))
+          PostService.post(this.$route.params.id,this.inspection,this.options)
           .then(response => {
             console.log(response)
             this.$store.commit('updateInspection',this.inspection)

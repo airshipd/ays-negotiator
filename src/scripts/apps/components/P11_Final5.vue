@@ -61,10 +61,10 @@
     </div>
     <div class="row car-buyers">
       <div class="col">Car Buyers Australia Pty Ltd.</div>
-      <div class="co">ABN: 46 159 545 758. </div>
+      <div class="col">ABN: 46 159 545 758. </div>
       <div class="col">LMCT 11137</div>
     </div>
-    <b1-button :click="actionSubmit" :full-width="true" :label="'Submit'"></b1-button>
+    <b1-button :action="actionSubmit" :full-width="true" :label="'Submit'"></b1-button>
   </section>
 
 </template>
@@ -81,7 +81,10 @@ import b1Button from './buttons/B1_button.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 import signature from './overlays/O2_Signature.vue'
 
+import PostService from '../services/PostService.js'
+
 import axios from 'axios'
+import cloneDeep from 'clone-deep'
 import { urlGetContract } from '../config.js'
 
 export default {
@@ -105,7 +108,8 @@ export default {
   },
   data () {
     return {
-      inspection: Object.assign({},this.$store.state.inspection),
+      inspection: cloneDeep(this.$store.state.inspection),
+      options: cloneDeep(this.$store.state.options),
       signatureCustomer: false,
       signatureRep: false,
       contract: null
@@ -113,8 +117,22 @@ export default {
   },
   methods: {
     actionSubmit () {
-      this.$store.commit('updateInspection',this.inspection)
-      this.$router.push('/finalized')
+      this.$validator.validateAll().then((result) => {
+        if(result) {
+          this.inspection.inspectionStatus = 'finalized' //finalise necessary form data
+          PostService.postMulti(this.$route.params.id,this.inspection,this.options)
+          .then(response => {
+            console.log(response)
+            this.$store.commit('updateInspection',this.inspection)
+            this.$router.push('/finalized')
+          }).catch(e => {
+            console.error(e)
+          })
+        } else {
+          //scroll up to top of page
+          $(window).scrollTop(0)
+        }
+      })
     },
     openSignatureCustomer () {
       this.signatureCustomer = true

@@ -10105,6 +10105,13 @@ body .ui-tooltip {
   width: 100%;
   max-width: 100%; }
 
+.help.is-danger {
+  position: absolute;
+  color: red;
+  display: block;
+  margin-top: 7px;
+  font-size: 1.3rem; }
+
 body {
   font-family: "Helvetica Neue";
   font-weight: 300; }
@@ -10441,12 +10448,6 @@ main {
   text-align: center;
   margin-top: 70px; }
 
-.help.is-danger {
-  color: red;
-  display: block;
-  margin-top: 7px;
-  font-size: 1.3rem; }
-
 .photo-list {
   background: white;
   padding: 23px 27px;
@@ -10655,7 +10656,8 @@ nav {
     color: white;
     line-height: 1em; }
     .header-final .row .col {
-      padding: 0 20px 6px; }
+      padding: 0 20px 9px;
+      font-weight: 500; }
       .header-final .row .col.active {
         border-bottom: 5px solid #5FB3E3; }
         .header-final .row .col.active [class^="icon"] {
@@ -10667,7 +10669,7 @@ nav {
     height: 20px;
     width: 20px;
     display: block;
-    margin: 44px auto 8px;
+    margin: 44px auto 6px;
     -webkit-mask-size: contain;
             mask-size: contain;
     -webkit-mask-repeat: no-repeat;
@@ -11802,5 +11804,11 @@ nav {
     max-height: 100%;
     margin: 0 auto;
     display: block; }
+  [class^="section-final"] .car-buyers {
+    color: #5FB3E3;
+    margin: 0 auto 10px;
+    font-size: 1.5rem;
+    -ms-flex-pack: center;
+        justify-content: center; }
 
 /*# sourceMappingURL=main.css.map */

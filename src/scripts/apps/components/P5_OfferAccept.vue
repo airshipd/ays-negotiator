@@ -22,13 +22,6 @@ import b1Button from './buttons/B1_button.vue'
 export default {
   name: 'offer-accept',
   props: [],
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      if( $.isEmptyObject(vm.$store.state.inspection) ) {
-        next('/inspection/'+vm.$route.params.id)
-      }
-    })
-  },
   mounted () {
   },
   data () {
