@@ -25,6 +25,7 @@ return array(
     'logoutPath' => 'logout',
     'userSessionDuration' => 'P2W',
     'localDevelopment' => false,
+    'backupDbOnUpdate' => false,
     // Base site URL
     'siteUrl' => SITE_URL,
     'siteName' => getenv('CRAFT_SITE_NAME'),
@@ -38,11 +39,13 @@ return array(
 
   // Dev site configuration:
   '.local' => array(
+    'backupDbOnUpdate' => true,
     'localDevelopment' => true,
     'devMode' => true,
     'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
   ),
   '.dev' => array(
+    'backupDbOnUpdate' => true,
     'localDevelopment' => true,
     'devMode' => true,
     'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
@@ -50,6 +53,7 @@ return array(
 
   // Dev site configuration:
   '128.199.116.0' => array(
+    'backupDbOnUpdate' => true,
     'localDevelopment' => false,
     'devMode' => true,
     'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
