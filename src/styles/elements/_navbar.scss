@@ -70,7 +70,8 @@ nav {
   display: flex;
   flex-direction: column;
   height: 100px;
-  width: 100%;
+  width: 802px;
+  margin: 0 auto;
 
   .left {
     position: absolute;
@@ -93,6 +94,10 @@ nav {
 
       &.active {
         border-bottom:5px solid $light-blue;
+
+        [class^="icon"] {
+          background-color: #fff;
+        }
       }
     }
   }
@@ -105,22 +110,25 @@ nav {
     width: 20px;
     display: block;
     margin: 44px auto 8px;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    background-color: $light-blue;
   }
 
   .icon-user {
-    background-image: url(/images/icon-user.svg);
+    mask-image: url(/images/icon-user.svg);
   }
   .icon-car2 {
-    background-image: url(/images/icon-car2.svg);
+    mask-image: url(/images/icon-car2.svg);
   }
   .icon-moneySymbol {
-    background-image: url(/images/icon-moneySymbol.svg);
+    mask-image: url(/images/icon-moneySymbol.svg)
   }
   .icon-bank {
-    background-image: url(/images/icon-bank.svg);
+    mask-image: url(/images/icon-bank.svg);
   }
   .icon-complete {
-    background-image: url(/images/icon-complete.svg);
+    mask-image: url(/images/icon-complete.svg);
   }
 
 }

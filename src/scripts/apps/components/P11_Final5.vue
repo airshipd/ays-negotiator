@@ -15,24 +15,32 @@
     </div>
     <div class="row">
       <div class="col m6">
-        <input-text :label="'Mobile Number'" v-model="inspection.customerAddress" :name="'customerAddress'" :disabled="true"></input-text>
+        <input-text :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :disabled="true"></input-text>
       </div>
       <div class="col m6">
         <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'" :disabled="true"></input-text>
       </div>
     </div>
-    <div class="row">
-      Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: {{inspection.total}}
+    <div class="row row-contract">
+      <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: {{inspection.total}}</p>
+      <div v-html="contract"></div>
     </div>
     <div class="row">
       <div class="col m6">
         <input-text :label="'Customer Name'" v-model="inspection.customerName" :name="'customerName'" :disabled="true"></input-text>
-        <signature v-model="inspection.customerSignatureString" v-if="showSignatureModal"></signature>
-        <div class="signature-button" @click="openCustomerSignature"></div>
+        <signature v-model="inspection.customerSignatureString" v-if="signatureCustomer" v-on:close="closeSignatureCustomer" ></signature>
+        <div class="signature-button" @click="openSignatureCustomer" v-if="!inspection.customerSignatureString"></div>
+        <div class="img-signature--wrap" v-else @click="openSignatureCustomer">
+          <img class="img-signature" :src="inspection.customerSignatureString"  />
+        </div>
       </div>
       <div class="col m6">
         <input-text :label="'AreYouSelling Rep (Witness) Name'" v-model="inspection.repName" :name="'repName'"></input-text>
-        <div class="signature-button" @click="openRepSignature"></div>
+        <signature v-model="inspection.repSignatureString" v-if="signatureRep" v-on:close="closeSignatureRep"></signature>
+        <div class="signature-button" @click="openSignatureRep" v-if="!inspection.repSignatureString"></div>
+        <div class="img-signature--wrap" v-else @click="openSignatureRep">
+          <img class="img-signature" :src="inspection.repSignatureString"  />
+        </div>
       </div>
     </div>
     <div class="row">
@@ -72,6 +80,9 @@ import inputSelect from './inputs/N5_Select.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 import signature from './overlays/O2_Signature.vue'
 
+import axios from 'axios'
+import { urlGetContract } from '../config.js'
+
 export default {
   name: 'final-5',
   provideValidator: true,
@@ -84,12 +95,19 @@ export default {
   //   })
   // },
   mounted () {
+    axios.get(urlGetContract)
+    .then(response => {
+      this.contract = response.data.content
+    }).catch(e => {
+      console.error(e)
+    })
   },
   data () {
     return {
       inspection: Object.assign({},this.$store.state.inspection),
       signatureCustomer: false,
       signatureRep: false,
+      contract: null
     }
   },
   methods: {
@@ -97,11 +115,17 @@ export default {
       this.$store.commit('updateInspection',this.inspection)
       this.$router.push('/finalized')
     },
-    openCustomerSignature () {
+    openSignatureCustomer () {
       this.signatureCustomer = true
     },
-    openRepSignature () {
+    openSignatureRep () {
       this.signatureRep = true
+    },
+    closeSignatureCustomer () {
+      this.signatureCustomer = false
+    },
+    closeSignatureRep () {
+      this.signatureRep = false
     }
   },
   components: {
@@ -116,8 +140,11 @@ export default {
     signature
   },
   computed: {
-    showSignatureModal () {
-      this.$store.state.overlays.signature
+    showCustomerSignatureModal () {
+      return this.$store.state.overlays.signatureCustomer
+    },
+    showRepSignatureModal () {
+      return this.$store.state.overlays.signatureRep
     }
   },
 }

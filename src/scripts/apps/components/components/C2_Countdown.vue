@@ -23,6 +23,13 @@ export default {
   },
   methods: {
   },
+  watch: {
+    time (newVal, oldVal) {
+      $(this.$el).countdown(newVal, function(event) {
+        $(this).html(event.strftime('<span>%M</span>:<span>%S</span>'))
+      });
+    }
+  },
   computed: {
 
   },

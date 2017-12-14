@@ -112,6 +112,11 @@ class Negotiator_ApiController extends BaseController {
     }
   }
 
+  public function actionGetContract() {
+    $settings = craft()->globals->getSetByHandle('settings');
+    $this->returnJson(['content'=>(string) $settings->contractCopy]);
+  }
+
 
   private function _processFieldData($fieldsArray,$fieldsToReturn,$entry) {
     $ret = [];

@@ -35,16 +35,13 @@ export default new Vuex.Store({
       state.inspection = Object.assign({}, state.inspection, data)
     },
     updateOptions(state,data) {
-      state.options = Object.assign({}, state.inspection, data)
+      state.options = Object.assign({}, state.options, data)
     },
     updateReviewModalApperance(state,value) {
       state.overlays.review = value
     },
-    updateSignaturCustomereModalApperance(state,value) {
-      state.overlays.signatureCustomer = value
-    },
-    updateSignatureRepModalApperance(state,value) {
-      state.overlays.signatureRep = value
+    updateSignatureModalApperance(state,value) {
+      state.overlays.signature = value
     }
   }
 })

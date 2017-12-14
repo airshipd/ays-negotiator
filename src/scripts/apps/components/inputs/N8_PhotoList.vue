@@ -2,9 +2,9 @@
 
   <div class="row photo-list">
     <h3>{{label}}</h3>
-    <div class="col m3" v-for="img in imgs">
+    <label class="col m3" v-for="img in imgs">
       <img :src="img" alt="">
-    </div>
+    </label>
     <label class="col m3 photo-list--add" v-if="!hideAdd">
       <input type="file" @change="actionAddPhoto">
     </label>

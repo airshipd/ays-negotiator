@@ -18,10 +18,10 @@
     </div>
     <div class="row">
       <div class="col m6">
-        <input-text :label="'Name'" v-model="inspection.bank" :name="'bank'"></input-text>
+        <input-text :label="'Name'" v-model="inspection.customerName" :name="'Name'"></input-text>
       </div>
       <div class="col m6">
-        <input-text :label="'Bank'" v-model="inspection.customerName" :name="'customerEmail'"></input-text>
+        <input-text :label="'Bank'" v-model="inspection.bank" :name="'bank'"></input-text>
       </div>
     </div>
     <b2-button :action="actionNext" :label="'Next Step'"></b2-button>

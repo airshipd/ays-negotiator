@@ -2,12 +2,12 @@
 
   <section class="section-final--1">
 
-    <div class="row">
-      <div class="col m4">
+    <div class="row row-finance">
+      <div class="col m3">
         <h2 class="title-finance">Finance</h2>
       </div>
       <div class="col m3">
-        <choice-group v-if="inspection.finance" :label="'Finance'" v-model="inspection.finance" :name="'finance'" :options="booleanOptions"></choice-group>
+        <choice-group v-if="inspection.finance" v-model="inspection.finance" :name="'finance'" :options="booleanOptions"></choice-group>
       </div>
       <div class="col m4">
         <input-text :label="'If yes, which company?'" v-model="inspection.financeCompany" :name="'financeCompany'"></input-text>
@@ -24,11 +24,18 @@
         <choice-group v-if="inspection.registrationPapers" :label="'Registration Papers'" v-model="inspection.registrationPapers" :name="'registrationPapers'" :options="booleanOptions"></choice-group>
       </div>
     </div>
-    <div class="row">
-      Agreed Price {{inspection.total | currency}}
+    <div class="row row-agreedPrice">
+      <div class="col">
+        Agreed Price: {{inspection.total | currency}}
+      </div>
     </div>
-    <div class="row">
-      Has the customer received a copy of this contract? <choice-group v-if="inspection.registrationPapers" :label="'Registration Papers'" v-model="inspection.customerReceivedContract" :name="'customerReceivedContract'" :options="booleanOptions"></choice-group>
+    <div class="row row-recievedContract">
+      <div class="col m6">
+        Has the customer received a copy of this contract?
+      </div>
+      <div class="col m4">
+        <choice-group v-if="inspection.registrationPapers" v-model="inspection.customerReceivedContract" :name="'customerReceivedContract'" :options="booleanOptions"></choice-group>
+      </div>
     </div>
     <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
   </section>

@@ -22,7 +22,7 @@
         <input-select v-if="inspection.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
       </div>
       <div class="col m3">
-        <input-text :label="'Body'" v-model="inspection.customerMobileNumber" :name="'body'"></input-text>
+        <input-text :label="'Body'" v-model="inspection.body" :name="'body'"></input-text>
       </div>
       <div class="col m3">
         <choice-group v-if="inspection.driveTrain" :label="'Drive Type'" v-model="inspection.driveTrain" :options="options.driveTrain.settings.options" :name="'driveType'" ></choice-group>

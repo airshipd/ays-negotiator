@@ -5,6 +5,13 @@
     padding-left: 56px;
     padding-right: 56px;
     margin-bottom: 60px;
+    display: flex;
+    align-items: flex-end;
+
+    .col {
+      margin-left: 0;
+      margin-right: 0;
+    }
   }
 }
 

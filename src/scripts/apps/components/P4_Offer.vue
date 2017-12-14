@@ -91,7 +91,7 @@
       <div class="offer-loading" v-if="loading">
         <p>We have received your request and are reprocessing your offer</p>
         <h3>Estimate time remaining</h3>
-        <countdown :time="date" v-once></countdown>
+        <countdown :time="date"></countdown>
       </div>
     </div>
   </section>
@@ -161,7 +161,8 @@
         this.offer = res.data
         this.options = res.options
         this.total = res.total
-        // this.$store.commit('updateInspection',res.data)
+        this.$store.commit('updateInspection',res.data)
+        this.$store.commit('updateOptions',res.options)
       },
       actionReview () {
         this.$store.commit('updateReviewModalApperance', true)
@@ -178,7 +179,7 @@
           console.error(e)
         })
       },
-      actionReject () {
+      actionDecline () {
         axios.get(urlGetOffer+'/'+this.$route.params.id+'/reject')
         .then(response => {
           if( typeof(response.data.error) === 'undefined' ) {
@@ -205,19 +206,22 @@
       profitAverage () {
         return this.total - this.offer.averageTotalForCarType
       },
+      comparisonCalc () {
+        return 100 - (((this.offer.maxTotalForCarType - this.total) / ( this.offer.maxTotalForCarType - this.offer.averageTotalForCarType )) * 100)
+      },
       styleComparisonNeedle () {
         return {
-          left: '50%'
+          left: this.comparisonCalc + '%'
         }
       },
       styleComparisonExtra () {
         return {
-          left: '25%'
+          left: (this.comparisonCalc - 13) + '%'
         }
       },
       styleBarExtra () {
         return {
-          width: '50%'
+          width: this.comparisonCalc + '%'
         }
       }
     }

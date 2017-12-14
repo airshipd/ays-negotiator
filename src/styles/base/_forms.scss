@@ -23,6 +23,7 @@ input[type="password"] {
 
   &:disabled {
     border-bottom: none;
+    padding: 0;
   }
 
   .input-field & {
