@@ -60,8 +60,10 @@
       left: -58px;
       font-size: 1.3rem;
       transform: translateY(-50%);
+      font-weight: 500;
 
       span {
+        font-weight: 300;
         display: block;
       }
     }
@@ -78,8 +80,10 @@
       right: -50px;
       font-size: 1.3rem;
       transform: translateY(-50%);
+      font-weight: 500;
 
       span {
+        font-weight: 300;
         display: block;
       }
     }
@@ -92,6 +96,10 @@
       padding-left: 10px;
       font-size: 1.3rem;
 
+      span {
+        font-weight: 500;
+      }
+
       &:before {
         position: absolute;
         content: "";
@@ -99,7 +107,7 @@
         left: 0;
         height: 40px;
         background: #242846;
-        width: 1px;
+        width: 2px;
       }
 
       &:after {
@@ -190,6 +198,10 @@
     font-size: 1.4rem;
     color: #000000;
     margin: 0;
+
+    span {
+      font-weight: 500;
+    }
   }
 }
 
@@ -208,6 +220,7 @@
 
 .offer-issues {
   padding-left: 30px;
+  margin-bottom: 18px;
 
   .col {
     padding: 0;
@@ -224,14 +237,17 @@
 
   .offer-condition {
     font-size: 2.4rem;
-    color: $dark-blue;
+    color: $extra-dark-blue;
+    font-weight: 500;
   }
 
   .offer-grade {
-    color: #222D4A;
+    color: $extra-dark-blue;
     font-size: 1.6rem;
+    font-weight: 500;
 
     span {
+      line-height: 1.2em;
       color: #7ED321;
       font-size: 4rem;
       display: block;
@@ -240,11 +256,95 @@
 }
 
 .offer-issues--list {
-  .col {
-    padding: 0;
+
+  li {
+    padding:18px 18px 18px 30px;
+    background: white;
+    margin-bottom: 11px;
+    position: relative;
+
+    &[class^="icon"] {
+      background: white url(/images/icon-transmission.svg) 34px 17px no-repeat;
+      background-size: 30px 30px;
+    }
+
+    &.icon-sparekey {
+      background-image: url(/images/icon-carKey.svg);
+    }
+
+    &.icon-petroltype {
+      background-image: url(/images/icon-petrol.png);
+    }
+
+    &.icon-highkm {
+      background-image: url(/images/icon-highKM.svg);
+    }
+
+    &.icon-sparekey {
+      background-image: url(/images/icon-carKey.svg);
+    }
+
+    &.icon-history {
+      background-image: url(/images/icon-history.svg);
+    }
+
+    &.icon-interior {
+      background-image: url(/images/icon-interior.svg);
+    }
+
+    &.icon-undesirablecolour {
+      background-image: url(/images/icon-undesirableColour.jpg);
+    }
+
+    &.icon-modifications {
+      background-image: url(/images/icon-modifications.svg);
+    }
+
+    &.icon-vehicleage {
+      background-image: url(/images/icon-vehicleAge.png);
+    }
+
+    &.icon-wheel {
+      background-image: url(/images/icon-wheel.png);
+    }
+
+    &:after {
+      line-height: 1em;
+      font-size: 3.5rem;
+      right: 0;
+      top: 0;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      position: absolute;
+      width: 67px;
+      height: 100%;
+      background: #EFB3A3;
+      content: "-";
+    }
+
+    p {
+      padding-top: 7px;
+      padding-left: 0;
+    }
+  }
+
+  .body {
+    padding-left: 78px;
+    padding-right: 154px;
+  }
+
+  h3 {
+    margin: 0;
+    font-weight: 500;
+    font-size: 2rem;
+    color: #253151;
   }
 
   p {
+    margin: 0;
     padding-left: 30px;
     font-size: 1.5rem;
     color: $dark-blue;
@@ -255,8 +355,14 @@
   font-size: 3.6rem !important;
   color: white;
   line-height: 1em;
+  font-weight: 500;
+
+  h3 {
+    margin-bottom: 4px !important;
+  }
 
   p {
+    font-weight: 300;
     font-size: 1.4rem;
     color: white;
     margin: 0;

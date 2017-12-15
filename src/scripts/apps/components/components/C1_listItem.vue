@@ -35,8 +35,11 @@
           case 'finalized':
             theStatus = 'Finalized'
             break;
-          case 'Accepted':
+          case 'rejected':
             theStatus = 'Accepted'
+            break;
+          case 'accepted':
+            theStatus = 'Rejected'
             break;
           default:
             theStatus = 'No Status'

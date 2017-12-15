@@ -57,7 +57,8 @@ const router = new Router({
       name: 'Final 1',
       component: Final1,
       meta: {
-        step: 1
+        step: 1,
+        final: true
       }
     },
     {
@@ -65,7 +66,8 @@ const router = new Router({
       name: 'Final 2',
       component: Final2,
       meta: {
-        step: 2
+        step: 2,
+        final: true
       }
     },
     {
@@ -73,7 +75,8 @@ const router = new Router({
       name: 'Final 3',
       component: Final3,
       meta: {
-        step: 3
+        step: 3,
+        final: true
       }
     },
     {
@@ -81,7 +84,8 @@ const router = new Router({
       name: 'Final 4',
       component: Final4,
       meta: {
-        step: 4
+        step: 4,
+        final: true
       }
     },
     {
@@ -89,7 +93,8 @@ const router = new Router({
       name: 'Final 5',
       component: Final5,
       meta: {
-        step: 5
+        step: 5,
+        final: true
       }
     },
     {

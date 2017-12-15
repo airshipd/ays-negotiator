@@ -3,193 +3,133 @@ namespace Craft;
 
 class Negotiator_AssessmentService extends BaseApplicationComponent {
 
-    public $weightHigh = 3;
-    public $weightMedium = 2;
-    public $weightLow = 1;
 
-    /************
-      Returns the calculated scores based on the assessment form provided by the mechanic
-      Scores are assigned in the following way
-      A > 95%
-      B > 60%
-      C > 30%
-      D > 0%
-    ************/
     public function calculateOffer($assessment) {
 
-      $scoreMake = $this->calculateMakeScore( $assessment->getContent()->year, $assessment->getContent()->transmission, $assessment->getContent()->colour, $assessment->getContent()->engineType  );
-      $scoreCondition = $this->calculateCondition( $assessment->getContent()->odometer, $assessment->getContent()->spareKey, $assessment->getContent()->approximateExpenditure  );
-      $scoreHistory = $this->calculateHistory( $assessment->getContent()->ownersManual );
-      $scoreExtra = $this->calculateExtras(  $assessment->getContent()->sunroof, $assessment->getContent()->satNav, $assessment->getContent()->tradesmanExtras, $assessment->getContent()->sportsKit, $assessment->getContent()->leatherUpholstery, $assessment->getContent()->wheels, $assessment->getContent()->upgradesMods );
+      $vehicleAge = $this->calculateVehicleAge( $assessment->getContent()->year);
+      $undesirableMake = $this->calculateUndesirableMake( $assessment->getContent()->make );
+      $undesirableColour = $this->calculateUndesirableColour( $assessment->getContent()->colour );
+      $highKM = $this->calculateHighKM( $assessment->getContent()->odometer  );
+      $excessiveRepairs = $this->calculateExcessiveRepairs( $assessment->getContent()->approximateExpenditure  );
+      $transmission = $this->calculateTransmission( $assessment->getContent()->transmission  );
+      $petrolType = $this->calculatePetrolType( $assessment->getContent()->engineType  );
+      $history = $this->calculateHistory( $assessment->getContent()->ownersManual  );
+      $wheels = $this->calculateWheels( $assessment->getContent()->wheels  );
+      $spareKey = $this->calculateSpareKey( $assessment->getContent()->spareKey  );
+      $interior = $this->calculateInterior( $assessment->getContent()->leatherUpholstery  );
+      $modifications = $this->calculateModifications( $assessment->getContent()->upgradesMods, $assessment->getContent()->sportsKit  );
 
       return [
-        'scoreMake' => $scoreMake,
-        'scoreCondition' => $scoreCondition,
-        'scoreHistory' => $scoreHistory,
-        'scoreExtras' => $scoreExtra
+        [
+          'title' => 'Vehicle Age',
+          'score' => $vehicleAge,
+          'description' => 'The demand for newer vehicles is extremely high. There are thousands of new second hand vehicles entering the market everyday. The age of your vehicle has impacted our ability to offer you more for your car.'
+        ],
+        [
+          'title' => 'Undesirable Make',
+          'score' =>  $undesirableMake,
+          'description' => 'Unfortunately the make and model of your car is not considered to be in high demand. Some makes and models will also depreciate faster than others.'
+        ],
+        [
+          'title' => 'Undesirable Colour',
+          'score' => $undesirableColour,
+          'description' => 'Although the colour of your car may seem like a small contributing factor, it significantly impacts the value of your car. Generally white, silver and black are considered the most desirable and easiest for us to sell.'
+        ],
+        [
+          'title' => 'High KM',
+          'score' => $highKM,
+          'description' => 'If there has bee a higher number of kilometres over a shorter period of time this will significantly impact the final offer we are able to provide.'
+        ],
+        [
+          'title' => 'Excessive Repairs',
+          'score' => $excessiveRepairs,
+          'description' => 'Although the repairs to your vehicle have been displayed, some damages will effect the final price more than others. '
+        ],
+        [
+          'title' => 'Transmission',
+          'score' => $transmission,
+          'description' => 'The transmission type of your vehicle will have a significant impact on the amount we can offer you for your car. Manual transmissions are generally considered highly undesirable and harder to sell.'
+        ],
+        [
+          'title' => 'Petrol Type',
+          'score' => $petrolType,
+          'description' => 'Many new buyers are now actively looking to purchase hybrid or diesel vehicles. This has caused the demand for unleaded vehicles to drop significantly. '
+        ],
+        [
+          'title' => 'History',
+          'score' => $history,
+          'description' => 'A car without service books means we have no indication of how often the vehicle has been serviced. Cars without a service history significantly impact the how much we can offer you for your car.'
+        ],
+        [
+          'title' => 'Wheels',
+          'score' => $wheels,
+          'description' => 'Buyers are generally looking for cars with alloy wheels. How much this effects your offer is generally linked to the demand for alloy based on the model and make of your vehicle.'
+        ],
+        [
+          'title' => 'Spare Key',
+          'score' => $spareKey,
+          'description' => 'If the spare key is missing, we must replace and order the spare key from a verified provider. Keys can vary significantly in cost.'
+        ],
+        [
+          'title' => "Interior",
+          'score' => $interior,
+          'description' => 'Vehicles that do not have a leather interior are less popular and harder to sell. Leather can also be detailed to make the interior of the vehicle look and feel as new. This is harder to achieve with fabric or suede.'
+        ],
+        [
+          'title' => 'Modifications',
+          'score' => $modifications,
+          'description' => 'Any modifications and/or upgrades that are non-factory will cause the value of the vehicle to depreciate. There is often a cost required to remove any modifications to reset back to a factory standard.'
+        ]
       ];
     }
 
-    private function calculateMakeScore( $year, $transmission, $colour, $fuelType ) {
-
-      //setup default for calc variables
-      $yearCalc = 0;
-      $transmissionCalc = 0;
-      $colourCalc = 0;
-      $fuelCalc = 0;
-      $age = date('Y') - $year;
-
-      //Year ((x+1)/(x+1)^1.3) | x = age in years
-      $yearCalc = ($age + 1) / ( pow( ( $age + 1 ), 1.3) );
-
-      //Transmission (Auto = 1 or Manual = 0)
-      $transmissionCalc = ($transmission == 'auto' ? 1 : 0 );
-
-      //Color (Silver, Black, Grey, White = 1 or Else = 0)
-      switch( $colour ) {
-        case 'silver':
-          $colorCalc = 1;
-          break;
-        case 'black':
-          $colorCalc = 1;
-          break;
-        case 'grey':
-          $colorCalc = 1;
-          break;
-        case 'white':
-          $colorCalc = 1;
-          break;
-        default:
-          $colorCalc = 0;
-      }
-
-      //Fuel Type (Petrol = 0 or Gas = 0.5 or Diesel = 1)
-      switch( $fuelType ) {
-        case 'petrol':
-          $fuelCalc = 0;
-          break;
-        case 'gas':
-          $fuelCalc = 0.5;
-          break;
-        case 'diesel':
-          $fuelCalc = 1;
-          break;
-        default:
-          $fuelCalc = 0;
-      }
-
-      //Add all weighted variables and divide by total points to get the percentage in this case its 10
-      $weightedPercentage = ( round( $yearCalc * $this->weightHigh, 0, PHP_ROUND_HALF_DOWN )
-                            + ( $transmissionCalc * $this->weightHigh )
-                            + ( $colorCalc * $this->weightMedium )
-                            + ( $fuelCalc * $this->weightMedium ) ) / 10;
-
-      return [
-        'score' => $this->determineScoreCharacter( $weightedPercentage ),
-        'yearCalc' => $this->individualVariableScore( $yearCalc ),
-        'transmissionCalc' => $this->individualVariableScore( $transmissionCalc ),
-        'colorCalc' => $this->individualVariableScore( $colorCalc ),
-        'fuelCalc' => $this->individualVariableScore( $fuelCalc )
-      ];
+    private function calculateVehicleAge( $year) {
+      $currentYear = date('Y');
+      return (($currentYear - $year) > 4) ? true : false;
     }
 
-
-    private function calculateCondition( $odometer, $spareKey, $spend ) {
-
-      //setup default weightings
-      $odometerCalc = 0;
-      $spareKeyCalc = 0;
-      $spendCalc = 0;
-
-      //Odomter  1 - (x^1.05/250000^1.05)
-      $odometerCalc = 1 - ( pow( $odometer, 1.05) / pow( 250000, 1.05) );
-
-      //Spare key Yes = 1 or No = 0
-      $spareKeyCalc = $spareKey;
-
-      //Spend Less than $750 = 1 or More/equal than $750 = 0
-      $spendCalc = ( $spend < 750 ? 1 : 0 );
-
-      //Add all weighted variables and divide by total points to get the percentage in this case its 6
-      $weightedPercentage = ( round( $odometerCalc * $this->weightHigh, 0, PHP_ROUND_HALF_DOWN )
-                            + ( $spareKeyCalc * $this->weightLow )
-                            + ( $spendCalc * $this->weightMedium ) ) / 6;
-
-      return [
-        'score' => $this->determineScoreCharacter( $weightedPercentage ),
-        'odometerCalc' => $this->individualVariableScore( $odometerCalc ),
-        'spareKeyCalc' => $this->individualVariableScore( $spareKeyCalc ),
-        'spendCalc' => $this->individualVariableScore( $spendCalc )
-      ];
+    private function calculateUndesirableMake($make) {
+      $undesirables = ['honda','nissan', 'mazda', 'peugeot', 'holden', 'ford', 'toyota', 'subaru', 'mini'];
+      return array_search(strtolower($make),array_map('strtolower', $undesirables)) ? true : false;
     }
 
-
-    private function calculateHistory( $ownersManual ) {
-
-      return [
-        'score' => $this->determineScoreCharacter( $ownersManual ),
-        'ownerManualCalc' => $this->individualVariableScore( $ownersManual )
-      ];
+    private function calculateUndesirableColour($colour) {
+      return $colour === "other" ? true : false;
     }
 
-    private function calculateExtras( $sunRoof, $satNav, $tradeExtras, $sportsKit, $leather, $wheels, $upgradesMods ) {
-
-      $wheels = $wheels != '' ? 1 : 0;
-      //Add all weighted variables and divide by total points to get the percentage in this case its 6
-      $weightedPercentage = ( ( $sunRoof * $this->weightMedium )
-                            + ( $satNav * $this->weightMedium )
-                            + ( $tradeExtras * $this->weightLow )
-                            + ( $sportsKit * $this->weightHigh )
-                            + ( $leather * $this->weightHigh )
-                            + ( $wheels * $this->weightHigh ) ) / 6;
-
-      // if there are upgrades and mods we override the percentage as a 0
-      if ( $upgradesMods == 1 ) {
-        $weightedPercentage = 0;
-      }
-
-      return [
-        'score' => $this->determineScoreCharacter( $weightedPercentage ),
-        'sunRoofCalc' => (int)$sunRoof,
-        'satNavCalc' => (int)$satNav,
-        'tradeExtrasCalc' => (int)$tradeExtras,
-        'sportsKitCalc' => (int)$sportsKit,
-        'leatherCalc' => (int)$leather,
-        'wheelsCalc' => ( $wheels == 'alloys' ? 1 : 0 ),
-        'upgradesModsCalc' => ( $upgradesMods == 1 ? 0 : 1 ) ,
-      ];
+    private function calculateHighKM($odometer) {
+      return $odometer > 50000 ? true : false;
     }
 
-
-    private function determineScoreCharacter( $score ) {
-
-      if( $score > 0.95 ) {
-        return "A";
-      }
-
-      if( $score > 0.6 ) {
-        return "B";
-      }
-
-      if( $score > 0.3 ) {
-        return "C";
-      }
-
-      if( $score > 0 or $score == 0 ) {
-        return "D";
-      }
-
-      if( $score < 0 ) {
-        return "F";
-      }
+    private function calculateExcessiveRepairs($repairAmount) {
+      return $repairAmount > 400 ? true : false;
     }
 
-    private function individualVariableScore( $score ) {
+    private function calculateTransmission($transmission) {
+      return $transmission === 'manual' ? true : false;
+    }
 
-      if( $score > 0.6 ) {
-        return 1;
-      } else {
-        return 0;
-      }
+    private function calculatePetrolType($petrolType) {
+      return $petrolType === 500 ? true : false;
+    }
+
+    private function calculateHistory($ownersManual) {
+      return ! $ownersManual ? true : false;
+    }
+
+    private function calculateWheels($wheels) {
+      return $wheels === 'hubCaps' ? true : false;
+    }
+
+    private function calculateSpareKey($spareKey) {
+      return ! $spareKey ? true : false;
+    }
+
+    private function calculateInterior($leather) {
+      return ! $leather ? true : false;
+    }
+
+    private function calculateModifications($upgradeMods, $sportsKit) {
+      return $upgradeMods || $sportsKit ? true : false;
     }
 }

@@ -10137,7 +10137,7 @@ input[type="text"],
 input[type="email"],
 input[type="number"],
 input[type="password"] {
-  font-weight: 300;
+  font-weight: 500;
   width: 80%;
   background: transparent;
   border: none;
@@ -10189,7 +10189,8 @@ select {
   line-height: 4rem;
   font-size: 1.6rem;
   border-radius: 0;
-  font-weight: 300; }
+  font-weight: 500;
+  color: #000; }
   select:focus {
     outline: 0; }
   .input-field select {
@@ -10225,7 +10226,7 @@ input[type="checkbox"] {
     line-height: 1em;
     text-align: center;
     border-radius: 4px;
-    border: 1px solid #405690;
+    border: 1px solid #242846;
     padding: 12px 13px;
     font-size: 1.4rem;
     margin-right: 10px;
@@ -10233,7 +10234,7 @@ input[type="checkbox"] {
     min-width: 60px;
     display: block; }
   .input-group .group-divider input[type="radio"]:checked ~ label {
-    background: #405690;
+    background: #242846;
     color: white; }
   .input-group .group-divider:last-of-type label {
     margin-right: 0; }
@@ -10241,11 +10242,11 @@ input[type="checkbox"] {
 .input-checkbox input[type="checkbox"] + label {
   font-weight: 300;
   display: block;
-  color: #405690;
+  color: #242846;
   line-height: 1em;
   text-align: center;
   border-radius: 4px;
-  border: 1px solid #405690;
+  border: 1px solid #242846;
   padding: 12px 13px;
   font-size: 1.4rem;
   margin-right: 10px;
@@ -10255,7 +10256,7 @@ input[type="checkbox"] {
   color: #333849; }
 
 input[type="checkbox"]:checked ~ label {
-  background: #405690;
+  background: #242846;
   color: white; }
 
 textarea {
@@ -10479,7 +10480,8 @@ main {
   font-size: 1.8rem;
   height: 60px;
   line-height: 60px;
-  border-radius: 0; }
+  border-radius: 0;
+  box-shadow: none; }
   .btn:hover, .btn-large:hover {
     background: #405690; }
   .btn.btn-fullWidth, .btn-fullWidth.btn-large {
@@ -10603,7 +10605,7 @@ nav {
     display: flex;
     -ms-flex-direction: column;
         flex-direction: column;
-    height: 70px;
+    height: 150px;
     width: 100%; }
     nav .inspection-header .row {
       -ms-flex-pack: distribute;
@@ -10616,6 +10618,7 @@ nav {
       color: white;
       line-height: 1em; }
       nav .inspection-header .row .col {
+        padding-top: 85px;
         font-weight: 300; }
       nav .inspection-header .row label {
         color: #26AAE1;
@@ -10698,6 +10701,7 @@ nav {
   -ms-flex-align: center;
       align-items: center;
   font-size: 2rem;
+  font-weight: 500;
   position: absolute;
   bottom: 13px;
   left: 0;
@@ -10825,7 +10829,8 @@ nav {
                 flex-grow: 1; }
 
 .modal-container--signature {
-  width: 700px; }
+  width: 700px;
+  padding: 15px; }
   .modal-container--signature canvas {
     width: 100%;
     height: 200px;
@@ -10839,6 +10844,10 @@ nav {
     -ms-flex-align: center;
         align-items: center;
     padding-top: 16px; }
+    .modal-container--signature .btn-group .btn, .modal-container--signature .btn-group .btn-large {
+      border-radius: 5px; }
+  .modal-container--signature .btn-signature--clear {
+    background: #3C4C84; }
 
 .list-inspectionsTitles {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -11180,6 +11189,7 @@ nav {
   .section-offer--reject h1 {
     margin: 0 0 26px;
     font-size: 5.6rem;
+    font-weight: 500;
     color: white;
     text-align: center; }
   .section-offer--reject p {
@@ -11218,6 +11228,7 @@ nav {
     text-align: center;
     color: #242846;
     position: relative;
+    font-weight: 500;
     font-size: 5.6rem;
     line-height: 1em;
     margin-bottom: 23px; }
@@ -11250,6 +11261,7 @@ nav {
     margin: 0;
     line-height: 1em;
     color: #242846;
+    font-weight: 500;
     text-align: center;
     font-size: 2.6rem; }
   .section-offer--accept .row {
@@ -11262,7 +11274,8 @@ nav {
     .section-offer--accept .row .col {
       font-size: 1.6rem;
       color: #242846;
-      text-align: center; }
+      text-align: center;
+      font-weight: 500; }
       .section-offer--accept .row .col:first-of-type {
         margin-left: 0; }
     .section-offer--accept .row [class^="icon"] {
@@ -11294,6 +11307,42 @@ nav {
 .section-offer--acceptWrap {
   position: relative;
   z-index: 10; }
+
+.section-offerFinalized {
+  background-image: linear-gradient(-143deg, #494E67 0%, #363B56 29%, #353A55 31%, #353955 31%, #080C2E 100%);
+  box-shadow: inset 3px 3px 2px 0 rgba(0, 0, 0, 0.07);
+  height: 100vh; }
+  .section-offerFinalized h1 {
+    padding: 300px 0 0;
+    margin: 0;
+    font-size: 5.6rem;
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    position: relative; }
+    .section-offerFinalized h1:before {
+      position: absolute;
+      bottom: 112px;
+      left: 50%;
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
+      height: 82px;
+      width: 82px;
+      display: block;
+      content: "";
+      background: url(/images/icon-complete.svg) 50% 50% no-repeat;
+      background-size: contain; }
+  .section-offerFinalized p {
+    margin: 10px 0 0;
+    font-weight: 500;
+    font-size: 3.2rem;
+    color: #5FB3E3;
+    text-align: center; }
+  .section-offerFinalized a {
+    position: absolute;
+    left: 24px;
+    top: 60px;
+    cursor: pointer; }
 
 .report .signature-display {
   width: 50%; }
@@ -11461,17 +11510,19 @@ nav {
   background-image: radial-gradient(50% 143%, #485A89 50%, #111536 100%);
   height: 100vh; }
   .section-waiting h3 {
+    font-weight: 500;
     margin: 0;
     color: #5FB3E3;
     padding-top: 98px;
     font-size: 2.4rem;
     text-align: center; }
   .section-waiting p {
+    font-weight: 500;
     color: white;
     font-size: 2.5rem;
     text-align: center;
     margin-top: 0;
-    line-height: 1.2em; }
+    line-height: 1.5em; }
   .section-waiting .vehicles {
     width: 100%;
     height: 66px;
@@ -11582,8 +11633,10 @@ nav {
     left: -58px;
     font-size: 1.3rem;
     -ms-transform: translateY(-50%);
-        transform: translateY(-50%); }
+        transform: translateY(-50%);
+    font-weight: 500; }
     .section-offer .comparison .comparison-average span {
+      font-weight: 300;
       display: block; }
   .section-offer .comparison .comparison-bar {
     width: 100%;
@@ -11595,8 +11648,10 @@ nav {
     right: -50px;
     font-size: 1.3rem;
     -ms-transform: translateY(-50%);
-        transform: translateY(-50%); }
+        transform: translateY(-50%);
+    font-weight: 500; }
     .section-offer .comparison .comparison-max span {
+      font-weight: 300;
       display: block; }
   .section-offer .comparison .comparison-needle {
     left: 50%;
@@ -11605,6 +11660,8 @@ nav {
     padding-top: 26px;
     padding-left: 10px;
     font-size: 1.3rem; }
+    .section-offer .comparison .comparison-needle span {
+      font-weight: 500; }
     .section-offer .comparison .comparison-needle:before {
       position: absolute;
       content: "";
@@ -11612,7 +11669,7 @@ nav {
       left: 0;
       height: 40px;
       background: #242846;
-      width: 1px; }
+      width: 2px; }
     .section-offer .comparison .comparison-needle:after {
       position: absolute;
       content: "";
@@ -11677,6 +11734,8 @@ nav {
     font-size: 1.4rem;
     color: #000000;
     margin: 0; }
+    .offer-meta p span {
+      font-weight: 500; }
 
 .offer-main {
   padding-left: 30px; }
@@ -11689,7 +11748,8 @@ nav {
     margin-bottom: 28px; }
 
 .offer-issues {
-  padding-left: 30px; }
+  padding-left: 30px;
+  margin-bottom: 18px; }
   .offer-issues .col {
     padding: 0; }
   .offer-issues h3 {
@@ -11701,19 +11761,80 @@ nav {
     margin-bottom: 28px; }
   .offer-issues .offer-condition {
     font-size: 2.4rem;
-    color: #405690; }
+    color: #242846;
+    font-weight: 500; }
   .offer-issues .offer-grade {
-    color: #222D4A;
-    font-size: 1.6rem; }
+    color: #242846;
+    font-size: 1.6rem;
+    font-weight: 500; }
     .offer-issues .offer-grade span {
+      line-height: 1.2em;
       color: #7ED321;
       font-size: 4rem;
       display: block; }
 
-.offer-issues--list .col {
-  padding: 0; }
+.offer-issues--list li {
+  padding: 18px 18px 18px 30px;
+  background: white;
+  margin-bottom: 11px;
+  position: relative; }
+  .offer-issues--list li[class^="icon"] {
+    background: white url(/images/icon-transmission.svg) 34px 17px no-repeat;
+    background-size: 30px 30px; }
+  .offer-issues--list li.icon-sparekey {
+    background-image: url(/images/icon-carKey.svg); }
+  .offer-issues--list li.icon-petroltype {
+    background-image: url(/images/icon-petrol.png); }
+  .offer-issues--list li.icon-highkm {
+    background-image: url(/images/icon-highKM.svg); }
+  .offer-issues--list li.icon-sparekey {
+    background-image: url(/images/icon-carKey.svg); }
+  .offer-issues--list li.icon-history {
+    background-image: url(/images/icon-history.svg); }
+  .offer-issues--list li.icon-interior {
+    background-image: url(/images/icon-interior.svg); }
+  .offer-issues--list li.icon-undesirablecolour {
+    background-image: url(/images/icon-undesirableColour.jpg); }
+  .offer-issues--list li.icon-modifications {
+    background-image: url(/images/icon-modifications.svg); }
+  .offer-issues--list li.icon-vehicleage {
+    background-image: url(/images/icon-vehicleAge.png); }
+  .offer-issues--list li.icon-wheel {
+    background-image: url(/images/icon-wheel.png); }
+  .offer-issues--list li:after {
+    line-height: 1em;
+    font-size: 3.5rem;
+    right: 0;
+    top: 0;
+    color: white;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    -ms-flex-pack: center;
+        justify-content: center;
+    text-align: center;
+    position: absolute;
+    width: 67px;
+    height: 100%;
+    background: #EFB3A3;
+    content: "-"; }
+  .offer-issues--list li p {
+    padding-top: 7px;
+    padding-left: 0; }
+
+.offer-issues--list .body {
+  padding-left: 78px;
+  padding-right: 154px; }
+
+.offer-issues--list h3 {
+  margin: 0;
+  font-weight: 500;
+  font-size: 2rem;
+  color: #253151; }
 
 .offer-issues--list p {
+  margin: 0;
   padding-left: 30px;
   font-size: 1.5rem;
   color: #405690; }
@@ -11721,8 +11842,12 @@ nav {
 .offer-final {
   font-size: 3.6rem !important;
   color: white;
-  line-height: 1em; }
+  line-height: 1em;
+  font-weight: 500; }
+  .offer-final h3 {
+    margin-bottom: 4px !important; }
   .offer-final p {
+    font-weight: 300;
     font-size: 1.4rem;
     color: white;
     margin: 0; }
@@ -11744,7 +11869,7 @@ nav {
     font-size: 3.8rem; }
 
 [class^="section-final"] {
-  padding: 40px 55px; }
+  padding-top: 40px; }
   [class^="section-final"] input[type="text"],
   [class^="section-final"] input[type="email"],
   [class^="section-final"] input[type="number"],
@@ -11755,7 +11880,9 @@ nav {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: end;
-        align-items: flex-end; }
+        align-items: flex-end;
+    padding-left: 40px;
+    padding-right: 40px; }
     [class^="section-final"] > .row .col {
       margin-left: 0;
       margin-right: 0; }
@@ -11806,7 +11933,7 @@ nav {
     display: block; }
   [class^="section-final"] .car-buyers {
     color: #5FB3E3;
-    margin: 0 auto 10px;
+    margin: 84px auto 10px;
     font-size: 1.5rem;
     -ms-flex-pack: center;
         justify-content: center; }

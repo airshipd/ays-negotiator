@@ -1,5 +1,5 @@
 [class^="section-final"] {
-  padding: 40px 55px;
+  padding-top: 40px;
 
   input[type="text"],
   input[type="email"],
@@ -12,6 +12,8 @@
     margin-bottom: 60px;
     display: flex;
     align-items: flex-end;
+    padding-left: 40px;
+    padding-right: 40px;
 
     .col {
       margin-left: 0;
@@ -92,7 +94,7 @@
 
   .car-buyers {
     color: $light-blue;
-    margin: 0 auto 10px;
+    margin: 84px auto 10px;
     font-size: 1.5rem;
     justify-content: center;
   }

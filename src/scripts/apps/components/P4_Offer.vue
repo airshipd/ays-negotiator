@@ -7,11 +7,11 @@
       <div class="row offer-meta">
         <div class="col m6">
           <h3>Inspection Done By:</h3>
-          <p v-if="offer.mechanic">{{offer.mechanic.firstName}} {{offer.mechanic.lastName}} / Certified senior mechanic</p>
+          <p v-if="offer.mechanic"><span>{{offer.mechanic.firstName}} {{offer.mechanic.lastName}}</span> / Certified senior mechanic</p>
         </div>
         <div class="col m6">
           <h3>Prepared For:</h3>
-          <p>{{offer.customerName}}</p>
+          <p><span>{{offer.customerName}}</span></p>
         </div>
       </div>
 
@@ -24,7 +24,7 @@
             <div class="comparison-max"><span>Max:</span>{{offer.maxTotalForCarType | currency}}</div>
             <div class="comparison-bar"></div>
             <div class="comparison-bar--extra" :style="styleBarExtra"></div>
-            <div class="comparison-needle" :style="styleComparisonNeedle">Your car: {{total | currency}}</div>
+            <div class="comparison-needle" :style="styleComparisonNeedle">Your car: <span>{{total | currency}}</span></div>
             <div class="comparison-price--extra" :style="styleComparisonExtra">+ {{profitAverage | currency}}</div>
           </div>
         </div>
@@ -33,23 +33,22 @@
       <div class="row offer-issues">
         <h3>Issues</h3>
         <div class="col m8 offer-condition">
-          Your car is in better condition than the average {{offer.make}} {{offer.model}} we buy, nice one!
+          Your car fits in the 'average' {{offer.make}} {{offer.model}} band of vehicles we buy.
         </div>
         <div class="col m3 push-m1 offer-grade">
-          Overall <span>{{offer.grade}}</span>
+          Overall <span>C</span>
         </div>
       </div>
 
       <div class="row offer-issues--list">
         <p>We have identified the following issues:</p>
         <ul>
-          <li v-for="item in issues">
-            <div class="image"><i :class="getIssueIconClass(item)"></i></div>
+          <li v-for="item in report" :key="item.title" :class="getIssueIconClass(item)">
+            <!-- <div class="image"><i :class="getIssueIconClass(item.title)"></i></div> -->
             <div class="body">
               <h3>{{item.title}}</h3>
               <p>{{item.description}}</p>
             </div>
-            <div class="rating"></div>
           </li>
         </ul>
       </div>
@@ -110,13 +109,13 @@
   export default {
     name: 'p-4-offer',
     props: [],
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        if( $.isEmptyObject(vm.$store.state.inspection) ) {
-          next('/inspection/'+vm.$route.params.id)
-        }
-      })
-    },
+    // beforeRouteEnter (to, from, next) {
+    //   next(vm => {
+    //     if( $.isEmptyObject(vm.$store.state.inspection) ) {
+    //       next('/inspection/'+vm.$route.params.id)
+    //     }
+    //   })
+    // },
     mounted () {
       this.getOffer()
 
@@ -141,6 +140,7 @@
       return {
         offer: {},
         options: [],
+        report: [],
         total: [],
         loading: false,
         date: null
@@ -148,7 +148,7 @@
     },
     methods: {
       getIssueIconClass (item) {
-        return 'icon-'+item.type
+        return 'icon-'+item.title.replace(/ +/g, "").toLowerCase()
       },
       getOffer () {
         axios.get(urlGetOffer+'/'+this.$route.params.id)
@@ -160,8 +160,11 @@
         })
       },
       formatData (res) {
+        console.log('the res', res)
+
         this.offer = res.data
         this.options = res.options
+        this.report = res.report
         this.total = res.total
         this.$store.commit('updateInspection',res.data)
         this.$store.commit('updateInspection',{total: res.total})
@@ -219,7 +222,7 @@
       },
       styleComparisonExtra () {
         return {
-          left: (this.comparisonCalc - 13) + '%'
+          left: (this.comparisonCalc - 15) + '%'
         }
       },
       styleBarExtra () {

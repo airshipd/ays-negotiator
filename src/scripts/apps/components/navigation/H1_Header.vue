@@ -6,15 +6,9 @@
         <span class="brand-logo center">{{title}}</span>
 
         <div class="heading-secondary">
-          <div class="left" v-if="currentRoute === 'Negotiations'">
-            <a class="header-icon--list" href="/"><i class="material-icons">view_list</i></a>
-          </div>
           <div class="right" v-if="currentRoute === 'Negotiations'">
             <div class="header-date"></div>
             <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
-          </div>
-          <div class="left" v-if="currentRoute === 'Inspection'">
-            <a href="/"><i class="material-icons">arrow_back</i></a>
           </div>
           <div class="inspection-header" v-if="currentRoute === 'Inspection'">
             <div class="row">
@@ -46,7 +40,7 @@
               Your {{inspection.year}} {{inspection.make}} {{inspection.model}}
             </div>
           </div>
-          <div class="header-final" v-if="currentRoute.includes('Final')">
+          <div class="header-final" v-if="this.$route.meta.final">
             <div class="left">
                <a @click="actionFinalGoBack"><i class="material-icons">arrow_back</i></a>
             </div>

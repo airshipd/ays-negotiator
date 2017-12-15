@@ -3,6 +3,7 @@
   height: 100vh;
 
   h3 {
+    font-weight: 500;
     margin: 0;
     color: $light-blue;
     padding-top: 98px;
@@ -11,11 +12,12 @@
   }
 
   p {
+    font-weight: 500;
     color: white;
     font-size: 2.5rem;
     text-align: center;
     margin-top: 0;
-    line-height: 1.2em;
+    line-height: 1.5em;
   }
 
   .vehicles {

@@ -29,7 +29,7 @@ window.eventBus = new Vue()
 //define global filters
 Vue.filter('currency', function (value,precision) {
   if (!value) return ''
-  return (precision) ? '$' + parseFloat(value).toFixed(2) : '$' + parseInt(value)
+  return (precision) ? '$' + parseFloat(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '$' + parseInt(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 })
 
 new Vue({
