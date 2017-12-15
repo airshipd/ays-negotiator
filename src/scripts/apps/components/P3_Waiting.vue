@@ -12,7 +12,9 @@
       <div :class="stateClass3"></div>
     </div>
     <div class="mountains"></div>
-    <div class="vehicles"></div>
+    <div class="vehicles">
+      <div v-if="inspection.justBoughtDescription" class="messageBubbble">{{inspection.justBoughtDescription}}</div>
+    </div>
   </section>
 
 </template>
@@ -34,15 +36,15 @@ export default {
   mounted () {
     window.setInterval(() => {
       this.loadingState = 2
-    },1000*30);
+    },1000*30)
 
     window.setInterval(() => {
       this.loadingState = 3
-    },1000*60);
+    },1000*60)
 
     window.setInterval(() => {
       this.$router.push('/offer/'+this.$route.params.id)
-    },1000*80);
+    },1000*80)
   },
   data () {
     return {
@@ -56,6 +58,9 @@ export default {
     countdown
   },
   computed: {
+    inspection () {
+      return this.$store.state.inspection
+    },
     stateClass1 () {
       return {
         'state-1': true,
@@ -73,9 +78,6 @@ export default {
         'state-3': true,
         'active': this.loadingState === 3
       }
-    },
-    inspection () {
-      return this.$store.state.inspection
     }
   },
 }

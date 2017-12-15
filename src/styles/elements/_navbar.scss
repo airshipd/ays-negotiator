@@ -2,6 +2,7 @@ nav {
   position: relative;
   height: auto;
   line-height: auto;
+  box-shadow: none;
 
   .fixed-height & {
     height: 80px;
@@ -94,6 +95,7 @@ nav {
     .col {
       padding: 0 20px 9px;
       font-weight: 500;
+      font-size: 1.4rem;
 
       &.active {
         border-bottom:5px solid $light-blue;

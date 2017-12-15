@@ -1,6 +1,6 @@
 <template>
 
-  <li @click.stop="toggleRowActive" :class="itemClass" >
+  <li @click.stop="toggleRowActive" :class="itemClass(inspection.status)" >
     <div class="row">
       <div class="col title">{{inspection.title}}</div>
       <div class="col status">{{showProperStatus(inspection.status)}}</div>
@@ -9,7 +9,7 @@
       <div class="col address">{{inspection.address}}</div>
       <div :class="bottomClass"><i class="material-icons">keyboard_arrow_right</i></div>
     </div>
-    <div class="click-wrapper" @click="goToInspection()"></div>
+    <div class="click-wrapper" @click="goToAction(inspection.status)"></div>
   </li>
 
 </template>
@@ -35,11 +35,11 @@
           case 'finalized':
             theStatus = 'Finalized'
             break;
-          case 'rejected':
-            theStatus = 'Accepted'
-            break;
-          case 'accepted':
+          case 'Rejected':
             theStatus = 'Rejected'
+            break;
+          case 'Accepted':
+            theStatus = 'Accepted'
             break;
           default:
             theStatus = 'No Status'
@@ -50,8 +50,24 @@
         this.$emit('newactive', this.index);
         this.$store.commit('updateLocation', {lat: this.inspection.lat, lng: this.inspection.lng })
       },
-      goToInspection() {
-        this.$router.push('inspection/'+this.inspection.id)
+      goToAction(status) {
+        if( status === 'finalized' ) {
+          this.$router.push('report/'+this.inspection.id)
+        } else if( status === 'Rejected' )
+          this.$router.push('final/1/'+this.inspection.id)
+        else {
+          this.$router.push('inspection/'+this.inspection.id)
+        }
+      },
+      itemClass (status) {
+        let obj = {
+          inspection: true,
+          active: this.active,
+          'z-depth-1': this.active
+        }
+        obj[status] = true
+
+        return obj
       }
     },
     computed: {
@@ -62,13 +78,6 @@
           report: this.inspection.status === 'finalized' ? true : false
         }
       },
-      itemClass () {
-        return {
-          inspection: true,
-          active: this.active,
-          'z-depth-1': this.active
-        }
-      }
     },
 }
 </script>

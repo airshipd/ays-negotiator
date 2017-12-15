@@ -39,6 +39,7 @@
     border:1px solid $light-blue;
     margin: 0 auto 10px;
     width: 90%;
+    border-radius: 2px;
   }
 
   .btn-decline {
@@ -47,6 +48,7 @@
     border:1px solid #EB7E84;
     margin: 0 auto 10px;
     width: 90%;
+    border-radius: 2px;
   }
 
   .comparison {
@@ -141,7 +143,7 @@
 
 .side .divider {
   color: white;
-  border:1px solid #1C2148;
+  border-bottom:1px solid #1C2148;
   padding: 25px;
   height: auto;
   background-color: transparent;
@@ -163,9 +165,13 @@
       display: block;
       font-size: 1.4rem;
       line-height: 1em;
+      font-size: 2rem;
+      font-weight: 500;
 
       span {
         text-transform: uppercase;
+        font-size: 1.4rem;
+        font-weight: 300;
       }
     }
 
@@ -205,10 +211,15 @@
   }
 }
 
+.offer-estimation, .offer-valuation {
+  font-weight: 500;
+}
+
 .offer-main {
   padding-left: 30px;
 
   h3 {
+    font-weight: 500;
     text-transform: uppercase;
     color: $dark-blue;
     font-size: 1.3rem;
@@ -227,6 +238,7 @@
   }
 
   h3 {
+    font-weight: 500;
     text-transform: uppercase;
     color: $dark-blue;
     font-size: 1.3rem;
@@ -264,7 +276,7 @@
     position: relative;
 
     &[class^="icon"] {
-      background: white url(/images/icon-transmission.svg) 34px 17px no-repeat;
+      background: white url(/images/icon-transmission.svg) 40px 50% no-repeat;
       background-size: 30px 30px;
     }
 
@@ -301,7 +313,7 @@
     }
 
     &.icon-vehicleage {
-      background-image: url(/images/icon-vehicleAge.png);
+      background-image: url(/images/icon-vehicleAge.svg);
     }
 
     &.icon-wheel {

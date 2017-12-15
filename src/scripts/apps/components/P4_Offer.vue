@@ -20,7 +20,7 @@
         <h3>Comparison</h3>
         <div class="col m12 ">
           <div class="comparison">
-            <div class="comparison-average"><span>Average:</span>{{offer.averageTotalForCarType | currency}}</div>
+            <div class="comparison-average"><span>Minimum:</span>{{offer.averageTotalForCarType | currency}}</div>
             <div class="comparison-max"><span>Max:</span>{{offer.maxTotalForCarType | currency}}</div>
             <div class="comparison-bar"></div>
             <div class="comparison-bar--extra" :style="styleBarExtra"></div>

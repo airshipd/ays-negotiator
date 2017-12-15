@@ -141,7 +141,6 @@
       classObj () {
         console.log(this.currentRoute)
         return {
-          'z-depth-2': true,
           'fixed-height': this.currentRoute === 'Negotiations' || this.currentRoute === 'Offer' ? true : false
         }
       }

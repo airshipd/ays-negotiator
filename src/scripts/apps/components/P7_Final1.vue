@@ -57,27 +57,34 @@ import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 
-import cloneDeep from 'clone-deep'
+import GetService from '../services/GetService.js'
 
 export default {
   name: 'final-1',
   provideValidator: true,
   inject: ['$validator'],
-  // beforeRouteEnter (to, from, next) {
-  //   next(vm => {
-  //     if( $.isEmptyObject(vm.$store.state.inspection) ) {
-  //       next('/inspection/'+vm.$route.params.id)
-  //     }
-  //   })
-  // },
   mounted () {
+    this.getInspection()
   },
   data () {
     return {
-      inspection: cloneDeep(this.$store.state.inspection)
+      inspection: {},
+      options: {}
     }
   },
   methods: {
+    getInspection () {
+      GetService.getInspection(this.$route.params.id)
+      .then(res => {
+        console.log('inspection data',res);
+        this.inspection = res.inspection
+        this.options = res.options
+        this.$store.commit('updateInspection',res.inspection)
+        this.$store.commit('updateOptions',res.options)
+      }).catch(e=> {
+        console.error(e)
+      })
+    },
     actionNext () {
       this.$store.commit('updateInspection',this.inspection)
       this.$router.push('/final/2/'+this.$route.params.id)

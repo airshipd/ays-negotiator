@@ -115,9 +115,9 @@ import inputSelect from './inputs/N5_Select.vue'
 import b1Button from './buttons/B1_button.vue'
 
 import PostService from '../services/PostService.js'
+import GetService from '../services/GetService.js'
 
 import axios from 'axios'
-import striptags from 'striptags'
 import moment from 'moment'
 import { urlGetInspection } from '../config.js'
 
@@ -135,26 +135,17 @@ export default {
     }
   },
   methods: {
-    getInspection() {
-      axios.get(urlGetInspection+'/'+this.$route.params.id)
-      .then(response => {
-        console.log('inspection data', response.data)
-        this.formatData(response.data)
-      }).catch(e => {
+    getInspection () {
+      GetService.getInspection(this.$route.params.id)
+      .then(res => {
+        console.log('inspection data',res);
+        this.inspection = res.inspection
+        this.options = res.options
+        this.$store.commit('updateInspection',res.inspection)
+        this.$store.commit('updateOptions',res.options)
+      }).catch(e=> {
         console.error(e)
       })
-    },
-    formatData (res) {
-      res.data.transmission = res.data.transmission ? res.data.transmission : 'auto'
-      res.data.colour = res.data.colour ? res.data.colour : 'silver'
-      res.data.engineType = res.data.engineType ? res.data.engineType : 'petrol'
-      res.data.seats = res.data.seats === "0" ? "2" : res.data.seats
-      res.data.doors = res.data.doors === "0" ? "2" : res.data.doors
-      res.data.damageAndFaults = striptags(res.data.damageAndFaults)
-      this.inspection = res.data
-      this.options = res.options
-      this.$store.commit('updateInspection',res.data)
-      this.$store.commit('updateOptions',res.options)
     },
     submitForm () {
       this.$validator.validateAll().then((result) => {
