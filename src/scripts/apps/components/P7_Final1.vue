@@ -9,7 +9,7 @@
     </div>
     <div class="row">
       <div class="col m4">
-        <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobile'" :validation-rules="{required:true}"></input-text>
+        <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobile'" :validation-rules="{required:true,numeric:true}"></input-text>
       </div>
       <div class="col m4">
         <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'" :validation-rules="{required:true,email:true}"></input-text>

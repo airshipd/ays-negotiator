@@ -4,6 +4,16 @@ nav {
   line-height: auto;
   box-shadow: none;
 
+  .icon-menu {
+    display: block;
+    width: 18px;
+    height: 12px;
+    background: url(/images/icon-menu.svg) 0 0 no-repeat;
+    background-size: cover;
+    cursor: pointer;
+  }
+
+
   .fixed-height & {
     height: 80px;
     line-height: 80px;
@@ -137,6 +147,21 @@ nav {
   }
 }
 
+.header-date {
+  position: absolute;
+  right: 70px;
+  bottom: 18px;
+  line-height: 1em;
+  font-size: 1.8rem;
+  color: white;
+  font-weight: 500;
+
+  span {
+    font-size: 1.3rem;
+    display: block;
+  }
+}
+
 .header-report {
 
   .left {
@@ -156,7 +181,7 @@ nav {
 
        i {
         line-height: 1em;
-        height: auto;
+        height: 12px;
        }
      }
   }

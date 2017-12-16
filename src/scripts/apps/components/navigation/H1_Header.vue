@@ -7,7 +7,10 @@
 
         <div class="heading-secondary">
           <div class="right" v-if="currentRoute === 'Negotiations'">
-            <div class="header-date"></div>
+            <div class="header-date">
+              <span>Today</span>
+              {{todayDate}}
+            </div>
             <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
           </div>
           <div class="inspection-header" v-if="currentRoute === 'Inspection'">
@@ -36,7 +39,7 @@
           </div>
           <div class="header-report" v-if="currentRoute === 'Offer'">
             <div class="left">
-              <a @click="actionMenu"><i class="material-icons">view_list</i></a>
+              <a @click="actionMenu"><i class="icon-menu"></i></a>
               Your {{inspection.year}} {{inspection.make}} {{inspection.model}}
             </div>
           </div>
@@ -91,7 +94,8 @@
       return {
         currentRoute: 'Negotiations',
         title: '',
-        date: moment(new Date(moment().add(10,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
+        date: moment(new Date(moment().add(10,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss'),
+        todayDate: moment().format('DD/MM/YYYY')
       }
     },
     methods: {

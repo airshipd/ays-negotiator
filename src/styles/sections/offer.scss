@@ -106,7 +106,7 @@
         position: absolute;
         content: "";
         top: 0;
-        left: 0;
+        left: -1px;
         height: 40px;
         background: #242846;
         width: 2px;
@@ -385,6 +385,7 @@
   padding: 35px 25px;
 
   p {
+    font-weight: 500;
     font-size: 1.8rem;
     color: #fff;
     line-height: 1.6em;
@@ -392,6 +393,7 @@
   }
 
   h3 {
+    text-transform: uppercase;
     color: #6C8CAD;
     font-size: 1.3rem;
     margin: 0;

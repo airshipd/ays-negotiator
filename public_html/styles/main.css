@@ -10165,12 +10165,12 @@ input[type="password"] {
     input[type="email"] + label, .input-field
     input[type="number"] + label, .input-field
     input[type="password"] + label {
-      font-weight: 300;
+      font-weight: 500;
       position: absolute;
       top: 0;
       left: 0;
       color: #405690;
-      font-size: 1.5rem; }
+      font-size: 1.2rem; }
 
 input[type="number"] {
   -webkit-appearance: none;
@@ -10196,12 +10196,12 @@ select {
   .input-field select {
     margin-top: 1.6rem; }
     .input-field select + label {
-      font-weight: 300;
+      font-weight: 500;
       position: absolute;
       top: 0;
       left: 0;
       color: #405690;
-      font-size: 1.5rem; }
+      font-size: 1.2rem; }
 
 input[type="radio"],
 input[type="checkbox"] {
@@ -10209,8 +10209,8 @@ input[type="checkbox"] {
   visibility: hidden; }
 
 .input-group > label {
-  font-weight: 300;
-  font-size: 1.5rem;
+  font-weight: 500;
+  font-size: 1.2rem;
   color: #405690;
   display: block; }
 
@@ -10451,11 +10451,14 @@ main {
 
 .photo-list {
   background: white;
+  margin-left: 26px;
+  margin-right: 26px;
   padding: 23px 27px;
   display: block !important; }
   .photo-list h3 {
     font-size: 1.5rem;
     color: #21599B;
+    font-weight: 500;
     margin-top: 0; }
   .photo-list .col:first-of-type {
     padding-left: 0; }
@@ -10495,7 +10498,8 @@ main {
   font-size: 1.6rem;
   color: #5FB3E3;
   -ms-flex-align: center;
-      align-items: center; }
+      align-items: center;
+  padding-right: 40px; }
   .btn-nextStep--wrap button {
     margin-left: 19px;
     background-color: transparent;
@@ -10586,6 +10590,13 @@ nav {
   height: auto;
   line-height: auto;
   box-shadow: none; }
+  nav .icon-menu {
+    display: block;
+    width: 18px;
+    height: 12px;
+    background: url(/images/icon-menu.svg) 0 0 no-repeat;
+    background-size: cover;
+    cursor: pointer; }
   .fixed-height nav {
     height: 80px;
     line-height: 80px; }
@@ -10696,6 +10707,18 @@ nav {
     -webkit-mask-image: url(/images/icon-complete.svg);
             mask-image: url(/images/icon-complete.svg); }
 
+.header-date {
+  position: absolute;
+  right: 70px;
+  bottom: 18px;
+  line-height: 1em;
+  font-size: 1.8rem;
+  color: white;
+  font-weight: 500; }
+  .header-date span {
+    font-size: 1.3rem;
+    display: block; }
+
 .header-report .left {
   line-height: 1em;
   display: -ms-flexbox;
@@ -10713,7 +10736,7 @@ nav {
     display: inline-block; }
     .header-report .left a i {
       line-height: 1em;
-      height: auto; }
+      height: 12px; }
 
 .header-report .right {
   line-height: 1.7em;
@@ -11726,7 +11749,7 @@ nav {
       position: absolute;
       content: "";
       top: 0;
-      left: 0;
+      left: -1px;
       height: 40px;
       background: #242846;
       width: 2px; }
@@ -11924,11 +11947,13 @@ nav {
 .offer-loading {
   padding: 35px 25px; }
   .offer-loading p {
+    font-weight: 500;
     font-size: 1.8rem;
     color: #fff;
     line-height: 1.6em;
     margin-bottom: 78px; }
   .offer-loading h3 {
+    text-transform: uppercase;
     color: #6C8CAD;
     font-size: 1.3rem;
     margin: 0; }
@@ -11936,6 +11961,22 @@ nav {
     text-align: left;
     margin: 0;
     font-size: 3.8rem; }
+
+.section-final--3,
+.section-final--4,
+.section-final--5 {
+  padding-left: 130px;
+  padding-right: 130px; }
+
+.section-final--3,
+.section-final--4 {
+  position: relative;
+  height: calc(100vh - 100px); }
+  .section-final--3 .btn-nextStep--wrap,
+  .section-final--4 .btn-nextStep--wrap {
+    position: absolute;
+    right: 0;
+    bottom: 45px; }
 
 [class^="section-final"] {
   padding-top: 40px;
@@ -11946,7 +11987,7 @@ nav {
   [class^="section-final"] input[type="password"] {
     width: 100%; }
   [class^="section-final"] > .row {
-    margin-bottom: 45px;
+    margin-bottom: 40px;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: end;
@@ -11958,13 +11999,39 @@ nav {
       margin-right: 0; }
   [class^="section-final"] .row-finance .col:first-of-type {
     -ms-flex-item-align: center;
-        -ms-grid-row-align: center;
-        align-self: center; }
+        align-self: center;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: end;
+        align-items: flex-end; }
     [class^="section-final"] .row-finance .col:first-of-type h2 {
       font-size: 3.7rem;
-      margin: 0; }
+      margin: 0;
+      display: inline-block;
+      line-height: 49px; }
+    [class^="section-final"] .row-finance .col:first-of-type .input-group {
+      margin-left: 43px;
+      display: inline-block; }
+    [class^="section-final"] .row-finance .col:first-of-type .input-field {
+      width: 210px;
+      margin-left: 43px;
+      display: inline-block; }
+  [class^="section-final"] .row-finance--options .col:nth-of-type(2) {
+    text-align: center; }
+    [class^="section-final"] .row-finance--options .col:nth-of-type(2) .group-wrapper {
+      display: inline-block; }
+  [class^="section-final"] .row-finance--options .col:nth-of-type(3) {
+    text-align: right; }
+    [class^="section-final"] .row-finance--options .col:nth-of-type(3) .group-wrapper {
+      display: inline-block; }
   [class^="section-final"] .row-agreedPrice {
     font-size: 1.6rem; }
+    [class^="section-final"] .row-agreedPrice .input-field {
+      display: inline-block; }
+      [class^="section-final"] .row-agreedPrice .input-field input {
+        font-size: 3.6rem;
+        width: 200px;
+        margin-left: 20px; }
     [class^="section-final"] .row-agreedPrice span {
       margin-left: 5px;
       font-size: 3.6rem; }
@@ -11974,7 +12041,7 @@ nav {
   [class^="section-final"] .bank-details h2 {
     font-size: 2.6rem; }
   [class^="section-final"] .bank-details p {
-    width: 52%;
+    width: 80%;
     font-size: 1.6rem;
     padding-left: 43px;
     background: url(/images/icon-alert.svg) 0 50% no-repeat; }
@@ -11989,6 +12056,9 @@ nav {
         -ms-grid-row-align: center;
         align-self: center;
     font-size: 1.6rem; }
+  [class^="section-final"] .row-recievedContract .input-group {
+    margin-left: 22px;
+    display: inline-block; }
   [class^="section-final"] .img-signature--wrap {
     background: white;
     width: 100%;
@@ -12007,5 +12077,8 @@ nav {
     font-size: 1.5rem;
     -ms-flex-pack: center;
         justify-content: center; }
+  [class^="section-final"] .btn-fullWidth {
+    margin-left: -130px;
+    margin-right: -130px; }
 
 /*# sourceMappingURL=main.css.map */

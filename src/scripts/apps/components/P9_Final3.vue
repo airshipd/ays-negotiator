@@ -1,19 +1,15 @@
 <template>
 
-  <section class="section-final--1">
+  <section class="section-final--3">
 
     <div class="row row-finance">
-      <div class="col m3">
+      <div class="col m12">
         <h2 class="title-finance">Finance</h2>
-      </div>
-      <div class="col m3">
         <choice-group v-if="inspection.finance" v-model="inspection.finance" :name="'finance'" :options="booleanOptions"></choice-group>
-      </div>
-      <div class="col m4">
         <input-text :label="'If yes, which company?'" v-model="inspection.financeCompany" :name="'financeCompany'"></input-text>
       </div>
     </div>
-    <div class="row">
+    <div class="row row-finance--options">
       <div class="col m4">
         <choice-group v-if="inspection.writeOff" :label="'Write Off'" v-model="inspection.writeOff" :name="'writeOff'" :options="booleanOptions"></choice-group>
       </div>
@@ -26,15 +22,12 @@
     </div>
     <div class="row row-agreedPrice">
       <div class="col">
-        Agreed Price: <span>{{inspection.total | currency}}</span>
+        Agreed Price: <input-number v-model="inspection.agreedPrice" :name="agreePrice"></input-number>
       </div>
     </div>
     <div class="row row-recievedContract">
-      <div class="col m6">
-        Has the customer received a copy of this contract?
-      </div>
-      <div class="col m4">
-        <choice-group v-if="inspection.registrationPapers" v-model="inspection.customerReceivedContract" :name="'customerReceivedContract'" :options="booleanOptions"></choice-group>
+      <div class="col m12">
+        Has the customer received a copy of this contract? <choice-group v-if="inspection.registrationPapers" v-model="inspection.customerReceivedContract" :name="'customerReceivedContract'" :options="booleanOptions"></choice-group>
       </div>
     </div>
     <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
@@ -58,13 +51,13 @@ export default {
   name: 'final-3',
   provideValidator: true,
   inject: ['$validator'],
-  // beforeRouteEnter (to, from, next) {
-  //   next(vm => {
-  //     if( $.isEmptyObject(vm.$store.state.inspection) ) {
-  //       next('/inspection/'+vm.$route.params.id)
-  //     }
-  //   })
-  // },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if( $.isEmptyObject(vm.$store.state.inspection) ) {
+        next('/final/1/'+vm.$route.params.id)
+      }
+    })
+  },
   mounted () {
   },
   data () {

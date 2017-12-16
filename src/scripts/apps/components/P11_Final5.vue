@@ -1,24 +1,24 @@
 <template>
 
-  <section class="section-final--1">
+  <section class="section-final--5">
 
     <div class="row">
       <div class="col m4">
-        <input-text :label="'Name'" v-model="inspection.customerName" :name="'customerName'" :disabled="true"></input-text>
+        <input-text :label="'Name'" v-model="inspection.customerName" :name="'customerName'"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobileNumber'" :disabled="true"></input-text>
+        <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobileNumber'"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'" :disabled="true"></input-text>
+        <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'"></input-text>
       </div>
     </div>
     <div class="row">
-      <div class="col m6">
-        <input-text :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :disabled="true"></input-text>
+      <div class="col m8">
+        <input-text :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'"></input-text>
       </div>
-      <div class="col m6">
-        <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'" :disabled="true"></input-text>
+      <div class="col m4">
+        <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'"></input-text>
       </div>
     </div>
     <div class="row row-contract">
@@ -27,7 +27,7 @@
     </div>
     <div class="row">
       <div class="col m6">
-        <input-text :label="'Customer Name'" v-model="inspection.customerName" :name="'customerName'" :disabled="true"></input-text>
+        <input-text :label="'Customer Name'" v-model="inspection.customerName" :name="'customerName'"></input-text>
         <signature v-model="inspection.customerSignatureString" v-if="signatureCustomer" v-on:close="closeSignatureCustomer" ></signature>
         <div class="signature-button" @click="openSignatureCustomer" v-if="!inspection.customerSignatureString"></div>
         <div class="img-signature--wrap" v-else @click="openSignatureCustomer">
@@ -45,7 +45,7 @@
     </div>
     <div class="row">
       <div class="col m5">
-        <input-text :label="'Model'" v-model="inspection.model" :name="'model'" :disabled="true"></input-text>
+        <input-text :label="'Model'" v-model="inspection.model" :name="'model'"></input-text>
       </div>
       <div class="col m3">
         <input-text :label="'Kilometers'" v-model="inspection.kilometers" :name="'kilometers'"></input-text>
@@ -91,13 +91,13 @@ export default {
   name: 'final-5',
   provideValidator: true,
   inject: ['$validator'],
-  // beforeRouteEnter (to, from, next) {
-  //   next(vm => {
-  //     if( $.isEmptyObject(vm.$store.state.inspection) ) {
-  //       next('/inspection/'+vm.$route.params.id)
-  //     }
-  //   })
-  // },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if( $.isEmptyObject(vm.$store.state.inspection) ) {
+        next('/final/1/'+vm.$route.params.id)
+      }
+    })
+  },
   mounted () {
     axios.get(urlGetContract)
     .then(response => {
@@ -123,8 +123,9 @@ export default {
           PostService.postMulti(this.$route.params.id,this.inspection,this.options)
           .then(response => {
             console.log(response)
-            this.$store.commit('updateInspection',this.inspection)
-            this.$router.push('/finalized')
+            this.$store.commit('updateInspection',{})
+            this.$store.commit('updateOptions',{})
+            // this.$router.push('/finalized')
           }).catch(e => {
             console.error(e)
           })

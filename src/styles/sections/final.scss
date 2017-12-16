@@ -1,3 +1,22 @@
+.section-final--3,
+.section-final--4,
+.section-final--5 {
+  padding-left: 130px;
+  padding-right: 130px;
+}
+
+.section-final--3,
+.section-final--4 {
+  position: relative;
+  height: calc(100vh - 100px);
+
+  .btn-nextStep--wrap {
+    position: absolute;
+    right: 0;
+    bottom: 45px;
+  }
+}
+
 [class^="section-final"] {
   padding-top: 40px;
   padding-bottom: 50px;
@@ -10,7 +29,7 @@
   }
 
   > .row {
-    margin-bottom: 45px;
+    margin-bottom: 40px;
     display: flex;
     align-items: flex-end;
     padding-left: 40px;
@@ -26,16 +45,62 @@
 
     .col:first-of-type {
       align-self: center;
+      display: flex;
+      align-items: flex-end;
 
       h2 {
         font-size: 3.7rem;
         margin: 0;
+        display: inline-block;
+        line-height: 49px;
+      }
+
+      .input-group {
+        margin-left: 43px;
+        display: inline-block;
+      }
+
+      .input-field {
+        width: 210px;
+        margin-left: 43px;
+        display: inline-block;
+      }
+    }
+  }
+
+  .row-finance--options {
+    .col {
+
+      &:nth-of-type(2) {
+        text-align: center;
+
+        .group-wrapper {
+          display: inline-block;
+        }
+      }
+
+      &:nth-of-type(3) {
+        text-align: right;
+
+        .group-wrapper {
+          display: inline-block;
+        }
       }
     }
   }
 
   .row-agreedPrice {
     font-size: 1.6rem;
+
+    .input-field {
+      display: inline-block;
+
+      input {
+        font-size: 3.6rem;
+        width: 200px;
+        margin-left: 20px;
+      }
+    }
 
     span {
       margin-left: 5px;
@@ -54,7 +119,7 @@
     }
 
     p {
-      width: 52%;
+      width: 80%;
       font-size: 1.6rem;
       padding-left: 43px;
       background: url(/images/icon-alert.svg) 0 50% no-repeat;
@@ -74,6 +139,11 @@
     .col:first-of-type {
       align-self: center;
       font-size: 1.6rem;
+    }
+
+    .input-group {
+      margin-left: 22px;
+      display: inline-block;
     }
   }
 
@@ -98,5 +168,10 @@
     margin: 84px auto 10px;
     font-size: 1.5rem;
     justify-content: center;
+  }
+
+  .btn-fullWidth {
+    margin-left: -130px;
+    margin-right: -130px;
   }
 }

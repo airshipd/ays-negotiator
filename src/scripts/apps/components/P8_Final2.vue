@@ -1,6 +1,6 @@
 <template>
 
-  <section class="section-final--1">
+  <section class="section-final--2">
 
     <div class="row">
       <div class="col m3">
@@ -129,13 +129,13 @@ export default {
   name: 'final-2',
   provideValidator: true,
   inject: ['$validator'],
-  // beforeRouteEnter (to, from, next) {
-  //   next(vm => {
-  //     if( $.isEmptyObject(vm.$store.state.inspection) ) {
-  //       next('/inspection/'+vm.$route.params.id)
-  //     }
-  //   })
-  // },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if( $.isEmptyObject(vm.$store.state.inspection) ) {
+        next('/final/1/'+vm.$route.params.id)
+      }
+    })
+  },
   mounted () {
   },
   data () {
