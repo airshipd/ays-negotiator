@@ -65,6 +65,8 @@
     "qs": "^6.5.1",
     "signature_pad": "^2.3.2",
     "striptags": "^3.1.1",
+    "svg-browserify": "0.0.2",
+    "svgify": "0.0.0",
     "trim-canvas": "^0.1.2",
     "vee-validate": "^2.0.0-rc.25",
     "vue": "^2.5.2",

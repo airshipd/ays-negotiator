@@ -3,7 +3,7 @@
 
     <div class="row">
       <div class="col m3">
-        <input-text :label="'Odometer'" v-model="inspection.odometer" :validationRules="{required:true}" :name="'odometer'"></input-text>
+        <input-text :label="'Odometer'" v-model="inspection.odometer" :validationRules="{required:true,numeric:true}" :name="'odometer'"></input-text>
       </div>
       <div class="col m3">
         <input-select v-if="inspection.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
@@ -70,21 +70,21 @@
     <div class="row">
       <div class="col m12">
         <input-checkbox-switch :label="'Tradesmen Extras'" v-model="inspection.tradesmanExtras" :model-value="inspection.tradesmanExtras"></input-checkbox-switch>
-        <input-textarea v-if="inspection.tradesmanExtras" v-model="inspection.tradesmanExtrasDescription" ></input-textarea>
+        <input-textarea v-if="inspection.tradesmanExtras === '1'" v-model="inspection.tradesmanExtrasDescription" ></input-textarea>
       </div>
     </div>
 
     <div class="row">
       <div class="col m12">
         <input-checkbox-switch :label="'Upgrades / Mods'" v-model="inspection.upgradesMods" :model-value="inspection.upgradesMods"></input-checkbox-switch>
-        <input-textarea v-if="inspection.upgradesMods" v-model="inspection.upgradesAndModsDescription" ></input-textarea>
+        <input-textarea v-if="inspection.upgradesMods === '1'" v-model="inspection.upgradesAndModsDescription" ></input-textarea>
       </div>
     </div>
 
     <div class="row">
       <div class="col m12">
         <input-checkbox-switch :label="'Sports Kit'" v-model="inspection.sportsKit" :model-value="inspection.sportsKit"></input-checkbox-switch>
-        <input-textarea v-if="inspection.sportsKit" v-model="inspection.sportsKitDescription" ></input-textarea>
+        <input-textarea v-if="inspection.sportsKit === '1'" v-model="inspection.sportsKitDescription" ></input-textarea>
       </div>
     </div>
 

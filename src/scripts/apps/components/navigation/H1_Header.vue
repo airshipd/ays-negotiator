@@ -14,6 +14,9 @@
             <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
           </div>
           <div class="inspection-header" v-if="currentRoute === 'Inspection'">
+            <div class="left">
+              <a @click="actionMenu"><i class="icon-back"></i></a>
+            </div>
             <div class="row">
               <div class="col">
                 <label>Make</label>
@@ -45,7 +48,7 @@
           </div>
           <div class="header-final" v-if="this.$route.meta.final">
             <div class="left">
-               <a @click="actionFinalGoBack"><i class="material-icons">arrow_back</i></a>
+               <a @click="actionFinalGoBack"><i class="icon-back"></i></a>
             </div>
             <div class="row">
               <div :class="{col: true, active: this.$route.meta.step === 1 }">

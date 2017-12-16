@@ -24,6 +24,8 @@ import O1ModalReview from './components/overlays/O1_Review.vue'
 export default {
   name: 'app',
   mounted () {
+    //set the header nav for custom styling
+    $("nav").addClass("nav-app")
   },
   data () {
     return {

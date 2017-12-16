@@ -18,6 +18,8 @@ import offerFinalized from './components/P12_OfferFinalized.vue'
 Vue.use(Router)
 
 const router = new Router({
+  // mode: 'history',
+  // base: '/app',
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
   },

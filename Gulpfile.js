@@ -16,12 +16,12 @@ var plugins = require('gulp-load-plugins')({
     'vueify',
     'vinyl-source-stream',
     'vinyl-buffer',
-    'browser-sync'
+    'browser-sync',
   ],
   rename: {
     'gulp-sourcemaps': 'sourcemaps',
     'vinyl-source-stream': 'source',
-    'vinyl-buffer': 'buffer'
+    'vinyl-buffer': 'buffer',
   }
 });
 
@@ -41,14 +41,17 @@ var path = {
  * - process files appropriately on change
  */
 gulp.task('watch:tasks', ['default'], function() {
-  // Scripts:
-  gulp.watch(path.src + '/scripts/main/**/*.js', ['scripts']);
+  // Scripts: Main
+  gulp.watch(path.src + '/scripts/main/**/*.js', ['scripts:main']);
 
-  // Vue js main
-  gulp.watch([path.src + '/scripts/apps/**/*.js', path.src + '/scripts/apps/**/*.vue'], ['js-vue']);
+  // Scripts: Vue js App
+  gulp.watch([path.src + '/scripts/apps/**/*.js', path.src + '/scripts/apps/**/*.vue'], ['scripts:app']);
 
-  // Styles:
-  gulp.watch(path.src + '/styles/**/*.scss', ['styles']);
+  // Styles: Main
+  gulp.watch(path.src + '/styles/main/**/*.scss', ['styles:main']);
+
+  // Styles: App
+  gulp.watch(path.src + '/styles/app/**/*.scss', ['styles:app']);
 
   // Images:
   gulp.watch(path.src + '/images/{,*/}*.{gif,jpg,png,svg}', ['images']);
@@ -98,13 +101,52 @@ gulp.task('images', function() {
 });
 
 /**
- * $ gulp styles
+ * $ gulp styles App
  *
  * - Compile Sass --> CSS, autoprefix, and minify
  */
-gulp.task('styles', function() {
+gulp.task('styles:app', function() {
   return gulp
-    .src(path.src + '/styles/main.scss')
+    .src(path.src + '/styles/app/app.scss')
+    .pipe(plugins.sourcemaps.init())
+    // Compile Sass:
+    .pipe(
+      plugins.sass
+        .sync({
+          includePaths: [
+            path.npm + '/bootstrap-sass/assets/stylesheets',
+            path.npm + '/node.normalize.scss'
+          ]
+        })
+        .on('error', plugins.sass.logError)
+    )
+    // Autoprefix:
+    .pipe(
+      plugins.autoprefixer({
+        browsers: ['last 3 versions', 'ie 8', 'ie 9']
+      })
+    )
+    .pipe(plugins.sourcemaps.write('./'))
+    // Write app.css
+    .pipe(gulp.dest(path.dest + '/styles'))
+    // Report file size:
+    .pipe(plugins.size({ showFiles: true }))
+    .pipe(plugins.cssmin())
+    .pipe(plugins.browserSync.stream())
+    .pipe(plugins.rename({ suffix: '.min' }))
+    .pipe(plugins.size({ showFiles: true }))
+    .pipe(gulp.dest(path.dest + '/styles'))
+    .pipe(plugins.browserSync.stream());
+});
+
+/**
+ * $ gulp styles Main
+ *
+ * - Compile Sass --> CSS, autoprefix, and minify
+ */
+gulp.task('styles:main', function() {
+  return gulp
+    .src(path.src + '/styles/main/main.scss')
     .pipe(plugins.sourcemaps.init())
     // Compile Sass:
     .pipe(
@@ -141,7 +183,7 @@ gulp.task('styles', function() {
  *
  * - Bundle Javascript and concatenate
  */
-gulp.task('scripts', function() {
+gulp.task('scripts:main', function() {
   return gulp
     .src([
       path.src + '/scripts/main/vendor/fastclick.js',
@@ -175,7 +217,7 @@ gulp.task('scripts', function() {
  *
  * -
  */
-gulp.task('js-vue', function() {
+gulp.task('scripts:app', function() {
 	let b = plugins.browserify('src/scripts/apps/index.js', { debug: true })
   .transform(["vueify", { "presets": ["es2015", "stage-2"] }])
   return b.bundle()
@@ -203,4 +245,4 @@ gulp.task('js-vue', function() {
  * - optimise images (including SVGs)
  * - create custom Modernizr build
  */
-gulp.task('default', gulpsync.sync(['styles', 'scripts', 'js-vue', 'images']));
+gulp.task('default', gulpsync.sync(['styles:main', 'styles:app', 'scripts:main', 'scripts:app', 'images']));

@@ -15,7 +15,7 @@
 @import "base/animations";
 @import "base/helper";
 @import "base/typography";
-@import "base/forms";
+// @import "base/forms";
 @import "base/lists";
 @import "base/tables";
 @import "base/layout";
@@ -28,6 +28,7 @@
 @import "elements/modal";
 
 // SECTIONS
+@import "sections/form-finalize";
 @import "sections/home";
 @import "sections/assessments";
 @import "sections/finalize";

@@ -1,18 +1,42 @@
 nav {
   position: relative;
-  height: auto;
-  line-height: auto;
-  box-shadow: none;
+  height: 80px;
+  line-height: 80px;
+
+  .left, .right {
+    a {
+      display: inline-block;
+    }
+  }
+
+  .nav-wrapper i {
+    line-height: normal;
+    height: auto;
+  }
+
+  &.nav-app {
+    height: auto;
+    line-height: auto;
+    box-shadow: none;
+  }
 
   .icon-menu {
     display: block;
-    width: 18px;
-    height: 12px;
+    width: 18px !important;
+    height: 12px !important;
     background: url(/images/icon-menu.svg) 0 0 no-repeat;
     background-size: cover;
     cursor: pointer;
   }
 
+  .icon-back {
+    display: block;
+    width: 18px !important;
+    height: 14px !important;
+    background: url(/images/icon-back.svg) 0 0 no-repeat;
+    background-size: cover;
+    cursor: pointer;
+  }
 
   .fixed-height & {
     height: 80px;
@@ -29,11 +53,17 @@ nav {
   .left {
     line-height: 80px;
     padding-left: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   .right {
     line-height: 80px;
     padding-right: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   .inspection-header {
