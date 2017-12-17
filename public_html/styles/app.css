@@ -12055,22 +12055,6 @@ nav {
     margin: 0;
     font-size: 3.8rem; }
 
-.section-final--3,
-.section-final--4,
-.section-final--5 {
-  padding-left: 130px;
-  padding-right: 130px; }
-
-.section-final--3,
-.section-final--4 {
-  position: relative;
-  height: calc(100vh - 100px); }
-  .section-final--3 .btn-nextStep--wrap,
-  .section-final--4 .btn-nextStep--wrap {
-    position: absolute;
-    right: 0;
-    bottom: 45px; }
-
 [class^="section-final"] {
   padding-top: 40px;
   padding-bottom: 50px; }
@@ -12170,8 +12154,24 @@ nav {
     font-size: 1.5rem;
     -ms-flex-pack: center;
         justify-content: center; }
-  [class^="section-final"] .btn-fullWidth {
-    margin-left: -130px;
-    margin-right: -130px; }
+
+.section-final--3 > .row,
+.section-final--4 > .row,
+.section-final--5 > .row {
+  padding-left: 130px;
+  padding-right: 130px; }
+
+.section-final--3,
+.section-final--4 {
+  position: relative;
+  height: calc(100vh - 100px); }
+  .section-final--3 .btn-nextStep--wrap,
+  .section-final--4 .btn-nextStep--wrap {
+    position: absolute;
+    right: 0;
+    bottom: 45px; }
+
+.section-final--5 {
+  padding-bottom: 0; }
 
 /*# sourceMappingURL=app.css.map */

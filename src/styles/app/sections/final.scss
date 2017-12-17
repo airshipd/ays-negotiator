@@ -1,22 +1,3 @@
-.section-final--3,
-.section-final--4,
-.section-final--5 {
-  padding-left: 130px;
-  padding-right: 130px;
-}
-
-.section-final--3,
-.section-final--4 {
-  position: relative;
-  height: calc(100vh - 100px);
-
-  .btn-nextStep--wrap {
-    position: absolute;
-    right: 0;
-    bottom: 45px;
-  }
-}
-
 [class^="section-final"] {
   padding-top: 40px;
   padding-bottom: 50px;
@@ -169,9 +150,30 @@
     font-size: 1.5rem;
     justify-content: center;
   }
+}
 
-  .btn-fullWidth {
-    margin-left: -130px;
-    margin-right: -130px;
+.section-final--3,
+.section-final--4,
+.section-final--5 {
+
+  > .row {
+    padding-left: 130px;
+    padding-right: 130px;
   }
+}
+
+.section-final--3,
+.section-final--4 {
+  position: relative;
+  height: calc(100vh - 100px);
+
+  .btn-nextStep--wrap {
+    position: absolute;
+    right: 0;
+    bottom: 45px;
+  }
+}
+
+.section-final--5 {
+  padding-bottom: 0;
 }

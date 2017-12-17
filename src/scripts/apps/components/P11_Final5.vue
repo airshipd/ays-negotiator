@@ -47,7 +47,7 @@
       <div class="col m5">
         <input-text :label="'Model'" v-model="inspection.model" :name="'model'"></input-text>
       </div>
-      <div class="col m3">
+      <div class="col m4">
         <input-text :label="'Kilometers'" v-model="inspection.kilometers" :name="'kilometers'"></input-text>
       </div>
     </div>
@@ -125,7 +125,7 @@ export default {
             console.log(response)
             this.$store.commit('updateInspection',{})
             this.$store.commit('updateOptions',{})
-            // this.$router.push('/finalized')
+            this.$router.push('/finalized')
           }).catch(e => {
             console.error(e)
           })
