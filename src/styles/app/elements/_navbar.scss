@@ -160,6 +160,10 @@ nav {
     background-color: $light-blue;
   }
 
+  .icon-back {
+    background-color: transparent;
+  }
+
   .icon-user {
     mask-image: url(/images/icon-user.svg);
   }
@@ -197,17 +201,18 @@ nav {
   .left {
     line-height: 1em;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     font-size: 2rem;
     font-weight: 500;
     position: absolute;
-    bottom: 13px;
+    bottom: 15px;
     left: 0;
     float: none !important;
 
      a {
        margin-right: 15px;
        display: inline-block;
+       padding-bottom: 4px;
 
        i {
         line-height: 1em;

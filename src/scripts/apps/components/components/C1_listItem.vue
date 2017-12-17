@@ -49,6 +49,7 @@
       toggleRowActive() {
         this.$emit('newactive', this.index);
         this.$store.commit('updateLocation', {lat: this.inspection.lat, lng: this.inspection.lng })
+        this.$store.commit('updateLocationData', this.inspection)
       },
       goToAction(status) {
         if( status === 'finalized' ) {

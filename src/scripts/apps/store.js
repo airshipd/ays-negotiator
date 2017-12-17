@@ -16,6 +16,7 @@ export default new Vuex.Store({
       lat: 0,
       lng: 0
     },
+    locationData: {},
     inspection: {},
     options: [],
     overlays: {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     updateUserLocation(state, data) {
       state.userLocation = Object.assign({}, state.userLocation, data)
+    },
+    updateLocationData(state,data) {
+      state.locationData = Object.assign({}, state.locationData, data)
     },
     updateInspection(state,data) {
       state.inspection = Object.assign({}, state.inspection, data)

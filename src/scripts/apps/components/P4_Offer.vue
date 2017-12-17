@@ -43,7 +43,7 @@
       <div class="row offer-issues--list">
         <p>We have identified the following issues:</p>
         <ul>
-          <li v-for="item in report" :key="item.title" :class="getIssueIconClass(item)">
+          <li v-for="item in report" :key="item.title" :class="getIssueIconClass(item)" v-if="item.score">
             <!-- <div class="image"><i :class="getIssueIconClass(item.title)"></i></div> -->
             <div class="body">
               <h3>{{item.title}}</h3>

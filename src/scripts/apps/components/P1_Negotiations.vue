@@ -18,7 +18,6 @@
           :center="location"
           :zoom="13"
           :style="{width: '100%', height: '100%'}"
-          ref="map"
         >
           <gmap-marker
             :position="location"
@@ -26,15 +25,20 @@
             :draggable="false"
             :icon="mapIcon"
           ></gmap-marker>
-          <!-- <gmap-info-window
+          <gmap-info-window
             :position="location"
             :options="infoOptions"
-            ref="marker"
-            @domready="test"
+            @domready="customiseInfoWindow"
           >
-            <div>Hello world!</div>
-          </gmap-info-window> -->
+            <div class="row">
+              <div class="col title">{{inspection.title}}</div>
+            </div>
+            <div class="row">
+              <div class="col address">{{inspection.address}}</div>
+            </div>
+          </gmap-info-window>
         </gmap-map>
+        <div id="info-window" :ref="infoWindow">this is a test</div>
       </div>
     </div>
   </section>
@@ -46,80 +50,6 @@
 import list from './components/C1_listItem.vue'
 import axios from 'axios'
 import { urlGetInspections } from '../config.js'
-
-// refer to https://developers.google.com/maps/documentation/javascript/examples/overlay-popup
-function definePopupClass() {
-  /**
-   * A customized popup on the map.
-   * @param {!google.maps.LatLng} position
-   * @param {!Element} content
-   * @constructor
-   * @extends {google.maps.OverlayView}
-   */
-  Popup = function(position, content) {
-    this.position = position;
-
-    content.classList.add('popup-bubble-content');
-
-    var pixelOffset = document.createElement('div');
-    pixelOffset.classList.add('popup-bubble-anchor');
-    pixelOffset.appendChild(content);
-
-    this.anchor = document.createElement('div');
-    this.anchor.classList.add('popup-tip-anchor');
-    this.anchor.appendChild(pixelOffset);
-
-    // Optionally stop clicks, etc., from bubbling up to the map.
-    this.stopEventPropagation();
-  };
-  // NOTE: google.maps.OverlayView is only defined once the Maps API has
-  // loaded. That is why Popup is defined inside initMap().
-  Popup.prototype = Object.create(google.maps.OverlayView.prototype);
-
-  /** Called when the popup is added to the map. */
-  Popup.prototype.onAdd = function() {
-    this.getPanes().floatPane.appendChild(this.anchor);
-  };
-
-  /** Called when the popup is removed from the map. */
-  Popup.prototype.onRemove = function() {
-    if (this.anchor.parentElement) {
-      this.anchor.parentElement.removeChild(this.anchor);
-    }
-  };
-
-  /** Called when the popup needs to draw itself. */
-  Popup.prototype.draw = function() {
-    var divPosition = this.getProjection().fromLatLngToDivPixel(this.position);
-    // Hide the popup when it is far out of view.
-    var display =
-        Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000 ?
-        'block' :
-        'none';
-
-    if (display === 'block') {
-      this.anchor.style.left = divPosition.x + 'px';
-      this.anchor.style.top = divPosition.y + 'px';
-    }
-    if (this.anchor.style.display !== display) {
-      this.anchor.style.display = display;
-    }
-  };
-
-  /** Stops clicks/drags from bubbling up to the map. */
-  Popup.prototype.stopEventPropagation = function() {
-    var anchor = this.anchor;
-    anchor.style.cursor = 'auto';
-
-    ['click', 'dblclick', 'contextmenu', 'wheel', 'mousedown', 'touchstart',
-     'pointerdown']
-        .forEach(function(event) {
-          anchor.addEventListener(event, function(e) {
-            e.stopPropagation();
-          });
-        });
-  };
-}
 
 export default {
   name: 'negotiator',
@@ -138,15 +68,16 @@ export default {
       infoOptions: {
         pixelOffset: {
           width: 0,
-          height: -35
+          height: -15
         }
       },
     }
   },
   methods: {
-    test(el) {
-      console.log(this.$refs)
-      $(this.$refs.marker.$el).parent()[0]
+    customiseInfoWindow () {
+      $('.gm-style-iw').parent().addClass("gm-style-iw--wrapper")
+      $('.gm-style-iw').next().addClass("gm-style-iw--close")
+      $('.gm-style-iw--wrapper > div:first-of-type').addClass('gm-style-iw--remove')
     },
     getInspections () {
       axios.get(urlGetInspections)
@@ -178,11 +109,15 @@ export default {
     inspections () {
       this.activeLiIndex = 0
       this.$store.commit('updateLocation', {lat: this.inspections[0].lat, lng: this.inspections[0].lng })
+      this.$store.commit('updateLocationData', this.inspections[0])
     }
   },
   computed: {
     location () {
       return this.$store.state.location
+    },
+    inspection () {
+      return this.$store.state.locationData
     }
   }
 }

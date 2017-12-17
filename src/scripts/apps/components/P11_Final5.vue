@@ -4,21 +4,21 @@
 
     <div class="row">
       <div class="col m4">
-        <input-text :label="'Name'" v-model="inspection.customerName" :name="'customerName'"></input-text>
+        <input-text :label="'Name'" v-model="inspection.customerName" :name="'customerName'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobileNumber'"></input-text>
+        <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobileNumber'" :validation-rules="{required:true,numeric:true}"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'"></input-text>
+        <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'" :validation-rules="{required:true,email:true}"></input-text>
       </div>
     </div>
     <div class="row">
       <div class="col m8">
-        <input-text :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'"></input-text>
+        <input-text :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'"></input-text>
+        <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'" :validation-rules="{required:true}"></input-text>
       </div>
     </div>
     <div class="row row-contract">
@@ -56,7 +56,7 @@
         <input-text :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact" :name="'pickupAddressAndContact'"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Date'" v-model="inspection.contractDate" :name="'contractDate'"></input-text>
+        <input-text :label="'Date'" v-model="inspection.contractDate" :name="'contractDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
       </div>
     </div>
     <div class="row car-buyers">
