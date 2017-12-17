@@ -11557,6 +11557,7 @@ nav {
   background: #F7F7F7;
   height: calc(100vh - 80px); }
   .section-inspections > .row {
+    margin: 0;
     height: 100%; }
   .section-inspections .col {
     width: 50%; }

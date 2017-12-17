@@ -38,7 +38,6 @@
             </div>
           </gmap-info-window>
         </gmap-map>
-        <div id="info-window" :ref="infoWindow">this is a test</div>
       </div>
     </div>
   </section>
