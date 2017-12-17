@@ -6,12 +6,17 @@
         <span class="brand-logo center">{{title}}</span>
 
         <div class="heading-secondary">
-          <div class="right" v-if="currentRoute === 'Negotiations'">
-            <div class="header-date">
-              <span>Today</span>
-              {{todayDate}}
+          <div class="header-inspections">
+            <div class="left" v-if="currentRoute === 'Negotiations'">
+              <a href="/blank">Proceed to Paperwork</a>
             </div>
-            <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
+            <div class="right" v-if="currentRoute === 'Negotiations'">
+              <div class="header-date">
+                <span>Today</span>
+                {{todayDate}}
+              </div>
+              <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
+            </div>
           </div>
           <div class="inspection-header" v-if="currentRoute === 'Inspection'">
             <div class="left">

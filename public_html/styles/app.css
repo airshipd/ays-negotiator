@@ -10766,6 +10766,18 @@ nav {
     font-size: 1.3rem;
     display: block; }
 
+.header-inspections .left {
+  height: 100%; }
+  .header-inspections .left a {
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1em;
+    position: absolute;
+    width: 200px;
+    top: auto;
+    left: 20px;
+    bottom: 19px; }
+
 .header-report .left {
   line-height: 1em;
   display: -ms-flexbox;
@@ -11634,8 +11646,8 @@ nav {
   left: 0 !important;
   padding: 20px 0 0 20px; }
   .gm-style-iw > div {
-    max-width: 100% !important;
-    width: 170px !important; }
+    max-width: 300px !important;
+    width: auto !important; }
   .gm-style-iw .row {
     margin-bottom: 5px; }
     .gm-style-iw .row:last-of-type {
