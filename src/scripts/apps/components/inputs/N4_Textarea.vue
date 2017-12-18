@@ -2,7 +2,8 @@
 
   <div class="input-textarea">
     <label v-if="{label}" :for="uniqueID">{{label}}</label>
-    <textarea type="text" class="input-textarea" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)"></textarea>
+    <textarea type="text" class="input-textarea" :name="name" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)" v-validate="validationRules" :disabled="disabled"></textarea>
+    <span v-show="errors.has(name)" class="help is-danger">{{ errors.first(name) }}</span>
   </div>
 
 </template>
@@ -10,7 +11,29 @@
 <script>
   export default {
     name: 'input-n-4-textarea',
-    props: ['name','label','value'],
+    inject: ['$validator'],
+    props: {
+      name: {
+        type: String
+      },
+      label: {
+        type: String
+      },
+      value: {
+        type: String
+      },
+      disabled: {
+        type: Boolean
+      },
+      validationRules: {
+        type: Object,
+        default () {
+          return {
+            required: false
+          }
+        }
+      }
+    },
     mounted () {
     },
     data () {

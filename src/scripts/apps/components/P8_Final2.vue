@@ -22,7 +22,7 @@
         <input-select v-if="inspection.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
       </div>
       <div class="col m3">
-        <input-text :label="'Body'" v-model="inspection.body" :name="'body'" :validation-rules="{required:true}"></input-text>
+        <input-text :label="'Body'" v-model="inspection.carBody" :name="'body'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
         <choice-group v-if="inspection.driveTrain" :label="'Drive Type'" v-model="inspection.driveTrain" :options="options.driveTrain.settings.options" :name="'driveType'" ></choice-group>
@@ -46,7 +46,7 @@
         <input-text :label="'Badge'" v-model="inspection.badge" :name="'badge'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Engine'" v-model="inspection.engine" :name="'engine'" :validation-rules="{required:true}"></input-text>
+        <input-text :label="'Engine'" v-model="inspection.engineSize" :name="'engine'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
         <input-select v-if="inspection.engineType" :label="'Engine Type'" v-model="inspection.engineType" :options="options.engineType.settings.options"></input-select>
@@ -94,7 +94,7 @@
         <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Exp Date'" v-model="inspection.registrationExpirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+        <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
       </div>
       <div class="col m3">
         <input-text :label="'Build Date'" v-model="inspection.buildDate" :name="'buildDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>

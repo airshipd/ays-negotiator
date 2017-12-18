@@ -30,6 +30,11 @@ export default {
                 sendObj['fields['+key+'][]'] = item
               })
               break;
+            case 'SimpleMap_Map':
+              sendObj['fields['+key+'][lat]'] = entry[key]['lat']
+              sendObj['fields['+key+'][lng]'] = entry[key]['lng']
+              sendObj['fields['+key+'][address]'] = entry[key]['address']
+              break;
             default:
               sendObj['fields['+key+']'] = entry[key]
           }
@@ -39,6 +44,7 @@ export default {
         }
       }
     }
+    console.log('formData', sendObj)
     return axios.post('/',qs.stringify(sendObj))
   },
   postMulti (entryId,entry,entryOptions) {
@@ -67,6 +73,11 @@ export default {
                 formData.append('fields['+key+'][]',item)
               })
               break;
+            case 'SimpleMap_Map':
+              sendObj['fields['+key+'][lat]'] = entry[key]['lat']
+              sendObj['fields['+key+'][lng]'] = entry[key]['lng']
+              sendObj['fields['+key+'][address]'] = entry[key]['address']
+              break;
             default:
               formData.append('fields['+key+']',entry[key])
           }
@@ -75,11 +86,12 @@ export default {
         }
       }
     }
+    console.log('formData', formData)
+
     return axios.post('/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
   }
-
 }

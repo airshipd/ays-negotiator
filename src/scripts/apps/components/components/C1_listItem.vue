@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       <div class="col address">{{inspection.address}}</div>
-      <div :class="bottomClass"><i class="material-icons">keyboard_arrow_right</i></div>
+      <div :class="bottomClass"><span v-if="inspection.status === 'finalized'">Report</span><i class="material-icons">keyboard_arrow_right</i></div>
     </div>
     <div class="click-wrapper" @click="goToAction(inspection.status)"></div>
   </li>
@@ -53,7 +53,7 @@
       },
       goToAction(status) {
         if( status === 'finalized' ) {
-          this.$router.push('report/'+this.inspection.id)
+          window.location.href = '/report/'+this.inspection.id
         } else if( status === 'Rejected' )
           this.$router.push('final/1/'+this.inspection.id)
         else {

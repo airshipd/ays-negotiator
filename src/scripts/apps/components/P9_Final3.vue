@@ -22,7 +22,7 @@
     </div>
     <div class="row row-agreedPrice">
       <div class="col">
-        Agreed Price: <input-number v-model="inspection.agreedPrice" :name="agreePrice"></input-number>
+        Agreed Price: <input-text v-model="inspection.agreedPrice" :name="'agreedPrice'" :validation-rules="{required:true,numeric:true}"></input-text>
       </div>
     </div>
     <div class="row row-recievedContract">

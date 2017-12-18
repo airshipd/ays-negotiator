@@ -75,13 +75,18 @@ class Negotiator_ApiController extends BaseController {
     $retOptions = [];
     $retReport = [];
     $retTotal = [];
+    $tempArray = [];
     $id = craft()->request->getSegment(3);
 
     $criteria = craft()->elements->getCriteria(ElementType::Entry);
     $criteria->id = $id;
     $inspection = $criteria->first();
 
-    $fieldsToReturn = 'reviewPrice,reviewRequest,maxTotalForCarType,averageTotalForCarType,approximateExpenditure,onsitePhysicalValuation,telephoneEstimatedValuation,approximateExpenditure,customerName,mechanic';
+    foreach($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
+      array_push($tempArray,craft()->fields->getFieldById($fieldLayoutField->fieldId)->handle);
+    }
+
+    $fieldsToReturn = implode(',', $tempArray);
     $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
     $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
     $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
@@ -141,6 +146,20 @@ class Negotiator_ApiController extends BaseController {
             $value = $entry->$fieldName !== null ? $entry->$fieldName->format('d/m/Y') : null;
             $ret[$fieldName] = $value;
             break;
+          // case "SimpleMap_Map":
+          //   $fieldName = $field->handle;
+          //   $value = array(
+          //     'lat'=> $entry->$fieldName->lat,
+          //     'lng'=> $entry->$fieldName->lng,
+          //     'address'=> $entry->$fieldName->address,
+          //     'parts'=> array()
+          //   );
+          //   $partKeys = array_keys($entry->$fieldName->parts);
+          //   for( $i=0; $i < count($entry->$fieldName->parts); $i++ ) {
+          //     $value['parts'][$partKeys[$i]] = $entry->$fieldName->parts[$partKeys[$i]];
+          //   };
+          //   $ret[$fieldName] = $value;
+          //   break;
           default:
             $fieldName = $field->handle;
             $ret[$fieldName] = $entry->getContent()->$fieldName;

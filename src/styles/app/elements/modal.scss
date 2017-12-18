@@ -74,6 +74,7 @@
       p {
         color: $light-blue;
         font-size: 1.8rem;
+        font-weight: 400;
       }
 
       textarea {
@@ -85,14 +86,15 @@
     .col:last-of-type {
       background: $light-blue;
       color: white;
-      padding: 46px 44px;
+      padding: 46px 44px 17px;
 
       p {
         color: white;
         font-size: 1.8rem;
+        font-weight: 400;
       }
 
-      input[type="number"] {
+      input[type="text"] {
         font-size: 3.6rem;
         border-color: white;
         width: 100%;

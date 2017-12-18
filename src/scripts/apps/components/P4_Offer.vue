@@ -33,7 +33,7 @@
       <div class="row offer-issues">
         <h3>Issues</h3>
         <div class="col m8 offer-condition">
-          Your car fits in the 'average' {{offer.make}} {{offer.model}} band of vehicles we buy.
+          Your car fits in the 'average' {{inspection.make}} {{inspection.model}} band of vehicles we buy.
         </div>
         <div class="col m3 push-m1 offer-grade">
           Overall <span>C</span>
@@ -44,7 +44,6 @@
         <p>We have identified the following issues:</p>
         <ul>
           <li v-for="item in report" :key="item.title" :class="getIssueIconClass(item)" v-if="item.score">
-            <!-- <div class="image"><i :class="getIssueIconClass(item.title)"></i></div> -->
             <div class="body">
               <h3>{{item.title}}</h3>
               <p>{{item.description}}</p>
@@ -56,24 +55,17 @@
 
     <div class="side">
       <div v-if="!loading">
-        <div v-if="offer.telephoneEstimatedValuation > 0" class="divider offer-estimation">
-          <h3>Phone Estimation</h3>
-          {{offer.telephoneEstimatedValuation | currency }}
-        </div>
         <div class="divider offer-valuation">
           <h3>On-site Valuation</h3>
           {{offer.onsitePhysicalValuation | currency}}
         </div>
         <div class="divider offer-repairs">
           <h3>Repair Needs</h3>
-          <span class="discounted">{{offer.approximateExpenditure | currency}} <span>Discounted</span></span>
-          <p>available if you accept today</p>
+          <span class="discounted">- {{offer.approximateExpenditure | currency}}</span>
         </div>
-        <div class="divider offer-previous">
-          <h3 v-if="!hasReview">Regular Offer</h3>
-          <h3 v-else>Previous Offer</h3>
-          <span v-if="!hasReview">{{offer.averageTotalForCarType | currency}}</span>
-          <span v-else>{{previousOffer | currency}}</span>
+        <div class="divider offer-previous" v-if="hasReview">
+          <h3>Previous Offer</h3>
+          <span>{{previousOffer | currency}}</span>
         </div>
         <div class="divider offer-final">
           <h3 v-if="!hasReview">Our Offer</h3>
@@ -109,13 +101,6 @@
   export default {
     name: 'p-4-offer',
     props: [],
-    // beforeRouteEnter (to, from, next) {
-    //   next(vm => {
-    //     if( $.isEmptyObject(vm.$store.state.inspection) ) {
-    //       next('/inspection/'+vm.$route.params.id)
-    //     }
-    //   })
-    // },
     mounted () {
       this.getOffer()
 
@@ -124,7 +109,7 @@
         this.loading = true
         this.offer = Object.assign({}, this.offer, data)
         this.total = totalOffer
-        this.date = moment(new Date(moment().add(10,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
+        this.date = moment(new Date(moment().add(3,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
 
         //make loading only last one minute
         window.setInterval(() => {
@@ -133,7 +118,6 @@
       })
     },
     beforeDestroy () {
-      console.log('removing update offer')
       window.eventBus.$off('updateOfferReview')
     },
     data () {
@@ -160,8 +144,6 @@
         })
       },
       formatData (res) {
-        console.log('the res', res)
-
         this.offer = res.data
         this.options = res.options
         this.report = res.report
@@ -229,6 +211,9 @@
         return {
           width: this.comparisonCalc + '%'
         }
+      },
+      inspection () {
+        return this.$store.state.inspection
       }
     }
 }

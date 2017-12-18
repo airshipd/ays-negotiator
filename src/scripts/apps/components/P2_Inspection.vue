@@ -9,7 +9,7 @@
         <input-select v-if="inspection.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
       </div>
       <div class="col m3">
-        <input-text :label="'Body'" v-model="inspection.carBody" :name="'body'"></input-text>
+        <input-text :label="'Body'" v-model="inspection.carBody" :name="'body'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m3">
         <choice-group v-if="inspection.driveTrain" :label="'Drive Type'" v-model="inspection.driveTrain" :options="options.driveTrain.settings.options" :name="'driveType'" ></choice-group>
@@ -27,13 +27,13 @@
 
     <div class="row">
       <div class="col m3">
-        <input-text :label="'Series'" v-model="inspection.series" :name="'series'"></input-text>
+        <input-text :label="'Series'" v-model="inspection.series" :name="'series'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Badge'" v-model="inspection.badge" :name="'badge'"></input-text>
+        <input-text :label="'Badge'" v-model="inspection.badge" :name="'badge'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Engine'" v-model="inspection.engineSize" :name="'engineSize'"></input-text>
+        <input-text :label="'Engine'" v-model="inspection.engineSize" :name="'engineSize'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m3">
         <input-select v-if="inspection.engineType" :label="'Engine Type'" v-model="inspection.engineType" :options="options.engineType.settings.options"></input-select>
@@ -95,7 +95,7 @@
         </div>
         <div class="col m5 total-expenditure">
           <div></div>
-          <input-number :label="'Total Approx Expenditure'" v-model="inspection.approximateExpenditure"></input-number>
+          <input-text :label="'Total Approx Expenditure'" :name="'approximateExpenditure'" v-model="inspection.approximateExpenditure" :validationRules="{required:true,numeric:true}"></input-text>
         </div>
       </div>
     </div>

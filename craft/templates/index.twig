@@ -28,11 +28,11 @@
       {% for inspection in inspections %}
         {% set status = inspection.inspectionStatus %}
         <li class="{{  status != 'UpComing' ? 'in-active':'' }}">
-          {% if status == 'UpComing' %}<a href="{{inspection.url}}" class="valign-wrapper">{% endif %}
+          {% if status == 'UpComing' %}<div class="valign-wrapper">{% endif %}
             <div class="list-item title {% if status == 'UpComing' %}title-upComing{% endif %}">{{inspection.year}} {{inspection.make}} {{inspection.model}} {{inspection.series}} <span>- {{inspection.inspectionLocation}}</span></div>
             <div class="list-item date">{{inspection.inspectionDate|date('M d') }}</div>
             <div class="list-item status-{{ status|lower }}"><span>{{ status }}</span></div>
-          {% if status == 'UpComing'  %}</a>{% endif %}
+          {% if status == 'UpComing'  %}</div>{% endif %}
           {% if status != 'UpComing' %}
             <div class="list-item report"><a href="/report/{{inspection.id}}">Report</a></div>
           {% endif %}

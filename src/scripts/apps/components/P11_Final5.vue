@@ -48,7 +48,7 @@
         <input-text :label="'Model'" v-model="inspection.model" :name="'model'"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Kilometers'" v-model="inspection.kilometers" :name="'kilometers'"></input-text>
+        <input-text :label="'Kilometers'" v-model="inspection.kilometres" :name="'kilometres'"></input-text>
       </div>
     </div>
     <div class="row">

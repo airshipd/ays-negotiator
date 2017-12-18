@@ -1,16 +1,39 @@
 <template>
 
   <div class="input-field">
-    <input type="number" class="input-number" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)" step="1">
+    <input type="number" class="input-number" :name="name" :id="uniqueID" ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)" step="1" v-validate="validationRules" :disabled="disabled">
     <label :for="uniqueID">{{label}}</label>
+    <span v-show="errors.has(name)" class="help is-danger">{{ errors.first(name) }}</span>
   </div>
 
 </template>
 
 <script>
   export default {
-    name: 'input-n-1-text',
-    props: ['name','label','value'],
+    name: 'input-n-7-number',
+    inject: ['$validator'],
+    props: {
+      name: {
+        type: String
+      },
+      label: {
+        type: String
+      },
+      value: {
+        type: Number
+      },
+      disabled: {
+        type: Boolean
+      },
+      validationRules: {
+        type: Object,
+        default () {
+          return {
+            required: false
+          }
+        }
+      }
+    },
     mounted () {
     },
     data () {

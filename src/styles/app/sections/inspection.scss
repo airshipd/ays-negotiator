@@ -54,7 +54,7 @@
     text-align: right;
     margin-bottom: 4px;
 
-    input[type="number"] {
+    input[type="text"] {
       color: #fff;
       border-bottom: 1px solid rgba(#fff,0.4);
       text-align: right;
@@ -70,6 +70,10 @@
         left: auto;
         font-weight: 300;
       }
+    }
+
+    .help {
+      text-align: right;
     }
   }
 }

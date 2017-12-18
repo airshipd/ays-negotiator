@@ -9,11 +9,11 @@
           <div class="row">
             <div class="col m7">
               <p>Tell us why you believe your car should be valued higher</p>
-              <textarea-input v-model="reviewRequest"></textarea-input>
+              <textarea-input v-model="reviewRequest" :name="'reviewRequest'" :validation-rules="{required:true}"></textarea-input>
             </div>
             <div class="col m5">
               <p>what figure in dollars you were expecting to receive?</p>
-              <number-input v-model="reviewPrice"></number-input>
+              <text-input v-model="reviewPrice" :name="'reviewPrice'" :validation-rules="{required:true,numeric:true}"></text-input>
               <div class="buttons">
                 <b1-button :label="'Cancel'" :action="closeAction"></b1-button>
                 <b1-button :label="'Submit Request'" :action="actionSubmit"></b1-button>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import textInput from '../inputs/N1_Text.vue'
 import numberInput from '../inputs/N7_Number.vue'
 import textareaInput from '../inputs/N4_Textarea.vue'
 import B1Button from '../buttons/B1_button.vue'
@@ -47,8 +48,8 @@ export default {
   },
   data () {
     return {
-      reviewPrice: 0,
-      reviewRequest: ""
+      reviewPrice: null,
+      reviewRequest: null
     }
   },
   methods: {
@@ -78,7 +79,8 @@ export default {
   components: {
     numberInput,
     textareaInput,
-    B1Button
+    B1Button,
+    textInput
   },
   computed: {
   }
