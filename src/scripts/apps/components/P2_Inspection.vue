@@ -70,28 +70,28 @@
     <div class="row">
       <div class="col m12">
         <input-checkbox-switch :label="'Tradesmen Extras'" v-model="inspection.tradesmanExtras" :model-value="inspection.tradesmanExtras"></input-checkbox-switch>
-        <input-textarea v-if="inspection.tradesmanExtras === '1'" v-model="inspection.tradesmanExtrasDescription" ></input-textarea>
+        <input-textarea v-if="inspection.tradesmanExtras === '1'" :name="'tradesmanExtrasDescription'" v-model="inspection.tradesmanExtrasDescription" ></input-textarea>
       </div>
     </div>
 
     <div class="row">
       <div class="col m12">
         <input-checkbox-switch :label="'Upgrades / Mods'" v-model="inspection.upgradesMods" :model-value="inspection.upgradesMods"></input-checkbox-switch>
-        <input-textarea v-if="inspection.upgradesMods === '1'" v-model="inspection.upgradesAndModsDescription" ></input-textarea>
+        <input-textarea v-if="inspection.upgradesMods === '1'" :name="'upgradesAndModsDescription'" v-model="inspection.upgradesAndModsDescription" ></input-textarea>
       </div>
     </div>
 
     <div class="row">
       <div class="col m12">
         <input-checkbox-switch :label="'Sports Kit'" v-model="inspection.sportsKit" :model-value="inspection.sportsKit"></input-checkbox-switch>
-        <input-textarea v-if="inspection.sportsKit === '1'" v-model="inspection.sportsKitDescription" ></input-textarea>
+        <input-textarea v-if="inspection.sportsKit === '1'" :name="'sportsKitDescription'" v-model="inspection.sportsKitDescription" ></input-textarea>
       </div>
     </div>
 
     <div class="inspection-dark">
       <div class="row">
         <div class="col m7">
-          <input-textarea :label="'Damage & Faults'" v-model="inspection.damageAndFaults" ></input-textarea>
+          <input-textarea :label="'Damage & Faults'" :name="'damageAndFaults'" v-model="inspection.damageAndFaults" ></input-textarea>
         </div>
         <div class="col m5 total-expenditure">
           <div></div>

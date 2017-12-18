@@ -10153,6 +10153,22 @@ p {
   font-size: 12px;
   text-align: center; }
 
+.icon-menu {
+  display: block;
+  width: 18px !important;
+  height: 12px !important;
+  background: url(/images/icon-menu.svg) 0 0 no-repeat;
+  background-size: cover;
+  cursor: pointer; }
+
+.icon-back {
+  display: block;
+  width: 18px !important;
+  height: 14px !important;
+  background: url(/images/icon-back.svg) 0 0 no-repeat;
+  background-size: cover;
+  cursor: pointer; }
+
 .input-field,
 .input-group,
 .input-checkbox {
@@ -10514,6 +10530,8 @@ main {
     background: #405690; }
   .btn.btn-fullWidth, .btn-fullWidth.btn-large {
     width: 100%; }
+  .btn:disabled, .btn-large:disabled {
+    background-color: grey; }
 
 .btn-nextStep--wrap {
   display: -ms-flexbox;
@@ -10623,20 +10641,6 @@ nav {
     height: auto;
     line-height: auto;
     box-shadow: none; }
-  nav .icon-menu {
-    display: block;
-    width: 18px !important;
-    height: 12px !important;
-    background: url(/images/icon-menu.svg) 0 0 no-repeat;
-    background-size: cover;
-    cursor: pointer; }
-  nav .icon-back {
-    display: block;
-    width: 18px !important;
-    height: 14px !important;
-    background: url(/images/icon-back.svg) 0 0 no-repeat;
-    background-size: cover;
-    cursor: pointer; }
   .fixed-height nav {
     height: 80px;
     line-height: 80px; }
@@ -11850,7 +11854,8 @@ nav {
     top: 8px;
     padding-top: 26px;
     padding-left: 10px;
-    font-size: 1.3rem; }
+    font-size: 1.3rem;
+    width: 100px; }
     .section-offer .comparison .comparison-needle span {
       font-weight: 500; }
     .section-offer .comparison .comparison-needle:before {

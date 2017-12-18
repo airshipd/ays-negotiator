@@ -27,7 +27,7 @@
     </div>
     <div class="row">
       <div class="col m6">
-        <input-text :label="'Customer Name'" v-model="inspection.customerName" :name="'customerName'"></input-text>
+        <input-text :label="'Customer Name'" v-model="inspection.customerName" :name="'customerName'" :validation-rules="{required:true}"></input-text>
         <signature v-model="inspection.customerSignatureString" v-if="signatureCustomer" v-on:close="closeSignatureCustomer" ></signature>
         <div class="signature-button" @click="openSignatureCustomer" v-if="!inspection.customerSignatureString"></div>
         <div class="img-signature--wrap" v-else @click="openSignatureCustomer">
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="col m6">
-        <input-text :label="'AreYouSelling Rep (Witness) Name'" v-model="inspection.repName" :name="'repName'"></input-text>
+        <input-text :label="'AreYouSelling Rep (Witness) Name'" v-model="inspection.repName" :name="'repName'" :validation-rules="{required:true}"></input-text>
         <signature v-model="inspection.repSignatureString" v-if="signatureRep" v-on:close="closeSignatureRep"></signature>
         <div class="signature-button" @click="openSignatureRep" v-if="!inspection.repSignatureString"></div>
         <div class="img-signature--wrap" v-else @click="openSignatureRep">
@@ -64,7 +64,7 @@
       <div class="col">ABN: 46 159 545 758. </div>
       <div class="col">LMCT 11137</div>
     </div>
-    <b1-button :action="actionSubmit" :full-width="true" :label="'Submit'"></b1-button>
+    <b1-button ref="submitButton" :action="actionSubmit" :full-width="true" :label="'Submit'" :disabled="buttonDisable"></b1-button>
   </section>
 
 </template>
@@ -112,13 +112,15 @@ export default {
       options: cloneDeep(this.$store.state.options),
       signatureCustomer: false,
       signatureRep: false,
-      contract: null
+      contract: null,
+      buttonDisable: false
     }
   },
   methods: {
     actionSubmit () {
       this.$validator.validateAll().then((result) => {
         if(result) {
+          this.buttonDisable = true
           this.inspection.inspectionStatus = 'finalized' //finalise necessary form data
           PostService.postMulti(this.$route.params.id,this.inspection,this.options)
           .then(response => {
@@ -127,6 +129,7 @@ export default {
             this.$store.commit('updateOptions',{})
             this.$router.push('/finalized')
           }).catch(e => {
+            this.buttonDisable = false
             console.error(e)
           })
         } else {

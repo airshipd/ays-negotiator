@@ -15,6 +15,10 @@
   &.btn-fullWidth {
     width: 100%;
   }
+
+  &:disabled {
+    background-color: grey;
+  }
 }
 
 

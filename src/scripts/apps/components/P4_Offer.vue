@@ -71,7 +71,7 @@
           <h3 v-if="!hasReview">Our Offer</h3>
           <h3 v-else>Final Offer</h3>
           {{total | currency}}
-          <p v-if="hasReview">Get Paid by Friday 24th Novemeber</p>
+          <p v-if="hasReview">Get Paid by {{getPaidDate}}</p>
         </div>
         <div class="buttons">
           <b-1-button v-if="!hasReview" :label="'Request Review'" :action="actionReview" :fullWidth="true" :additionalClasses="{'btn-review':true}"></b-1-button>
@@ -107,13 +107,13 @@
       //handle event of offer review updating
       window.eventBus.$on('updateOfferReview', (data,totalOffer ) => {
         this.loading = true
-        this.offer = Object.assign({}, this.offer, data)
-        this.total = totalOffer
         this.date = moment(new Date(moment().add(3,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
 
         //make loading only last one minute
         window.setInterval(() => {
           this.loading = false
+          this.offer = Object.assign({}, this.offer, data)
+          this.total = totalOffer
         },1000*60);
       })
     },
@@ -127,7 +127,8 @@
         report: [],
         total: [],
         loading: false,
-        date: null
+        date: null,
+        getPaidDate: moment(new Date(moment().add(1,'day').unix()*1000)).format('dddd Do MMMM')
       }
     },
     methods: {

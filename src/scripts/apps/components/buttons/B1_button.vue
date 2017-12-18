@@ -1,13 +1,13 @@
 <template>
 
-  <button :class="classObj" @click="clickAction">{{label}}</button>
+  <button :class="classObj" @click="clickAction" :disabled="disabled">{{label}}</button>
 
 </template>
 
 <script>
   export default {
     name: 'b-1-button',
-    props: ['label', 'action', 'fullWidth', 'additionalClasses'],
+    props: ['label', 'action', 'fullWidth', 'additionalClasses', 'disabled'],
     mounted () {
 
     },

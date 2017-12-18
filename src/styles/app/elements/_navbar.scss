@@ -20,24 +20,6 @@ nav {
     box-shadow: none;
   }
 
-  .icon-menu {
-    display: block;
-    width: 18px !important;
-    height: 12px !important;
-    background: url(/images/icon-menu.svg) 0 0 no-repeat;
-    background-size: cover;
-    cursor: pointer;
-  }
-
-  .icon-back {
-    display: block;
-    width: 18px !important;
-    height: 14px !important;
-    background: url(/images/icon-back.svg) 0 0 no-repeat;
-    background-size: cover;
-    cursor: pointer;
-  }
-
   .fixed-height & {
     height: 80px;
     line-height: 80px;
