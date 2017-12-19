@@ -10630,8 +10630,8 @@ main {
 
 nav {
   position: relative;
-  height: 80px;
-  line-height: 80px; }
+  height: auto;
+  line-height: auto; }
   nav .left a, nav .right a {
     display: inline-block; }
   nav .nav-wrapper i {
