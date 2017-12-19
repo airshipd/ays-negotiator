@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="row row-contract">
-      <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: {{inspection.total}}</p>
+      <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: {{inspection.agreedPrice | currency}}</p>
       <div v-html="contract"></div>
     </div>
     <div class="row">
