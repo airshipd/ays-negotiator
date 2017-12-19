@@ -148,7 +148,7 @@
         return this.$store.state.inspection
       },
       showHeader () {
-        return this.currentRoute === 'Waiting' || this.currentRoute === 'Decline' ? false : true
+        return this.currentRoute === 'Waiting' || this.currentRoute === 'Offer Reject' || this.currentRoute === 'Offer Accept' ? false : true
       },
       classObj () {
         console.log(this.currentRoute)

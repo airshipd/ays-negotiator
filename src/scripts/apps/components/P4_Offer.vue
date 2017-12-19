@@ -110,7 +110,7 @@
         this.date = moment(new Date(moment().add(3,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
 
         //make loading only last one minute
-        window.setInterval(() => {
+        this.reviewTimer = window.setInterval(() => {
           this.loading = false
           this.offer = Object.assign({}, this.offer, data)
           this.total = totalOffer
@@ -118,6 +118,7 @@
       })
     },
     beforeDestroy () {
+      window.clearInterval(this.reviewTimer);
       window.eventBus.$off('updateOfferReview')
     },
     data () {
@@ -128,7 +129,8 @@
         total: [],
         loading: false,
         date: null,
-        getPaidDate: moment(new Date(moment().add(1,'day').unix()*1000)).format('dddd Do MMMM')
+        getPaidDate: moment(new Date(moment().add(1,'day').unix()*1000)).format('dddd Do MMMM'),
+        reviewTimer: null
       }
     },
     methods: {
