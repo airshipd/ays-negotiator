@@ -11437,9 +11437,10 @@ nav {
     color: #5FB3E3;
     text-align: center; }
   .section-offerFinalized a {
+    padding: 20px;
     position: absolute;
-    left: 24px;
-    top: 60px;
+    left: 4px;
+    top: 20px;
     cursor: pointer; }
 
 .report {
@@ -12053,6 +12054,7 @@ nav {
   .offer-final h3 {
     margin-bottom: 4px !important; }
   .offer-final p {
+    line-height: 1.4em;
     font-weight: 300;
     font-size: 1.4rem;
     color: white;

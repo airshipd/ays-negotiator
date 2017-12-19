@@ -38,10 +38,10 @@ class Negotiator_AssessmentService extends BaseApplicationComponent {
         [
           'title' => 'High KM',
           'score' => $highKM,
-          'description' => 'If there has bee a higher number of kilometres over a shorter period of time this will significantly impact the final offer we are able to provide.'
+          'description' => 'If there has been a higher number of kilometres over a shorter period of time this will significantly impact the final offer we are able to provide.'
         ],
         [
-          'title' => 'Excessive Repairs',
+          'title' => 'Excess Repairs',
           'score' => $excessiveRepairs,
           'description' => 'Although the repairs to your vehicle have been displayed, some damages will effect the final price more than others. '
         ],
