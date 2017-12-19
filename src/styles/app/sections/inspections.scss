@@ -19,6 +19,8 @@
   .list {
     color: #4A4A4A;
     padding: 0;
+    overflow-y: scroll;
+    max-height: calc(100vh - 80px);
 
     ul {
       margin: 0;

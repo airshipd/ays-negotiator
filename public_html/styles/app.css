@@ -11573,7 +11573,9 @@ nav {
     width: 50%; }
   .section-inspections .list {
     color: #4A4A4A;
-    padding: 0; }
+    padding: 0;
+    overflow-y: scroll;
+    max-height: calc(100vh - 80px); }
     .section-inspections .list ul {
       margin: 0; }
   .section-inspections .map {
