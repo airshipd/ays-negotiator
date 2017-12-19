@@ -5,6 +5,7 @@ require('dotenv').config();
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var gulpsync = require('gulp-sync')(gulp);
+var envify = require('envify/custom')
 
 // Load plugins:
 var plugins = require('gulp-load-plugins')({
@@ -220,6 +221,7 @@ gulp.task('scripts:main', function() {
 gulp.task('scripts:app', function() {
 	let b = plugins.browserify('src/scripts/apps/index.js', { debug: true })
   .transform(["vueify", { "presets": ["es2015", "stage-2"] }])
+  .transform({ global: true },envify({ NODE_ENV: 'production' }))
   return b.bundle()
   .on('error', function(err){
     // print the error (can replace with gulp-util)

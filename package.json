@@ -56,6 +56,7 @@
     "axios": "^0.17.1",
     "babel-preset-stage-2": "^6.24.1",
     "clone-deep": "^2.0.1",
+    "envify": "^4.1.0",
     "gulp-sync": "^0.1.4",
     "install": "^0.10.2",
     "jquery": "^3.2.1",
