@@ -34,23 +34,31 @@ export default {
     })
   },
   mounted () {
-    window.setInterval(() => {
+    this.interval1 = window.setInterval(() => {
       this.loadingState = 2
     },1000*30)
 
-    window.setInterval(() => {
+    this.interval1 = window.setInterval(() => {
       this.loadingState = 3
     },1000*60)
 
-    window.setInterval(() => {
+    this.interval1 = window.setInterval(() => {
       this.$router.push('/offer/'+this.$route.params.id)
     },1000*80)
   },
   data () {
     return {
       loadingState: 1,
-      date: moment(new Date(moment().add(90,'seconds').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
+      date: moment(new Date(moment().add(90,'seconds').unix()*1000)).format('YYYY/MM/DD HH:mm:ss'),
+      interval1: null,
+      interval2: null,
+      interval3: null
     }
+  },
+  beforeDestroy () {
+    window.clearInterval(this.interval1)
+    window.clearInterval(this.interval2)
+    window.clearInterval(this.interval3)
   },
   methods: {
   },
