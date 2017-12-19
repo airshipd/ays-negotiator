@@ -58,7 +58,7 @@
     padding: 21px;
     font-size: 1.6rem;
     width: 223px;
-    top: -140px;
+    top: -100px;
     background: white;
     border-radius: 15px;
     animation: bubble 26s linear;
@@ -75,6 +75,10 @@
       background: url(/images/bubble-end.svg) 0 0 no-repeat;
       background-size: cover;
     }
+  }
+
+  .messageBubbble2 {
+    animation-delay: 64.6s;
   }
 }
 

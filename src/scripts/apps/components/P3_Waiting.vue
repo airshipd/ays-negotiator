@@ -14,9 +14,9 @@
     <div class="mountains"></div>
     <div class="vehicles">
       <div v-if="inspection.justBoughtDescription" class="messageBubbble">{{inspection.justBoughtDescription}}</div>
+      <div v-if="inspection.justBoughtDescription2" class="messageBubbble messageBubbble2">{{inspection.justBoughtDescription2}}</div>
     </div>
   </section>
-
 </template>
 
 <script>

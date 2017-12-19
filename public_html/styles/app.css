@@ -11732,7 +11732,7 @@ nav {
     padding: 21px;
     font-size: 1.6rem;
     width: 223px;
-    top: -140px;
+    top: -100px;
     background: white;
     border-radius: 15px;
     animation: bubble 26s linear;
@@ -11747,6 +11747,8 @@ nav {
       width: 54px;
       background: url(/images/bubble-end.svg) 0 0 no-repeat;
       background-size: cover; }
+  .section-waiting .messageBubbble2 {
+    animation-delay: 64.6s; }
 
 .loader {
   border-top: 3px solid #1FA7E0;
