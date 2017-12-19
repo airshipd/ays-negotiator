@@ -1,0 +1,92 @@
+<template>
+
+  <section class="section-waiting">
+    <h3>We're just reviewing your offer</h3>
+    <countdown :time="date" v-once></countdown>
+    <div class="loader">
+      <p v-if="loadingState === 1">Checking details of your vehicle</p>
+      <p v-if="loadingState === 2">We're just comparing your {{inspection.make}} {{inspection.model}} with others in the market</p>
+      <p v-if="loadingState === 3">Sit tight, one of our team members is now preparing your offer, we won't be a minute!</p>
+      <div :class="stateClass1"></div>
+      <div :class="stateClass2"></div>
+      <div :class="stateClass3"></div>
+    </div>
+    <div class="mountains"></div>
+    <div class="vehicles">
+      <div v-if="inspection.justBoughtDescription" class="messageBubbble">{{inspection.justBoughtDescription}}</div>
+      <div v-if="inspection.justBoughtDescription2" class="messageBubbble messageBubbble2">{{inspection.justBoughtDescription2}}</div>
+    </div>
+  </section>
+</template>
+
+<script>
+import moment from 'moment'
+import countdown from './components/C2_Countdown.vue'
+
+export default {
+  name: 'waiting',
+  props: [],
+  beforeRouteEnter (to, from, next) {
+     next(vm => {
+      if( $.isEmptyObject(vm.$store.state.inspection) ) {
+        next('/inspection/'+vm.$route.params.id)
+      }
+    })
+  },
+  mounted () {
+    this.interval1 = window.setInterval(() => {
+      this.loadingState = 2
+    },1000*30)
+
+    this.interval1 = window.setInterval(() => {
+      this.loadingState = 3
+    },1000*60)
+
+    this.interval1 = window.setInterval(() => {
+      this.$router.push('/offer/'+this.$route.params.id)
+    },1000*80)
+  },
+  data () {
+    return {
+      loadingState: 1,
+      date: moment(new Date(moment().add(90,'seconds').unix()*1000)).format('YYYY/MM/DD HH:mm:ss'),
+      interval1: null,
+      interval2: null,
+      interval3: null
+    }
+  },
+  beforeDestroy () {
+    window.clearInterval(this.interval1)
+    window.clearInterval(this.interval2)
+    window.clearInterval(this.interval3)
+  },
+  methods: {
+  },
+  components: {
+    countdown
+  },
+  computed: {
+    inspection () {
+      return this.$store.state.inspection
+    },
+    stateClass1 () {
+      return {
+        'state-1': true,
+        'active': this.loadingState === 1
+      }
+    },
+    stateClass2 () {
+      return {
+        'state-2': true,
+        'active': this.loadingState === 2
+      }
+    },
+    stateClass3 () {
+      return {
+        'state-3': true,
+        'active': this.loadingState === 3
+      }
+    }
+  },
+}
+</script>

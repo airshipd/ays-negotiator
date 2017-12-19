@@ -16,13 +16,15 @@
       <nav >
         <div class="nav-wrapper">
           <a href="/" class="brand-logo center">{% if pageTitle is defined %}{{ pageTitle }}{% else %}{{ siteName }}{% endif %}</a>
-          <ul class="left">
-            <li><a href="/"><i class="material-icons">view_list</i></a></li>
-          </ul>
+          <div class="left">
+            <a class="header-icon--list" href="/"><i class="material-icons">view_list</i></a>
+          </div>
+
           {% if currentUser %}
-          <ul class="right">
-            <li><a href="{{ logoutUrl }}"><i class="material-icons">exit_to_app</i></a></li>
-          </ul>
+          <div class="right">
+            <div class="header-date"></div>
+            <a class="header-icon--logout" href="{{ logoutUrl }}"><i class="material-icons">exit_to_app</i></a>
+          </div>
           {% endif %}
         </div>
       </nav>

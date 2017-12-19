@@ -1,0 +1,181 @@
+.index-inspection {
+  max-width: 688px;
+  margin: 0 auto;
+}
+
+.section-inspections {
+  background: #F7F7F7;
+  height: calc(100vh - 80px);
+
+  > .row {
+    margin: 0;
+    height: 100%;
+  }
+
+  .col {
+    width: 50%;
+  }
+
+  .list {
+    color: #4A4A4A;
+    padding: 0;
+    overflow-y: scroll;
+    max-height: calc(100vh - 80px);
+
+    ul {
+      margin: 0;
+    }
+  }
+
+  .map {
+    padding: 0;
+    height: 100%;
+  }
+
+  .inspection {
+    padding: 23px 15px;
+    font-size: 1.5rem;
+    position: relative;
+
+    .click-wrapper {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20%;
+      content: "";
+      height: 100%;
+    }
+
+    &.Rejected .status {
+      color: #DF5735;
+    }
+
+    .row {
+      margin-bottom: 0;
+      display: flex;
+      align-items: flex-end;
+
+      &:first-of-type {
+        margin-bottom: 7px;
+      }
+    }
+
+    &.active {
+      background: white;
+    }
+
+    .col {
+      padding: 0;
+      line-height: 1em;
+    }
+
+    .title {
+      font-weight: bold;
+    }
+
+    .status {
+      color: #5FB3E3;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 1.3rem;
+      line-height: 1em;
+    }
+
+    .status, .distance, .report {
+      text-align: right;
+    }
+
+    .distance, .report {
+      .material-icons {
+        font-size: 1.4rem;
+      }
+    }
+
+    .report {
+      color: #DF5735;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      span {
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+/************
+  -- Google maps info window custom styling
+
+************/
+.gm-style-iw--wrapper {
+  background: #242846;
+  border-radius: 5px;
+
+  > div > div:nth-child(2) {
+    background: #242846 !important;
+
+  }
+
+  &:after {
+    display: block;
+    position: absolute;
+    content: "";
+    bottom: -15px;
+    left: calc(50% - 10px);
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #242846;
+  }
+}
+
+.gm-style-iw--remove {
+  display: none !important;
+}
+
+.gm-style-iw--close {
+  display: none;
+}
+
+.gm-style-iw {
+  color: white;
+  top: 0 !important;
+  left: 0 !important;
+  padding: 20px 0 0 20px;
+
+  > div {
+    max-width: 300px !important;
+    width: auto !important;
+  }
+
+  .row {
+    margin-bottom: 5px;
+
+    &:last-of-type {
+      margin-bottom: 0px;
+    }
+  }
+
+  .col {
+    width: 100%;
+    padding: 0;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .address {
+    color: #67C8FF;
+    font-size: 1.4rem;
+    font-weight: 400;
+  }
+}

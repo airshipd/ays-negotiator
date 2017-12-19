@@ -1,0 +1,31 @@
+{#
+ # Layout template
+ # ---------------
+ #}
+
+<!DOCTYPE html>
+{# force users to login before accessing website #}
+{% requireLogin %}
+
+<html class="no-js {% if pageClass is defined %}{{pageClass}}{% endif %}">
+{% include 'layouts/headApp' %}
+<body>
+
+  {% block content %}
+    <p>If you see me, you haven’t set your <code>{% verbatim %}{% block content %}…{% endblock %}{% endverbatim %}</code> yet.</p>
+    <p>See Twig’s <a href="http://twig.sensiolabs.org/doc/templates.html#template-inheritance">Template Inheritance</a> documentation for an explanation.</p>
+  {% endblock %}
+
+  {% block footerScripts %}
+    <script src="/scripts/app.js"></script>
+
+    {% if craft.config.localDev is defined and craft.config.localDev %}
+    <script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.13'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+    {% endif %}
+  {% endblock %}
+
+
+</body>
+</html>

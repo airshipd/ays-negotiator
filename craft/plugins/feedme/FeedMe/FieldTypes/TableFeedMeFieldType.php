@@ -47,6 +47,22 @@ class TableFeedMeFieldType extends BaseFeedMeFieldType
         // Normalise some data
         $parsedData = array();
 
+        // Normalise row data
+        foreach (Hash::flatten($data) as $key => $value) {
+            preg_match('/(col\d+)/', $key, $colMatches);
+
+            $colIndex = Hash::get($colMatches, '1');
+
+            if (!is_null($colIndex)) {
+                $parsedData[$colIndex][] = $value;
+            }
+        }
+
+        $data = Hash::expand($parsedData);
+
+        // Normalise some data
+        $parsedData = array();
+
         foreach (Hash::flatten($data) as $key => $value) {
             preg_match('/^(col\d+)/', $key, $colMatches);
             preg_match('/(\d+)$/', $key, $rowMatches);

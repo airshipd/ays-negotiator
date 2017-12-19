@@ -1,0 +1,43 @@
+.section-offerFinalized {
+  background-image: linear-gradient(-143deg, #494E67 0%, #363B56 29%, #353A55 31%, #353955 31%, #080C2E 100%);
+  box-shadow: inset 3px 3px 2px 0 rgba(0,0,0,0.07);
+  height: 100vh;
+
+  h1 {
+    padding: 300px 0 0;
+    margin: 0;
+    font-size: 5.6rem;
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    position: relative;
+
+    &:before {
+      position: absolute;
+      bottom: 112px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 82px;
+      width: 82px;
+      display: block;
+      content: "";
+      background: url(/images/icon-complete.svg) 50% 50% no-repeat;
+      background-size: contain;
+    }
+  }
+
+  p {
+    margin: 10px 0 0;
+    font-weight: 500;
+    font-size: 3.2rem;
+    color: $light-blue;
+    text-align: center;
+  }
+
+  a {
+    position: absolute;
+    left: 24px;
+    top: 60px;
+    cursor: pointer;
+  }
+}

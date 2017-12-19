@@ -1,0 +1,46 @@
+// RESETS
+@import "normalize";
+
+// LIBRARIES & HELPERS & MIXINS
+@import "mixins/breakpoint";
+@import "vendor/materialize/materialize";
+@import "vendor/jquery-ui.min";
+@import "vendor/fontawesome/font-awesome";
+@import "vendor/nouislider";
+@import "mixins/general";
+
+// BASE STYLES
+@import "base/fonts";
+@import "base/variables";
+@import "base/animations";
+@import "base/helper";
+@import "base/typography";
+// @import "base/forms";
+@import "base/lists";
+@import "base/tables";
+@import "base/layout";
+@import "base/components";
+@import "base/button";
+
+// elements
+@import "elements/signaturePad";
+@import "elements/navbar";
+@import "elements/modal";
+
+// SECTIONS
+@import "sections/form-finalize";
+@import "sections/home";
+@import "sections/assessments";
+@import "sections/finalize";
+@import "sections/login";
+// @import "sections/offer-pending";
+// @import "sections/offer-view";
+@import "sections/offer-rejected";
+@import "sections/offer-accepted";
+@import "sections/offer-finalized";
+@import "sections/report";
+@import "sections/inspection";
+@import "sections/inspections";
+@import "sections/waiting";
+@import "sections/offer";
+@import "sections/final";

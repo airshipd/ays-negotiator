@@ -26,4 +26,23 @@ class NegotiatorPlugin extends BasePlugin {
     public function hasCpSection() {
         return false;
     }
+
+    public function init() {
+      //Event: onBeforeSaveEntry
+      craft()->on('entries.BeforeSaveEntry', function(Event $event) {
+        $entry = $event->params['entry'];
+        $isNewEntry = $event->params['isNewEntry'];
+        $isInspectionEntry = $entry->section->handle === 'inspections' ? true : false;
+        $isInvalidValidLocation = (
+          $entry->location->lat == 0 ||
+          $entry->location->lng == 0 ||
+          empty($entry->location->address)) ? true : false;
+
+        if ($isNewEntry && $isInspectionEntry && $isInvalidValidLocation) {
+          return $event->performAction = false;
+        } else {
+          return $event->performAction = true;
+        }
+      });
+    }
 }

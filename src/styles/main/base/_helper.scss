@@ -1,0 +1,45 @@
+.center {
+  text-align: center;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.error {
+  color: #D50000;
+}
+
+.hide {
+   position: absolute !important;
+   top: -9999px !important;
+   left: -9999px !important;
+}
+
+.visuallyhidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px; width: 1px;
+  margin: -1px; padding: 0; border: 0;
+}
+
+.img-fullWidth {
+  width: 100%;
+  max-width: 100%;
+}
+
+.help {
+
+  &.is-danger {
+    position: absolute;
+    color: red;
+    display: block;
+    margin-top: 7px;
+    font-size: 1.3rem;
+  }
+}

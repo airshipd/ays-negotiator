@@ -43,12 +43,14 @@ return array(
     'localDevelopment' => true,
     'devMode' => true,
     'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
+    'localDev' => true
   ),
   '.dev' => array(
     'backupDbOnUpdate' => true,
     'localDevelopment' => true,
     'devMode' => true,
     'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
+    'localDev' => true
   ),
 
   // Dev site configuration:

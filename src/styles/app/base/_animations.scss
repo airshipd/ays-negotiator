@@ -1,0 +1,64 @@
+//  Vue Fade transition
+.fade-enter-active, .fade-leave-active {
+  transition-property: opacity;
+  transition-duration: .25s;
+}
+
+.fade-enter-active {
+  transition-delay: .25s;
+}
+
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+
+
+//  Vue Modal transition
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+
+@keyframes slideshow {
+  0%    { transform: translateX(-100%); }
+  100%  { transform: translateX(0); }
+}
+
+@keyframes bubble {
+  0%    {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  100%  {
+    transform: translateX(400%);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(95,179,227, 0.6);
+    box-shadow: 0 0 0 0 rgba(95,179,227, 0.6);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px rgba(95,179,227, 0);
+      box-shadow: 0 0 0 10px rgba(95,179,227, 0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(95,179,227, 0);
+      box-shadow: 0 0 0 0 rgba(95,179,227, 0);
+  }
+}

@@ -1,0 +1,35 @@
+
+/*============================================================================
+  #Colours
+==============================================================================*/
+$black: #333849;
+$medium-grey: #7992A6;
+$light-grey: #f7f7f9;
+$blue: #285a96;
+$dark-blue: #405690;
+$light-blue: #5FB3E3;
+$extra-dark-blue: #242846;
+
+
+
+/*============================================================================
+  #Font familys
+==============================================================================*/
+$montreal-regular: "montrealregular", "helvetica", "arial", "serif";
+
+
+
+/*============================================================================
+  #Breakpoint and Grid Variables
+==============================================================================*/
+$viewportIncrement: 1px;
+
+$small: 480px;
+$medium: 500px;
+$large: 769px;
+$extraLarge: 1080px;
+$superLarge: 1380px;
+
+$postSmall: $small + $viewportIncrement;
+$preMedium: $medium - $viewportIncrement;
+$preLarge: $large - $viewportIncrement;
