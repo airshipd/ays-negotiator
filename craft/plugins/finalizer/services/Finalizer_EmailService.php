@@ -10,6 +10,8 @@ class Finalizer_EmailService extends BaseApplicationComponent  {
 
     $customerName = craft()->finalizer_fields->getCustomerName($entry);
 
+    $staffName = craft()->finalizer_fields->getStaffName($entry);
+
     $images = $entry->licenseAndRegistrationPhotos;
     $image_urls = array();
 

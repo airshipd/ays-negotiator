@@ -34,4 +34,8 @@ class Finalizer_FieldsService extends BaseApplicationComponent  {
   function getCustomerName($entry) {
     return $entry->customerName;
   }
+
+  function getStaffName($entry) {
+    return $entry->repName;
+  }
 }

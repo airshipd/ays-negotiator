@@ -11437,6 +11437,7 @@ nav {
     color: #5FB3E3;
     text-align: center; }
   .section-offerFinalized a {
+    z-index: 10;
     padding: 20px;
     position: absolute;
     left: 4px;
