@@ -1,6 +1,5 @@
 html {
   overflow-x:hidden; // prevent user from side scrolling
-  font-size: 62.5%;
 
   &.hidden {
     display: block !important;
@@ -10,35 +9,22 @@ html {
 body {
   background: #f7f7f7;
   color: $black;
+  overflow: hidden;
   width: 100%;
-  min-height: 100%;
 }
 
-//This website is designed for tablet only
+//This website is designed for mobile only
 #page {
   margin-left: auto;
   margin-right: auto;
-  min-height: 100%;
 
   @include at-query( $min, $medium ) {
-    max-width: 1024px;
+    max-width: 768px;
   }
-}
-
-html,
-body {
-  min-height: 100vh;
-}
-
-#page,
-main {
-  min-height: 100%;
 }
 
 header {
   margin-top: 0px;
-  z-index: 20;
-  position: relative;
 }
 
 .page + nav {
@@ -46,9 +32,7 @@ header {
 }
 
 main {
-  margin: 0;
-  z-index: 10;
-  position: relative;
+  margin: 0 40px;
 }
 
 

@@ -1,14 +1,15 @@
 .purchaseForm {
   display: block;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-  margin-bottom: 10px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 #purchaseModal {
+
   .input-field {
     text-align: left;
   }
@@ -21,7 +22,7 @@
 
 .signature-display {
   display: block;
-  border: none;
+  border : none;
   border-bottom: 1px solid $medium-grey;
   border-radius: 0;
   outline: none;
@@ -37,58 +38,4 @@
 
 .close-btn {
   cursor: pointer;
-}
-
-.paperwork-link {
-  display: block;
-  margin-top: 20px;
-  float: right;
-  text-decoration: underline;
-}
-
-.countdown {
-  color: white;
-  font-size: 5rem;
-  text-align: center;
-  margin-top: 70px;
-}
-
-.photo-list {
-  background: white;
-  margin-left: 26px;
-  margin-right: 26px;
-  padding: 23px 27px;
-  display: block !important;
-
-  h3 {
-    font-size: 1.5rem;
-    color: #21599B;
-    font-weight: 500;
-    margin-top: 0;
-  }
-
-  .col:first-of-type {
-    padding-left: 0;
-  }
-
-  .col:last-of-type {
-    padding-right: 0;
-  }
-
-  .photo-list--add {
-    cursor: pointer;
-    display: block;
-    width: 100%;
-    height: 155px;
-    background: #F3F4F4 url(/images/icon-plus.svg) 50% 50% no-repeat;
-    border-radius: 6px;
-  }
-
-  img {
-    max-width: 100%;
-  }
-
-  input {
-    display: none;
-  }
 }
