@@ -12082,6 +12082,14 @@ nav {
     margin: 0;
     font-size: 3.8rem; }
 
+.offer-negative {
+  padding: 35px 25px;
+  font-weight: 500;
+  font-size: 1.8rem;
+  color: #fff;
+  line-height: 1.6em;
+  margin-bottom: 78px; }
+
 [class^="section-final"] {
   padding-top: 40px;
   padding-bottom: 50px; }

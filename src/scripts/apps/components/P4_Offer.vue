@@ -54,7 +54,7 @@
     </div>
 
     <div class="side">
-      <div v-if="!loading">
+      <div v-if="!loading && total >= 0">
         <div class="divider offer-valuation">
           <h3>On-site Valuation</h3>
           {{offer.onsitePhysicalValuation | currency}}
@@ -79,10 +79,13 @@
           <b-1-button :label="'Accept Offer'" :action="actionAccept" :fullWidth="true" :additionalClasses="{'btn-accept':true}"></b-1-button>
         </div>
       </div>
-      <div class="offer-loading" v-if="loading">
+      <div class="offer-loading" v-if="loading && total >= 0">
         <p>We have received your request and are reprocessing your offer</p>
         <h3>Estimate time remaining</h3>
         <countdown :time="date"></countdown>
+      </div>
+      <div class="offer-negative" v-if="total <= 0">
+          It looks like we need to do some more research before we can make you an offer. One of our consultants will be in touch shortly to discuss your vehicle!
       </div>
     </div>
   </section>
