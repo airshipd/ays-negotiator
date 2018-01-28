@@ -3,6 +3,18 @@
 
     <div class="row">
       <div class="col m3">
+        <input-text :label="'Make'" v-model="inspection.make" :name="'make'" :validation-rules="{required:true}"></input-text>
+      </div>
+      <div class="col m3">
+        <input-text :label="'Model'" v-model="inspection.model" :name="'model'" :validation-rules="{required:true}"></input-text>
+      </div>
+      <div class="col m3">
+        <input-text :label="'Year'" v-model="inspection.year" :name="'year'" :validation-rules="{required:true}"></input-text>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col m3">
         <input-text :label="'Odometer'" v-model="inspection.odometer" :validationRules="{required:true,numeric:true}" :name="'odometer'"></input-text>
       </div>
       <div class="col m3">
@@ -69,6 +81,30 @@
     </div>
 
     <div class="row">
+      <div class="col m3">
+        <input-text :label="'Chassis/Vin No'" v-model="inspection.chassisVinNumber" :name="'chassisVinNumber'" :validation-rules="{required:true}"></input-text>
+      </div>
+      <div class="col m3">
+        <input-text :label="'Engine Number'" v-model="inspection.engineNumber" :name="'engineNumber'" :validation-rules="{required:true}"></input-text>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col m3">
+        <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'" :validation-rules="{required:true}"></input-text>
+      </div>
+      <div class="col m3">
+        <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+      </div>
+      <div class="col m3">
+        <input-text :label="'Build Date'" v-model="inspection.buildDate" :name="'buildDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+      </div>
+      <div class="col m3">
+        <input-text :label="'Complience Date'" v-model="inspection.complianceDate" :name="'complianceDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+      </div>
+    </div>
+
+    <div class="row">
       <div class="col m12">
         <input-checkbox-switch :label="'Tradesmen Extras'" v-model="inspection.tradesmanExtras" :model-value="inspection.tradesmanExtras"></input-checkbox-switch>
         <input-textarea v-if="inspection.tradesmanExtras === '1'" :name="'tradesmanExtrasDescription'" v-model="inspection.tradesmanExtrasDescription" ></input-textarea>
@@ -88,6 +124,9 @@
         <input-textarea v-if="inspection.sportsKit === '1'" :name="'sportsKitDescription'" v-model="inspection.sportsKitDescription" ></input-textarea>
       </div>
     </div>
+
+    <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
+    <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
     <div class="inspection-dark">
       <div class="row">
@@ -114,6 +153,7 @@ import inputCheckboxSwitch from './inputs/N6_CheckboxSwitch.vue'
 import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import b1Button from './buttons/B1_button.vue'
+import inputFileList from './inputs/N8_PhotoList.vue'
 
 import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
@@ -148,10 +188,24 @@ export default {
         console.error(e)
       })
     },
+    addVehiclePhoto (file) {
+        if( ! this.inspection.vehiclePhotos ) {
+            this.inspection.vehiclePhotos = [file]
+        } else {
+            this.inspection.vehiclePhotos.push(file)
+        }
+    },
+    addLicenseAndRegistrationPhotos (file) {
+        if( ! this.inspection.licenseAndRegistrationPhotos ) {
+            this.inspection.licenseAndRegistrationPhotos = [file]
+        } else {
+            this.inspection.licenseAndRegistrationPhotos.push(file)
+        }
+    },
     submitForm () {
       this.$validator.validateAll().then((result) => {
         if(result) {
-          PostService.post(this.$route.params.id,this.inspection,this.options)
+          PostService.postMulti(this.$route.params.id,this.inspection,this.options)
           .then(response => {
             console.log(response)
             this.$store.commit('updateInspection',this.inspection)
@@ -174,7 +228,8 @@ export default {
     inputSelect,
     b1Button,
     inputCheckboxSwitch,
-    inputNumber
+    inputNumber,
+    inputFileList
   }
 }
 </script>
