@@ -84,9 +84,15 @@
         <h3>Estimate time remaining</h3>
         <countdown :time="date"></countdown>
       </div>
-      <div class="offer-negative" v-if="total <= 0">
-          It looks like we need to do some more research before we can make you an offer. One of our consultants will be in touch shortly to discuss your vehicle!
-      </div>
+      <template v-if="total <= 0">
+        <div class="offer-negative">
+            <p>It looks like we need to do some more research before we can make you an offer.</p>
+            <p>One of our consultants will be in touch shortly to discuss your vehicle!</p>
+        </div>
+        <div class="buttons">
+          <b-1-button :label="'Proceed to Paperwork'" :action="actionProceed" :fullWidth="true" class="btn-proceed"></b-1-button>
+        </div>
+      </template>
     </div>
   </section>
 
@@ -184,6 +190,9 @@
         }).catch(e => {
           console.error(e)
         })
+      },
+      actionProceed () {
+        this.$router.push('/final/1/' + this.$route.params.id)
       }
     },
     components: {
