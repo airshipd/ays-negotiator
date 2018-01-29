@@ -11129,6 +11129,9 @@ p {
   font-size: 12px;
   text-align: center; }
 
+a {
+  cursor: pointer; }
+
 html {
   overflow-x: hidden;
   font-size: 62.5%; }
@@ -12482,6 +12485,12 @@ nav {
   border-radius: 2px;
   padding-left: 0;
   padding-right: 0; }
+
+.section-offer .btn-skip-to-paperwork {
+  display: block;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 1.2rem; }
 
 .section-offer .btn-decline {
   background: transparent;

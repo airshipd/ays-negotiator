@@ -74,6 +74,8 @@
           <p v-if="hasReview">Get Paid by {{getPaidDate}}</p>
         </div>
         <div class="buttons">
+          <a class="grey-text text-lighten-1 btn-skip-to-paperwork" @click="actionProceed">skip to paperwork</a>
+
           <b-1-button v-if="!hasReview" :label="'Request Review'" :action="actionReview" :fullWidth="true" :additionalClasses="{'btn-review':true}"></b-1-button>
           <b-1-button v-else :label="'Decline'" :action="actionDecline" :fullWidth="true" :additionalClasses="{'btn-decline':true}"></b-1-button>
           <b-1-button :label="'Accept Offer'" :action="actionAccept" :fullWidth="true" :additionalClasses="{'btn-accept':true}"></b-1-button>
