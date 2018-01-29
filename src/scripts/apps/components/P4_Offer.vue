@@ -213,9 +213,7 @@
         return 100 - (((this.offer.maxTotalForCarType - this.total) / ( this.offer.maxTotalForCarType - this.offer.averageTotalForCarType )) * 100)
       },
       styleComparisonNeedle () {
-        return {
-          left: this.comparisonCalc + '%'
-        }
+        return this.comparisonCalc >= 0 ? {left: this.comparisonCalc + '%'} : {display: 'none'}
       },
       styleComparisonExtra () {
         return {
