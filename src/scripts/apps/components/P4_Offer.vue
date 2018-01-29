@@ -54,7 +54,7 @@
     </div>
 
     <div class="side">
-      <div v-if="!loading && total >= 0">
+      <div v-if="!loading && total > 0">
         <div class="divider offer-valuation">
           <h3>On-site Valuation</h3>
           {{offer.onsitePhysicalValuation | currency}}
@@ -79,12 +79,12 @@
           <b-1-button :label="'Accept Offer'" :action="actionAccept" :fullWidth="true" :additionalClasses="{'btn-accept':true}"></b-1-button>
         </div>
       </div>
-      <div class="offer-loading" v-if="loading && total >= 0">
+      <div class="offer-loading" v-if="loading && total > 0">
         <p>We have received your request and are reprocessing your offer</p>
         <h3>Estimate time remaining</h3>
         <countdown :time="date"></countdown>
       </div>
-      <template v-if="total <= 0">
+      <template v-if="total <= 0 && total !== null">
         <div class="offer-negative">
             <p>It looks like we need to do some more research before we can make you an offer.</p>
             <p>One of our consultants will be in touch shortly to discuss your vehicle!</p>
@@ -135,7 +135,7 @@
         offer: {},
         options: [],
         report: [],
-        total: [],
+        total: null,
         loading: false,
         date: null,
         getPaidDate: moment(new Date(moment().add(1,'day').unix()*1000)).format('dddd Do MMMM'),
