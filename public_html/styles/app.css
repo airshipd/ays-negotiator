@@ -11808,13 +11808,15 @@ nav {
   font-size: 1.6rem;
   display: block; }
 
-.section-offer .btn-review {
+.section-offer .btn-review, .section-offer .btn-proceed {
   background: transparent;
   color: #5FB3E3;
   border: 1px solid #5FB3E3;
   margin: 0 auto 10px;
   width: 90%;
-  border-radius: 2px; }
+  border-radius: 2px;
+  padding-left: 0;
+  padding-right: 0; }
 
 .section-offer .btn-decline {
   background: transparent;
@@ -12082,6 +12084,15 @@ nav {
     text-align: left;
     margin: 0;
     font-size: 3.8rem; }
+
+.offer-negative {
+  padding: 35px 25px; }
+  .offer-negative p {
+    font-size: 1.8rem;
+    line-height: 1.6em;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 20px; }
 
 [class^="section-final"] {
   padding-top: 40px;

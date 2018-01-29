@@ -33,13 +33,15 @@
     display: block;
   }
 
-  .btn-review {
+  .btn-review, .btn-proceed {
     background: transparent;
     color: $light-blue;
     border:1px solid $light-blue;
     margin: 0 auto 10px;
     width: 90%;
     border-radius: 2px;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .btn-decline {
@@ -406,5 +408,17 @@
     text-align: left;
     margin: 0;
     font-size: 3.8rem;
+  }
+}
+
+.offer-negative {
+  padding: 35px 25px;
+
+  p {
+    font-size: 1.8rem;
+    line-height: 1.6em;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 20px;
   }
 }
