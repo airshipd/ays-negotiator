@@ -38,6 +38,38 @@ class Negotiator_InspectionsController extends BaseController {
     }
   }
 
+  /**
+   * @throws Exception
+   * @throws HttpException
+   * @throws \Exception
+   */
+  public function actionUpdateValuation() {
+
+    $this->requirePostRequest();
+    $thePost = craft()->request->getPost();
+
+    $criteria = craft()->elements->getCriteria(ElementType::Entry);
+    $criteria->id = $thePost['id'];
+    $assessment = $criteria->first();
+
+    if( ! $assessment ) {
+      $this->returnErrorJson("Assessment could not be found or saved"); //if we got here lets return false as it didnt work
+    }
+
+    $assessment->getContent()->onsitePhysicalValuation = (float)$thePost['onsitePhysicalValuation'];
+    $assessment->getContent()->averageTotalForCarType = (float)$thePost['averageTotalForCarType'];
+    $assessment->getContent()->maxTotalForCarType = (float)$thePost['maxTotalForCarType'];
+    $success = craft()->entries->saveEntry($assessment);
+
+    if( $success ) {
+      NegotiatorPlugin::log('Successfully updated offer on-site valuation: ' . $assessment->id , LogLevel::Info);
+      $this->returnJson();
+    } else {
+      NegotiatorPlugin::log('An issue occured when trying to saved a review for Inspection:' . $assessment->id , LogLevel::Info);
+      $this->returnErrorJson('An issue occured when trying to saved a review for Inspection'); //if we got here lets return false as it didnt work
+    }
+  }
+
   public function actionSavePurchaseHistory() {
 
     $this->requirePostRequest();

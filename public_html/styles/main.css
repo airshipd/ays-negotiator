@@ -12621,6 +12621,19 @@ nav {
 .offer-estimation, .offer-valuation {
   font-weight: 500; }
 
+.offer-valuation-editable {
+  width: 100%;
+  background: transparent;
+  color: #fff;
+  text-align: right;
+  border: none;
+  margin-top: 5px;
+  padding: 1px 2px; }
+  .offer-valuation-editable:hover, .offer-valuation-editable:focus {
+    border: 1px solid grey;
+    outline: none;
+    padding: 0 1px; }
+
 .offer-main {
   padding-left: 30px; }
   .offer-main h3 {
