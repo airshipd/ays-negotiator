@@ -10,7 +10,7 @@
             <div class="right" v-if="currentRoute === 'Negotiations'">
               <div class="header-date">
                 <span>Today</span>
-                {{todayDate}}
+                <input class="datepicker-negotiations" :value="todayDate" />
               </div>
               <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
             </div>

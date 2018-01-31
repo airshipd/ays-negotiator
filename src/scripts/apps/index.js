@@ -12,6 +12,8 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 let $ = require('jquery')
 window.jQuery = window.$ = $
 require('../main/vendor/jquery.countdown.js')
+require('../main/vendor/picker')
+require('../main/vendor/picker.date')
 
 //inject all vue based plugins
 Vue.use(Vuex)

@@ -74,7 +74,7 @@
 
 //  picker width
   width: 300px;
-  max-height: 350px;
+  max-height: 260px;
 
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -164,7 +164,7 @@
   transition: background 0.15s ease-out;
 }
 .picker--opened .picker__frame {
-  top: 0;
+  top: 50px;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   -moz-opacity: 1;

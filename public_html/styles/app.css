@@ -5289,7 +5289,7 @@ button.btn-floating {
   margin: 0 auto;
   min-width: 256px;
   width: 300px;
-  max-height: 350px;
+  max-height: 260px;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
   -moz-opacity: 0;
@@ -5348,7 +5348,7 @@ button.btn-floating {
   transition: background 0.15s ease-out; }
 
 .picker--opened .picker__frame {
-  top: 0;
+  top: 50px;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   -moz-opacity: 1;
@@ -5664,9 +5664,6 @@ button.btn-floating {
 .picker__year-display {
   font-size: 1.8rem;
   color: rgba(255, 255, 255, 0.4); }
-
-.picker__box {
-  padding: 0; }
 
 .picker__calendar-container {
   padding: 0 1rem; }
@@ -10785,6 +10782,13 @@ nav {
     top: auto;
     left: 20px;
     bottom: 19px; }
+
+.header-inspections .datepicker-negotiations {
+  background: transparent;
+  background: #376CAB;
+  border: none;
+  text-align: right;
+  cursor: pointer; }
 
 .header-report .left {
   line-height: 1em;
