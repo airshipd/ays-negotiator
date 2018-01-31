@@ -66,6 +66,10 @@ export default {
             clear: false,
             onSet () {
                 that.getInspections(this.get('select', 'yyyy-mm-dd'));
+            },
+            onClose () {
+                //workaround for a bug when datepicker opens on tab switch https://github.com/amsul/pickadate.js/issues/160
+                $(document.activeElement).blur();
             }
         });
     },
