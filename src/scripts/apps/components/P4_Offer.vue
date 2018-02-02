@@ -79,8 +79,6 @@
           </template>
         </div>
         <div class="buttons">
-          <a class="grey-text text-lighten-1 btn-skip-to-paperwork" @click="actionProceed">skip to paperwork</a>
-
           <b-1-button v-if="!hasReview" :label="'Request Review'" :action="actionReview" :fullWidth="true" :additionalClasses="{'btn-review':true}"></b-1-button>
           <b-1-button v-else :label="'Decline'" :action="actionDecline" :fullWidth="true" :additionalClasses="{'btn-decline':true}"></b-1-button>
           <b-1-button :label="'Accept Offer'" :action="actionAccept" :fullWidth="true" :additionalClasses="{'btn-accept':true}"></b-1-button>
@@ -123,17 +121,17 @@
       this.getOffer()
 
       //handle event of offer review updating
-      window.eventBus.$on('updateOfferReview', (data,totalOffer ) => {
-        this.loading = true
-        this.date = moment(new Date(moment().add(3,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
+        window.eventBus.$on('updateOfferReview', (data, totalOffer) => {
+            this.loading = true
+            this.date = moment(new Date(moment().add(3, 'minutes').unix() * 1000)).format('YYYY/MM/DD HH:mm:ss')
 
-        //make loading only last one minute
-        this.reviewTimer = window.setInterval(() => {
-          this.loading = false
-          this.offer = Object.assign({}, this.offer, data)
-          this.total = totalOffer
-        },1000*60);
-      })
+            //make loading only last one minute
+            this.reviewTimer = window.setInterval(() => {
+                this.loading = false
+                this.offer = Object.assign({}, this.offer, data)
+                this.total = totalOffer
+            }, 1000 * 60);
+        })
     },
     beforeDestroy () {
       window.clearInterval(this.reviewTimer);
