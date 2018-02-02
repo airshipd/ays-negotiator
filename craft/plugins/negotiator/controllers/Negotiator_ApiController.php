@@ -10,13 +10,13 @@ class Negotiator_ApiController extends BaseController {
         $user = craft()->userSession->getUser();
         $date = craft()->request->getQuery('date', date('Y-m-d'));
 
-        //Validate "date". It can't be future and it can't be more than 30 days in the past
+        //Validate "date". It can't more than 7 days in the future and it can't be more than 30 days in the past
         $now = new DateTime(date('Y-m-d')); //don't remove date() parameter. Otherwise it will take h:m:s into account and calculate wrong results
         $dateObject = new DateTime($date);
         $interval = $dateObject->diff($now);
         $diff_days = $interval->format('%r%a');
 
-        if($diff_days < 0 || $diff_days > 30) {
+        if($diff_days < -7 || $diff_days > 30) {
             $dateObject = $now;
         }
 
@@ -28,7 +28,7 @@ class Negotiator_ApiController extends BaseController {
                 'field'         => 'mechanic',
             ];
         }
-        $criteria->inspectionDate = '>=' . $dateObject->getTimestamp();
+        $criteria->inspectionDate = '=' . $dateObject->getTimestamp();
         $criteria->order = 'dateCreated asc';
         $inspections = $criteria->find();
 
