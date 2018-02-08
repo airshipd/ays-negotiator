@@ -193,6 +193,14 @@ nav {
       bottom: 19px;
     }
   }
+
+  .datepicker-negotiations {
+    background: transparent;
+    background: #376CAB; //fallback for browsers that don't support transparent font
+    border: none;
+    text-align: right;
+    cursor: pointer;
+  }
 }
 
 .header-report {

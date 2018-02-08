@@ -188,6 +188,8 @@ gulp.task('scripts:main', function() {
   return gulp
     .src([
       path.src + '/scripts/main/vendor/fastclick.js',
+      path.src + '/scripts/main/vendor/picker.js',
+      path.src + '/scripts/main/vendor/picker.date.js',
       path.src + '/scripts/main/vendor/materialize.js',
       path.src + '/scripts/main/vendor/jquery-ui.min.js',
       path.src + '/scripts/main/vendor/jquery.validate.js',

@@ -20,12 +20,12 @@
         <h3>Comparison</h3>
         <div class="col m12 ">
           <div class="comparison">
-            <div class="comparison-average"><span>Minimum:</span>{{offer.averageTotalForCarType | currency}}</div>
-            <div class="comparison-max"><span>Max:</span>{{offer.maxTotalForCarType | currency}}</div>
+            <div class="comparison-average"><span>Minimum:</span>{{ minPrice | currency }}</div>
+            <div class="comparison-max"><span>Max:</span>{{ maxPrice | currency }}</div>
             <div class="comparison-bar"></div>
             <div class="comparison-bar--extra" :style="styleBarExtra"></div>
-            <div class="comparison-needle" :style="styleComparisonNeedle">Your car: <span>{{total | currency}}</span></div>
-            <div class="comparison-price--extra" :style="styleComparisonExtra">+ {{profitAverage | currency}}</div>
+            <div class="comparison-needle" :style="styleComparisonNeedle">Your car: <span>{{ currentTotal | currency }}</span></div>
+            <div class="comparison-price--extra" :style="styleComparisonExtra">+ {{ profitAverage | currency }}</div>
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@
       <div v-if="!loading && total > 0">
         <div class="divider offer-valuation">
           <h3>On-site Valuation</h3>
-          {{offer.onsitePhysicalValuation | currency}}
+          <price-editable class="offer-valuation-editable" v-model="offer.onsitePhysicalValuation"></price-editable>
         </div>
         <div class="divider offer-repairs">
           <h3>Repair Needs</h3>
@@ -65,13 +65,18 @@
         </div>
         <div class="divider offer-previous" v-if="hasReview">
           <h3>Previous Offer</h3>
-          <span>{{previousOffer | currency}}</span>
+          <span>{{ previousOffer | currency }}</span>
         </div>
         <div class="divider offer-final">
-          <h3 v-if="!hasReview">Our Offer</h3>
-          <h3 v-else>Final Offer</h3>
-          {{total | currency}}
-          <p v-if="hasReview">Get Paid by {{getPaidDate}}</p>
+          <template v-if="hasReview">
+            <h3>Final Offer</h3>
+            {{ total | currency }}
+            <p>Get Paid by {{ getPaidDate }}</p>
+          </template>
+          <template v-else>
+            <h3>Our Offer</h3>
+            {{ previousOffer | currency }}
+          </template>
         </div>
         <div class="buttons">
           <b-1-button v-if="!hasReview" :label="'Request Review'" :action="actionReview" :fullWidth="true" :additionalClasses="{'btn-review':true}"></b-1-button>
@@ -102,10 +107,12 @@
 <script>
   import b1Button from './buttons/B1_button.vue'
   import countdown from './components/C2_countdown.vue'
+  import priceEditable from './components/C3_PriceEditable.vue'
 
   import moment from 'moment'
   import axios from 'axios'
-  import { urlGetOffer } from '../config.js'
+  import qs from 'qs'
+  import { urlGetOffer, urlOfferUpdateValuation } from '../config.js'
 
   export default {
     name: 'p-4-offer',
@@ -114,17 +121,17 @@
       this.getOffer()
 
       //handle event of offer review updating
-      window.eventBus.$on('updateOfferReview', (data,totalOffer ) => {
-        this.loading = true
-        this.date = moment(new Date(moment().add(3,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss')
+        window.eventBus.$on('updateOfferReview', (data, totalOffer) => {
+            this.loading = true
+            this.date = moment(new Date(moment().add(3, 'minutes').unix() * 1000)).format('YYYY/MM/DD HH:mm:ss')
 
-        //make loading only last one minute
-        this.reviewTimer = window.setInterval(() => {
-          this.loading = false
-          this.offer = Object.assign({}, this.offer, data)
-          this.total = totalOffer
-        },1000*60);
-      })
+            //make loading only last one minute
+            this.reviewTimer = window.setInterval(() => {
+                this.loading = false
+                this.offer = Object.assign({}, this.offer, data)
+                this.total = totalOffer
+            }, 1000 * 60);
+        })
     },
     beforeDestroy () {
       window.clearInterval(this.reviewTimer);
@@ -197,9 +204,31 @@
     },
     components: {
       b1Button,
-      countdown
+      countdown,
+      priceEditable
+    },
+    watch: {
+      'offer.onsitePhysicalValuation' (newVal, oldVal) {
+        if(oldVal) {
+          axios.post(urlOfferUpdateValuation, qs.stringify({
+            id: this.$route.params.id,
+            onsitePhysicalValuation: this.offer.onsitePhysicalValuation,
+            averageTotalForCarType: this.minPrice,
+            maxTotalForCarType: this.maxPrice
+          }))
+          .catch(e => {
+            console.error(e)
+          })
+        }
+      }
     },
     computed: {
+      minPrice () {
+        return Math.min(this.offer.averageTotalForCarType, this.offer.onsitePhysicalValuation);
+      },
+      maxPrice () {
+        return Math.max(this.offer.maxTotalForCarType, this.offer.onsitePhysicalValuation);
+      },
       hasReview () {
         return this.offer.reviewPrice > 0
       },
@@ -207,23 +236,22 @@
         return this.offer.onsitePhysicalValuation - this.offer.approximateExpenditure
       },
       profitAverage () {
-        return this.total - this.offer.averageTotalForCarType
+        return this.currentTotal - this.minPrice
+      },
+      currentTotal () {
+        return this.hasReview ? this.total : this.previousOffer
       },
       comparisonCalc () {
-        return 100 - (((this.offer.maxTotalForCarType - this.total) / ( this.offer.maxTotalForCarType - this.offer.averageTotalForCarType )) * 100)
+        return 100 - (((this.maxPrice - this.currentTotal) / ( this.maxPrice - this.minPrice )) * 100)
       },
       styleComparisonNeedle () {
-        return this.comparisonCalc >= 0 ? {left: this.comparisonCalc + '%'} : {display: 'none'}
+        return (this.comparisonCalc >= 0 && this.comparisonCalc <= 100) ? {left: this.comparisonCalc + '%'} : {display: 'none'}
       },
       styleComparisonExtra () {
-        return {
-          left: (this.comparisonCalc - 15) + '%'
-        }
+        return (this.comparisonCalc > 0 && this.comparisonCalc <= 100) ? {left: (this.comparisonCalc - 15) + '%'} : {display: 'none'}
       },
       styleBarExtra () {
-        return {
-          width: this.comparisonCalc + '%'
-        }
+        return this.comparisonCalc >= 0 ? {width: Math.min(100, this.comparisonCalc) + '%'} : {display: 'none'}
       },
       inspection () {
         return this.$store.state.inspection

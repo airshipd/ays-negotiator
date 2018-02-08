@@ -141,6 +141,7 @@
     </div>
 
     <b1-button :label="'Submit'" :action="submitForm" :fullWidth="true"></b1-button>
+    <b1-button class="grey lighten-1" :label="'Skip to Paperwork'" :action="skip" :fullWidth="true"></b1-button>
   </section>
 </template>
 
@@ -163,73 +164,76 @@ import moment from 'moment'
 import { urlGetInspection } from '../config.js'
 
 export default {
-  name: 'negotiator',
-  provideValidator: true,
-  inject: ['$validator'],
-  mounted () {
-    this.getInspection()
-  },
-  data () {
-    return {
-      inspection: {},
-      options: {}
+    name: 'negotiator',
+    provideValidator: true,
+    inject: ['$validator'],
+    mounted() {
+        this.getInspection()
+    },
+    data() {
+        return {
+            inspection: {},
+            options: {}
+        }
+    },
+    methods: {
+        getInspection() {
+            GetService.getInspection(this.$route.params.id)
+                .then(res => {
+                    console.log('inspection data', res);
+                    this.inspection = res.inspection
+                    this.options = res.options
+                    this.$store.commit('updateInspection', res.inspection)
+                    this.$store.commit('updateOptions', res.options)
+                }).catch(e => {
+                console.error(e)
+            })
+        },
+        addVehiclePhoto(file) {
+            if (!this.inspection.vehiclePhotos) {
+                this.inspection.vehiclePhotos = [file]
+            } else {
+                this.inspection.vehiclePhotos.push(file)
+            }
+        },
+        addLicenseAndRegistrationPhotos(file) {
+            if (!this.inspection.licenseAndRegistrationPhotos) {
+                this.inspection.licenseAndRegistrationPhotos = [file]
+            } else {
+                this.inspection.licenseAndRegistrationPhotos.push(file)
+            }
+        },
+        skip() {
+            this.$router.push('/final/1/' + this.$route.params.id)
+        },
+        submitForm() {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    PostService.postMulti(this.$route.params.id, this.inspection, this.options)
+                        .then(response => {
+                            console.log(response)
+                            this.$store.commit('updateInspection', this.inspection)
+                            this.$router.push('/waiting/' + this.$route.params.id)
+                        }).catch(e => {
+                        console.error(e)
+                    })
+                } else {
+                    //scroll up to top of page
+                    $(window).scrollTop(0)
+                }
+            })
+        }
+    },
+    components: {
+        inputText,
+        choiceGroup,
+        inputCheckbox,
+        inputTextarea,
+        inputSelect,
+        b1Button,
+        inputCheckboxSwitch,
+        inputNumber,
+        inputFileList
     }
-  },
-  methods: {
-    getInspection () {
-      GetService.getInspection(this.$route.params.id)
-      .then(res => {
-        console.log('inspection data',res);
-        this.inspection = res.inspection
-        this.options = res.options
-        this.$store.commit('updateInspection',res.inspection)
-        this.$store.commit('updateOptions',res.options)
-      }).catch(e=> {
-        console.error(e)
-      })
-    },
-    addVehiclePhoto (file) {
-        if( ! this.inspection.vehiclePhotos ) {
-            this.inspection.vehiclePhotos = [file]
-        } else {
-            this.inspection.vehiclePhotos.push(file)
-        }
-    },
-    addLicenseAndRegistrationPhotos (file) {
-        if( ! this.inspection.licenseAndRegistrationPhotos ) {
-            this.inspection.licenseAndRegistrationPhotos = [file]
-        } else {
-            this.inspection.licenseAndRegistrationPhotos.push(file)
-        }
-    },
-    submitForm () {
-      this.$validator.validateAll().then((result) => {
-        if(result) {
-          PostService.postMulti(this.$route.params.id,this.inspection,this.options)
-          .then(response => {
-            console.log(response)
-            this.$store.commit('updateInspection',this.inspection)
-            this.$router.push('/waiting/'+this.$route.params.id)
-          }).catch(e => {
-            console.error(e)
-          })
-        } else {
-          //scroll up to top of page
-          $(window).scrollTop(0)
-        }
-      })
-    }
-  },
-  components: {
-    inputText,
-    choiceGroup,
-    inputCheckbox,
-    inputTextarea,
-    inputSelect,
-    b1Button,
-    inputCheckboxSwitch,
-    inputNumber,
-    inputFileList
-  }
 }
 </script>

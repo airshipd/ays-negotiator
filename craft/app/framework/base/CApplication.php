@@ -79,6 +79,9 @@
  * @property string $baseUrl The relative URL for the application.
  * @property string $homeUrl The homepage URL.
  *
+ * @property Craft\Negotiator_OfferService negotiator_offer
+ * @property Craft\Negotiator_AssessmentService negotiator_assessment
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base
  * @since 1.0

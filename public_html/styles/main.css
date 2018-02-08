@@ -11096,6 +11096,9 @@ p {
   font-size: 12px;
   text-align: center; }
 
+a {
+  cursor: pointer; }
+
 .form-styles h2 {
   margin-top: 20px;
   margin-bottom: 1px;

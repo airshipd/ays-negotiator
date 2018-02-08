@@ -7,13 +7,10 @@
 
         <div class="heading-secondary">
           <div class="header-inspections">
-            <div class="left" v-if="currentRoute === 'Negotiations'">
-              <a href="/blank">Proceed to Paperwork</a>
-            </div>
             <div class="right" v-if="currentRoute === 'Negotiations'">
               <div class="header-date">
                 <span>Today</span>
-                {{todayDate}}
+                <input class="datepicker-negotiations" :value="todayDate" />
               </div>
               <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
             </div>

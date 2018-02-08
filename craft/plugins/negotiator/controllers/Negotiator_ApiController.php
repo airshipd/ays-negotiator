@@ -3,101 +3,110 @@ namespace Craft;
 
 class Negotiator_ApiController extends BaseController {
 
-  protected $allowAnonymous = true;
+    protected $allowAnonymous = true;
 
-  public function actionInspections() {
+    public function actionInspections()
+    {
+        $user = craft()->userSession->getUser();
+        $date = craft()->request->getQuery('date', date('Y-m-d'));
 
-    $user = craft()->userSession->getUser();
-    $ret = [];
+        //Validate "date". It can't more than 7 days in the future and it can't be more than 30 days in the past
+        $now = new DateTime(date('Y-m-d')); //don't remove date() parameter. Otherwise it will take h:m:s into account and calculate wrong results
+        $dateObject = new DateTime($date);
+        $interval = $dateObject->diff($now);
+        $diff_days = $interval->format('%r%a');
 
-    $criteria = craft()->elements->getCriteria(ElementType::Entry);
-    $criteria->section = 'inspections';
-    if( ! $user->admin ) {
-      $criteria->relatedTo = array(
-        'targetElement' => $user,
-        'field'         => 'mechanic'
-      );
-    }
-    $criteria->inspectionDate = ">=" . strtotime( date( "d-m-Y",time()) );
-    $criteria->order = 'dateCreated asc';
-    $inspections = $criteria->find();
-
-    if(count($inspections)) {
-      //build out response object
-      foreach ($inspections as $i) {
-        if(count($i->location->parts)) {
-          $temp = array (
-            'id' => $i->id,
-            'lat' => floatval($i->location->lat),
-            'lng' => floatval($i->location->lng),
-            'zoom' => intval($i->location->zoom),
-            'address' => $i->location->parts['route_short'] . ' ' . $i->location->parts['locality'],
-            'title' => $i->getContent()->year . ' ' . $i->getContent()->make . ' ' . $i->getContent()->model,
-            'status' => $i->getContent()->inspectionStatus,
-            'url' => $i->url
-          );
-          array_push($ret,$temp);
+        if($diff_days < -7 || $diff_days > 30) {
+            $dateObject = $now;
         }
-      }
+
+        $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->section = 'inspections';
+        if (!$user->admin) {
+            $criteria->relatedTo = [
+                'targetElement' => $user,
+                'field'         => 'mechanic',
+            ];
+        }
+        $criteria->inspectionDate = '=' . $dateObject->getTimestamp();
+        $criteria->order = 'dateCreated asc';
+        $inspections = $criteria->find();
+
+        //build out response object
+        $ret = [];
+        foreach ($inspections as $i) {
+            if (count($i->location->parts)) {
+                $temp = [
+                    'id'      => $i->id,
+                    'lat'     => floatval($i->location->lat),
+                    'lng'     => floatval($i->location->lng),
+                    'zoom'    => intval($i->location->zoom),
+                    'address' => $i->location->parts['route_short'] . ' ' . $i->location->parts['locality'],
+                    'title'   => $i->getContent()->year . ' ' . $i->getContent()->make . ' ' . $i->getContent()->model,
+                    'status'  => $i->getContent()->inspectionStatus,
+                    'url'     => $i->url,
+                ];
+                array_push($ret, $temp);
+            }
+        }
+
+        $this->returnJson($ret);
     }
 
-    $this->returnJson($ret);
-  }
+    public function actionInspection() {
+        $ret = [];
+        $retData = [];
+        $retOptions = [];
+        $tempArray = [];
 
-  public function actionInspection() {
-    $ret = [];
-    $retData = [];
-    $retOptions = [];
-    $tempArray = [];
+        $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = craft()->request->getSegment(3);
+        $inspection = $criteria->first();
 
-    $criteria = craft()->elements->getCriteria(ElementType::Entry);
-    $criteria->id = craft()->request->getSegment(3);
-    $inspection = $criteria->first();
+        foreach($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
+            array_push($tempArray,craft()->fields->getFieldById($fieldLayoutField->fieldId)->handle);
+        }
 
-    foreach($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
-      array_push($tempArray,craft()->fields->getFieldById($fieldLayoutField->fieldId)->handle);
+        $fieldsToReturn = implode(',', $tempArray);
+        $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
+        $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
+        $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
+
+        $ret['data'] = $retData;
+        $ret['options'] = $retOptions;
+
+        $this->returnJson($ret);
     }
 
-    $fieldsToReturn = implode(',', $tempArray);
-    $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
-    $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
-    $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
+    public function actionOffer() {
+        $ret = [];
+        $retData = [];
+        $retOptions = [];
+        $retReport = [];
+        $retTotal = [];
+        $tempArray = [];
+        $id = craft()->request->getSegment(3);
 
-    $ret['data'] = $retData;
-    $ret['options'] = $retOptions;
+        $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $id;
+        $inspection = $criteria->first();
 
-    $this->returnJson($ret);
-  }
+        foreach($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
+            array_push($tempArray,craft()->fields->getFieldById($fieldLayoutField->fieldId)->handle);
+        }
 
-  public function actionOffer() {
-    $ret = [];
-    $retData = [];
-    $retOptions = [];
-    $retReport = [];
-    $retTotal = [];
-    $tempArray = [];
-    $id = craft()->request->getSegment(3);
+        $fieldsToReturn = implode(',', $tempArray);
+        $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
+        $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
+        $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
 
-    $criteria = craft()->elements->getCriteria(ElementType::Entry);
-    $criteria->id = $id;
-    $inspection = $criteria->first();
+        $ret['data'] = $retData;
+        $ret['options'] = $retOptions;
+        $ret['report'] = craft()->negotiator_assessment->calculateOffer($inspection);
+        $ret['total'] = craft()->negotiator_offer->calculateOfferTotal($inspection);
 
-    foreach($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
-      array_push($tempArray,craft()->fields->getFieldById($fieldLayoutField->fieldId)->handle);
+        $this->returnJson($ret);
     }
-
-    $fieldsToReturn = implode(',', $tempArray);
-    $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
-    $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
-    $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
-
-    $ret['data'] = $retData;
-    $ret['options'] = $retOptions;
-    $ret['report'] = craft()->negotiator_assessment->calculateOffer($inspection);
-    $ret['total'] = craft()->negotiator_offer->calculateOfferTotal($inspection);
-
-    $this->returnJson($ret);
-  }
 
   public function actionFinalise() {
     $criteria = craft()->elements->getCriteria(ElementType::Entry);
