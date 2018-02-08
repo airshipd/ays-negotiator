@@ -25,6 +25,3 @@ PLATFORMS
 DEPENDENCIES
   capistrano (= 3.8.2)
   capistrano-composer
-
-BUNDLED WITH
-   1.12.3
