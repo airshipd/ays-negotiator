@@ -11741,12 +11741,14 @@ nav {
     padding: 21px;
     font-size: 1.6rem;
     width: 223px;
-    top: -100px;
+    bottom: 100px;
     background: white;
     border-radius: 15px;
     animation: bubble 26s linear;
     animation-delay: 12.5s;
-    opacity: 0; }
+    opacity: 0;
+    word-wrap: break-word;
+    word-break: break-word; }
     .section-waiting .messageBubbble:after {
       position: absolute;
       bottom: -35px;
