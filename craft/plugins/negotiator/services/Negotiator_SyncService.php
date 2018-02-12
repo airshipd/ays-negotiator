@@ -122,6 +122,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
             NegotiatorPlugin::log('Failed to save some fields. Details: ' . json_encode([
                 'fields' => $failed,
                 'errors' => $entry->getErrors(),
+                'runbikeshop_id' => $model->id,
             ]), LogLevel::Error, true);
 
             //resave without failing attributes
