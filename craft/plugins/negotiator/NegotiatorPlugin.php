@@ -28,21 +28,26 @@ class NegotiatorPlugin extends BasePlugin {
     }
 
     public function init() {
-      //Event: onBeforeSaveEntry
-      craft()->on('entries.BeforeSaveEntry', function(Event $event) {
-        $entry = $event->params['entry'];
-        $isNewEntry = $event->params['isNewEntry'];
-        $isInspectionEntry = $entry->section->handle === 'inspections' ? true : false;
-        $isInvalidValidLocation = (
-          $entry->location->lat == 0 ||
-          $entry->location->lng == 0 ||
-          empty($entry->location->address)) ? true : false;
+        //Event: onBeforeSaveEntry
+        craft()->on('entries.BeforeSaveEntry', function (Event $event) {
+            /** @var EntryModel $entry */
+            $entry = $event->params['entry'];
 
-        if ($isNewEntry && $isInspectionEntry && $isInvalidValidLocation) {
-          return $event->performAction = false;
-        } else {
-          return $event->performAction = true;
-        }
-      });
+            //do not validate Location for automatically synced inspections
+            if($entry->scenario == Negotiator_SyncService::ENTRY_SCENARIO_SYNC) {
+                return $event->performAction = true;
+            }
+
+            $isNewEntry             = $event->params['isNewEntry'];
+            $isInspectionEntry      = $entry->section->handle === 'inspections';
+            $isInvalidValidLocation = !$entry->location->lat || !$entry->location->lng  || empty($entry->location->address);
+
+            if ($isNewEntry && $isInspectionEntry && $isInvalidValidLocation) {
+                $entry->addError('location', 'Location is required');
+                return $event->performAction = false;
+            } else {
+                return $event->performAction = true;
+            }
+        });
     }
 }
