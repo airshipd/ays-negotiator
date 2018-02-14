@@ -11,6 +11,7 @@ namespace Craft;
  * @property string name
  * @property string email
  * @property string phone
+ * @property string address
  * @property string description
  * @property string make
  * @property string model
@@ -60,6 +61,7 @@ class Negotiator_RunbikeshopModel extends BaseModel
             'email' => AttributeType::Mixed,
             'name' => AttributeType::Mixed,
             'phone' => AttributeType::Mixed,
+            'address' => AttributeType::Mixed,
             'description' => AttributeType::Mixed,
             'make' => AttributeType::Mixed,
             'model' => AttributeType::Mixed,

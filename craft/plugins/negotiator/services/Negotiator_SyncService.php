@@ -112,8 +112,11 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'averageTotalForCarType' => $model->getBottomEstimation(),
             'maxTotalForCarType'     => $model->getTopEstimation(),
         ];
+        if ($model->address) {
+            $content['location'] = ['address' => $model->address];
+        }
 
-        $entry->setContent(array_filter($content));
+        $entry->setContentFromPost(array_filter($content));
         $entry->scenario = self::ENTRY_SCENARIO_SYNC;
 
         $result = craft()->entries->saveEntry($entry);
