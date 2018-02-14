@@ -91,7 +91,6 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'odometer'               => $model->getKms(),
             'series'                 => $model->series,
             'customerState'          => $model->state,
-            'year'                   => $model->year,
             'customerSuburb'         => $model->city,
             'transmission'           => $model->getTransmission(),
             'carBody'                => $model->body,
@@ -123,9 +122,6 @@ class Negotiator_SyncService extends BaseApplicationComponent
         } else {
             $failed = [];
             $required_defaults = [
-                'year' => 1900,
-                'averageTotalForCarType' => 0,
-                'maxTotalForCarType' => 0,
                 'buildDate' => '1900-01-01',
             ];
 
