@@ -153,36 +153,6 @@ class Negotiator_RunbikeshopModel extends BaseModel
         }
     }
 
-    public function getBottomEstimation()
-    {
-        if (empty($this->estimate)) {
-            return null;
-        }
-
-        $estimate = str_replace(',', '', $this->estimate);
-        if(preg_match('/\$(\d+) - \$(\d+)/', $estimate, $m)) {
-            return (int)$m[1];
-        } else {
-            NegotiatorPlugin::log(sprintf('Wrong estimate value: %s. RunBikeShop ID: %d', $this->estimate, $this->id), LogLevel::Warning, true);
-            return null;
-        }
-    }
-
-    public function getTopEstimation()
-    {
-        if (empty($this->estimate)) {
-            return null;
-        }
-
-        $estimate = str_replace(',', '', $this->estimate);
-        if(preg_match('/\$(\d+) - \$(\d+)/', $estimate, $m)) {
-            return (int)$m[2];
-        } else {
-            NegotiatorPlugin::log(sprintf('Wrong estimate value: %s. RunBikeShop ID: %d', $this->estimate, $this->id), LogLevel::Warning, true);
-            return null;
-        }
-    }
-
     public function getColour()
     {
         if(empty($this->car_colour)) {

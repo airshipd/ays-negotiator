@@ -108,9 +108,6 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'satNav'                 => $model->sat_nav == 'yes',
             'leatherUpholstery'      => $model->leather == 'yes',
             'seats'                  => $model->seats,
-            'reviewValuation'        => $model->finance_value,
-            'averageTotalForCarType' => $model->getBottomEstimation(),
-            'maxTotalForCarType'     => $model->getTopEstimation(),
         ];
         if ($model->address) {
             $content['location'] = ['address' => $model->address];
