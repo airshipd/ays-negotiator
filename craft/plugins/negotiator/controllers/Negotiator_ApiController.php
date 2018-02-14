@@ -36,12 +36,13 @@ class Negotiator_ApiController extends BaseController {
         $ret = [];
         foreach ($inspections as $i) {
             if (count($i->location->parts)) {
+                $i->location->parts += ['route_short' => '', 'locality' => '']; //sometimes necessary fields may be absent
                 $temp = [
                     'id'      => $i->id,
                     'lat'     => floatval($i->location->lat),
                     'lng'     => floatval($i->location->lng),
                     'zoom'    => intval($i->location->zoom),
-                    'address' => $i->location->parts['route_short'] . ' ' . $i->location->parts['locality'],
+                    'address' => trim($i->location->parts['route_short'] . ' ' . $i->location->parts['locality']),
                     'title'   => $i->getContent()->year . ' ' . $i->getContent()->make . ' ' . $i->getContent()->model,
                     'status'  => $i->getContent()->inspectionStatus,
                     'url'     => $i->url,
