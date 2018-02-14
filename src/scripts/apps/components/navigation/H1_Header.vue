@@ -100,7 +100,7 @@
         currentRoute: 'Negotiations',
         title: '',
         date: moment(new Date(moment().add(10,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss'),
-        todayDate: moment().format('DD/MM/YYYY')
+        todayDate: moment().format('dddd, MMM DD')
       }
     },
     methods: {

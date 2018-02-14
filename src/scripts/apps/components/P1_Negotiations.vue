@@ -58,7 +58,7 @@ export default {
         let that = this;
 
         $('.datepicker-negotiations').pickadate({
-            format: 'yyyy/mm/dd',
+            format: 'dddd, mmm dd',
             min: new Date(new Date().setDate(new Date().getDate() - 30)),
             max: new Date(new Date().setDate(new Date().getDate() + 7)),
             selectYears: false,
