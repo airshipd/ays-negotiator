@@ -9,6 +9,11 @@ class Negotiator_SyncService extends BaseApplicationComponent
     const ENTRY_SCENARIO_SYNC = 'sync';
     const API_ENDPOINT = 'http://runbikestop.com/api/v1/inquests';
 
+    const STATUS_SUCCESS = 1;
+    const STATUS_DUPLICATE = 2;
+    const STATUS_WARNING = 3;
+    const STATUS_ERROR = 4;
+
     /**
      * @param DateTime $since
      * @param int      $page
@@ -19,8 +24,10 @@ class Negotiator_SyncService extends BaseApplicationComponent
         $request = $client->get(null, null, [
             'query' => [
                 'page' => $page,
-                'since' => $since->atom(),
+                'since' => $since->setTimezone(new \DateTimeZone('UTC'))->atom(),
                 'token' => getenv('RUNBIKESHOP_TOKEN'),
+                'commit' => 'true', //we were asked to include this...
+                'colour' => 'blue', //only records with "appointment" status
             ]
         ]);
 
@@ -43,11 +50,17 @@ class Negotiator_SyncService extends BaseApplicationComponent
         craft()->globals->saveSet($settings);
     }
 
+    /**
+     * @param Negotiator_RunbikeshopModel $model
+     * @return int one of the STATUS-constants
+     * @throws Exception
+     * @throws \Exception
+     */
     public function saveRecord(Negotiator_RunbikeshopModel $model)
     {
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
         if($criteria->total(['runbikeshop_id' => $model->id])) {
-            return;
+            return self::STATUS_DUPLICATE;
         }
 
         $criteria = craft()->elements->getCriteria(ElementType::User);
@@ -105,7 +118,9 @@ class Negotiator_SyncService extends BaseApplicationComponent
 
         $result = craft()->entries->saveEntry($entry);
 
-        if(!$result) {
+        if ($result) {
+            return self::STATUS_SUCCESS;
+        } else {
             $failed = [];
             $required_defaults = [
                 'year' => 1900,
@@ -129,12 +144,17 @@ class Negotiator_SyncService extends BaseApplicationComponent
             $entry->clearErrors();
             $entry->getContent()->clearErrors();
             $result = craft()->entries->saveEntry($entry);
-            if(!$result) {
+
+            if($result) {
+                return self::STATUS_WARNING;
+            } else {
                 NegotiatorPlugin::log('Completely failed to save new entry. Details: ' . json_encode([
                     'attributes' => $entry->getContent()->attributes,
                     'record' => $model->attributes,
                     'errors' => $entry->getErrors(),
                 ]), LogLevel::Error, true);
+
+                return self::STATUS_ERROR;
             }
         }
     }
