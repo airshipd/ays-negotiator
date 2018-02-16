@@ -54,59 +54,30 @@ class Negotiator_ApiController extends BaseController {
         $this->returnJson($ret);
     }
 
-    public function actionInspection() {
-        $ret = [];
-        $retData = [];
-        $retOptions = [];
-        $tempArray = [];
+    public function actionInspection(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
 
-        $criteria = craft()->elements->getCriteria(ElementType::Entry);
-        $criteria->id = craft()->request->getSegment(3);
-        $inspection = $criteria->first();
-
-        foreach($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
-            array_push($tempArray,craft()->fields->getFieldById($fieldLayoutField->fieldId)->handle);
-        }
-
-        $fieldsToReturn = implode(',', $tempArray);
-        $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
-        $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
-        $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
-
-        $ret['data'] = $retData;
-        $ret['options'] = $retOptions;
-
-        $this->returnJson($ret);
+        $this->returnJson([
+            'data' => $this->_processFieldData($inspection),
+            'options' => $this->_processOptionData($inspection),
+        ]);
     }
 
-    public function actionOffer() {
-        $ret = [];
-        $retData = [];
-        $retOptions = [];
-        $retReport = [];
-        $retTotal = [];
-        $tempArray = [];
-        $id = craft()->request->getSegment(3);
+    public function actionOffer(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
 
-        $criteria = craft()->elements->getCriteria(ElementType::Entry);
-        $criteria->id = $id;
-        $inspection = $criteria->first();
-
-        foreach($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
-            array_push($tempArray,craft()->fields->getFieldById($fieldLayoutField->fieldId)->handle);
-        }
-
-        $fieldsToReturn = implode(',', $tempArray);
-        $inspectionFieldsArray = $inspection->getFieldLayout()->getFields();
-        $retData = $this->_processFieldData($inspectionFieldsArray,$fieldsToReturn,$inspection);
-        $retOptions = $this->_processOptionData($inspectionFieldsArray,$fieldsToReturn);
-
-        $ret['data'] = $retData;
-        $ret['options'] = $retOptions;
-        $ret['report'] = craft()->negotiator_assessment->calculateOffer($inspection);
-        $ret['total'] = craft()->negotiator_offer->calculateOfferTotal($inspection);
-
-        $this->returnJson($ret);
+        $this->returnJson([
+            'data'    => $this->_processFieldData($inspection),
+            'options' => $this->_processOptionData($inspection),
+            'report'  => craft()->negotiator_assessment->calculateOffer($inspection),
+            'total'   => craft()->negotiator_offer->calculateOfferTotal($inspection),
+        ]);
     }
 
   public function actionFinalise() {
@@ -133,69 +104,77 @@ class Negotiator_ApiController extends BaseController {
   }
 
 
-  private function _processFieldData($fieldsArray,$fieldsToReturn,$entry) {
-    $ret = [];
+    private function _processFieldData(BaseElementModel $inspection)
+    {
+        $ret = [];
 
-    foreach( $fieldsArray as $fieldLayoutField ) {
-      $field = craft()->fields->getFieldById($fieldLayoutField->fieldId);
+        foreach ($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
+            $field = $fieldLayoutField->getField();
+            $fieldName = $field->handle;
 
-      if( in_array( $field->handle, explode(',',$fieldsToReturn) ) ) {
-        switch($field->type) {
-          case "Users":
-            $user = craft()->users->getUserById($entry->mechanic->ids()[0]);
-            if($user) {
-              $fieldName = $field->handle;
-              $ret[$fieldName] = array(
-                'firstName' => $user->firstName,
-                'lastName' => $user->lastName,
-              );
+            switch ($field->type) {
+                case 'Users':
+                    $ids = $inspection->$fieldName->ids();
+
+                    if ($ids) {
+                        $user = craft()->users->getUserById($ids[0]);
+                        $ret[$fieldName] = [
+                            'firstName' => $user->firstName,
+                            'lastName'  => $user->lastName,
+                        ];
+                    }
+                    break;
+                case 'Date':
+                    $value           = $inspection->$fieldName !== null ? $inspection->$fieldName->format('d/m/Y') : null;
+                    $ret[$fieldName] = $value;
+                    break;
+                case 'Assets':
+                    $ret[$fieldName] = [];
+                    foreach($inspection->$fieldName as $asset) { /** @var AssetFileModel $asset */
+                        $ret[$fieldName][] = [
+                            'id' => $asset->id,
+                            'url' => $asset->getUrl(),
+                        ];
+                    }
+                    break;
+                // case "SimpleMap_Map":
+                //   $fieldName = $field->handle;
+                //   $value = array(
+                //     'lat'=> $entry->$fieldName->lat,
+                //     'lng'=> $entry->$fieldName->lng,
+                //     'address'=> $entry->$fieldName->address,
+                //     'parts'=> array()
+                //   );
+                //   $partKeys = array_keys($entry->$fieldName->parts);
+                //   for( $i=0; $i < count($entry->$fieldName->parts); $i++ ) {
+                //     $value['parts'][$partKeys[$i]] = $entry->$fieldName->parts[$partKeys[$i]];
+                //   };
+                //   $ret[$fieldName] = $value;
+                //   break;
+                default:
+                    $ret[$fieldName] = $inspection->getContent()->$fieldName;
             }
-            break;
-          case "Date":
-            $fieldName = $field->handle;
-            $value = $entry->$fieldName !== null ? $entry->$fieldName->format('d/m/Y') : null;
-            $ret[$fieldName] = $value;
-            break;
-          // case "SimpleMap_Map":
-          //   $fieldName = $field->handle;
-          //   $value = array(
-          //     'lat'=> $entry->$fieldName->lat,
-          //     'lng'=> $entry->$fieldName->lng,
-          //     'address'=> $entry->$fieldName->address,
-          //     'parts'=> array()
-          //   );
-          //   $partKeys = array_keys($entry->$fieldName->parts);
-          //   for( $i=0; $i < count($entry->$fieldName->parts); $i++ ) {
-          //     $value['parts'][$partKeys[$i]] = $entry->$fieldName->parts[$partKeys[$i]];
-          //   };
-          //   $ret[$fieldName] = $value;
-          //   break;
-          default:
-            $fieldName = $field->handle;
-            $ret[$fieldName] = $entry->getContent()->$fieldName;
         }
-      }
+
+        return $ret;
     }
-    return $ret;
-  }
 
-  private function _processOptionData($fieldsArray,$fieldsToReturn) {
-    $ret = [];
+    private function _processOptionData(BaseElementModel $inspection)
+    {
+        $ret = [];
 
-    foreach( $fieldsArray as $fieldLayoutField ) {
-      $field = craft()->fields->getFieldById($fieldLayoutField->fieldId);
+        foreach ($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
+            $field = $fieldLayoutField->getField();
 
-      if( in_array( $field->handle, explode(',',$fieldsToReturn) ) ) {
-        $fieldName = $field->handle;
-        $fieldType = $field->type;
-        $fieldSettings = $field->settings;
+            $fieldName     = $field->handle;
+            $fieldType     = $field->type;
+            $fieldSettings = $field->settings;
 
-        $ret[$fieldName] = array(
-          'type' => $fieldType,
-          'settings' => $fieldSettings
-        );
-      }
+            $ret[$fieldName] = [
+                'type'     => $fieldType,
+                'settings' => $fieldSettings,
+            ];
+        }
+        return $ret;
     }
-    return $ret;
-  }
 }

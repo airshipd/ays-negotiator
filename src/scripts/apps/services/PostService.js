@@ -47,7 +47,7 @@ export default {
     console.log('formData', sendObj)
     return axios.post('/',qs.stringify(sendObj))
   },
-  postMulti (entryId,entry,entryOptions) {
+  postMulti (entryId, entry, entryOptions) {
     // lets build out data object
     let formData = new FormData()
     formData.append('action', 'entries/saveEntry')
@@ -58,34 +58,38 @@ export default {
     //setup array of properties to not include for saving
     let itemsToNotInclude = ['mechanic']
 
-    //loop through all field entries and build out sendObj
-    for (let key in entry) {
-      if (entry.hasOwnProperty(key)
-          && entry[key] !== null
-          && itemsToNotInclude.find(x=>x===key) === undefined ) {
-        try {
-          switch(entryOptions[key].type) {
-            case 'Date':
-              formData.append('fields['+key+'][date]', entry[key])
-              break;
-            case 'Assets':
-              entry[key].forEach((item)=>{
-                formData.append('fields['+key+'][]',item)
-              })
-              break;
-            case 'SimpleMap_Map':
-              sendObj['fields['+key+'][lat]'] = entry[key]['lat']
-              sendObj['fields['+key+'][lng]'] = entry[key]['lng']
-              sendObj['fields['+key+'][address]'] = entry[key]['address']
-              break;
-            default:
-              formData.append('fields['+key+']',entry[key])
+      //loop through all field entries and build out sendObj
+      for (let key in entry) {
+          if (entry.hasOwnProperty(key) && entry[key] !== null && itemsToNotInclude.indexOf(key) === -1) {
+              try {
+                  switch (entryOptions[key].type) {
+                      case 'Date':
+                          formData.append('fields[' + key + '][date]', entry[key])
+                          break;
+                      case 'Assets':
+                          entry[key].forEach((item) => {
+                              if(item instanceof File) {
+                                  //save new file
+                                  formData.append('fields[' + key + '][]', item)
+                              } else {
+                                  //resave asset object
+                                  formData.append('fields[' + key + '][]', item.id)
+                              }
+                          });
+                          break;
+                      case 'SimpleMap_Map':
+                          sendObj['fields[' + key + '][lat]'] = entry[key]['lat']
+                          sendObj['fields[' + key + '][lng]'] = entry[key]['lng']
+                          sendObj['fields[' + key + '][address]'] = entry[key]['address']
+                          break;
+                      default:
+                          formData.append('fields[' + key + ']', entry[key])
+                  }
+              } catch (err) {
+                  console.error(err)
+              }
           }
-        } catch(err) {
-          console.error(err)
-        }
       }
-    }
     console.log('formData', formData)
 
     return axios.post('/', formData, {
