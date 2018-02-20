@@ -15,96 +15,101 @@ import Final4 from './components/P10_Final4.vue'
 import Final5 from './components/P11_Final5.vue'
 import offerFinalized from './components/P12_OfferFinalized.vue'
 
-Vue.use(Router)
+Vue.use(Router);
 
 const router = new Router({
-  // mode: 'history',
-  // base: '/app',
-  scrollBehavior (to, from, savedPosition) {
-    return { x: 0, y: 0 }
-  },
-  routes: [
-    {
-      path: '/',
-      name: 'Negotiations',
-      component: Negotiations
+    // mode: 'history',
+    // base: '/app',
+    scrollBehavior(to, from, savedPosition) {
+        return {x: 0, y: 0}
     },
-    {
-      path: '/inspection/:id',
-      name: 'Inspection',
-      component: Inspection
-    },
-    {
-      path: '/waiting/:id',
-      name: 'Waiting',
-      component: Waiting,
-    },
-    {
-      path: '/offer/:id',
-      name: 'Offer',
-      component: Offer
-    },
-    {
-      path: '/offer/:id/accept',
-      name: 'Offer Accept',
-      component: OfferAccept
-    },
-    {
-      path: '/offer/:id/reject',
-      name: 'Offer Reject',
-      component: OfferReject
-    },
-    {
-      path: '/final/1/:id',
-      name: 'Final 1',
-      component: Final1,
-      meta: {
-        step: 1,
-        final: true
-      }
-    },
-    {
-      path: '/final/2/:id',
-      name: 'Final 2',
-      component: Final2,
-      meta: {
-        step: 2,
-        final: true
-      }
-    },
-    {
-      path: '/final/3/:id',
-      name: 'Final 3',
-      component: Final3,
-      meta: {
-        step: 3,
-        final: true
-      }
-    },
-    {
-      path: '/final/4/:id',
-      name: 'Final 4',
-      component: Final4,
-      meta: {
-        step: 4,
-        final: true
-      }
-    },
-    {
-      path: '/final/5/:id',
-      name: 'Final 5',
-      component: Final5,
-      meta: {
-        step: 5,
-        final: true
-      }
-    },
-    {
-      path: '/finalized',
-      name: 'Finalized',
-      component: offerFinalized
-    },
-  ]
-})
+    routes: [
+        {
+            path: '/',
+            redirect: '/pending'
+        },
+        {
+            path: '/:type(pending|upcoming)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
+            name: 'Negotiations',
+            component: Negotiations,
+            props: true
+        },
+        {
+            path: '/inspection/:id',
+            name: 'Inspection',
+            component: Inspection
+        },
+        {
+            path: '/waiting/:id',
+            name: 'Waiting',
+            component: Waiting,
+        },
+        {
+            path: '/offer/:id',
+            name: 'Offer',
+            component: Offer
+        },
+        {
+            path: '/offer/:id/accept',
+            name: 'Offer Accept',
+            component: OfferAccept
+        },
+        {
+            path: '/offer/:id/reject',
+            name: 'Offer Reject',
+            component: OfferReject
+        },
+        {
+            path: '/final/1/:id',
+            name: 'Final 1',
+            component: Final1,
+            meta: {
+                step: 1,
+                final: true
+            }
+        },
+        {
+            path: '/final/2/:id',
+            name: 'Final 2',
+            component: Final2,
+            meta: {
+                step: 2,
+                final: true
+            }
+        },
+        {
+            path: '/final/3/:id',
+            name: 'Final 3',
+            component: Final3,
+            meta: {
+                step: 3,
+                final: true
+            }
+        },
+        {
+            path: '/final/4/:id',
+            name: 'Final 4',
+            component: Final4,
+            meta: {
+                step: 4,
+                final: true
+            }
+        },
+        {
+            path: '/final/5/:id',
+            name: 'Final 5',
+            component: Final5,
+            meta: {
+                step: 5,
+                final: true
+            }
+        },
+        {
+            path: '/finalized',
+            name: 'Finalized',
+            component: offerFinalized
+        },
+    ]
+});
 
 export default router

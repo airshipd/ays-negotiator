@@ -6,13 +6,18 @@
         <span class="brand-logo center">{{title}}</span>
 
         <div class="heading-secondary">
-          <div class="header-inspections">
-            <div class="right" v-if="currentRoute === 'Negotiations'">
-              <div class="header-date">
-                <input class="datepicker-negotiations" :value="todayDate" />
+          <div class="header-inspections" v-if="currentRoute === 'Negotiations'">
+            <div class="right">
+              <div class="header-date" v-show="$route.params.type === 'upcoming'">
+                <input class="datepicker-negotiations" />
               </div>
               <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
             </div>
+
+            <ul class="type-switcher">
+              <router-link tag="li" :to="{path: '/pending'}"><a>Pending</a></router-link>
+              <router-link tag="li" :to="{name: 'Negotiations', params: {type: 'upcoming'}}"><a>Upcoming</a></router-link>
+            </ul>
           </div>
           <div class="inspection-header" v-if="currentRoute === 'Inspection'">
             <div class="left">
@@ -99,7 +104,6 @@
         currentRoute: 'Negotiations',
         title: '',
         date: moment(new Date(moment().add(10,'minutes').unix()*1000)).format('YYYY/MM/DD HH:mm:ss'),
-        todayDate: moment().format('dddd, MMM DD')
       }
     },
     methods: {
@@ -118,7 +122,6 @@
         }
       },
       updateTitle (route) {
-        console.log('udpate route',route)
         switch(route) {
           case 'Inspection':
             this.title = 'Vehicle Assesment form'
@@ -133,7 +136,7 @@
     },
     watch: {
       '$route': function(r) {
-        this.currentRoute = r.name
+        this.currentRoute = r.name;
       },
       currentRoute: function(n,o) {
         this.updateTitle(n)
@@ -144,12 +147,11 @@
         return this.$store.state.inspection
       },
       showHeader () {
-        return this.currentRoute === 'Waiting' || this.currentRoute === 'Offer Reject' || this.currentRoute === 'Offer Accept' ? false : true
+        return this.currentRoute === 'Waiting' || this.currentRoute === 'Offer Reject' || this.currentRoute !== 'Offer Accept'
       },
       classObj () {
-        console.log(this.currentRoute)
         return {
-          'fixed-height': this.currentRoute === 'Negotiations' || this.currentRoute === 'Offer' ? true : false
+          'fixed-height': this.currentRoute === 'Negotiations' || this.currentRoute === 'Offer'
         }
       }
     },

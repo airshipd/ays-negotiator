@@ -48,16 +48,14 @@
       },
       toggleRowActive() {
         this.$emit('newactive', this.index);
-        this.$store.commit('updateLocation', {lat: this.inspection.lat, lng: this.inspection.lng })
-        this.$store.commit('updateLocationData', this.inspection)
       },
       goToAction(status) {
         if( status === 'finalized' ) {
           window.location.href = '/report/'+this.inspection.id
         } else if( status === 'Rejected' )
-          this.$router.push('final/1/'+this.inspection.id)
+          this.$router.push('/final/1/'+this.inspection.id)
         else {
-          this.$router.push('inspection/'+this.inspection.id)
+          this.$router.push('/inspection/'+this.inspection.id)
         }
       },
       itemClass (status) {

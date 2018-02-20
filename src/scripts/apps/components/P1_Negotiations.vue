@@ -24,17 +24,19 @@
             :clickable="false"
             :draggable="false"
             :icon="mapIcon"
+            v-if="inspection"
           ></gmap-marker>
           <gmap-info-window
             :position="location"
             :options="infoOptions"
+            v-if="inspection"
             @domready="customiseInfoWindow"
           >
             <div class="row">
-              <div class="col title">{{inspection.title}}</div>
+              <div class="col title">{{ inspection.title }}</div>
             </div>
             <div class="row">
-              <div class="col address">{{inspection.address}}</div>
+              <div class="col address">{{ inspection.address }}</div>
             </div>
           </gmap-info-window>
         </gmap-map>
@@ -49,29 +51,15 @@
 import list from './components/C1_listItem.vue'
 import axios from 'axios'
 import { urlGetInspections } from '../config.js'
+import moment from 'moment'
 
 export default {
     name: 'negotiator',
+    props: ['type', 'date'],
     mounted() {
         this.getInspections();
         this.getUserLocation();
-        let that = this;
-
-        $('.datepicker-negotiations').pickadate({
-            format: 'dddd, mmm dd',
-            min: new Date(new Date().setDate(new Date().getDate() - 30)),
-            max: new Date(new Date().setDate(new Date().getDate() + 7)),
-            selectYears: false,
-            selectMonths: false,
-            clear: false,
-            onSet () {
-                that.getInspections(this.get('select', 'yyyy-mm-dd'));
-            },
-            onClose () {
-                //workaround for a bug when datepicker opens on tab switch https://github.com/amsul/pickadate.js/issues/160
-                $(document.activeElement).blur();
-            }
-        });
+        this.initDatepicker();
     },
     data() {
         return {
@@ -95,13 +83,13 @@ export default {
             $('.gm-style-iw').next().addClass("gm-style-iw--close")
             $('.gm-style-iw--wrapper > div:first-of-type').addClass('gm-style-iw--remove')
         },
-        getInspections(date) {
-            axios.get(urlGetInspections, {params: {date}})
-                .then(response => {
-                    this.inspections = response.data
-                }).catch(e => {
-                    console.log(e)
-                })
+        getInspections() {
+            axios.get(urlGetInspections, {params: {date: this.date, upcoming: this.type === 'upcoming' ? 1 : 0}})
+            .then(response => {
+                this.inspections = response.data
+            }).catch(e => {
+                console.log(e)
+            })
         },
         getUserLocation() {
             if (navigator.geolocation) {
@@ -116,6 +104,32 @@ export default {
         },
         handleLocationError(browserHasGeolocation) {
             console.log(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.')
+        },
+        initDatepicker () {
+            let that = this;
+            let $datepicker = $('.datepicker-negotiations');
+
+            $datepicker.pickadate({
+                format: 'dddd, mmm dd',
+                min: new Date(new Date().setDate(new Date().getDate() - 30)),
+                max: new Date(new Date().setDate(new Date().getDate() + 7)),
+                selectYears: false,
+                selectMonths: false,
+                clear: false,
+                onSet () {
+                    that.$router.push({
+                        params: {
+                            date: this.get('select', 'yyyy-mm-dd')
+                        }
+                    })
+                },
+                onClose () {
+                    //workaround for a bug when datepicker opens on tab switch https://github.com/amsul/pickadate.js/issues/160
+                    $(document.activeElement).blur();
+                }
+            });
+
+            $datepicker.pickadate('picker').set('select',  moment(this.$route.params.date).toDate(), {muted: true});
         }
     },
     components: {
@@ -123,17 +137,39 @@ export default {
     },
     watch: {
         inspections() {
-            this.activeLiIndex = 0
-            this.$store.commit('updateLocation', {lat: this.inspections[0].lat, lng: this.inspections[0].lng})
-            this.$store.commit('updateLocationData', this.inspections[0])
+            this.activeLiIndex = 0;
+            this.$store.commit('updateLocation', this.inspections[0]);
+        },
+        '$route': function(r) {
+            if(this.type === 'upcoming') {
+                let pickadate = $('.datepicker-negotiations').pickadate('picker');
+                if(pickadate.get('select', 'yyyy-mm-dd') !== this.date) {
+                    if(this.date) {
+                        pickadate.set('select',  moment(this.date).toDate());
+                    } else {
+                        this.$router.push({
+                            params: {
+                                date: pickadate.get('select', 'yyyy-mm-dd')
+                            }
+                        });
+                        return;
+                    }
+                }
+            }
+
+            this.getInspections();
         }
     },
     computed: {
         location() {
-            return this.$store.state.location
+            if(this.inspections.length) {
+                return {lat: this.inspection.lat, lng: this.inspection.lng};
+            } else {
+                return {lat: -37.814062, lng: 144.962693}; //Melbourne Center
+            }
         },
         inspection() {
-            return this.$store.state.locationData
+            return this.inspections[this.activeLiIndex];
         }
     }
 }
