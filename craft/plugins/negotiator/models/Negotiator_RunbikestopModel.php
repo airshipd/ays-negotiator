@@ -3,7 +3,7 @@
 namespace Craft;
 
 /**
- * Class Negotiator_RunbikeshopModel
+ * Class Negotiator_RunbikestopModel
  *
  * @package Craft
  *
@@ -40,7 +40,7 @@ namespace Craft;
  * @property int    finance_value
  * @property string estimate
  */
-class Negotiator_RunbikeshopModel extends BaseModel
+class Negotiator_RunbikestopModel extends BaseModel
 {
     public function __construct($attributes = null)
     {
@@ -102,7 +102,7 @@ class Negotiator_RunbikeshopModel extends BaseModel
         if (in_array($fuel_type, ['petrol', 'diesel', 'gas', 'electric'])) {
             return $fuel_type;
         } else {
-            NegotiatorPlugin::log(sprintf('Unknown fuel type: %s. RunBikeShop ID: %d', $this->fuel_type, $this->id), LogLevel::Warning, true);
+            NegotiatorPlugin::log(sprintf('Unknown fuel type: %s. RunBikeStop ID: %d', $this->fuel_type, $this->id), LogLevel::Warning, true);
             return null;
         }
     }
@@ -119,7 +119,7 @@ class Negotiator_RunbikeshopModel extends BaseModel
         } elseif ($fwd_rwd == '4X4') {
             return '4X'; //it's not typo
         } else {
-            NegotiatorPlugin::log(sprintf('Unknown drive train (fwd_rwd): %s. RunBikeShop ID: %d', $this->fwd_rwd, $this->id), LogLevel::Warning, true);
+            NegotiatorPlugin::log(sprintf('Unknown drive train (fwd_rwd): %s. RunBikeStop ID: %d', $this->fwd_rwd, $this->id), LogLevel::Warning, true);
             return null;
         }
     }
@@ -132,7 +132,7 @@ class Negotiator_RunbikeshopModel extends BaseModel
 
         $kms = str_replace(',', '', $this->kms);
         if(!is_numeric($kms)) {
-            NegotiatorPlugin::log(sprintf('Wrong kms value: %s. RunBikeShop ID: %d', $this->kms, $this->id), LogLevel::Warning, true);
+            NegotiatorPlugin::log(sprintf('Wrong kms value: %s. RunBikeStop ID: %d', $this->kms, $this->id), LogLevel::Warning, true);
             return null;
         } else {
             return (float)$kms;
@@ -177,7 +177,7 @@ class Negotiator_RunbikeshopModel extends BaseModel
         if(in_array($transmission, ['auto', 'manual'])) {
             return $transmission;
         } else {
-            NegotiatorPlugin::log(sprintf('Wrong transmission value: %s. RunBikeShop ID: %d', $this->transmission, $this->id), LogLevel::Warning, true);
+            NegotiatorPlugin::log(sprintf('Wrong transmission value: %s. RunBikeStop ID: %d', $this->transmission, $this->id), LogLevel::Warning, true);
             return null;
         }
     }
@@ -191,7 +191,7 @@ class Negotiator_RunbikeshopModel extends BaseModel
         if (preg_match('/^(\d+)(dr)?$/i', $this->doors, $m)) {
             return (int)$m[1];
         } else {
-            NegotiatorPlugin::log(sprintf('Wrong doors value: %s. RunBikeShop ID: %d', $this->doors, $this->id), LogLevel::Warning, true);
+            NegotiatorPlugin::log(sprintf('Wrong doors value: %s. RunBikeStop ID: %d', $this->doors, $this->id), LogLevel::Warning, true);
             return null;
         }
     }

@@ -162,14 +162,14 @@ export default {
     },
     computed: {
         location() {
-            if(this.inspections.length) {
+            if(this.inspection) {
                 return {lat: this.inspection.lat, lng: this.inspection.lng};
             } else {
                 return {lat: -37.814062, lng: 144.962693}; //Melbourne Center
             }
         },
         inspection() {
-            return this.inspections[this.activeLiIndex];
+            return this.inspections[this.activeLiIndex] && this.inspections[this.activeLiIndex].lat ? this.inspections[this.activeLiIndex] : null;
         }
     }
 }

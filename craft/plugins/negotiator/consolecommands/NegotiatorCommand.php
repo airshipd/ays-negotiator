@@ -23,7 +23,7 @@ class NegotiatorCommand extends BaseCommand
                 break;
             }
 
-            $models = Negotiator_RunbikeshopModel::populateModels($records);
+            $models = Negotiator_RunbikestopModel::populateModels($records);
             foreach($models as $model) {
                 $status = craft()->negotiator_sync->saveRecord($model);
                 ++$stats[$status];

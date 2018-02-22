@@ -10,6 +10,9 @@ class Negotiator_ApiController extends BaseController {
         $user = craft()->userSession->getUser();
         $upcoming = craft()->request->getQuery('upcoming', false);
 
+        $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->section = 'inspections';
+
         if($upcoming) {
             $date = craft()->request->getQuery('date', date('Y-m-d'));
 
@@ -22,41 +25,46 @@ class Negotiator_ApiController extends BaseController {
             if($diff_days < -7 || $diff_days > 30) {
                 $dateObject = $now;
             }
+
+            $criteria->inspectionDate = '=' . $dateObject->getTimestamp();
+
+            if (!$user->admin) {
+                $criteria->relatedTo = [
+                    'targetElement' => $user,
+                    'field'         => 'mechanic',
+                ];
+            }
+        } else {
+            $criteria->inspectionDate = ':empty:';
+            $criteria->runbikestopId = ':notempty:';
         }
 
-
-        $criteria = craft()->elements->getCriteria(ElementType::Entry);
-        $criteria->section = 'inspections';
-        if (!$user->admin) {
-            $criteria->relatedTo = [
-                'targetElement' => $user,
-                'field'         => 'mechanic',
-            ];
-        }
-        $criteria->inspectionDate = $upcoming ? '=' . $dateObject->getTimestamp() : null;
         $criteria->order = 'dateCreated asc';
         $inspections = $criteria->find();
 
         //build out response object
-        $ret = [];
+        $result = [];
         foreach ($inspections as $i) {
-            if (count($i->location->parts)) {
-                $i->location->parts += ['route_short' => '', 'locality' => '']; //sometimes necessary fields may be absent
-                $temp = [
-                    'id'      => $i->id,
-                    'lat'     => floatval($i->location->lat),
-                    'lng'     => floatval($i->location->lng),
-                    'zoom'    => intval($i->location->zoom),
-                    'address' => trim($i->location->parts['route_short'] . ' ' . $i->location->parts['locality']),
-                    'title'   => $i->getContent()->year . ' ' . $i->getContent()->make . ' ' . $i->getContent()->model,
-                    'status'  => $i->getContent()->inspectionStatus,
-                    'url'     => $i->url,
-                ];
-                array_push($ret, $temp);
+            if($i->location->parts) {
+                $parts = $i->location->parts + ['route_short' => '', 'locality' => '']; //sometimes necessary fields may be absent
+                $address = trim($parts['route_short'] . ' ' . $parts['locality']) ?: 'TBC';
+            } else {
+                $address = 'TBC';
             }
+
+            $result[] = [
+                'id'      => $i->id,
+                'lat'     => $i->location->lat ? floatval($i->location->lat) : null,
+                'lng'     => $i->location->lng ? floatval($i->location->lng) : null,
+                'zoom'    => intval($i->location->zoom),
+                'address' => $address,
+                'title'   => $i->getContent()->year . ' ' . $i->getContent()->make . ' ' . $i->getContent()->model,
+                'status'  => $i->getContent()->inspectionStatus,
+                'url'     => $i->url,
+            ];
         }
 
-        $this->returnJson($ret);
+        $this->returnJson($result);
     }
 
     public function actionInspection(array $variables = [])

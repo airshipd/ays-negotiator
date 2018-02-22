@@ -25,7 +25,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'query' => [
                 'page' => $page,
                 'since' => $since->setTimezone(new \DateTimeZone('UTC'))->atom(),
-                'token' => getenv('RUNBIKESHOP_TOKEN'),
+                'token' => getenv('RUNBIKESTOP_TOKEN'),
                 'commit' => 'true', //we were asked to include this...
                 'colour' => 'blue', //only records with "appointment" status
             ]
@@ -51,15 +51,15 @@ class Negotiator_SyncService extends BaseApplicationComponent
     }
 
     /**
-     * @param Negotiator_RunbikeshopModel $model
+     * @param Negotiator_RunbikestopModel $model
      * @return int one of the STATUS-constants
      * @throws Exception
      * @throws \Exception
      */
-    public function saveRecord(Negotiator_RunbikeshopModel $model)
+    public function saveRecord(Negotiator_RunbikestopModel $model)
     {
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
-        if($criteria->total(['runbikeshop_id' => $model->id])) {
+        if($criteria->total(['runbikestopId' => $model->id])) {
             return self::STATUS_DUPLICATE;
         }
 
@@ -81,8 +81,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'model'                  => $model->model ?: 'UNKNOWN',
             'buildDate'              => $model->build_year ? $model->build_year . '-01-01' : '1900-01-01',
             'customerName'           => $model->name ?: 'UNKNOWN',
-            'inspectionDate'         => '1900-01-01',
-            'runbikeshop_id'         => $model->id,
+            'runbikestopId'         => $model->id,
 
             //all other fields
             'customerEmail'          => $model->email,
@@ -133,7 +132,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
             NegotiatorPlugin::log('Failed to save some fields. Details: ' . json_encode([
                 'fields' => $failed,
                 'errors' => $entry->getErrors(),
-                'runbikeshop_id' => $model->id,
+                'runbikestopId' => $model->id,
             ]), LogLevel::Error, true);
 
             //resave without failing attributes
