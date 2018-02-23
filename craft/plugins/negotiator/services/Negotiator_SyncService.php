@@ -2,17 +2,22 @@
 
 namespace Craft;
 
+use Guzzle\Common\Exception\RuntimeException;
 use Guzzle\Http\Client as GuzzleClient;
 
 class Negotiator_SyncService extends BaseApplicationComponent
 {
     const ENTRY_SCENARIO_SYNC = 'sync';
-    const API_ENDPOINT = 'http://runbikestop.com/api/v1/inquests';
+    const API_ENDPOINT = 'https://runbikestop.com/appsdata/inquests';
+    const AUTH_ENDPOINT = 'https://runbikestop.com/appsdata/authentications/authenticate_admin';
+
 
     const STATUS_SUCCESS = 1;
     const STATUS_DUPLICATE = 2;
     const STATUS_WARNING = 3;
     const STATUS_ERROR = 4;
+
+    private $authToken;
 
     /**
      * @param DateTime $since
@@ -21,18 +26,44 @@ class Negotiator_SyncService extends BaseApplicationComponent
      */
     public function fetch(DateTime $since, $page = 1) {
         $client = new GuzzleClient(self::API_ENDPOINT);
-        $request = $client->get(null, null, [
+        $request = $client->get(null, [
+            'Authorization' => $this->getAuthToken()
+        ], [
             'query' => [
                 'page' => $page,
                 'since' => $since->setTimezone(new \DateTimeZone('UTC'))->atom(),
-                'token' => getenv('RUNBIKESTOP_TOKEN'),
-                'commit' => 'true', //we were asked to include this...
+                'commit' => 'true', //it's required for the filtering to work
                 'colour' => 'blue', //only records with "appointment" status
             ]
         ]);
-
         $response = $request->send();
         return $response->json();
+    }
+
+    private function getAuthToken()
+    {
+        if(!$this->authToken) {
+            $client = new GuzzleClient(self::AUTH_ENDPOINT);
+            $request = $client->post(null, null, [
+                'email' => getenv('RUNBIKESTOP_EMAIL'),
+                'password' => getenv('RUNBIKESTOP_PASSWORD'),
+            ]);
+
+            $response = $request->send();
+
+            try {
+                $decoded = $response->json();
+            } catch (RuntimeException $e) {
+                //
+            }
+
+            if(empty($decoded['auth_token'])) {
+                throw new Exception('RunBikeStop Auth Failed: ' . $response->getBody(true));
+            }
+            $this->authToken = $decoded['auth_token'];
+        }
+
+        return $this->authToken;
     }
 
     /**
