@@ -12,6 +12,12 @@ class Negotiator_ApiController extends BaseController {
 
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
         $criteria->section = 'inspections';
+        if (!$user->admin) {
+            $criteria->relatedTo = [
+                'targetElement' => $user,
+                'field'         => 'mechanic',
+            ];
+        }
 
         if($upcoming) {
             $date = craft()->request->getQuery('date', date('Y-m-d'));
@@ -27,13 +33,6 @@ class Negotiator_ApiController extends BaseController {
             }
 
             $criteria->inspectionDate = '=' . $dateObject->getTimestamp();
-
-            if (!$user->admin) {
-                $criteria->relatedTo = [
-                    'targetElement' => $user,
-                    'field'         => 'mechanic',
-                ];
-            }
         } else {
             $criteria->inspectionDate = ':empty:';
             $criteria->runbikestopId = ':notempty:';
