@@ -123,6 +123,7 @@ import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import inputFileList from './inputs/N8_PhotoList.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
+import ImageUploader from '../services/ImageUploader'
 
 import cloneDeep from 'clone-deep'
 
@@ -157,20 +158,40 @@ export default {
         }
       })
     },
-    addVehiclePhoto (file) {
-      if( ! this.inspection.vehiclePhotos ) {
-        this.inspection.vehiclePhotos = [file]
-      } else {
-        this.inspection.vehiclePhotos.push(file)
+      addVehiclePhoto(file) {
+          let that = this;
+
+          new ImageUploader({
+              quality: 0.9,
+              maxWidth: 1920,
+              maxHeight: 1920,
+          }).scaleFile(file, function(blob) {
+              blob.name = file.name;
+
+              if (!that.inspection.vehiclePhotos) {
+                  that.inspection.vehiclePhotos = [blob]
+              } else {
+                  that.inspection.vehiclePhotos.push(blob)
+              }
+          });
+      },
+      addLicenseAndRegistrationPhotos(file) {
+          let that = this;
+
+          new ImageUploader({
+              quality: 0.9,
+              maxWidth: 1920,
+              maxHeight: 1920,
+          }).scaleFile(file, function (blob) {
+              blob.name = file.name;
+
+              if (!that.inspection.licenseAndRegistrationPhotos) {
+                  that.inspection.licenseAndRegistrationPhotos = [blob]
+              } else {
+                  that.inspection.licenseAndRegistrationPhotos.push(blob)
+              }
+          });
       }
-    },
-    addLicenseAndRegistrationPhotos (file) {
-      if( ! this.inspection.licenseAndRegistrationPhotos ) {
-        this.inspection.licenseAndRegistrationPhotos = [file]
-      } else {
-        this.inspection.licenseAndRegistrationPhotos.push(file)
-      }
-    }
   },
   components: {
     inputText,

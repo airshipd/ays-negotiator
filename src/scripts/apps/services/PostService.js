@@ -68,9 +68,9 @@ export default {
                           break;
                       case 'Assets':
                           entry[key].forEach((item) => {
-                              if(item instanceof File) {
+                              if(item instanceof File || item instanceof Blob) {
                                   //save new file
-                                  formData.append('fields[' + key + '][]', item)
+                                  formData.append('fields[' + key + '][]', item, item.name)
                               } else {
                                   //resave asset object
                                   formData.append('fields[' + key + '][]', item.id)
