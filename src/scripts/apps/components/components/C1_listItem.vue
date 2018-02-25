@@ -28,7 +28,7 @@
                 let theStatus = ''
                 switch (inspection.status) {
                     case 'UpComing':
-                        theStatus = inspection.inspectionDate ? 'Up Coming' : 'Pending'
+                        theStatus = inspection.pending ? 'Pending' : 'Up Coming';
                         break;
                     case 'finalized':
                         theStatus = 'Finalized'
@@ -52,7 +52,7 @@
                     window.location.href = '/report/' + this.inspection.id
                 } else if (inspection.status === 'Rejected') {
                     this.$router.push('/final/1/' + this.inspection.id)
-                } else if (inspection.status === 'UpComing' && !inspection.inspectionDate) {
+                } else if (inspection.status === 'UpComing' && inspection.pending) {
                     this.$router.push('/pending-inspection/' + this.inspection.id)
                 } else {
                     this.$router.push('/inspection/' + this.inspection.id)

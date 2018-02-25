@@ -60,6 +60,7 @@ class Negotiator_ApiController extends BaseController {
                 'title'   => $i->getContent()->year . ' ' . $i->getContent()->make . ' ' . $i->getContent()->model,
                 'status'  => $i->getContent()->inspectionStatus,
                 'url'     => $i->url,
+                'pending' => !$i->inspectionDate,
             ];
         }
 
