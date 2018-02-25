@@ -13,7 +13,8 @@ import Final2 from './components/P8_Final2.vue'
 import Final3 from './components/P9_Final3.vue'
 import Final4 from './components/P10_Final4.vue'
 import Final5 from './components/P11_Final5.vue'
-import offerFinalized from './components/P12_OfferFinalized.vue'
+import OfferFinalized from './components/P12_OfferFinalized.vue'
+import PendingInspection from './components/P13_PendingInspection.vue'
 
 Vue.use(Router);
 
@@ -107,7 +108,12 @@ const router = new Router({
         {
             path: '/finalized',
             name: 'Finalized',
-            component: offerFinalized
+            component: OfferFinalized
+        },
+        {
+            path: '/pending-inspection/:id',
+            name: 'Pending Inspection',
+            component: PendingInspection
         },
     ]
 });

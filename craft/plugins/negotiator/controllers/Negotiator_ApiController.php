@@ -78,6 +78,21 @@ class Negotiator_ApiController extends BaseController {
         ]);
     }
 
+    public function actionMechanics()
+    {
+        $criteria = craft()->elements->getCriteria(ElementType::User);
+        $criteria->group = 'mechanics';
+        $criteria->order = 'firstName, lastName, email';
+
+        $users = $criteria->find();
+        $result = [];
+        foreach($users as $user) {
+            $result[] = $this->_apifyUser($user);
+        }
+
+        $this->returnJson($result);
+    }
+
     public function actionOffer(array $variables = [])
     {
         $criteria     = craft()->elements->getCriteria(ElementType::Entry);
@@ -126,15 +141,7 @@ class Negotiator_ApiController extends BaseController {
 
             switch ($field->type) {
                 case 'Users':
-                    $ids = $inspection->$fieldName->ids();
-
-                    if ($ids) {
-                        $user = craft()->users->getUserById($ids[0]);
-                        $ret[$fieldName] = [
-                            'firstName' => $user->firstName,
-                            'lastName'  => $user->lastName,
-                        ];
-                    }
+                    $ret[$fieldName] = $inspection->$fieldName->ids();
                     break;
                 case 'Date':
                     $value           = $inspection->$fieldName !== null ? $inspection->$fieldName->format('d/m/Y') : null;
@@ -169,6 +176,16 @@ class Negotiator_ApiController extends BaseController {
         }
 
         return $ret;
+    }
+
+    private function _apifyUser(UserModel $user)
+    {
+        return [
+            'id' => $user->id,
+            'firstName' => $user->firstName,
+            'lastName' => $user->lastName,
+            'email' => $user->email,
+        ];
     }
 
     private function _processOptionData(BaseElementModel $inspection)

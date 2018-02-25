@@ -10197,21 +10197,17 @@ input[type="password"] {
   input[type="password"]:disabled {
     border-bottom: none;
     padding: 0; }
-  .input-field input[type="text"], .input-field
-  input[type="email"], .input-field
-  input[type="number"], .input-field
-  input[type="password"] {
-    margin-top: 1.6rem; }
-    .input-field input[type="text"] + label, .input-field
-    input[type="email"] + label, .input-field
-    input[type="number"] + label, .input-field
-    input[type="password"] + label {
-      font-weight: 500;
-      position: absolute;
-      top: 0;
-      left: 0;
-      color: #405690;
-      font-size: 1.2rem; }
+
+.input-field input {
+  margin-top: 1.6rem; }
+
+.input-field label {
+  font-weight: 500;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #405690;
+  font-size: 1.2rem; }
 
 input[type="number"] {
   -webkit-appearance: none;
@@ -10516,6 +10512,9 @@ main {
     max-width: 100%; }
   .photo-list input {
     display: none; }
+
+.vdp-datepicker {
+  font-size: 1.6rem; }
 
 .btn, .btn-large {
   background-color: #26AAE1;
