@@ -149,6 +149,9 @@ class Negotiator_SyncService extends BaseApplicationComponent
                 $content['mechanic'] = [$user->id];
             }
         }
+        if($model->year) {
+            $content['year'] = $model->year;
+        }
 
         $entry->setContentFromPost(array_filter($content));
         $entry->scenario = self::ENTRY_SCENARIO_SYNC;
@@ -160,6 +163,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
         } else {
             $failed = [];
             $required_defaults = [
+                'year' => 0,
                 'buildDate' => '1900-01-01',
             ];
 
