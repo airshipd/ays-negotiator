@@ -32,7 +32,7 @@ class Negotiator_ApiController extends BaseController {
                 $dateObject = $now;
             }
 
-            $criteria->inspectionDate = '=' . $dateObject->getTimestamp();
+            $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
         } else {
             $criteria->inspectionDate = ':empty:';
             $criteria->runbikestopId = ':notempty:';

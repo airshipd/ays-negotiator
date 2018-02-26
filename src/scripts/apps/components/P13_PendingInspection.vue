@@ -19,10 +19,17 @@
         </div>
 
         <div class="row">
+            <div class="col m2">
+                <div class="input-field">
+                    <select class="input-select" v-model="inspectionTime" v-validate="{required: true}">
+                        <option v-for="time in times" :value="time">{{ time }}</option>
+                    </select>
+                    <label>Inspection</label>
+                </div>
+            </div>
             <div class="col m6">
                 <div class="input-field">
                     <datepicker class="input-text" v-model="inspectionDate" format="dd/MM/yyyy" :disabled="disabledDates" :required="true"></datepicker>
-                    <label>Inspection</label>
                 </div>
             </div>
         </div>
@@ -70,9 +77,21 @@ export default {
             mechanics: [],
             mechanicId: null,
             inspectionDate: new Date(),
+            inspectionTime: '12:00 AM',
             disabledDates: {
                 to: moment().subtract(1, 'd').toDate()
             }
+        }
+    },
+    computed: {
+        times() {
+            let time = moment().hours(0).minutes(0);
+            let result = [];
+            do {
+                result.push(time.format('hh:mm A'));
+                time.add(15, 'm');
+            } while(time.format('HH:mm') !== '00:00');
+            return result;
         }
     },
     methods: {
@@ -101,7 +120,10 @@ export default {
         submitForm() {
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                    this.inspection.inspectionDate = moment(this.inspectionDate).format('DD/MM/YYYY');
+                    this.inspection.inspectionDate = {
+                        date: moment(this.inspectionDate).format('DD/MM/YYYY'),
+                        time: this.inspectionTime
+                    };
                     PostService.post(this.$route.params.id, this.inspection, this.options)
                         .then(response => {
                             console.log(response);

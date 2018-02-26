@@ -20,7 +20,14 @@ export default {
                 try {
                     switch (entryOptions[key].type) {
                         case 'Date':
-                            sendObj['fields[' + key + '][date]'] = entry[key]
+                            if(typeof entry[key] === 'string') {
+                                sendObj['fields[' + key + '][date]'] = entry[key]
+                            } else if (typeof entry[key] === 'object' && entry[key].hasOwnProperty('date') && entry[key].hasOwnProperty('time')) {
+                                sendObj['fields[' + key + '][date]'] = entry[key].date
+                                sendObj['fields[' + key + '][time]'] = entry[key].time
+                            } else {
+                                console.error('Wrong date field value. Field: ', key, 'Value:', entry[key]);
+                            }
                             break;
                         case 'Asset':
                             entry[key].forEach(item => {
@@ -58,7 +65,14 @@ export default {
                 try {
                     switch (entryOptions[key].type) {
                         case 'Date':
-                            formData.append('fields[' + key + '][date]', entry[key])
+                            if(typeof entry[key] === 'string') {
+                                formData.append('fields[' + key + '][date]', entry[key])
+                            } else if (typeof entry[key] === 'object' && entry[key].hasOwnProperty('date') && entry[key].hasOwnProperty('time')) {
+                                formData.append('fields[' + key + '][date]', entry[key].date)
+                                formData.append('fields[' + key + '][time]', entry[key].time)
+                            } else {
+                                console.error('Wrong date field value. Field: ', key, 'Value:', entry[key]);
+                            }
                             break;
                         case 'Assets':
                             entry[key].forEach((item) => {
