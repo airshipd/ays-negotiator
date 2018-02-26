@@ -79,10 +79,10 @@ class Negotiator_ApiController extends BaseController {
         ]);
     }
 
-    public function actionMechanics()
+    public function actionInspectors()
     {
         $criteria = craft()->elements->getCriteria(ElementType::User);
-        $criteria->group = 'mechanics';
+        $criteria->group = 'inspectors';
         $criteria->order = 'firstName, lastName, email';
 
         $users = $criteria->find();
@@ -143,6 +143,11 @@ class Negotiator_ApiController extends BaseController {
             switch ($field->type) {
                 case 'Users':
                     $ret[$fieldName] = $inspection->$fieldName->ids();
+
+                    if($ret[$fieldName]) {
+                        $user = craft()->users->getUserById($ret[$fieldName][0]);
+                        $ret[$fieldName . '_details'] = $this->_apifyUser($user);
+                    }
                     break;
                 case 'Date':
                     $value           = $inspection->$fieldName !== null ? $inspection->$fieldName->format('d/m/Y') : null;

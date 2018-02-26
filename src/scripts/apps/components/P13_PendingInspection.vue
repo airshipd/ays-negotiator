@@ -37,9 +37,9 @@
         <div class="row">
             <div class="col m6">
                 <div class="input-field">
-                    <select class="input-select" v-model="mechanicId" id="inspector-select" v-validate="{required: true}">
+                    <select class="input-select" v-model="inspectorId" id="inspector-select" v-validate="{required: true}">
                         <option value="">Inspector...</option>
-                        <option v-for="mechanic in mechanics" :value="mechanic.id">{{ mechanic.firstName }} {{ mechanic.lastName }}</option>
+                        <option v-for="inspector in inspectors" :value="inspector.id">{{ inspector.firstName }} {{ inspector.lastName }}</option>
                     </select>
                     <label for="inspector-select">Inspector</label>
                 </div>
@@ -60,22 +60,28 @@ import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
 
 import axios from 'axios'
-import { urlGetMechanics } from '../config.js'
+import { urlGetInspectors } from '../config.js'
 
 export default {
     name: 'negotiator',
     provideValidator: true,
     inject: ['$validator'],
     mounted() {
-        this.getInspection();
-        this.getMechanics();
+        let p1 = this.getInspection();
+        let p2 = this.getInspectors();
+        let that = this;
+        Promise.all([p1, p2]).then(function () {
+            if (!that.inspectors.find(i => i.id == that.inspection.mechanic_details.id)) {
+                that.inspectors.unshift(that.inspection.mechanic_details);
+            }
+        });
     },
     data() {
         return {
             inspection: {},
             options: {},
-            mechanics: [],
-            mechanicId: null,
+            inspectors: [],
+            inspectorId: null,
             inspectionDate: new Date(),
             inspectionTime: '12:00 AM',
             disabledDates: {
@@ -96,25 +102,25 @@ export default {
     },
     methods: {
         getInspection() {
-            GetService.getInspection(this.$route.params.id)
+            return GetService.getInspection(this.$route.params.id)
                 .then(res => {
                     this.inspection = res.inspection;
                     this.options = res.options;
                     this.$store.commit('updateInspection', res.inspection);
                     this.$store.commit('updateOptions', res.options);
 
-                    this.mechanicId = this.inspection.mechanic ? this.inspection.mechanic[0] : null
+                    this.inspectorId = this.inspection.mechanic ? this.inspection.mechanic[0] : null
                 }).catch(e => {
                     console.error(e)
                 })
         },
-        getMechanics() {
+        getInspectors() {
             let that = this;
-            axios.get(urlGetMechanics)
+            return axios.get(urlGetInspectors)
                 .then(response => {
-                    that.mechanics = response.data;
+                    that.inspectors = response.data;
                 }).catch(e => {
-                    console.log('Failed getting mechanics: ', e);
+                    console.log('Failed getting inspectors: ', e);
                 });
         },
         submitForm() {
@@ -140,7 +146,7 @@ export default {
         }
     },
     watch: {
-        mechanicId: function (id) {
+        inspectorId: function (id) {
             this.inspection.mechanic = id ? [id] : [];
         }
     },
