@@ -141,6 +141,14 @@ class Negotiator_SyncService extends BaseApplicationComponent
         if ($model->address) {
             $content['location'] = ['address' => $model->address];
         }
+        if($model->inspector_email) {
+            $criteria = craft()->elements->getCriteria(ElementType::User);
+            $criteria->email = $model->inspector_email;
+            $user = $criteria->first();
+            if($user) {
+                $content['mechanic'] = [$user->id];
+            }
+        }
 
         $entry->setContentFromPost(array_filter($content));
         $entry->scenario = self::ENTRY_SCENARIO_SYNC;

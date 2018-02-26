@@ -39,6 +39,7 @@ namespace Craft;
  * @property int    seats
  * @property int    finance_value
  * @property string estimate
+ * @property string inspector_email
  */
 class Negotiator_RunbikestopModel extends BaseModel
 {
@@ -89,6 +90,7 @@ class Negotiator_RunbikestopModel extends BaseModel
             'seats' => AttributeType::Number,
             'finance_value' => AttributeType::Number,
             'estimate' => AttributeType::Mixed,
+            'inspector_email' => AttributeType::Mixed,
         ];
     }
 
