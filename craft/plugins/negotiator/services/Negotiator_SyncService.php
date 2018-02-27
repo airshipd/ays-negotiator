@@ -146,7 +146,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
             $criteria->email = $model->inspector_email;
             $user = $criteria->first();
             if($user) {
-                $content['mechanic'] = [$user->id];
+                $content['inspector'] = [$user->id];
             }
         }
         if($model->year) {

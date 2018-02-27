@@ -4,14 +4,14 @@
     <slug>{{ entry.slug }}</slug>
     <postdate>{{ entry.postDate }}</postdate>
     <author>{{ entry.author.id }}</author>
-    {% set mechanic = entry.mechanic[0] ?? null %}
-    <mechanic>{% if mechanic %}{{ mechanic.id }}{% endif %}</mechanic>
+    {% set inspector = entry.inspector[0] ?? null %}
+    <inspector>{% if inspector %}{{ inspector.id }}{% endif %}</inspector>
   {% for fieldLayoutField in entry.getFieldLayout().getFields() %}
     {# get the field Model from the fieldId #}
     {% set field = craft.fields.getFieldById(fieldLayoutField.fieldId) %}
     {# print the field handle and the field content  #}
     <{{ field.handle }}>
-      {% if field.handle != 'mechanic' %}
+      {% if field.handle != 'inspector' %}
           {{ entry.getContent()[field.handle] }}
       {% endif %}
     </{{ field.handle }}>

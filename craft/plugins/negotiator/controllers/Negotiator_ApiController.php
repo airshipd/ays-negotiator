@@ -15,7 +15,7 @@ class Negotiator_ApiController extends BaseController {
         if (!$user->admin) {
             $criteria->relatedTo = [
                 'targetElement' => $user,
-                'field'         => 'mechanic',
+                'field'         => 'inspector',
             ];
         }
 

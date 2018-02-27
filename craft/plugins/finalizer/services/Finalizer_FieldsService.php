@@ -26,7 +26,7 @@ class Finalizer_FieldsService extends BaseApplicationComponent  {
     // remove fields that we don't want to show up in the final email
     unset($grouped["Car Details"]["Vehicle Photos"]);
     unset($grouped["Car Details"]["License and Registration Photos"]);
-    unset($grouped["Pre Inspection Details"]["Mechanic"]);
+    unset($grouped["Pre Inspection Details"]["Inspector"]);
     unset($grouped["Pre Inspection Details"]["Inspection Status"]);
     return $grouped;
   }

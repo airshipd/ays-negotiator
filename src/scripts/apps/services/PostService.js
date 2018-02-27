@@ -16,7 +16,7 @@ export default {
 
         //loop through all field entries and build out sendObj
         for (let key in entry) {
-            if (entry.hasOwnProperty(key) && entry[key] !== null && itemsToNotInclude.indexOf(key) === -1) {
+            if (entry.hasOwnProperty(key) && entry[key] !== null && entryOptions.hasOwnProperty(key) && itemsToNotInclude.indexOf(key) === -1) {
                 try {
                     switch (entryOptions[key].type) {
                         case 'Date':
@@ -61,7 +61,7 @@ export default {
 
         //loop through all field entries and build out sendObj
         for (let key in entry) {
-            if (entry.hasOwnProperty(key) && entry[key] !== null) {
+            if (entry.hasOwnProperty(key) && entry[key] !== null && entryOptions.hasOwnProperty(key)) {
                 try {
                     switch (entryOptions[key].type) {
                         case 'Date':

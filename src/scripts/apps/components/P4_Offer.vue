@@ -7,7 +7,7 @@
       <div class="row offer-meta">
         <div class="col m6">
           <h3>Inspection Done By:</h3>
-          <p v-if="offer.mechanic"><span>{{offer.mechanic.firstName}} {{offer.mechanic.lastName}}</span> / Certified senior mechanic</p>
+          <p v-if="offer.inspector_details"><span>{{offer.inspector_details.firstName}} {{offer.inspector_details.lastName}}</span> / Certified senior mechanic</p>
         </div>
         <div class="col m6">
           <h3>Prepared For:</h3>

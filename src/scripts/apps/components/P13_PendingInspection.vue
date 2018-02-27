@@ -71,8 +71,8 @@ export default {
         let p2 = this.getInspectors();
         let that = this;
         Promise.all([p1, p2]).then(function () {
-            if (!that.inspectors.find(i => i.id == that.inspection.mechanic_details.id)) {
-                that.inspectors.unshift(that.inspection.mechanic_details);
+            if (!that.inspectors.find(i => i.id == that.inspection.inspector_details.id)) {
+                that.inspectors.unshift(that.inspection.inspector_details);
             }
         });
     },
@@ -109,7 +109,7 @@ export default {
                     this.$store.commit('updateInspection', res.inspection);
                     this.$store.commit('updateOptions', res.options);
 
-                    this.inspectorId = this.inspection.mechanic ? this.inspection.mechanic[0] : null
+                    this.inspectorId = this.inspection.inspector ? this.inspection.inspector[0] : null
                 }).catch(e => {
                     console.error(e)
                 })
@@ -147,7 +147,7 @@ export default {
     },
     watch: {
         inspectorId: function (id) {
-            this.inspection.mechanic = id ? [id] : [];
+            this.inspection.inspector = id ? [id] : [];
         }
     },
     components: {
