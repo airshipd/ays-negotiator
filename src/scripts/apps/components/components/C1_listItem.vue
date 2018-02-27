@@ -2,83 +2,88 @@
 
   <li @click.stop="toggleRowActive" :class="itemClass(inspection.status)" >
     <div class="row">
-      <div class="col title">{{inspection.title}}</div>
-      <div class="col status">{{showProperStatus(inspection.status)}}</div>
+      <div class="col title">
+          {{ inspection.title }}
+          <span v-if="inspection.inspectionDate">({{ moment(inspection.inspectionDate).format('h:mm A') }})</span>
+      </div>
+      <div class="col status">{{showProperStatus(inspection)}}</div>
     </div>
     <div class="row">
       <div class="col address">{{inspection.address}}</div>
       <div :class="bottomClass"><span v-if="inspection.status === 'finalized'">Report</span><i class="material-icons">keyboard_arrow_right</i></div>
     </div>
-    <div class="click-wrapper" @click="goToAction(inspection.status)"></div>
+    <div class="click-wrapper" @click="goToAction(inspection)"></div>
   </li>
 
 </template>
 
 <script>
-  export default {
-    name: 'list-items',
-    props: ['inspection', 'action', 'active', 'index'],
-    mounted () {
-    },
-    data () {
-      return {
+    import moment from 'moment'
 
-      }
-    },
-    methods: {
-      showProperStatus(status) {
-        let theStatus = ''
-        switch(status) {
-          case 'UpComing':
-            theStatus = 'Up Coming'
-            break;
-          case 'finalized':
-            theStatus = 'Finalized'
-            break;
-          case 'Rejected':
-            theStatus = 'Rejected'
-            break;
-          case 'Accepted':
-            theStatus = 'Accepted'
-            break;
-          default:
-            theStatus = 'No Status'
-        }
-        return theStatus
-      },
-      toggleRowActive() {
-        this.$emit('newactive', this.index);
-        this.$store.commit('updateLocation', {lat: this.inspection.lat, lng: this.inspection.lng })
-        this.$store.commit('updateLocationData', this.inspection)
-      },
-      goToAction(status) {
-        if( status === 'finalized' ) {
-          window.location.href = '/report/'+this.inspection.id
-        } else if( status === 'Rejected' )
-          this.$router.push('final/1/'+this.inspection.id)
-        else {
-          this.$router.push('inspection/'+this.inspection.id)
-        }
-      },
-      itemClass (status) {
-        let obj = {
-          inspection: true,
-          active: this.active,
-          'z-depth-1': this.active
-        }
-        obj[status] = true
+    export default {
+        name: 'list-items',
+        props: ['inspection', 'action', 'active', 'index'],
+        mounted() {
+        },
+        data() {
+            return {
+                moment
+            }
+        },
+        methods: {
+            showProperStatus(inspection) {
+                let theStatus = ''
+                switch (inspection.status) {
+                    case 'UpComing':
+                        theStatus = inspection.pending ? 'Pending' : 'Up Coming';
+                        break;
+                    case 'finalized':
+                        theStatus = 'Finalized'
+                        break;
+                    case 'Rejected':
+                        theStatus = 'Rejected'
+                        break;
+                    case 'Accepted':
+                        theStatus = 'Accepted'
+                        break;
+                    default:
+                        theStatus = 'No Status'
+                }
+                return theStatus
+            },
+            toggleRowActive() {
+                this.$emit('newactive', this.index);
+            },
+            goToAction(inspection) {
+                if (inspection.status === 'finalized') {
+                    window.location.href = '/report/' + this.inspection.id
+                } else if (inspection.status === 'Rejected') {
+                    this.$router.push('/final/1/' + this.inspection.id)
+                } else if (inspection.status === 'UpComing' && inspection.pending) {
+                    this.$router.push('/pending-inspection/' + this.inspection.id)
+                } else {
+                    this.$router.push('/inspection/' + this.inspection.id)
+                }
+            },
+            itemClass(status) {
+                let obj = {
+                    inspection: true,
+                    active: this.active,
+                    'z-depth-1': this.active
+                }
+                obj[status] = true
 
-        return obj
-      }
-    },
-    computed: {
-      bottomClass () {
-        return {
-          col: true,
-          distance: this.inspection.status !== 'finalized' ? true : false,
-          report: this.inspection.status === 'finalized' ? true : false
-        }
-      },
-    },
-}
+                return obj
+            }
+        },
+        computed: {
+            bottomClass() {
+                return {
+                    col: true,
+                    distance: this.inspection.status !== 'finalized',
+                    report: this.inspection.status === 'finalized'
+                }
+            },
+        },
+    }
 </script>

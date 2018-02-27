@@ -100,7 +100,7 @@
         <input-text :label="'Build Date'" v-model="inspection.buildDate" :name="'buildDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Complience Date'" v-model="inspection.complianceDate" :name="'complianceDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+        <input-text :label="'Compliance Date'" v-model="inspection.complianceDate" :name="'complianceDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
       </div>
     </div>
 
@@ -141,7 +141,6 @@
     </div>
 
     <b1-button :label="'Submit'" :action="submitForm" :fullWidth="true"></b1-button>
-    <b1-button class="grey lighten-1" :label="'Skip to Paperwork'" :action="skip" :fullWidth="true"></b1-button>
   </section>
 </template>
 
@@ -158,6 +157,7 @@ import inputFileList from './inputs/N8_PhotoList.vue'
 
 import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
+import ImageUploader from '../services/ImageUploader'
 
 import axios from 'axios'
 import moment from 'moment'
@@ -190,21 +190,38 @@ export default {
             })
         },
         addVehiclePhoto(file) {
-            if (!this.inspection.vehiclePhotos) {
-                this.inspection.vehiclePhotos = [file]
-            } else {
-                this.inspection.vehiclePhotos.push(file)
-            }
+            let that = this;
+
+            new ImageUploader({
+                quality: 0.9,
+                maxWidth: 1920,
+                maxHeight: 1920,
+            }).scaleFile(file, function(blob) {
+                blob.name = file.name;
+
+                if (!that.inspection.vehiclePhotos) {
+                    that.inspection.vehiclePhotos = [blob]
+                } else {
+                    that.inspection.vehiclePhotos.push(blob)
+                }
+            });
         },
         addLicenseAndRegistrationPhotos(file) {
-            if (!this.inspection.licenseAndRegistrationPhotos) {
-                this.inspection.licenseAndRegistrationPhotos = [file]
-            } else {
-                this.inspection.licenseAndRegistrationPhotos.push(file)
-            }
-        },
-        skip() {
-            this.$router.push('/final/1/' + this.$route.params.id)
+            let that = this;
+
+            new ImageUploader({
+                quality: 0.9,
+                maxWidth: 1920,
+                maxHeight: 1920,
+            }).scaleFile(file, function(blob) {
+                blob.name = file.name;
+
+                if (!that.inspection.licenseAndRegistrationPhotos) {
+                    that.inspection.licenseAndRegistrationPhotos = [blob]
+                } else {
+                    that.inspection.licenseAndRegistrationPhotos.push(blob)
+                }
+            });
         },
         submitForm() {
             this.$validator.validateAll().then((result) => {

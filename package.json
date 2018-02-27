@@ -76,6 +76,7 @@
     "vueify": "^9.4.1",
     "vuejs-count-down": "0.0.5",
     "vuejs-countdown": "^0.1.0",
+    "vuejs-datepicker": "^0.9.26",
     "vuex": "^3.0.1"
   }
 }

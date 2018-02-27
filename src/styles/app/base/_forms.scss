@@ -30,18 +30,20 @@ input[type="password"] {
     border-bottom: none;
     padding: 0;
   }
+}
 
-  .input-field & {
+.input-field {
+  input {
     margin-top: 1.6rem;
+  }
 
-    + label {
-      font-weight: 500;
-      position: absolute;
-      top: 0;
-      left: 0;
-      color: $dark-blue;
-      font-size: 1.2rem;
-    }
+  label {
+    font-weight: 500;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: $dark-blue;
+    font-size: 1.2rem;
   }
 }
 

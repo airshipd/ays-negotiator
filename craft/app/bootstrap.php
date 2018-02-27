@@ -29,6 +29,9 @@ defined('CRAFT_STORAGE_PATH')      || define('CRAFT_STORAGE_PATH',      CRAFT_BA
 defined('CRAFT_TEMPLATES_PATH')    || define('CRAFT_TEMPLATES_PATH',    CRAFT_BASE_PATH.'templates/');
 defined('CRAFT_TRANSLATIONS_PATH') || define('CRAFT_TRANSLATIONS_PATH', CRAFT_BASE_PATH.'translations/');
 
+// Load up Composer's files
+require CRAFT_VENDOR_PATH.'autoload.php';
+
 function craft_createFolder($path)
 {
 	// Code borrowed from IOHelper...
@@ -166,9 +169,6 @@ if (!class_exists('Yii', false))
 // See: http://it.blog.adclick.pt/php/fixing-php-notice-use-of-undefined-constant-curlopt_timeout_ms-assumed-curlopt_timeout_ms/
 defined('CURLOPT_TIMEOUT_MS')        || define('CURLOPT_TIMEOUT_MS',        155);
 defined('CURLOPT_CONNECTTIMEOUT_MS') || define('CURLOPT_CONNECTTIMEOUT_MS', 156);
-
-// Load up Composer's files
-require CRAFT_VENDOR_PATH.'autoload.php';
 
 // Disable the PHP include path
 Yii::$enableIncludePath = false;

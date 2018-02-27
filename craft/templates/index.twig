@@ -13,7 +13,7 @@
     {% if currentUser.admin %}
       {% set inspections = craft.entries({ section: "inspections" }).order("dateCreated desc") %}
     {% else %}
-      {% set inspections = craft.entries({ section: "inspections" }).relatedTo({ element: currentUser, field: 'mechanic' }).order("dateCreated desc") %}
+      {% set inspections = craft.entries({ section: "inspections" }).relatedTo({ element: currentUser, field: 'inspector' }).order("dateCreated desc") %}
     {% endif %}
 
     {% if inspections|length %}
