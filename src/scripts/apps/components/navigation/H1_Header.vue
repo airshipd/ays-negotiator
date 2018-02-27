@@ -40,10 +40,6 @@
                                 <label>Customer</label>
                                 {{inspection.customerName}}
                             </div>
-                            <div class="col">
-                                <label>Build Date</label>
-                                {{inspection.buildDate}}
-                            </div>
                         </div>
                     </div>
                     <div class="header-report" v-if="currentRoute === 'Offer'">

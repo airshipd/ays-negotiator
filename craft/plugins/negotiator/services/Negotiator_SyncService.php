@@ -110,11 +110,12 @@ class Negotiator_SyncService extends BaseApplicationComponent
             //required fields
             'make'                   => $model->make ?: 'UNKNOWN',
             'model'                  => $model->model ?: 'UNKNOWN',
-            'buildDate'              => $model->build_year ? $model->build_year . '-01-01' : '1900-01-01',
             'customerName'           => $model->name ?: 'UNKNOWN',
             'runbikestopId'         => $model->id,
 
             //all other fields
+            'buildDate'              => $model->build_year ? $model->build_year . '-01-01' : null,
+            'year'                   => $model->year,
             'customerEmail'          => $model->email,
             'customerMobileNumber'   => $model->phone,
             'engineSize'             => $model->engine,
@@ -149,9 +150,6 @@ class Negotiator_SyncService extends BaseApplicationComponent
                 $content['inspector'] = [$user->id];
             }
         }
-        if($model->year) {
-            $content['year'] = $model->year;
-        }
 
         $entry->setContentFromPost(array_filter($content));
         $entry->scenario = self::ENTRY_SCENARIO_SYNC;
@@ -162,14 +160,10 @@ class Negotiator_SyncService extends BaseApplicationComponent
             return self::STATUS_SUCCESS;
         } else {
             $failed = [];
-            $required_defaults = [
-                'year' => 0,
-                'buildDate' => '1900-01-01',
-            ];
 
             foreach($entry->getErrors() as $attribute => $errors) {
                 $failed[$attribute] = $entry->getContent()->$attribute;
-                $entry->getContent()->$attribute = $required_defaults[$attribute] ?? null;
+                $entry->getContent()->$attribute = null;
             }
 
             NegotiatorPlugin::log('Failed to save some fields. Details: ' . json_encode([
