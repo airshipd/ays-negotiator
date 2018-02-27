@@ -141,7 +141,6 @@
     </div>
 
     <b1-button :label="'Submit'" :action="submitForm" :fullWidth="true"></b1-button>
-    <b1-button class="grey lighten-1" :label="'Skip to Paperwork'" :action="skip" :fullWidth="true"></b1-button>
   </section>
 </template>
 
@@ -223,9 +222,6 @@ export default {
                     that.inspection.licenseAndRegistrationPhotos.push(blob)
                 }
             });
-        },
-        skip() {
-            this.$router.push('/final/1/' + this.$route.params.id)
         },
         submitForm() {
             this.$validator.validateAll().then((result) => {
