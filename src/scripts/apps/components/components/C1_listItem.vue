@@ -2,7 +2,10 @@
 
   <li @click.stop="toggleRowActive" :class="itemClass(inspection.status)" >
     <div class="row">
-      <div class="col title">{{inspection.title}}</div>
+      <div class="col title">
+          {{ inspection.title }}
+          <span v-if="inspection.inspectionDate">({{ moment(inspection.inspectionDate).format('h:mm A') }})</span>
+      </div>
       <div class="col status">{{showProperStatus(inspection)}}</div>
     </div>
     <div class="row">
@@ -15,13 +18,17 @@
 </template>
 
 <script>
+    import moment from 'moment'
+
     export default {
         name: 'list-items',
         props: ['inspection', 'action', 'active', 'index'],
         mounted() {
         },
         data() {
-            return {}
+            return {
+                moment
+            }
         },
         methods: {
             showProperStatus(inspection) {

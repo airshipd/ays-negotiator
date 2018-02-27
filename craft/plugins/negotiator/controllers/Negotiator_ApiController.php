@@ -38,7 +38,7 @@ class Negotiator_ApiController extends BaseController {
             $criteria->runbikestopId = ':notempty:';
         }
 
-        $criteria->order = 'dateCreated asc';
+        $criteria->order = 'inspectionDate, dateCreated asc';
         $inspections = $criteria->find();
 
         //build out response object
@@ -61,6 +61,7 @@ class Negotiator_ApiController extends BaseController {
                 'status'  => $i->getContent()->inspectionStatus,
                 'url'     => $i->url,
                 'pending' => !$i->inspectionDate,
+                'inspectionDate' => $i->inspectionDate->format('Y-m-d H:i:s'),
             ];
         }
 
