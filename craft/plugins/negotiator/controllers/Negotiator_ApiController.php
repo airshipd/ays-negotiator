@@ -61,7 +61,7 @@ class Negotiator_ApiController extends BaseController {
                 'status'  => $i->getContent()->inspectionStatus,
                 'url'     => $i->url,
                 'pending' => !$i->inspectionDate,
-                'inspectionDate' => $i->inspectionDate->format('Y-m-d H:i:s'),
+                'inspectionDate' => $i->inspectionDate ? $i->inspectionDate->format('Y-m-d H:i:s') : null,
             ];
         }
 
