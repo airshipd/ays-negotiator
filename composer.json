@@ -9,7 +9,8 @@
         "lsolesen/pel": "0.9.4.5",
         "guzzle/guzzle": "3.9.4",
         "symfony/event-dispatcher": "2.8.31",
-        "enshrined/svg-sanitize": "0.6.0"
+        "enshrined/svg-sanitize": "0.6.0",
+        "nexmo/client": "^1.2"
     },
     "config": {
         "vendor-dir": "craft/app/vendor"

@@ -7,6 +7,9 @@ namespace Composer\Autoload;
 class ComposerStaticInitd4815fbaaabd91d283d041a5c16483ca
 {
     public static $files = array (
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '0ff5e8a90ad188f1a99d8fc3e08b2236' => __DIR__ . '/../../../..' . '/craft/composer_bootstrap.php',
     );
 
@@ -19,9 +22,37 @@ class ComposerStaticInitd4815fbaaabd91d283d041a5c16483ca
         array (
             'enshrined\\svgSanitize\\' => 22,
         ),
+        'Z' => 
+        array (
+            'Zend\\Diactoros\\' => 15,
+        ),
         'S' => 
         array (
             'Symfony\\Component\\EventDispatcher\\' => 34,
+        ),
+        'P' => 
+        array (
+            'Psr\\Http\\Message\\' => 17,
+        ),
+        'N' => 
+        array (
+            'Nexmo\\' => 6,
+        ),
+        'L' => 
+        array (
+            'Lcobucci\\JWT\\' => 13,
+        ),
+        'H' => 
+        array (
+            'Http\\Promise\\' => 13,
+            'Http\\Client\\' => 12,
+            'Http\\Adapter\\Guzzle6\\' => 21,
+        ),
+        'G' => 
+        array (
+            'GuzzleHttp\\Psr7\\' => 16,
+            'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\' => 11,
         ),
         'D' => 
         array (
@@ -38,9 +69,49 @@ class ComposerStaticInitd4815fbaaabd91d283d041a5c16483ca
         array (
             0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
         ),
+        'Zend\\Diactoros\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
+        ),
         'Symfony\\Component\\EventDispatcher\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Nexmo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nexmo/client/src',
+        ),
+        'Lcobucci\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
+        ),
+        'Http\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/promise/src',
+        ),
+        'Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/httplug/src',
+        ),
+        'Http\\Adapter\\Guzzle6\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/guzzle6-adapter/src',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'GuzzleHttp\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
+        ),
+        'GuzzleHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
         'Dotenv\\' => 
         array (
