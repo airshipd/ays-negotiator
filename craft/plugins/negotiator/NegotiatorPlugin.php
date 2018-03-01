@@ -41,7 +41,8 @@ class NegotiatorPlugin extends BasePlugin {
 
         //Validate location before save
         $inspector_id = null; //old inspector ID
-        craft()->on('entries.BeforeSaveEntry', function (Event $event) use(&$inspector_id) {
+        $inspection_date = null; //old inspection date
+        craft()->on('entries.BeforeSaveEntry', function (Event $event) use(&$inspector_id, &$inspection_date) {
 
             /** @var EntryModel $entry */
             $entry = $event->params['entry'];
@@ -68,13 +69,14 @@ class NegotiatorPlugin extends BasePlugin {
                     if($ids) {
                         $inspector_id = $ids[0];
                     }
+                    $inspection_date = $old_entry->inspectionDate;
                 }
                 return $event->performAction = true;
             }
         });
 
         //Send SMS notification when new inspector is assigned
-        craft()->on('entries.SaveEntry', function (Event $event) use(&$inspector_id) {
+        craft()->on('entries.SaveEntry', function (Event $event) use(&$inspector_id, &$inspection_date) {
             /** @var EntryModel $entry */
             $entry = $event->params['entry'];
 
@@ -83,8 +85,8 @@ class NegotiatorPlugin extends BasePlugin {
             }
 
             $ids = $entry->inspector->ids();
-            if($ids && $ids[0] != $inspector_id) {
-                //new inspector assigned
+            if($ids && $entry->inspectionDate && ($ids[0] != $inspector_id || $inspection_date != $entry->inspectionDate)) {
+                //inspector or inspection date changed
                 $inspector = craft()->users->getUserById($ids[0]);
                 craft()->negotiator_notifications->notifyInspector($inspector, $entry);
             }
