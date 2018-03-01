@@ -28,9 +28,19 @@ class NegotiatorPlugin extends BasePlugin {
     }
 
     public function init() {
-         $inspector_id = null; //old inspector ID
+        //Validate phone number
+        craft()->on('users.BeforeSaveUser', function (Event $event) {
+            /** @var UserModel $user */
+            $user = $event->params['user'];
+
+            if(!empty($user->phone) && !preg_match('/^0[45]\d{8}$/', $user->phone)) {
+                $user->addError('phone', 'Wrong phone format. Required format is: 04xxxxyyyy');
+                $event->performAction = false;
+            }
+        });
 
         //Validate location before save
+        $inspector_id = null; //old inspector ID
         craft()->on('entries.BeforeSaveEntry', function (Event $event) use(&$inspector_id) {
 
             /** @var EntryModel $entry */
