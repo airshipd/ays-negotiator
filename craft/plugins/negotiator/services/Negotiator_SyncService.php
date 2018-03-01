@@ -151,6 +151,10 @@ class Negotiator_SyncService extends BaseApplicationComponent
             }
         }
 
+        if($model->latest_pricing && is_numeric($model->latest_pricing)) {
+            $this->setPrices($content, $model->latest_pricing);
+        }
+
         $entry->setContentFromPost(array_filter($content));
         $entry->scenario = self::ENTRY_SCENARIO_SYNC;
 
@@ -189,5 +193,27 @@ class Negotiator_SyncService extends BaseApplicationComponent
                 return self::STATUS_ERROR;
             }
         }
+    }
+
+    private function setPrices(&$content, $latest_pricing)
+    {
+        if($latest_pricing <= 1500) {
+            NegotiatorPlugin::log(sprintf('Wrong latest pricing: %s. RunBikeStop ID: %d', $latest_pricing, $content['runbikestopId']), LogLevel::Warning, true);
+            return;
+        }
+
+        if ($latest_pricing <= 10000) {
+            $content['onsitePhysicalValuation'] = $latest_pricing - 1500;
+        } elseif ($latest_pricing <= 15000) {
+            $content['onsitePhysicalValuation'] = $latest_pricing - 1750;
+        } elseif ($latest_pricing <= 30000) {
+            $content['onsitePhysicalValuation'] = $latest_pricing - 2250;
+        } else {
+            $content['onsitePhysicalValuation'] = $latest_pricing - 3000;
+        }
+
+        $content['reviewValuation'] = $content['onsitePhysicalValuation'] + ($content['onsitePhysicalValuation'] <= 30000 ? 500 : 750);
+        $content['averageTotalForCarType'] = round($content['onsitePhysicalValuation'] * 0.65);
+        $content['maxTotalForCarType'] = round($content['onsitePhysicalValuation'] * 1.22);
     }
 }
