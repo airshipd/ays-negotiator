@@ -133,7 +133,7 @@ export default {
                         .then(response => {
                             console.log(response);
                             this.$store.commit('updateInspection', this.inspection);
-                            this.$router.push('/pending');
+                            this.$router.push('/');
                         }).catch(e => {
                             console.error(e)
                         })

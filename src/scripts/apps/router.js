@@ -28,7 +28,7 @@ const router = new Router({
         {
             path: '/',
             redirect: to => {
-                return window.isAdmin ? '/admin/nsw' : '/pending';
+                return window.isAdmin ? '/admin/nsw' : '/upcoming';
             }
         },
         {
@@ -37,11 +37,11 @@ const router = new Router({
             component: Negotiations,
             props: true,
             beforeEnter: (to, from, next) => {
-                next(window.isAdmin ? true : '/pending');
+                next(window.isAdmin ? true : '/upcoming');
             }
         },
         {
-            path: '/:type(pending|upcoming)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
+            path: '/upcoming/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
             name: 'Negotiations',
             component: Negotiations,
             props: true,
