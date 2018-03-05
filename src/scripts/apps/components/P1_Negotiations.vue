@@ -55,11 +55,14 @@ import moment from 'moment'
 
 export default {
     name: 'negotiator',
-    props: ['type', 'date'],
+    props: ['type', 'date', 'state'],
     mounted() {
         this.getInspections();
         this.getUserLocation();
-        this.initDatepicker();
+
+        if(this.$route.name === 'Negotiations') {
+            this.initDatepicker();
+        }
     },
     data() {
         return {
@@ -84,7 +87,8 @@ export default {
             $('.gm-style-iw--wrapper > div:first-of-type').addClass('gm-style-iw--remove')
         },
         getInspections() {
-            axios.get(urlGetInspections, {params: {date: this.date, upcoming: this.type === 'upcoming' ? 1 : 0}})
+            let upcoming = this.$route.name === 'Negotiations';
+            axios.get(urlGetInspections, {params: {date: this.date, state: this.state, upcoming: upcoming ? 1 : 0}})
             .then(response => {
                 this.inspections = response.data
             }).catch(e => {

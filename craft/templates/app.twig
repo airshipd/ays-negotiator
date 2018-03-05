@@ -2,6 +2,9 @@
 
 {% block content %}
 
-  <div id="app"></div>
+    <div id="app"></div>
+    <script>
+        window.isAdmin = {{ currentUser.admin }};
+    </script>
 
 {% endblock %}

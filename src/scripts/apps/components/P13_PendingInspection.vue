@@ -47,7 +47,6 @@
         </div>
 
         <b1-button :label="'Submit'" :action="submitForm" :fullWidth="true"></b1-button>
-        <b1-button class="grey lighten-1" :label="'Skip to Paperwork'" :action="skip" :fullWidth="true"></b1-button>
     </section>
 </template>
 
@@ -134,7 +133,7 @@ export default {
                         .then(response => {
                             console.log(response);
                             this.$store.commit('updateInspection', this.inspection);
-                            this.$router.push('/pending');
+                            this.$router.push('/');
                         }).catch(e => {
                             console.error(e)
                         })

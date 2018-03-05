@@ -8,15 +8,23 @@
                 <div class="heading-secondary">
                     <div class="header-inspections" v-if="currentRoute === 'Negotiations'">
                         <div class="right">
-                            <div class="header-date" v-show="$route.params.type === 'upcoming'">
+                            <div class="header-date">
                                 <input class="datepicker-negotiations"/>
                             </div>
                             <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
                         </div>
+                    </div>
+                    <div class="header-inspections" v-if="currentRoute === 'Admin'">
+                        <div class="right">
+                            <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
+                        </div>
 
                         <ul class="type-switcher">
-                            <router-link tag="li" :to="{path: '/pending'}"><a>Pending</a></router-link>
-                            <router-link tag="li" :to="{name: 'Negotiations', params: {type: 'upcoming'}}"><a>Upcoming</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'nsw'}}"><a>NSW</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'vic'}}"><a>VIC</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'qld'}}"><a>QLD</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'wa'}}"><a>WA</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'nt_sa'}}"><a>NT/SA</a></router-link>
                         </ul>
                     </div>
                     <div class="inspection-header" v-if="currentRoute === 'Inspection' || currentRoute === 'Pending Inspection'">
@@ -150,7 +158,7 @@
             },
             classObj() {
                 return {
-                    'fixed-height': ['Negotiations', 'Offer'].indexOf(this.currentRoute) !== -1
+                    'fixed-height': ['Negotiations', 'Admin', 'Offer'].indexOf(this.currentRoute) !== -1
                 }
             }
         },

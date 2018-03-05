@@ -27,13 +27,27 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            redirect: '/pending'
+            redirect: to => {
+                return window.isAdmin ? '/admin/nsw' : '/upcoming';
+            }
         },
         {
-            path: '/:type(pending|upcoming)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
+            path: '/admin/:state(nsw|vic|qld|wa|nt_sa)',
+            name: 'Admin',
+            component: Negotiations,
+            props: true,
+            beforeEnter: (to, from, next) => {
+                next(window.isAdmin ? true : '/upcoming');
+            }
+        },
+        {
+            path: '/upcoming/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
             name: 'Negotiations',
             component: Negotiations,
-            props: true
+            props: true,
+            beforeEnter: (to, from, next) => {
+                next(window.isAdmin ? '/admin/nsw' : true);
+            }
         },
         {
             path: '/inspection/:id',

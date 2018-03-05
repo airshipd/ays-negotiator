@@ -83,6 +83,7 @@
  * @property Craft\Negotiator_OfferService negotiator_offer
  * @property Craft\Negotiator_AssessmentService negotiator_assessment
  * @property Craft\Negotiator_SyncService negotiator_sync
+ * @property Craft\Negotiator_NotificationsService negotiator_notifications
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base

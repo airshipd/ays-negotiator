@@ -38,6 +38,14 @@ class Negotiator_ApiController extends BaseController {
             $criteria->runbikestopId = ':notempty:';
         }
 
+        if($state = craft()->request->getQuery('state')) {
+            if($state === 'nt_sa') {
+                $state = 'or,nt,sa';
+            }
+
+            $criteria->customerState = $state;
+        }
+
         $criteria->order = 'inspectionDate, dateCreated asc';
         $inspections = $criteria->find();
 
