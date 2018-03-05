@@ -19,6 +19,19 @@
                             <router-link tag="li" :to="{name: 'Negotiations', params: {type: 'upcoming'}}"><a>Upcoming</a></router-link>
                         </ul>
                     </div>
+                    <div class="header-inspections" v-if="currentRoute === 'Admin'">
+                        <div class="right">
+                            <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
+                        </div>
+
+                        <ul class="type-switcher">
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'nsw'}}"><a>NSW</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'vic'}}"><a>VIC</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'qld'}}"><a>QLD</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'wa'}}"><a>WA</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'nt_sa'}}"><a>NT/SA</a></router-link>
+                        </ul>
+                    </div>
                     <div class="inspection-header" v-if="currentRoute === 'Inspection' || currentRoute === 'Pending Inspection'">
                         <div class="left">
                             <a @click="actionMenu"><i class="icon-back"></i></a>
@@ -150,7 +163,7 @@
             },
             classObj() {
                 return {
-                    'fixed-height': ['Negotiations', 'Offer'].indexOf(this.currentRoute) !== -1
+                    'fixed-height': ['Negotiations', 'Admin', 'Offer'].indexOf(this.currentRoute) !== -1
                 }
             }
         },
