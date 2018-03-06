@@ -12,6 +12,7 @@ class NegotiatorCommand extends BaseCommand
             Negotiator_SyncService::STATUS_DUPLICATE => 0,
             Negotiator_SyncService::STATUS_WARNING => 0,
             Negotiator_SyncService::STATUS_ERROR => 0,
+            Negotiator_SyncService::STATUS_DELETED => 0,
         ];
 
         $i = 0;
@@ -24,20 +25,32 @@ class NegotiatorCommand extends BaseCommand
             }
 
             $models = Negotiator_RunbikestopModel::populateModels($records);
-            foreach($models as $model) {
-                $status = craft()->negotiator_sync->saveRecord($model);
-                ++$stats[$status];
+            foreach($models as $model) { /** @var Negotiator_RunbikestopModel $model */
+                $identical = craft()->negotiator_sync->getEntryByRbsId($model->id);
+
+                if ($model->colour === 'blue') {
+                    if ($identical) {
+                        ++$stats[Negotiator_SyncService::STATUS_DUPLICATE];
+                    } else {
+                        $status = craft()->negotiator_sync->saveRecord($model);
+                        ++$stats[$status];
+                    }
+                } elseif ($identical) {
+                    craft()->elements->deleteElementById($identical->id);
+                    ++$stats[Negotiator_SyncService::STATUS_DELETED];
+                }
             }
         }
 
         craft()->negotiator_sync->setLastSyncTime($last_read);
 
         if(array_sum($stats)) {
-            NegotiatorPlugin::log(sprintf('Synced. Success: %d, duplicate: %d, warning: %d, error: %d',
+            NegotiatorPlugin::log(sprintf('Synced. Success: %d, duplicate: %d, warning: %d, error: %d, deleted: %d',
                 $stats[Negotiator_SyncService::STATUS_SUCCESS],
                 $stats[Negotiator_SyncService::STATUS_DUPLICATE],
                 $stats[Negotiator_SyncService::STATUS_WARNING],
-                $stats[Negotiator_SyncService::STATUS_ERROR]
+                $stats[Negotiator_SyncService::STATUS_ERROR],
+                $stats[Negotiator_SyncService::STATUS_DELETED]
             ));
         }
     }

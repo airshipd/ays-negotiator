@@ -16,6 +16,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
     const STATUS_DUPLICATE = 2;
     const STATUS_WARNING = 3;
     const STATUS_ERROR = 4;
+    const STATUS_DELETED = 5;
 
     private $authToken;
 
@@ -23,6 +24,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
      * @param DateTime $since
      * @param int      $page
      * @return array
+     * @throws Exception
      */
     public function fetch(DateTime $since, $page = 1) {
         $client = new GuzzleClient(self::API_ENDPOINT);
@@ -32,8 +34,6 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'query' => [
                 'page' => $page,
                 'since' => $since->setTimezone(new \DateTimeZone('UTC'))->atom(),
-                'commit' => 'true', //it's required for the filtering to work
-                'colour' => 'blue', //only records with "appointment" status
             ]
         ]);
         $response = $request->send();
@@ -82,6 +82,16 @@ class Negotiator_SyncService extends BaseApplicationComponent
     }
 
     /**
+     * @param int $rbs_id
+     * @return EntryModel
+     * @throws Exception
+     */
+    public function getEntryByRbsId($rbs_id) {
+        $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        return $criteria->first(['runbikestopId' => $rbs_id]);
+    }
+
+    /**
      * @param Negotiator_RunbikestopModel $model
      * @return int one of the STATUS-constants
      * @throws Exception
@@ -89,11 +99,6 @@ class Negotiator_SyncService extends BaseApplicationComponent
      */
     public function saveRecord(Negotiator_RunbikestopModel $model)
     {
-        $criteria = craft()->elements->getCriteria(ElementType::Entry);
-        if($criteria->total(['runbikestopId' => $model->id])) {
-            return self::STATUS_DUPLICATE;
-        }
-
         $criteria = craft()->elements->getCriteria(ElementType::User);
         $criteria->order = 'id';
         $admin = $criteria->first();
