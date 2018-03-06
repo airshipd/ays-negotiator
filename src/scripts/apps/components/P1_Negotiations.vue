@@ -1,54 +1,55 @@
 <template>
+    <section class="section-inspections">
+        <div class="row">
+            <div class="col list">
+                <loader v-show="showLoader"/>
 
-  <section class="section-inspections">
-    <div class="row">
-      <div class="col list">
-        <ul>
-          <list v-for="(item, index) in inspections"
-          :inspection="item"
-          :active="index === activeLiIndex"
-          :key="item.id"
-          :index="index"
-          @newactive="activeLiIndex = $event" >
-          </list>
-        </ul>
-      </div>
-      <div class="col map">
-        <gmap-map
-          :center="location"
-          :zoom="13"
-          :style="{width: '100%', height: '100%'}"
-        >
-          <gmap-marker
-            :position="location"
-            :clickable="false"
-            :draggable="false"
-            :icon="mapIcon"
-            v-if="inspection"
-          ></gmap-marker>
-          <gmap-info-window
-            :position="location"
-            :options="infoOptions"
-            v-if="inspection"
-            @domready="customiseInfoWindow"
-          >
-            <div class="row">
-              <div class="col title">{{ inspection.title }}</div>
+                <ul v-show="!showLoader">
+                    <list v-for="(item, index) in inspections"
+                        :inspection="item"
+                        :active="index === activeLiIndex"
+                        :key="item.id"
+                        :index="index"
+                        @newactive="activeLiIndex = $event">
+                    </list>
+                </ul>
             </div>
-            <div class="row">
-              <div class="col address">{{ inspection.address }}</div>
+            <div class="col map">
+                <gmap-map
+                    :center="location"
+                    :zoom="13"
+                    :style="{width: '100%', height: '100%'}"
+                >
+                    <gmap-marker
+                        :position="location"
+                        :clickable="false"
+                        :draggable="false"
+                        :icon="mapIcon"
+                        v-if="inspection"
+                    ></gmap-marker>
+                    <gmap-info-window
+                        :position="location"
+                        :options="infoOptions"
+                        v-if="inspection"
+                        @domready="customiseInfoWindow"
+                    >
+                        <div class="row">
+                            <div class="col title">{{ inspection.title }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col address">{{ inspection.address }}</div>
+                        </div>
+                    </gmap-info-window>
+                </gmap-map>
             </div>
-          </gmap-info-window>
-        </gmap-map>
-      </div>
-    </div>
-  </section>
-
+        </div>
+    </section>
 </template>
 
 <script>
 
 import list from './components/C1_listItem.vue'
+import loader from './components/C4_Spinner.vue'
 import axios from 'axios'
 import { urlGetInspections } from '../config.js'
 import moment from 'moment'
@@ -78,6 +79,7 @@ export default {
                     height: -15
                 }
             },
+            showLoader: false
         }
     },
     methods: {
@@ -87,10 +89,12 @@ export default {
             $('.gm-style-iw--wrapper > div:first-of-type').addClass('gm-style-iw--remove')
         },
         getInspections() {
+            this.showLoader = true;
             let upcoming = this.$route.name === 'Negotiations';
             axios.get(urlGetInspections, {params: {date: this.date, state: this.state, upcoming: upcoming ? 1 : 0}})
             .then(response => {
                 this.inspections = response.data
+                this.showLoader = false;
             }).catch(e => {
                 console.log(e)
             })
@@ -137,7 +141,8 @@ export default {
         }
     },
     components: {
-        list
+        list,
+        loader
     },
     watch: {
         inspections() {

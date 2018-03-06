@@ -32,7 +32,7 @@ const router = new Router({
             }
         },
         {
-            path: '/admin/:state(nsw|vic|qld|wa|nt_sa)',
+            path: '/admin/:state(nsw|vic|qld|wa|nt_sa|tas|act)',
             name: 'Admin',
             component: Negotiations,
             props: true,

@@ -25,6 +25,8 @@
                             <router-link tag="li" :to="{name: 'Admin', params: {state: 'qld'}}"><a>QLD</a></router-link>
                             <router-link tag="li" :to="{name: 'Admin', params: {state: 'wa'}}"><a>WA</a></router-link>
                             <router-link tag="li" :to="{name: 'Admin', params: {state: 'nt_sa'}}"><a>NT/SA</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'tas'}}"><a>TAS</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'act'}}"><a>ACT</a></router-link>
                         </ul>
                     </div>
                     <div class="inspection-header" v-if="currentRoute === 'Inspection' || currentRoute === 'Pending Inspection'">
