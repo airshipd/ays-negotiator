@@ -90,8 +90,14 @@ export default {
         },
         getInspections() {
             this.showLoader = true;
-            let upcoming = this.$route.name === 'Negotiations';
-            axios.get(urlGetInspections, {params: {date: this.date, state: this.state, upcoming: upcoming ? 1 : 0}})
+            axios.get(urlGetInspections, {
+                params: {
+                    date: this.date,
+                    state: this.state,
+                    upcoming: this.type === 'upcoming' ? 1 : 0,
+                    rejected: this.type === 'rejected' ? 1 : 0,
+                }
+            })
             .then(response => {
                 this.inspections = response.data
                 this.showLoader = false;

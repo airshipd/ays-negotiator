@@ -9,6 +9,7 @@ class Negotiator_ApiController extends BaseController {
     {
         $user = craft()->userSession->getUser();
         $upcoming = craft()->request->getQuery('upcoming', false);
+        $rejected = craft()->request->getQuery('rejected', false);
 
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
         $criteria->section = 'inspections';
@@ -33,6 +34,8 @@ class Negotiator_ApiController extends BaseController {
             }
 
             $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
+        } elseif($rejected) {
+            $criteria->inspectionStatus = 'Rejected';
         } else {
             $criteria->inspectionDate = ':empty:';
             $criteria->runbikestopId = ':notempty:';

@@ -8,11 +8,16 @@
                 <div class="heading-secondary">
                     <div class="header-inspections" v-if="currentRoute === 'Negotiations'">
                         <div class="right">
-                            <div class="header-date">
+                            <div class="header-date" v-show="$route.params.type === 'upcoming'">
                                 <input class="datepicker-negotiations"/>
                             </div>
                             <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
                         </div>
+
+                        <ul class="type-switcher" v-if="isSales">
+                            <router-link tag="li" :to="{name: 'Negotiations', params: {type: 'upcoming'}}"><a>Upcoming</a></router-link>
+                            <router-link tag="li" :to="{path: '/rejected'}"><a>Rejected</a></router-link>
+                        </ul>
                     </div>
                     <div class="header-inspections" v-if="currentRoute === 'Admin'">
                         <div class="right">
@@ -110,6 +115,7 @@
                 currentRoute: 'Negotiations',
                 title: '',
                 date: moment(new Date(moment().add(10, 'minutes').unix() * 1000)).format('YYYY/MM/DD HH:mm:ss'),
+                isSales: window.isSales, //whether the current user is a sales consultant
             }
         },
         methods: {
