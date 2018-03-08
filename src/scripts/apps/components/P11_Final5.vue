@@ -25,6 +25,11 @@
       <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: {{inspection.total}}</p>
       <div v-html="contract"></div>
     </div>
+      <div class="row">
+          <div class="col m9">
+              <input-textarea :label="'Notes'" v-model="inspection.notes" :name="'notes'"></input-textarea>
+          </div>
+      </div>
     <div class="row">
       <div class="col m6">
         <input-text :label="'Customer Name'" v-model="inspection.customerName" :name="'customerName'" :validation-rules="{required:true}"></input-text>
