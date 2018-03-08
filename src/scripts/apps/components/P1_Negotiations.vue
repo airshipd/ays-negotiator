@@ -61,7 +61,7 @@ export default {
         this.getInspections();
         this.getUserLocation();
 
-        if(this.$route.name === 'Negotiations') {
+        if(this.$route.name === 'Negotiations' && !window.isSales) {
             this.initDatepicker();
         }
     },
@@ -92,7 +92,7 @@ export default {
             this.showLoader = true;
             axios.get(urlGetInspections, {
                 params: {
-                    date: this.date,
+                    date: window.isSales ? null : this.date,
                     state: this.state,
                     upcoming: this.type === 'upcoming' ? 1 : 0,
                     rejected: this.type === 'rejected' ? 1 : 0,
@@ -122,6 +122,9 @@ export default {
         initDatepicker () {
             let that = this;
             let $datepicker = $('.datepicker-negotiations');
+            if (!this.date) {
+                this.date = moment().format('YYYY-MM-DD');
+            }
 
             $datepicker.pickadate({
                 format: 'dddd, mmm dd',
@@ -143,7 +146,7 @@ export default {
                 }
             });
 
-            $datepicker.pickadate('picker').set('select',  moment(this.$route.params.date).toDate(), {muted: true});
+            $datepicker.pickadate('picker').set('select', moment(this.date).toDate(), {muted: true});
         }
     },
     components: {
@@ -156,7 +159,7 @@ export default {
             this.$store.commit('updateLocation', this.inspections[0]);
         },
         '$route': function(r) {
-            if(this.type === 'upcoming') {
+            if(this.type === 'upcoming' && !window.isSales) {
                 let pickadate = $('.datepicker-negotiations').pickadate('picker');
                 if(pickadate.get('select', 'yyyy-mm-dd') !== this.date) {
                     if(this.date) {

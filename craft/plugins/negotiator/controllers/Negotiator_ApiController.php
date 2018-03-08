@@ -31,19 +31,27 @@ class Negotiator_ApiController extends BaseController {
         $criteria->order = 'inspectionDate, dateCreated asc';
 
         if($upcoming) {
-            $date = craft()->request->getQuery('date', date('Y-m-d'));
-
-            //Validate "date". It can't more than 7 days in the future and it can't be more than 30 days in the past
-            $now = new DateTime(date('Y-m-d')); //don't remove date() parameter. Otherwise it will take h:m:s into account and calculate wrong results
-            $dateObject = new DateTime($date);
-            $interval = $dateObject->diff($now);
-            $diff_days = $interval->format('%r%a');
-
-            if($diff_days < -7 || $diff_days > 30) {
-                $dateObject = $now;
+            $date = craft()->request->getQuery('date');
+            if (!$date && !$user->isInGroup('sales_consultants')) {
+                $date = date('Y-m-d');
             }
 
-            $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
+            if($date) {
+                //Validate "date". It can't be more than 7 days in the future and it can't be more than 30 days in the past
+                $now = new DateTime(date('Y-m-d')); //don't remove date() parameter. Otherwise it will take h:m:s into account and calculate wrong results
+                $dateObject = new DateTime($date);
+                $interval = $dateObject->diff($now);
+                $diff_days = $interval->format('%r%a');
+
+                if($diff_days < -7 || $diff_days > 30) {
+                    $dateObject = $now;
+                }
+
+                $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
+            } else {
+                $criteria->inspectionDate = ':notempty:';
+            }
+            $criteria->inspectionStatus = 'UpComing';
             $criteria->rescheduled = 0;
         } elseif($rejected) {
             $criteria->inspectionStatus = 'Rejected';

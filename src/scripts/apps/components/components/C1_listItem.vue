@@ -4,7 +4,8 @@
         <div class="row">
             <div class="col title">
                 {{ inspection.title }}
-                <span v-if="inspection.inspectionDate">({{ moment(inspection.inspectionDate).format('h:mm A') }})</span>
+                <span v-if="inspection.inspectionDate && !isSales">({{ moment(inspection.inspectionDate).format('h:mm A') }})</span>
+                <span v-if="inspection.inspectionDate && isSales">({{ moment(inspection.inspectionDate).format('D/M/YYYY') }})</span>
             </div>
             <div class="col status">{{showProperStatus(inspection)}}</div>
         </div>
@@ -28,7 +29,8 @@
         },
         data() {
             return {
-                moment
+                moment,
+                isSales: window.isSales,
             }
         },
         methods: {
