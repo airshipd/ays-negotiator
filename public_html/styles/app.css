@@ -11638,6 +11638,12 @@ nav {
         display: block;
         font-size: 1.2rem;
         font-weight: 400; }
+    .section-inspections .inspection .badge-rescheduled {
+      position: absolute;
+      right: 90px;
+      bottom: 22px;
+      font-size: 10px;
+      text-transform: uppercase; }
 
 /************
   -- Google maps info window custom styling

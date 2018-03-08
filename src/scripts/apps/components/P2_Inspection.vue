@@ -170,10 +170,17 @@ export default {
     inject: ['$validator'],
     mounted() {
         this.getInspection()
+
+        this.$store.subscribe(mutation => {
+            if(mutation.type === 'reschedule') {
+                this.reschedule();
+            }
+        })
     },
     data() {
         return {
             inspection: {},
+            original_inspection: {},
             options: {}
         }
     },
@@ -184,6 +191,7 @@ export default {
                     console.log('inspection data', res);
                     this.inspection = res.inspection
                     this.options = res.options
+                    this.original_inspection = Object.assign({}, res.inspection); //cloning
                     this.$store.commit('updateInspection', res.inspection)
                     this.$store.commit('updateOptions', res.options)
                 }).catch(e => {
@@ -232,7 +240,6 @@ export default {
                 if (result) {
                     PostService.postMulti(this.$route.params.id, this.inspection, this.options)
                         .then(response => {
-                            console.log(response)
                             this.$store.commit('updateInspection', this.inspection)
                             this.$router.push('/waiting/' + this.$route.params.id)
                         }).catch(e => {
@@ -243,6 +250,16 @@ export default {
                     $(window).scrollTop(0)
                 }
             })
+        },
+        reschedule() {
+            this.original_inspection.rescheduled = 1;
+            PostService.post(this.$route.params.id, this.original_inspection, this.options)
+                .then(response => {
+                    this.$store.commit('updateInspection', this.original_inspection)
+                    this.$router.push('/')
+                }).catch(e => {
+                    console.error(e)
+                })
         }
     },
     components: {

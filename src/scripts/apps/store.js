@@ -35,6 +35,7 @@ export default new Vuex.Store({
         },
         updateSignatureModalApperance(state, value) {
             state.overlays.signature = value
-        }
+        },
+        reschedule: () => {}
     }
 });

@@ -129,6 +129,8 @@ export default {
                         date: moment(this.inspectionDate).format('DD/MM/YYYY'),
                         time: this.inspectionTime
                     };
+                    this.inspection.rescheduled = 0;
+
                     PostService.post(this.$route.params.id, this.inspection, this.options)
                         .then(response => {
                             console.log(response);

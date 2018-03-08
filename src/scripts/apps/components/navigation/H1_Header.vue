@@ -56,6 +56,10 @@
                                 {{inspection.customerName}}
                             </div>
                         </div>
+
+                        <div class="right" v-show="currentRoute === 'Inspection'">
+                            <a class="btn" @click="$store.commit('reschedule')">Reschedule</a>
+                        </div>
                     </div>
                     <div class="header-report" v-if="currentRoute === 'Offer'">
                         <div class="left">

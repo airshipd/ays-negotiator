@@ -20,6 +20,16 @@ class Negotiator_ApiController extends BaseController {
             ];
         }
 
+        if($state = craft()->request->getQuery('state')) {
+            if($state === 'nt_sa') {
+                $state = 'or,nt,sa';
+            }
+
+            $criteria->customerState = $state;
+        }
+
+        $criteria->order = 'inspectionDate, dateCreated asc';
+
         if($upcoming) {
             $date = craft()->request->getQuery('date', date('Y-m-d'));
 
@@ -34,23 +44,22 @@ class Negotiator_ApiController extends BaseController {
             }
 
             $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
+            $criteria->rescheduled = 0;
         } elseif($rejected) {
             $criteria->inspectionStatus = 'Rejected';
         } else {
-            $criteria->inspectionDate = ':empty:';
+        	//Pending
             $criteria->runbikestopId = ':notempty:';
+
+            $dbCommand = craft()->elements->buildElementsQuery($criteria);
+            $dbCommand->andWhere('field_inspectionDate IS NULL OR field_rescheduled = 1');
         }
 
-        if($state = craft()->request->getQuery('state')) {
-            if($state === 'nt_sa') {
-                $state = 'or,nt,sa';
-            }
-
-            $criteria->customerState = $state;
+        if(isset($dbCommand)) {
+            $inspections = EntryModel::populateModels($dbCommand->queryAll());
+        } else {
+            $inspections = $criteria->find();
         }
-
-        $criteria->order = 'inspectionDate, dateCreated asc';
-        $inspections = $criteria->find();
 
         //build out response object
         $result = [];
@@ -71,7 +80,8 @@ class Negotiator_ApiController extends BaseController {
                 'title'   => $i->getContent()->year . ' ' . $i->getContent()->make . ' ' . $i->getContent()->model,
                 'status'  => $i->getContent()->inspectionStatus,
                 'url'     => $i->url,
-                'pending' => !$i->inspectionDate,
+                'pending' => !$i->inspectionDate || $i->rescheduled,
+                'rescheduled' => $i->rescheduled,
                 'inspectionDate' => $i->inspectionDate ? $i->inspectionDate->format('Y-m-d H:i:s') : null,
             ];
         }
