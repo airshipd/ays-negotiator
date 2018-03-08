@@ -85,7 +85,7 @@ class Negotiator_ApiController extends BaseController {
                 'lng'     => $i->location->lng ? floatval($i->location->lng) : null,
                 'zoom'    => intval($i->location->zoom),
                 'address' => $address,
-                'title'   => $i->getContent()->year . ' ' . $i->getContent()->make . ' ' . $i->getContent()->model,
+                'title'   => $i->year . ' ' . $i->make . ' ' . $i->model . ' ' . $i->badge,
                 'status'  => $i->getContent()->inspectionStatus,
                 'url'     => $i->url,
                 'pending' => !$i->inspectionDate || $i->rescheduled,
