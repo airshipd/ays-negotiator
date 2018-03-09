@@ -15,7 +15,7 @@
     </div>
     <div class="row">
       <div class="col m8">
-        <input-text :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validation-rules="{required:true}"></input-text>
+        <input-address :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validation-rules="{required:true}"></input-address>
       </div>
       <div class="col m4">
         <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'" :validation-rules="{required:true}"></input-text>
@@ -76,12 +76,13 @@
 
 <script>
 import inputText from './inputs/N1_Text.vue'
-import inputNumber from './inputs/N7_Number.vue'
 import choiceGroup from './inputs/N2_ChoiceGroup.vue'
 import inputCheckbox from './inputs/N3_CheckboxCustom.vue'
-import inputCheckboxSwitch from './inputs/N6_CheckboxSwitch.vue'
 import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
+import inputCheckboxSwitch from './inputs/N6_CheckboxSwitch.vue'
+import inputNumber from './inputs/N7_Number.vue'
+import inputAddress from './inputs/N9_Address.vue'
 import b1Button from './buttons/B1_button.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 import signature from './overlays/O2_Signature.vue'
@@ -166,7 +167,8 @@ export default {
     b1Button,
     inputCheckboxSwitch,
     inputNumber,
-    signature
+    signature,
+    inputAddress
   },
   computed: {
     showCustomerSignatureModal () {
