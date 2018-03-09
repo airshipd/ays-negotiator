@@ -59,7 +59,6 @@ export default {
     props: ['type', 'date', 'state'],
     mounted() {
         this.getInspections();
-        this.getUserLocation();
 
         if(this.$route.name === 'Negotiations' && !window.isSales) {
             this.initDatepicker();
@@ -104,20 +103,6 @@ export default {
             }).catch(e => {
                 console.log(e)
             })
-        },
-        getUserLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    this.$store.commit('updateUserLocation', {lat: position.coords.latitude, lng: position.coords.longitude})
-                }, () => {
-                    this.handleLocationError(true);
-                });
-            } else {
-                this.handleLocationError(false);
-            }
-        },
-        handleLocationError(browserHasGeolocation) {
-            console.log(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.')
         },
         initDatepicker () {
             let that = this;
