@@ -188,15 +188,14 @@ export default {
         getInspection() {
             GetService.getInspection(this.$route.params.id)
                 .then(res => {
-                    console.log('inspection data', res);
                     this.inspection = res.inspection
                     this.options = res.options
                     this.original_inspection = Object.assign({}, res.inspection); //cloning
                     this.$store.commit('updateInspection', res.inspection)
                     this.$store.commit('updateOptions', res.options)
                 }).catch(e => {
-                console.error(e)
-            })
+                    console.error(e)
+                })
         },
         addVehiclePhoto(file) {
             let that = this;

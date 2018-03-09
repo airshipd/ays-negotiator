@@ -76,7 +76,6 @@ export default {
     getInspection () {
       GetService.getInspection(this.$route.params.id)
       .then(res => {
-        console.log('inspection data',res);
         this.inspection = res.inspection
         this.options = res.options
         this.$store.commit('updateInspection',res.inspection)

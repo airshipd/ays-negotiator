@@ -122,9 +122,6 @@ export default {
         initDatepicker () {
             let that = this;
             let $datepicker = $('.datepicker-negotiations');
-            if (!this.date) {
-                this.date = moment().format('YYYY-MM-DD');
-            }
 
             $datepicker.pickadate({
                 format: 'dddd, mmm dd',
@@ -156,7 +153,6 @@ export default {
     watch: {
         inspections() {
             this.activeLiIndex = 0;
-            this.$store.commit('updateLocation', this.inspections[0]);
         },
         '$route': function(r) {
             if(this.type === 'upcoming' && !window.isSales) {
