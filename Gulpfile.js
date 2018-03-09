@@ -223,7 +223,7 @@ gulp.task('scripts:main', function() {
 gulp.task('scripts:app', function() {
 	let b = plugins.browserify('src/scripts/apps/index.js', { debug: true })
   .transform(["vueify", { "presets": ["es2015", "stage-2"] }])
-  .transform({ global: true },envify({ NODE_ENV: 'production' }))
+  .transform({ global: true },envify({ NODE_ENV: 'staging' }))
   return b.bundle()
   .on('error', function(err){
     // print the error (can replace with gulp-util)
