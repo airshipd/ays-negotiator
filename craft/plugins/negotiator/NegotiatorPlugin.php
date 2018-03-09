@@ -89,6 +89,7 @@ class NegotiatorPlugin extends BasePlugin {
                 //inspector or inspection date changed
                 $inspector = craft()->users->getUserById($ids[0]);
                 craft()->negotiator_notifications->notifyInspector($inspector, $entry);
+                craft()->negotiator_notifications->notifyCustomer($inspector, $entry);
             }
         });
     }
