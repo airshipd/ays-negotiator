@@ -28,8 +28,8 @@ A new job for $inspectionDate has been added to your schedule.
 Please get in touch with Jessica (0491367565) if you have any questions.
 Thanks";
 
-        if(craft()->config->get('devMode')) {
-            craft::log("DEV MODE ON. SMS to inspector isn't sent. Job#{$job->id}. Phone: $phone. Message: $text", LogLevel::Info, false, 'application', 'negotiator');
+        if(!craft()->config->get('enableSMS')) {
+            craft::log("SMS disabled. SMS to inspector isn't sent. Job#{$job->id}. Phone: $phone. Message: $text", LogLevel::Info, false, 'application', 'negotiator');
             return;
         }
 
@@ -81,8 +81,8 @@ We look forward to giving you a great offer for your car!
 Thanks,
 Are You Selling";
 
-        if(craft()->config->get('devMode')) {
-            craft::log("DEV MODE ON. SMS to customer isn't sent. Job#{$job->id}. Phone: $phone. Message: $text", LogLevel::Info, false, 'application', 'negotiator');
+        if(!craft()->config->get('enableSMS')) {
+            craft::log("SMS disabled. SMS to customer isn't sent. Job#{$job->id}. Phone: $phone. Message: $text", LogLevel::Info, false, 'application', 'negotiator');
             return;
         }
 
@@ -94,12 +94,12 @@ Are You Selling";
                 'text' => $text,
             ]);
         } catch (NexmoClient\Exception\Exception $e) {
-            craft::log('SMS notification to inspector failed: ' . $e->getMessage(), LogLevel::Error, false, 'application', 'negotiator');
+            craft::log('SMS notification to customer failed: ' . $e->getMessage(), LogLevel::Error, false, 'application', 'negotiator');
             return;
         }
 
         if(!empty($message['status'])) {
-            craft::log('SMS notification to inspector failed: ' . $message['error-text'], LogLevel::Error, false, 'application', 'negotiator');
+            craft::log('SMS notification to customer failed: ' . $message['error-text'], LogLevel::Error, false, 'application', 'negotiator');
         } else {
             craft::log(sprintf('SMS has been sent successfully. Inspector #%d. Entry #%d', $inspector->id, $job->id), LogLevel::Info, false, 'application', 'negotiator');
         }

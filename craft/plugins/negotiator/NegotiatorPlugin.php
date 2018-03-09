@@ -85,7 +85,7 @@ class NegotiatorPlugin extends BasePlugin {
             }
 
             $ids = $entry->inspector->ids();
-            if($ids && $entry->inspectionDate && ($ids[0] != $inspector_id || $inspection_date != $entry->inspectionDate)) {
+            if(!$entry->rescheduled && $ids && $entry->inspectionDate && ($ids[0] != $inspector_id || $inspection_date != $entry->inspectionDate)) {
                 //inspector or inspection date changed
                 $inspector = craft()->users->getUserById($ids[0]);
                 craft()->negotiator_notifications->notifyInspector($inspector, $entry);
