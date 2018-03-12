@@ -10632,6 +10632,8 @@ nav {
   position: relative;
   height: 80px;
   line-height: 80px; }
+  nav .header-icon--logout {
+    font-size: 20px; }
   nav .left a, nav .right a {
     display: inline-block; }
   nav .nav-wrapper i {
@@ -10761,7 +10763,7 @@ nav {
 
 .header-inspections .header-date {
   position: absolute;
-  right: 70px;
+  right: 100px;
   top: 20px;
   line-height: 1em;
   font-size: 1.8rem;

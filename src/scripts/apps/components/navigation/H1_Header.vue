@@ -8,7 +8,7 @@
                 <div class="heading-secondary">
                     <div class="header-inspections" v-if="currentRoute === 'Negotiations' && isSales">
                         <div class="right">
-                            <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
+                            <a class="header-icon--logout" href="/logout">log out</a>
                         </div>
 
                         <ul class="type-switcher">
@@ -21,12 +21,12 @@
                             <div class="header-date">
                                 <input class="datepicker-negotiations"/>
                             </div>
-                            <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
+                            <a class="header-icon--logout" href="/logout">log out</a>
                         </div>
                     </div>
                     <div class="header-inspections" v-if="currentRoute === 'Admin'">
                         <div class="right">
-                            <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
+                            <a class="header-icon--logout" href="/logout">log out</a>
                         </div>
 
                         <ul class="type-switcher">
