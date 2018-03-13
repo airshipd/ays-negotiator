@@ -12,6 +12,7 @@ class Negotiator_ApiController extends BaseController {
         $rejected = craft()->request->getQuery('rejected', false);
 
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->limit = null;
         $criteria->section = 'inspections';
         if (!$user->admin) {
             $criteria->relatedTo = [
@@ -90,6 +91,8 @@ class Negotiator_ApiController extends BaseController {
                 'url'     => $i->url,
                 'pending' => !$i->inspectionDate || $i->rescheduled,
                 'rescheduled' => $i->rescheduled,
+                'driveIn' => $i->driveIn,
+                'localMech' => $i->localMech,
                 'inspectionDate' => $i->inspectionDate ? $i->inspectionDate->format('Y-m-d H:i:s') : null,
             ];
         }

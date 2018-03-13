@@ -11650,6 +11650,13 @@ nav {
       bottom: 22px;
       font-size: 10px;
       text-transform: uppercase; }
+    .section-inspections .inspection .badge-tag {
+      position: absolute;
+      right: 90px;
+      bottom: 56px;
+      font-size: 10px;
+      text-transform: uppercase;
+      background-color: #17c300 !important; }
 
 /************
   -- Google maps info window custom styling

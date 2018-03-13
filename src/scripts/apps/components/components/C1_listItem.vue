@@ -15,6 +15,8 @@
         </div>
         <div class="click-wrapper" @click="goToAction(inspection)"></div>
         <span class="new badge blue badge-rescheduled" data-badge-caption="" v-show="inspection.rescheduled == 1">Rescheduled</span>
+        <span class="new badge blue badge-tag" data-badge-caption="" v-show="inspection.driveIn == 1 && (isAdmin || isSales)">Drive-In</span>
+        <span class="new badge blue badge-tag" data-badge-caption="" v-show="inspection.localMech == 1">Local Mech</span>
     </li>
 
 </template>
@@ -31,6 +33,7 @@
             return {
                 moment,
                 isSales: window.isSales,
+                isAdmin: window.isAdmin,
             }
         },
         methods: {

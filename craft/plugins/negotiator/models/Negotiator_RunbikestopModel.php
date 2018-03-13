@@ -201,4 +201,14 @@ class Negotiator_RunbikestopModel extends BaseModel
             return null;
         }
     }
+
+    public function isDriveIn()
+    {
+        return $this->inspector_email === 'drivein@areyouselling.com.au';
+    }
+
+    public function isLocalMech()
+    {
+        return $this->inspector_email === 'localmech@areyouselling.com.au';
+    }
 }

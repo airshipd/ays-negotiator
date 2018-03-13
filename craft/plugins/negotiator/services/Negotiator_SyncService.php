@@ -143,6 +143,8 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'satNav'                 => $model->sat_nav == 'yes',
             'leatherUpholstery'      => $model->leather == 'yes',
             'seats'                  => $model->seats,
+            'driveIn'                => $model->isDriveIn(),
+            'localMech'              => $model->isLocalMech(),
         ];
         if ($model->address) {
             $content['location'] = ['address' => $model->address];
