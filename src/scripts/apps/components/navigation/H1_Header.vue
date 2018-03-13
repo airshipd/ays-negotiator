@@ -63,7 +63,7 @@
                         </div>
 
                         <div class="right" v-show="currentRoute === 'Inspection'">
-                            <a class="btn" @click="$store.commit('reschedule')">Reschedule</a>
+                            <a class="btn" @click="reschedule">Reschedule</a>
                         </div>
                     </div>
                     <div class="header-report" v-if="currentRoute === 'Offer'">
@@ -157,6 +157,11 @@
                         this.title = '';
                 }
             },
+            reschedule() {
+                if(confirm('Has this been confirmed with the booking manager?')) {
+                    this.$store.commit('reschedule');
+                }
+            }
         },
         watch: {
             '$route': function (r) {
