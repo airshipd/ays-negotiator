@@ -9,7 +9,11 @@ class Finalizer_EmailService extends BaseApplicationComponent
         // get plugin settings
         $settings = craft()->plugins->getPlugin('finalizer')->getSettings();
 
-//        $customerName = craft()->finalizer_fields->getCustomerName($entry);
+        /** Used in templates */
+        $staffName = craft()->finalizer_fields->getStaffName($entry);
+        $customerName = craft()->finalizer_fields->getCustomerName($entry);
+        $contractUrl = craft()->getSiteUrl() . 'contract/' . $entry->id;
+        $recordUrl = craft()->getSiteUrl() . 'internalrecord/' . $entry->id;
 
         $images     = $entry->licenseAndRegistrationPhotos;
         $image_urls = [];
@@ -17,9 +21,6 @@ class Finalizer_EmailService extends BaseApplicationComponent
         foreach ($images as $image) {
             array_push($image_urls, craft()->assets->getUrlForFile($image));
         }
-
-//        $contractUrl = craft()->getSiteUrl() . 'contract/' . $entry->id;
-//        $recordUrl = craft()->getSiteUrl() . 'internalrecord/' . $entry->id;
 
         // get customer email body
         ob_start();
