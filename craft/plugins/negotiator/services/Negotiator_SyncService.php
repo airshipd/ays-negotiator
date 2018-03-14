@@ -149,9 +149,9 @@ class Negotiator_SyncService extends BaseApplicationComponent
         if ($model->address) {
             $content['location'] = ['address' => $model->address];
         }
-        if($model->inspector_email) {
+        if($model->sales_consultant_email) {
             $criteria = craft()->elements->getCriteria(ElementType::User);
-            $criteria->email = $model->inspector_email;
+            $criteria->email = $model->sales_consultant_email;
             $user = $criteria->first();
             if($user) {
                 $content['inspector'] = [$user->id];
