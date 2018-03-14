@@ -10170,6 +10170,7 @@ a {
   cursor: pointer; }
 
 .input-field,
+.input-textarea,
 .input-group,
 .input-checkbox {
   position: relative; }
@@ -10198,10 +10199,10 @@ input[type="password"] {
     border-bottom: none;
     padding: 0; }
 
-.input-field input {
+.input-field input, .input-field textarea, .input-textarea input, .input-textarea textarea {
   margin-top: 1.6rem; }
 
-.input-field label {
+.input-field label, .input-textarea label {
   font-weight: 500;
   position: absolute;
   top: 0;
@@ -10631,6 +10632,8 @@ nav {
   position: relative;
   height: auto;
   line-height: auto; }
+  nav .header-icon--logout {
+    font-size: 20px; }
   nav .left a, nav .right a {
     display: inline-block; }
   nav .nav-wrapper i {
@@ -10760,7 +10763,7 @@ nav {
 
 .header-inspections .header-date {
   position: absolute;
-  right: 70px;
+  right: 100px;
   top: 20px;
   line-height: 1em;
   font-size: 1.8rem;
@@ -11539,10 +11542,13 @@ nav {
     color: #98B7D6;
     font-size: 1.9rem;
     margin-bottom: 10px;
-    display: block; }
+    display: block;
+    position: relative;
+    font-weight: normal; }
   .inspection-dark .input-textarea textarea {
     background: rgba(0, 0, 0, 0.2);
-    color: white; }
+    color: white;
+    margin-top: 0; }
   .inspection-dark .input-field {
     -ms-flex-item-align: end;
         align-self: flex-end;
@@ -11639,6 +11645,19 @@ nav {
         display: block;
         font-size: 1.2rem;
         font-weight: 400; }
+    .section-inspections .inspection .badge-rescheduled {
+      position: absolute;
+      right: 90px;
+      bottom: 22px;
+      font-size: 10px;
+      text-transform: uppercase; }
+    .section-inspections .inspection .badge-tag {
+      position: absolute;
+      right: 90px;
+      bottom: 56px;
+      font-size: 10px;
+      text-transform: uppercase;
+      background-color: #17c300 !important; }
 
 /************
   -- Google maps info window custom styling

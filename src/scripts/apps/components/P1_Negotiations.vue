@@ -1,54 +1,40 @@
 <template>
+    <section class="section-inspections">
+        <div class="row">
+            <div class="col list">
+                <loader v-show="showLoader"/>
 
-  <section class="section-inspections">
-    <div class="row">
-      <div class="col list">
-        <ul>
-          <list v-for="(item, index) in inspections"
-          :inspection="item"
-          :active="index === activeLiIndex"
-          :key="item.id"
-          :index="index"
-          @newactive="activeLiIndex = $event" >
-          </list>
-        </ul>
-      </div>
-      <div class="col map">
-        <gmap-map
-          :center="location"
-          :zoom="13"
-          :style="{width: '100%', height: '100%'}"
-        >
-          <gmap-marker
-            :position="location"
-            :clickable="false"
-            :draggable="false"
-            :icon="mapIcon"
-            v-if="inspection"
-          ></gmap-marker>
-          <gmap-info-window
-            :position="location"
-            :options="infoOptions"
-            v-if="inspection"
-            @domready="customiseInfoWindow"
-          >
-            <div class="row">
-              <div class="col title">{{ inspection.title }}</div>
+                <ul v-show="!showLoader">
+                    <list v-for="(item, index) in inspections"
+                        :inspection="item"
+                        :active="index === activeLiIndex"
+                        :key="item.id"
+                        :index="index"
+                        @newactive="activeLiIndex = $event">
+                    </list>
+                </ul>
             </div>
-            <div class="row">
-              <div class="col address">{{ inspection.address }}</div>
+            <div class="col map">
+                <gmap-map :center="location" :zoom="13" :style="{width: '100%', height: '100%'}">
+                    <gmap-marker :position="location" :clickable="false" :draggable="false" :icon="mapIcon" v-if="inspection"></gmap-marker>
+                    <gmap-info-window :position="location" :options="infoOptions" v-if="inspection" @domready="customiseInfoWindow">
+                        <div class="row">
+                            <div class="col title">{{ inspection.title }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col address">{{ inspection.address }}</div>
+                        </div>
+                    </gmap-info-window>
+                </gmap-map>
             </div>
-          </gmap-info-window>
-        </gmap-map>
-      </div>
-    </div>
-  </section>
-
+        </div>
+    </section>
 </template>
 
 <script>
 
 import list from './components/C1_listItem.vue'
+import loader from './components/C4_Spinner.vue'
 import axios from 'axios'
 import { urlGetInspections } from '../config.js'
 import moment from 'moment'
@@ -58,9 +44,8 @@ export default {
     props: ['type', 'date', 'state'],
     mounted() {
         this.getInspections();
-        this.getUserLocation();
 
-        if(this.$route.name === 'Negotiations') {
+        if(this.$route.name === 'Negotiations' && !window.isSales) {
             this.initDatepicker();
         }
     },
@@ -78,6 +63,7 @@ export default {
                     height: -15
                 }
             },
+            showLoader: false
         }
     },
     methods: {
@@ -87,27 +73,21 @@ export default {
             $('.gm-style-iw--wrapper > div:first-of-type').addClass('gm-style-iw--remove')
         },
         getInspections() {
-            let upcoming = this.$route.name === 'Negotiations';
-            axios.get(urlGetInspections, {params: {date: this.date, state: this.state, upcoming: upcoming ? 1 : 0}})
+            this.showLoader = true;
+            axios.get(urlGetInspections, {
+                params: {
+                    date: window.isSales ? null : this.date,
+                    state: this.state,
+                    upcoming: this.type === 'upcoming' ? 1 : 0,
+                    rejected: this.type === 'rejected' ? 1 : 0,
+                }
+            })
             .then(response => {
                 this.inspections = response.data
+                this.showLoader = false;
             }).catch(e => {
                 console.log(e)
             })
-        },
-        getUserLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    this.$store.commit('updateUserLocation', {lat: position.coords.latitude, lng: position.coords.longitude})
-                }, () => {
-                    this.handleLocationError(true);
-                });
-            } else {
-                this.handleLocationError(false);
-            }
-        },
-        handleLocationError(browserHasGeolocation) {
-            console.log(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.')
         },
         initDatepicker () {
             let that = this;
@@ -133,19 +113,19 @@ export default {
                 }
             });
 
-            $datepicker.pickadate('picker').set('select',  moment(this.$route.params.date).toDate(), {muted: true});
+            $datepicker.pickadate('picker').set('select', moment(this.date).toDate(), {muted: true});
         }
     },
     components: {
-        list
+        list,
+        loader
     },
     watch: {
         inspections() {
             this.activeLiIndex = 0;
-            this.$store.commit('updateLocation', this.inspections[0]);
         },
         '$route': function(r) {
-            if(this.type === 'upcoming') {
+            if(this.$route.name === 'Negotiations' && !window.isSales) {
                 let pickadate = $('.datepicker-negotiations').pickadate('picker');
                 if(pickadate.get('select', 'yyyy-mm-dd') !== this.date) {
                     if(this.date) {

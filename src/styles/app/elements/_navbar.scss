@@ -3,6 +3,10 @@ nav {
   height: auto;
   line-height: auto;
 
+  .header-icon--logout {
+    font-size: 20px;
+  }
+
   .left, .right {
     a {
       display: inline-block;
@@ -166,7 +170,7 @@ nav {
 .header-inspections {
   .header-date {
     position: absolute;
-    right: 70px;
+    right: 100px;
     top: 20px;
     line-height: 1em;
     font-size: 1.8rem;

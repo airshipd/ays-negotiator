@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="col m6">
-                <input-text :label="'Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validationRules="{required:true}"></input-text>
+                <input-address :label="'Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validationRules="{required:true}"></input-address>
             </div>
         </div>
 
@@ -52,11 +52,13 @@
 
 <script>
 import inputText from './inputs/N1_Text.vue'
+import inputAddress from './inputs/N9_Address.vue'
 import b1Button from './buttons/B1_button.vue'
 import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
 import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
+import _ from 'lodash'
 
 import axios from 'axios'
 import { urlGetInspectors } from '../config.js'
@@ -70,7 +72,7 @@ export default {
         let p2 = this.getInspectors();
         let that = this;
         Promise.all([p1, p2]).then(function () {
-            if (!that.inspectors.find(i => i.id == that.inspection.inspector_details.id)) {
+            if(that.inspection.inspector_details && !_.find(that.inspectors, 'id', that.inspection.inspector_details.id)) {
                 that.inspectors.unshift(that.inspection.inspector_details);
             }
         });
@@ -124,23 +126,24 @@ export default {
         },
         submitForm() {
             this.$validator.validateAll().then((result) => {
-                if (result) {
-                    this.inspection.inspectionDate = {
-                        date: moment(this.inspectionDate).format('DD/MM/YYYY'),
-                        time: this.inspectionTime
-                    };
-                    PostService.post(this.$route.params.id, this.inspection, this.options)
-                        .then(response => {
-                            console.log(response);
-                            this.$store.commit('updateInspection', this.inspection);
-                            this.$router.push('/');
-                        }).catch(e => {
-                            console.error(e)
-                        })
-                } else {
-                    //scroll up to top of page
-                    $(window).scrollTop(0);
+                if (!result) {
+                    return;
                 }
+
+                this.inspection.inspectionDate = {
+                    date: moment(this.inspectionDate).format('DD/MM/YYYY'),
+                    time: this.inspectionTime
+                };
+                this.inspection.rescheduled = 0;
+
+                PostService.post(this.$route.params.id, this.inspection, this.options)
+                    .then(response => {
+                        console.log(response);
+                        this.$store.commit('updateInspection', this.inspection);
+                        this.$router.push('/');
+                    }).catch(e => {
+                        console.error(e)
+                    })
             })
         }
     },
@@ -152,7 +155,8 @@ export default {
     components: {
         inputText,
         b1Button,
-        Datepicker
+        Datepicker,
+        inputAddress
     }
 }
 </script>

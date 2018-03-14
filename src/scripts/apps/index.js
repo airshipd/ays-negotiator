@@ -22,6 +22,7 @@ Vue.use(VueGoogleMaps, {
   load: {
     key: googleMapKey,
     libraries: 'places',
+    language: 'en-AU',
   }
 })
 

@@ -15,7 +15,7 @@
     </div>
     <div class="row">
       <div class="col m8">
-        <input-text :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validation-rules="{required:true}"></input-text>
+        <input-address :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validation-rules="{required:true}"></input-address>
       </div>
       <div class="col m4">
         <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'" :validation-rules="{required:true}"></input-text>
@@ -25,18 +25,23 @@
       <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: {{inspection.agreedPrice | currency}}</p>
       <div v-html="contract"></div>
     </div>
+      <div class="row">
+          <div class="col m9">
+              <input-textarea :label="'Notes'" v-model="inspection.notes" :name="'notes'" :validationRules="{required:true}"></input-textarea>
+          </div>
+      </div>
     <div class="row">
       <div class="col m6">
         <input-text :label="'Customer Name'" v-model="inspection.customerName" :name="'customerName'" :validation-rules="{required:true}"></input-text>
-        <signature v-model="inspection.customerSignatureString" v-if="signatureCustomer" v-on:close="closeSignatureCustomer" ></signature>
+        <signature v-model="inspection.customerSignatureString" v-if="signatureCustomer" @close="closeSignatureCustomer" ></signature>
         <div class="signature-button" @click="openSignatureCustomer" v-if="!inspection.customerSignatureString"></div>
         <div class="img-signature--wrap" v-else @click="openSignatureCustomer">
-          <img class="img-signature" :src="inspection.customerSignatureString"  />
+          <img class="img-signature" :src="inspection.customerSignatureString" />
         </div>
       </div>
       <div class="col m6">
         <input-text :label="'AreYouSelling Rep (Witness) Name'" v-model="inspection.repName" :name="'repName'" :validation-rules="{required:true}"></input-text>
-        <signature v-model="inspection.repSignatureString" v-if="signatureRep" v-on:close="closeSignatureRep"></signature>
+        <signature v-model="inspection.repSignatureString" v-if="signatureRep" @close="closeSignatureRep"></signature>
         <div class="signature-button" @click="openSignatureRep" v-if="!inspection.repSignatureString"></div>
         <div class="img-signature--wrap" v-else @click="openSignatureRep">
           <img class="img-signature" :src="inspection.repSignatureString"  />
@@ -45,15 +50,16 @@
     </div>
     <div class="row">
       <div class="col m5">
-        <input-text :label="'Model'" v-model="inspection.model" :name="'model'"></input-text>
+        <input-text :label="'Model'" v-model="inspection.model" :name="'model'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Kilometers'" v-model="inspection.kilometres" :name="'kilometres'"></input-text>
+        <input-text :label="'Kilometers'" v-model="inspection.kilometres" :name="'kilometres'" :validationRules="{required:true}"></input-text>
       </div>
     </div>
     <div class="row">
       <div class="col m9">
-        <input-text :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact" :name="'pickupAddressAndContact'"></input-text>
+        <input-text :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact"
+            :name="'pickupAddressAndContact'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m3">
         <input-text :label="'Date'" v-model="inspection.contractDate" :name="'contractDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
@@ -71,12 +77,13 @@
 
 <script>
 import inputText from './inputs/N1_Text.vue'
-import inputNumber from './inputs/N7_Number.vue'
 import choiceGroup from './inputs/N2_ChoiceGroup.vue'
 import inputCheckbox from './inputs/N3_CheckboxCustom.vue'
-import inputCheckboxSwitch from './inputs/N6_CheckboxSwitch.vue'
 import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
+import inputCheckboxSwitch from './inputs/N6_CheckboxSwitch.vue'
+import inputNumber from './inputs/N7_Number.vue'
+import inputAddress from './inputs/N9_Address.vue'
 import b1Button from './buttons/B1_button.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 import signature from './overlays/O2_Signature.vue'
@@ -161,7 +168,8 @@ export default {
     b1Button,
     inputCheckboxSwitch,
     inputNumber,
-    signature
+    signature,
+    inputAddress
   },
   computed: {
     showCustomerSignatureModal () {

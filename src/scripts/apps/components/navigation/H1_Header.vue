@@ -8,15 +8,20 @@
                 <div class="heading-secondary">
                     <div class="header-inspections" v-if="currentRoute === 'Negotiations'">
                         <div class="right">
-                            <div class="header-date">
+                            <div class="header-date" v-if="!isSales">
                                 <input class="datepicker-negotiations"/>
                             </div>
-                            <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
+                            <a class="header-icon--logout" href="/logout">log out</a>
                         </div>
+
+                        <ul class="type-switcher">
+                            <router-link tag="li" :to="{path: '/upcoming'}"><a>Upcoming</a></router-link>
+                            <router-link tag="li" :to="{path: '/rejected'}"><a>Rejected</a></router-link>
+                        </ul>
                     </div>
                     <div class="header-inspections" v-if="currentRoute === 'Admin'">
                         <div class="right">
-                            <a class="header-icon--logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
+                            <a class="header-icon--logout" href="/logout">log out</a>
                         </div>
 
                         <ul class="type-switcher">
@@ -25,6 +30,8 @@
                             <router-link tag="li" :to="{name: 'Admin', params: {state: 'qld'}}"><a>QLD</a></router-link>
                             <router-link tag="li" :to="{name: 'Admin', params: {state: 'wa'}}"><a>WA</a></router-link>
                             <router-link tag="li" :to="{name: 'Admin', params: {state: 'nt_sa'}}"><a>NT/SA</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'tas'}}"><a>TAS</a></router-link>
+                            <router-link tag="li" :to="{name: 'Admin', params: {state: 'act'}}"><a>ACT</a></router-link>
                         </ul>
                     </div>
                     <div class="inspection-header" v-if="currentRoute === 'Inspection' || currentRoute === 'Pending Inspection'">
@@ -48,6 +55,10 @@
                                 <label>Customer</label>
                                 {{inspection.customerName}}
                             </div>
+                        </div>
+
+                        <div class="right" v-show="currentRoute === 'Inspection'">
+                            <a class="btn" @click="reschedule">Reschedule</a>
                         </div>
                     </div>
                     <div class="header-report" v-if="currentRoute === 'Offer'">
@@ -108,6 +119,7 @@
                 currentRoute: 'Negotiations',
                 title: '',
                 date: moment(new Date(moment().add(10, 'minutes').unix() * 1000)).format('YYYY/MM/DD HH:mm:ss'),
+                isSales: window.isSales, //whether the current user is a sales consultant
             }
         },
         methods: {
@@ -140,6 +152,11 @@
                         this.title = '';
                 }
             },
+            reschedule() {
+                if(confirm('Has this been confirmed with the booking manager?')) {
+                    this.$store.commit('reschedule');
+                }
+            }
         },
         watch: {
             '$route': function (r) {

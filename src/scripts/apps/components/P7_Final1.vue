@@ -17,7 +17,7 @@
     </div>
     <div class="row">
       <div class="col m9">
-        <input-text :label="'Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validation-rules="{required:true}"></input-text>
+        <input-address :label="'Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validation-rules="{required:true}"></input-address>
       </div>
       <div class="col m3">
         <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'" :validation-rules="{required:true}"></input-text>
@@ -55,6 +55,7 @@ import inputCheckbox from './inputs/N3_CheckboxCustom.vue'
 import inputCheckboxSwitch from './inputs/N6_CheckboxSwitch.vue'
 import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
+import inputAddress from './inputs/N9_Address.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 
 import GetService from '../services/GetService.js'
@@ -76,7 +77,6 @@ export default {
     getInspection () {
       GetService.getInspection(this.$route.params.id)
       .then(res => {
-        console.log('inspection data',res);
         this.inspection = res.inspection
         this.options = res.options
         this.$store.commit('updateInspection',res.inspection)
@@ -105,7 +105,8 @@ export default {
     inputSelect,
     b2Button,
     inputCheckboxSwitch,
-    inputNumber
+    inputNumber,
+    inputAddress,
   },
   computed: {
   },

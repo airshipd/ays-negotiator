@@ -17,48 +17,50 @@ define('BASE_PATH', realpath(CRAFT_BASE_PATH . '/../public_html'));
 return array(
 
   // Defaults for all environments:
-  '*' => array(
-    'devMode' => true,
-    'omitScriptNameInUrls' => true,
-    'autoLoginAfterAccountActivation' => true,
-    'loginPath' => 'login',
-    'logoutPath' => 'logout',
-    'userSessionDuration' => 'P2W',
-    'localDevelopment' => false,
-    'backupDbOnUpdate' => false,
-    // Base site URL
-    'siteUrl' => SITE_URL,
-    'siteName' => getenv('CRAFT_SITE_NAME'),
-    'environmentVariables' => array(
-      // siteUrl is set automatically based on server name (see above):
-      // Use it to, eg. set assets location: {siteUrl}/assets
-      'siteUrl' => SITE_URL.'/',
-      'basePath' => BASE_PATH.'/'
+    '*' => array(
+        'devMode'                         => true,
+        'omitScriptNameInUrls'            => true,
+        'autoLoginAfterAccountActivation' => true,
+        'loginPath'                       => 'login',
+        'logoutPath'                      => 'logout',
+        'userSessionDuration'             => 'P2W',
+        'backupDbOnUpdate' 				  => false,
+        // Base site URL
+        'siteUrl'                         => SITE_URL,
+        'siteName'                        => getenv('CRAFT_SITE_NAME'),
+        'environmentVariables'            => array(
+            // siteUrl is set automatically based on server name (see above):
+            // Use it to, eg. set assets location: {siteUrl}/assets
+            'siteUrl'  => SITE_URL . '/',
+            'basePath' => BASE_PATH . '/',
+        ),
+        'enableSMS'                       => true,
     ),
-  ),
 
-  // Dev site configuration:
-  '.local' => array(
-    'backupDbOnUpdate' => true,
-    'localDevelopment' => true,
-    'devMode' => true,
-    'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
-    'localDev' => true
-  ),
-  '.dev' => array(
-    'backupDbOnUpdate' => true,
-    'localDevelopment' => true,
-    'devMode' => true,
-    'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
-    'localDev' => true
-  ),
-
-  // Dev site configuration:
-  '128.199.116.0' => array(
-    'backupDbOnUpdate' => true,
-    'localDevelopment' => false,
-    'devMode' => true,
-    'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
-  ),
-
+    '.local' => array(
+        'backupDbOnUpdate' 		=> true,
+        'devMode'               => true,
+        'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
+        'localDev'              => true,
+        'enableSMS'             => false,
+    ),
+    '.dev' => array(
+        'backupDbOnUpdate' 		=> true,
+        'devMode'               => true,
+        'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
+        'localDev'              => true,
+        'enableSMS'             => false,
+    ),
+    'staging.moneyforcar.com.au' => array(
+        'backupDbOnUpdate' 	    => false,
+        'devMode'               => true,
+        'enableTemplateCaching' => true,
+        'localDev'              => false,
+        'enableSMS'             => false,
+    ),
+    '128.199.116.0' => array(
+        'devMode'               => true,
+        'enableTemplateCaching' => false, // In dev mode we always want to see the latest changes to a template:
+        'enableSMS'             => false,
+    ),
 );

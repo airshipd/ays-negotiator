@@ -9,33 +9,16 @@ class Negotiator_ApiController extends BaseController {
     {
         $user = craft()->userSession->getUser();
         $upcoming = craft()->request->getQuery('upcoming', false);
+        $rejected = craft()->request->getQuery('rejected', false);
 
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->limit = null;
         $criteria->section = 'inspections';
         if (!$user->admin) {
             $criteria->relatedTo = [
                 'targetElement' => $user,
                 'field'         => 'inspector',
             ];
-        }
-
-        if($upcoming) {
-            $date = craft()->request->getQuery('date', date('Y-m-d'));
-
-            //Validate "date". It can't more than 7 days in the future and it can't be more than 30 days in the past
-            $now = new DateTime(date('Y-m-d')); //don't remove date() parameter. Otherwise it will take h:m:s into account and calculate wrong results
-            $dateObject = new DateTime($date);
-            $interval = $dateObject->diff($now);
-            $diff_days = $interval->format('%r%a');
-
-            if($diff_days < -7 || $diff_days > 30) {
-                $dateObject = $now;
-            }
-
-            $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
-        } else {
-            $criteria->inspectionDate = ':empty:';
-            $criteria->runbikestopId = ':notempty:';
         }
 
         if($state = craft()->request->getQuery('state')) {
@@ -47,7 +30,48 @@ class Negotiator_ApiController extends BaseController {
         }
 
         $criteria->order = 'inspectionDate, dateCreated asc';
-        $inspections = $criteria->find();
+
+        if($upcoming || $rejected) {
+            $date = craft()->request->getQuery('date');
+            if (!$date && !$user->isInGroup('sales_consultants')) {
+                $date = date('Y-m-d');
+            }
+
+            if($date) {
+                //Validate "date". It can't be more than 7 days in the future and it can't be more than 30 days in the past
+                $now = new DateTime(date('Y-m-d')); //don't remove date() parameter. Otherwise it will take h:m:s into account and calculate wrong results
+                $dateObject = new DateTime($date);
+                $interval = $dateObject->diff($now);
+                $diff_days = $interval->format('%r%a');
+
+                if($diff_days < -7 || $diff_days > 30) {
+                    $dateObject = $now;
+                }
+
+                $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
+            } elseif($upcoming) {
+                $criteria->inspectionDate = ':notempty:';
+            }
+
+            if($upcoming) {
+                $criteria->inspectionStatus = 'UpComing';
+                $criteria->rescheduled = 0;
+            } else {
+                $criteria->inspectionStatus = 'Rejected';
+            }
+        } else {
+        	//Pending
+            $criteria->runbikestopId = ':notempty:';
+
+            $dbCommand = craft()->elements->buildElementsQuery($criteria);
+            $dbCommand->andWhere('field_inspectionDate IS NULL OR field_rescheduled = 1');
+        }
+
+        if(isset($dbCommand)) {
+            $inspections = EntryModel::populateModels($dbCommand->queryAll());
+        } else {
+            $inspections = $criteria->find();
+        }
 
         //build out response object
         $result = [];
@@ -65,10 +89,13 @@ class Negotiator_ApiController extends BaseController {
                 'lng'     => $i->location->lng ? floatval($i->location->lng) : null,
                 'zoom'    => intval($i->location->zoom),
                 'address' => $address,
-                'title'   => $i->getContent()->year . ' ' . $i->getContent()->make . ' ' . $i->getContent()->model,
+                'title'   => $i->year . ' ' . $i->make . ' ' . $i->model . ' ' . $i->badge,
                 'status'  => $i->getContent()->inspectionStatus,
                 'url'     => $i->url,
-                'pending' => !$i->inspectionDate,
+                'pending' => !$i->inspectionDate || $i->rescheduled,
+                'rescheduled' => $i->rescheduled,
+                'driveIn' => $i->driveIn,
+                'localMech' => $i->localMech,
                 'inspectionDate' => $i->inspectionDate ? $i->inspectionDate->format('Y-m-d H:i:s') : null,
             ];
         }

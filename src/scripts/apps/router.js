@@ -32,7 +32,7 @@ const router = new Router({
             }
         },
         {
-            path: '/admin/:state(nsw|vic|qld|wa|nt_sa)',
+            path: '/admin/:state(nsw|vic|qld|wa|nt_sa|tas|act)',
             name: 'Admin',
             component: Negotiations,
             props: true,
@@ -41,7 +41,7 @@ const router = new Router({
             }
         },
         {
-            path: '/upcoming/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
+            path: '/:type(upcoming|rejected)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
             name: 'Negotiations',
             component: Negotiations,
             props: true,

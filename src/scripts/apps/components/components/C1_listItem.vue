@@ -1,19 +1,23 @@
 <template>
 
-  <li @click.stop="toggleRowActive" :class="itemClass(inspection.status)" >
-    <div class="row">
-      <div class="col title">
-          {{ inspection.title }}
-          <span v-if="inspection.inspectionDate">({{ moment(inspection.inspectionDate).format('h:mm A') }})</span>
-      </div>
-      <div class="col status">{{showProperStatus(inspection)}}</div>
-    </div>
-    <div class="row">
-      <div class="col address">{{inspection.address}}</div>
-      <div :class="bottomClass"><span v-if="inspection.status === 'finalized'">Report</span><i class="material-icons">keyboard_arrow_right</i></div>
-    </div>
-    <div class="click-wrapper" @click="goToAction(inspection)"></div>
-  </li>
+    <li @click.stop="toggleRowActive" :class="itemClass(inspection.status)">
+        <div class="row">
+            <div class="col title">
+                {{ inspection.title }}
+                <span v-if="inspection.inspectionDate && !isSales">({{ moment(inspection.inspectionDate).format('h:mm A') }})</span>
+                <span v-if="inspection.inspectionDate && isSales">({{ moment(inspection.inspectionDate).format('D/M/YYYY') }})</span>
+            </div>
+            <div class="col status">{{showProperStatus(inspection)}}</div>
+        </div>
+        <div class="row">
+            <div class="col address">{{inspection.address}}</div>
+            <div :class="bottomClass"><span v-if="inspection.status === 'finalized'">Report</span><i class="material-icons">keyboard_arrow_right</i></div>
+        </div>
+        <div class="click-wrapper" @click="goToAction(inspection)"></div>
+        <span class="new badge blue badge-rescheduled" data-badge-caption="" v-show="inspection.rescheduled == 1">Rescheduled</span>
+        <span class="new badge blue badge-tag" data-badge-caption="" v-show="inspection.driveIn == 1 && (isAdmin || isSales)">Drive-In</span>
+        <span class="new badge blue badge-tag" data-badge-caption="" v-show="inspection.localMech == 1">Local Mech</span>
+    </li>
 
 </template>
 
@@ -27,7 +31,9 @@
         },
         data() {
             return {
-                moment
+                moment,
+                isSales: window.isSales,
+                isAdmin: window.isAdmin,
             }
         },
         methods: {

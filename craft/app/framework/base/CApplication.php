@@ -84,6 +84,8 @@
  * @property Craft\Negotiator_AssessmentService negotiator_assessment
  * @property Craft\Negotiator_SyncService negotiator_sync
  * @property Craft\Negotiator_NotificationsService negotiator_notifications
+ * @property Craft\Finalizer_EmailService finalizer_email
+ * @property Craft\Finalizer_FieldsService finalizer_fields
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base

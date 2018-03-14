@@ -8,10 +8,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     strict: true,
     state: {
-        userLocation: {
-            lat: 0,
-            lng: 0
-        },
         inspection: {},
         options: [],
         overlays: {
@@ -21,9 +17,6 @@ export default new Vuex.Store({
         }
     },
     mutations: {
-        updateUserLocation(state, data) {
-            state.userLocation = Object.assign({}, state.userLocation, data)
-        },
         updateInspection(state, data) {
             state.inspection = Object.assign({}, state.inspection, data)
         },
@@ -35,6 +28,7 @@ export default new Vuex.Store({
         },
         updateSignatureModalApperance(state, value) {
             state.overlays.signature = value
-        }
+        },
+        reschedule: () => {}
     }
 });

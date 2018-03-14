@@ -12,6 +12,7 @@ namespace Craft;
  * @property string email
  * @property string phone
  * @property string address
+ * @property string colour
  * @property string description
  * @property string make
  * @property string model
@@ -40,6 +41,7 @@ namespace Craft;
  * @property int    finance_value
  * @property string estimate
  * @property string inspector_email
+ * @property string sales_consultant_email
  * @property float  latest_pricing
  */
 class Negotiator_RunbikestopModel extends BaseModel
@@ -64,6 +66,7 @@ class Negotiator_RunbikestopModel extends BaseModel
             'name' => AttributeType::Mixed,
             'phone' => AttributeType::Mixed,
             'address' => AttributeType::Mixed,
+            'colour' => AttributeType::Mixed,
             'description' => AttributeType::Mixed,
             'make' => AttributeType::Mixed,
             'model' => AttributeType::Mixed,
@@ -92,6 +95,7 @@ class Negotiator_RunbikestopModel extends BaseModel
             'finance_value' => AttributeType::Number,
             'estimate' => AttributeType::Mixed,
             'inspector_email' => AttributeType::Mixed,
+            'sales_consultant_email' => AttributeType::Mixed,
             'latest_pricing' => AttributeType::Number,
         ];
     }
@@ -198,5 +202,15 @@ class Negotiator_RunbikestopModel extends BaseModel
             NegotiatorPlugin::log(sprintf('Wrong doors value: %s. RunBikeStop ID: %d', $this->doors, $this->id), LogLevel::Warning, true);
             return null;
         }
+    }
+
+    public function isDriveIn()
+    {
+        return $this->inspector_email === 'drivein@areyouselling.com.au';
+    }
+
+    public function isLocalMech()
+    {
+        return $this->inspector_email === 'localmech@areyouselling.com.au';
     }
 }
