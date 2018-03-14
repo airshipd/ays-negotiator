@@ -1,37 +1,45 @@
 <template>
 
-  <section class="section-final--3">
+    <section class="section-final--3">
 
-    <div class="row row-finance">
-      <div class="col m12">
-        <h2 class="title-finance">Finance</h2>
-        <choice-group v-if="inspection.finance" v-model="inspection.finance" :name="'finance'" :options="booleanOptions"></choice-group>
-        <input-text :label="'If yes, which company?'" v-model="inspection.financeCompany" :name="'financeCompany'"></input-text>
-      </div>
-    </div>
-    <div class="row row-finance--options">
-      <div class="col m4">
-        <choice-group v-if="inspection.writeOff" :label="'Write Off'" v-model="inspection.writeOff" :name="'writeOff'" :options="booleanOptions"></choice-group>
-      </div>
-      <div class="col m4">
-        <choice-group v-if="inspection.serviceBooks" :label="'Serivce Books'" v-model="inspection.serviceBooks" :name="'serviceBooks'" :options="booleanOptions"></choice-group>
-      </div>
-      <div class="col m4">
-        <choice-group v-if="inspection.registrationPapers" :label="'Registration Papers'" v-model="inspection.registrationPapers" :name="'registrationPapers'" :options="booleanOptions"></choice-group>
-      </div>
-    </div>
-    <div class="row row-agreedPrice">
-      <div class="col">
-        Agreed Price: <input-text v-model="inspection.agreedPrice" :name="'agreedPrice'" :validation-rules="{required:true,numeric:true}"></input-text>
-      </div>
-    </div>
-    <div class="row row-recievedContract">
-      <div class="col m12">
-        Has the customer received a copy of this contract? <choice-group v-if="inspection.registrationPapers" v-model="inspection.customerReceivedContract" :name="'customerReceivedContract'" :options="booleanOptions"></choice-group>
-      </div>
-    </div>
-    <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
-  </section>
+        <div class="row row-finance">
+            <div class="col m12">
+                <h2 class="title-finance">Finance</h2>
+                <choice-group v-if="inspection.finance" v-model="inspection.finance" :name="'finance'" :options="booleanOptions"
+                    :validationRules="{required:true}"></choice-group>
+                <input-text :label="'If yes, which company?'" v-model="inspection.financeCompany" :name="'financeCompany'"
+                    :validationRules="{required: inspection.finance == 1}"></input-text>
+            </div>
+        </div>
+        <div class="row row-finance--options">
+            <div class="col m4">
+                <choice-group v-if="inspection.writeOff" :label="'Write Off'" v-model="inspection.writeOff"
+                    :name="'writeOff'" :options="booleanOptions" :validationRules="{required:true}"></choice-group>
+            </div>
+            <div class="col m4">
+                <choice-group v-if="inspection.serviceBooks" :label="'Serivce Books'" v-model="inspection.serviceBooks"
+                    :name="'serviceBooks'" :options="booleanOptions" :validationRules="{required:true}"></choice-group>
+            </div>
+            <div class="col m4">
+                <choice-group v-if="inspection.registrationPapers" :label="'Registration Papers'" v-model="inspection.registrationPapers"
+                    :name="'registrationPapers'" :options="booleanOptions" :validationRules="{required:true}"></choice-group>
+            </div>
+        </div>
+        <div class="row row-agreedPrice">
+            <div class="col">
+                Agreed Price:
+                <input-text v-model="inspection.agreedPrice" :name="'agreedPrice'" :validation-rules="{required:true,numeric:true}"></input-text>
+            </div>
+        </div>
+        <div class="row row-recievedContract">
+            <div class="col m12">
+                Has the customer received a copy of this contract?
+                <choice-group v-if="inspection.registrationPapers" v-model="inspection.customerReceivedContract" :name="'customerReceivedContract'"
+                    :options="booleanOptions" :validationRules="{required:true}"></choice-group>
+            </div>
+        </div>
+        <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
+    </section>
 
 </template>
 

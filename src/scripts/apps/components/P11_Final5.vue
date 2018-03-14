@@ -27,21 +27,21 @@
     </div>
       <div class="row">
           <div class="col m9">
-              <input-textarea :label="'Notes'" v-model="inspection.notes" :name="'notes'"></input-textarea>
+              <input-textarea :label="'Notes'" v-model="inspection.notes" :name="'notes'" :validationRules="{required:true}"></input-textarea>
           </div>
       </div>
     <div class="row">
       <div class="col m6">
         <input-text :label="'Customer Name'" v-model="inspection.customerName" :name="'customerName'" :validation-rules="{required:true}"></input-text>
-        <signature v-model="inspection.customerSignatureString" v-if="signatureCustomer" v-on:close="closeSignatureCustomer" ></signature>
+        <signature v-model="inspection.customerSignatureString" v-if="signatureCustomer" @close="closeSignatureCustomer" ></signature>
         <div class="signature-button" @click="openSignatureCustomer" v-if="!inspection.customerSignatureString"></div>
         <div class="img-signature--wrap" v-else @click="openSignatureCustomer">
-          <img class="img-signature" :src="inspection.customerSignatureString"  />
+          <img class="img-signature" :src="inspection.customerSignatureString" />
         </div>
       </div>
       <div class="col m6">
         <input-text :label="'AreYouSelling Rep (Witness) Name'" v-model="inspection.repName" :name="'repName'" :validation-rules="{required:true}"></input-text>
-        <signature v-model="inspection.repSignatureString" v-if="signatureRep" v-on:close="closeSignatureRep"></signature>
+        <signature v-model="inspection.repSignatureString" v-if="signatureRep" @close="closeSignatureRep"></signature>
         <div class="signature-button" @click="openSignatureRep" v-if="!inspection.repSignatureString"></div>
         <div class="img-signature--wrap" v-else @click="openSignatureRep">
           <img class="img-signature" :src="inspection.repSignatureString"  />
@@ -50,15 +50,16 @@
     </div>
     <div class="row">
       <div class="col m5">
-        <input-text :label="'Model'" v-model="inspection.model" :name="'model'"></input-text>
+        <input-text :label="'Model'" v-model="inspection.model" :name="'model'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Kilometers'" v-model="inspection.kilometres" :name="'kilometres'"></input-text>
+        <input-text :label="'Kilometers'" v-model="inspection.kilometres" :name="'kilometres'" :validationRules="{required:true}"></input-text>
       </div>
     </div>
     <div class="row">
       <div class="col m9">
-        <input-text :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact" :name="'pickupAddressAndContact'"></input-text>
+        <input-text :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact"
+            :name="'pickupAddressAndContact'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m3">
         <input-text :label="'Date'" v-model="inspection.contractDate" :name="'contractDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
