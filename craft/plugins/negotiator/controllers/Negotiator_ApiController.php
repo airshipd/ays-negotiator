@@ -31,7 +31,7 @@ class Negotiator_ApiController extends BaseController {
 
         $criteria->order = 'inspectionDate, dateCreated asc';
 
-        if($upcoming) {
+        if($upcoming || $rejected) {
             $date = craft()->request->getQuery('date');
             if (!$date && !$user->isInGroup('sales_consultants')) {
                 $date = date('Y-m-d');
@@ -49,13 +49,16 @@ class Negotiator_ApiController extends BaseController {
                 }
 
                 $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
-            } else {
+            } elseif($upcoming) {
                 $criteria->inspectionDate = ':notempty:';
             }
-            $criteria->inspectionStatus = 'UpComing';
-            $criteria->rescheduled = 0;
-        } elseif($rejected) {
-            $criteria->inspectionStatus = 'Rejected';
+
+            if($upcoming) {
+                $criteria->inspectionStatus = 'UpComing';
+                $criteria->rescheduled = 0;
+            } else {
+                $criteria->inspectionStatus = 'Rejected';
+            }
         } else {
         	//Pending
             $criteria->runbikestopId = ':notempty:';

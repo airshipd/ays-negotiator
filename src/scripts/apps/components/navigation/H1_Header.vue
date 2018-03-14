@@ -6,8 +6,11 @@
                 <span class="brand-logo center">{{ title }}</span>
 
                 <div class="heading-secondary">
-                    <div class="header-inspections" v-if="currentRoute === 'Negotiations' && isSales">
+                    <div class="header-inspections" v-if="currentRoute === 'Negotiations'">
                         <div class="right">
+                            <div class="header-date" v-if="!isSales">
+                                <input class="datepicker-negotiations"/>
+                            </div>
                             <a class="header-icon--logout" href="/logout">log out</a>
                         </div>
 
@@ -15,14 +18,6 @@
                             <router-link tag="li" :to="{path: '/upcoming'}"><a>Upcoming</a></router-link>
                             <router-link tag="li" :to="{path: '/rejected'}"><a>Rejected</a></router-link>
                         </ul>
-                    </div>
-                    <div class="header-inspections" v-if="currentRoute === 'Negotiations' && !isSales">
-                        <div class="right">
-                            <div class="header-date">
-                                <input class="datepicker-negotiations"/>
-                            </div>
-                            <a class="header-icon--logout" href="/logout">log out</a>
-                        </div>
                     </div>
                     <div class="header-inspections" v-if="currentRoute === 'Admin'">
                         <div class="right">

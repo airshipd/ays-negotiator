@@ -15,24 +15,9 @@
                 </ul>
             </div>
             <div class="col map">
-                <gmap-map
-                    :center="location"
-                    :zoom="13"
-                    :style="{width: '100%', height: '100%'}"
-                >
-                    <gmap-marker
-                        :position="location"
-                        :clickable="false"
-                        :draggable="false"
-                        :icon="mapIcon"
-                        v-if="inspection"
-                    ></gmap-marker>
-                    <gmap-info-window
-                        :position="location"
-                        :options="infoOptions"
-                        v-if="inspection"
-                        @domready="customiseInfoWindow"
-                    >
+                <gmap-map :center="location" :zoom="13" :style="{width: '100%', height: '100%'}">
+                    <gmap-marker :position="location" :clickable="false" :draggable="false" :icon="mapIcon" v-if="inspection"></gmap-marker>
+                    <gmap-info-window :position="location" :options="infoOptions" v-if="inspection" @domready="customiseInfoWindow">
                         <div class="row">
                             <div class="col title">{{ inspection.title }}</div>
                         </div>
@@ -140,7 +125,7 @@ export default {
             this.activeLiIndex = 0;
         },
         '$route': function(r) {
-            if(this.type === 'upcoming' && !window.isSales) {
+            if(this.$route.name === 'Negotiations' && !window.isSales) {
                 let pickadate = $('.datepicker-negotiations').pickadate('picker');
                 if(pickadate.get('select', 'yyyy-mm-dd') !== this.date) {
                     if(this.date) {
