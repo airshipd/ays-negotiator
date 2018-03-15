@@ -18,13 +18,13 @@
         <input-text :label="'Odometer'" v-model="inspection.odometer" :validationRules="{required:true,numeric:true}" :name="'odometer'"></input-text>
       </div>
       <div class="col m3">
-        <input-select v-if="inspection.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
+        <input-select v-if="options.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
       </div>
       <div class="col m3">
         <input-text :label="'Body'" v-model="inspection.carBody" :name="'body'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <choice-group :label="'Drive Type'" v-model="inspection.driveTrain" :options="options.driveTrain.settings.options"
+        <choice-group v-if="options.driveTrain" :label="'Drive Type'" v-model="inspection.driveTrain" :options="options.driveTrain.settings.options"
             :name="'driveType'" :validationRules="{required:true}"></choice-group>
       </div>
     </div>
@@ -52,16 +52,16 @@
         <input-text :label="'Engine'" v-model="inspection.engineSize" :name="'engineSize'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-select v-if="inspection.engineType" :label="'Engine Type'" v-model="inspection.engineType" :options="options.engineType.settings.options"></input-select>
+        <input-select v-if="options.engineType" :label="'Engine Type'" v-model="inspection.engineType" :options="options.engineType.settings.options"></input-select>
       </div>
     </div>
 
     <div class="row">
       <div class="col m3">
-        <input-select v-if="inspection.transmission" :label="'Transmission'" v-model="inspection.transmission" :options="options.transmission.settings.options"></input-select>
+        <input-select v-if="options.transmission" :label="'Transmission'" v-model="inspection.transmission" :options="options.transmission.settings.options"></input-select>
       </div>
       <div class="col m5">
-        <choice-group v-if="inspection.wheels" :label="'Wheels'" v-model="inspection.wheels" :options="options.wheels.settings.options"
+        <choice-group v-if="options.wheels" :label="'Wheels'" v-model="inspection.wheels" :options="options.wheels.settings.options"
             :name="'wheels'" :validationRules="{required:true}"></choice-group>
       </div>
     </div>
@@ -164,10 +164,6 @@ import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
 import ImageUploader from '../services/ImageUploader'
 
-import axios from 'axios'
-import moment from 'moment'
-import { urlGetInspection } from '../config.js'
-
 export default {
     name: 'negotiator',
     provideValidator: true,
@@ -236,6 +232,7 @@ export default {
             });
         },
         skip() {
+            PostService.submitInspection(this.$route.params.id);
             this.$router.push('/final/1/' + this.$route.params.id)
         },
         submitForm() {
@@ -243,6 +240,7 @@ export default {
                 if (result) {
                     PostService.postMulti(this.$route.params.id, this.inspection, this.options)
                         .then(response => {
+                            PostService.submitInspection(this.$route.params.id);
                             this.$store.commit('updateInspection', this.inspection)
                             this.$router.push('/waiting/' + this.$route.params.id)
                         }).catch(e => {

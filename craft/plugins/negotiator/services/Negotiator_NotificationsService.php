@@ -104,4 +104,14 @@ Are You Selling";
             craft::log(sprintf('SMS has been sent successfully. Inspector #%d. Entry #%d', $inspector->id, $job->id), LogLevel::Info, false, 'application', 'negotiator');
         }
     }
+
+    /**
+     * Fires an 'onSubmitted' event - when inspector clicks "Submit" or "Skip to paperwork" at Pre-Inspection Form
+     *
+     * @param Event $event
+     */
+    public function onSubmitted(Event $event)
+    {
+        $this->raiseEvent('onSubmitted', $event);
+    }
 }

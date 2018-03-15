@@ -40,7 +40,9 @@ class FinalizerPlugin extends BasePlugin
         return [
             'staffEmailSubject'       => [AttributeType::String, 'default' => 'Order Finalized'],
             'customerEmailSubject'    => [AttributeType::String, 'default' => 'Thank You for Using Are You Selling'],
-            'defaultStaffEmail'       => [AttributeType::String, 'default' => ''],
+            'defaultStaffEmail'       => [AttributeType::Email, 'default' => ''],
+            'negotiatorEmail'         => [AttributeType::Email, 'default' => ''],
+            'carSellerEmail'          => [AttributeType::Email, 'default' => ''],
             'sendToLoggedInUser'      => [AttributeType::Bool, 'default' => 1],
             'sendToInspectionCreator' => [AttributeType::Bool, 'default' => 0],
         ];
@@ -55,7 +57,6 @@ class FinalizerPlugin extends BasePlugin
 
     public function init()
     {
-        //Event: onSaveEntry
         craft()->on('entries.saveEntry', function (Event $event) {
             $entry = $event->params['entry'];
             $isInspection = $entry->section->handle === 'inspections';
@@ -63,6 +64,11 @@ class FinalizerPlugin extends BasePlugin
             if ($isInspection && $entry['inspectionStatus'] === 'finalized') {
                 craft()->finalizer_email->sendNotificationEmails($entry);
             }
+        });
+
+        craft()->on('negotiator_notifications.submitted', function (Event $event) {
+            $inspection = $event->params['inspection'];
+            craft()->finalizer_email->sendInspectionSubmittedNotification($inspection);
         });
     }
 }
