@@ -32,11 +32,11 @@
 
     <div class="row">
       <div class="col m3">
-        <choice-group v-if="inspection.doors" :label="'Doors'" v-model="inspection.doors" :options="[{value:'2',label:2},{value:'4',label:4},{value:'6',label:6}]"
+        <choice-group :label="'Doors'" v-model="inspection.doors" :options="[{value:'2',label:2},{value:'4',label:4},{value:'6',label:6}]"
             :name="'doors'" :validationRules="{required:true}"></choice-group>
       </div>
       <div class="col m7">
-        <choice-group v-if="inspection.seats" :label="'Seats'" v-model="inspection.seats"
+        <choice-group :label="'Seats'" v-model="inspection.seats"
             :options="[{value:'2',label:2},{value:'4',label:4},{value:'5',label:5},{value:'6',label:6},{value:'7',label:7},{value:'8',label:8}]"
             :name="'seats'" :validationRules="{required:true}"></choice-group>
       </div>
