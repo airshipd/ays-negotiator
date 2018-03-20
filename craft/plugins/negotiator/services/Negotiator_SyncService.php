@@ -149,7 +149,20 @@ class Negotiator_SyncService extends BaseApplicationComponent
         if ($model->address) {
             $content['location'] = ['address' => $model->address];
         }
-        if($model->sales_consultant_email) {
+
+        if ($model->mechanic_booked && $model->mechanic_email) {
+            $content['inspectionDate'] = [
+                'date' => $model->mechanic_booked->format('d/m/Y'),
+                'time' => $model->mechanic_booked->format('h:i A'),
+            ];
+
+            $criteria = craft()->elements->getCriteria(ElementType::User);
+            $criteria->email = $model->mechanic_email;
+            $user = $criteria->first();
+            if($user) {
+                $content['inspector'] = [$user->id];
+            }
+        } elseif($model->sales_consultant_email) {
             $criteria = craft()->elements->getCriteria(ElementType::User);
             $criteria->email = $model->sales_consultant_email;
             $user = $criteria->first();
