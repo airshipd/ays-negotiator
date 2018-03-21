@@ -232,8 +232,8 @@ function generateInternalRecord() {
 
   // some number variables
   var spaceSm = 8;
-  var spaceMd = 12;
-  var spaceLg = 16;
+  var spaceMd = 6;
+  var spaceLg = 10;
 
   var xStartLeft = doc.settings.marginX;
   var xStartMid = doc.settings.contentWidth / 2 + doc.settings.marginX;
