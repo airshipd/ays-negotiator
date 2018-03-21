@@ -15,6 +15,20 @@
 }) }}
 
 {{ forms.textField({
+    label: "Negotiator Email"|t,
+    instructions: "Set the default email address that all negotiator notification emails will go to"|t,
+    name: 'negotiatorEmail',
+    value: settings.negotiatorEmail
+}) }}
+
+{{ forms.textField({
+    label: "Car Seller Email"|t,
+    instructions: "Set the default email address that all Car Seller notification emails will go to"|t,
+    name: 'carSellerEmail',
+    value: settings.carSellerEmail
+}) }}
+
+{{ forms.textField({
 	label: "Customer Email Subject"|t,
 	instructions: "Set the subject for customer notification emails"|t,
 	name: 'customerEmailSubject',

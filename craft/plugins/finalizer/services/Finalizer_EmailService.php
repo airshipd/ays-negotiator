@@ -15,13 +15,6 @@ class Finalizer_EmailService extends BaseApplicationComponent
         $contractUrl = craft()->getSiteUrl() . 'contract/' . $entry->id;
         $recordUrl = craft()->getSiteUrl() . 'internalrecord/' . $entry->id;
 
-        $images     = $entry->licenseAndRegistrationPhotos;
-        $image_urls = [];
-
-        foreach ($images as $image) {
-            array_push($image_urls, craft()->assets->getUrlForFile($image));
-        }
-
         // get customer email body
         ob_start();
         include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/customerNotification.php");
@@ -50,13 +43,51 @@ class Finalizer_EmailService extends BaseApplicationComponent
         }
     }
 
-    private function sendEmail($emailTo, $subject, $body)
+    public function sendInspectionSubmittedNotification(EntryModel $inspection)
+    {
+        // get plugin settings
+        $settings = craft()->plugins->getPlugin('finalizer')->getSettings();
+
+        // Used in template
+        $inspectorName = craft()->finalizer_fields->getInspectorName($inspection);
+        $reportUrl = craft()->getSiteUrl() . 'internalrecord/' . $inspection->id;
+
+        $attachments = [];
+        $images = new \AppendIterator();
+        $images->append($inspection->vehiclePhotos->getIterator());
+        $images->append($inspection->licenseAndRegistrationPhotos->getIterator());
+
+        foreach ($images as $image) { /** @var AssetFileModel $image */
+            $attachments[] = [
+                'path' => $image->getSource()->getSourceType()->getImageSourcePath($image),
+                'name' => $image->filename,
+                'encoding' => 'base64',
+                'type' => $image->getMimeType(),
+            ];
+        }
+
+        // get email body
+        ob_start();
+        include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/inspection_submitted.php");
+        $emailBody = ob_get_clean();
+
+        if ($settings->negotiatorEmail) {
+            $this->sendEmail($settings->negotiatorEmail, 'Inspection Submitted', $emailBody, $attachments);
+        }
+
+        if ($settings->carSellerEmail) {
+            $this->sendEmail($settings->carSellerEmail, 'Inspection Submitted', $emailBody, $attachments);
+        }
+    }
+
+    private function sendEmail($emailTo, $subject, $body, array $attachments = [])
     {
         // send email with the finalized data
         $mail          = new EmailModel();
         $mail->toEmail = $emailTo;
         $mail->subject = $subject;
         $mail->body    = $body;
+        $mail->attachments = $attachments;
         craft()->email->sendEmail($mail);
     }
 }

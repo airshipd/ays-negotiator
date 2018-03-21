@@ -1,152 +1,164 @@
 <template>
-  <section class="section-inspection">
+    <section class="section-inspection">
 
-    <div class="row">
-      <div class="col m3">
-        <input-text :label="'Make'" v-model="inspection.make" :name="'make'" :validation-rules="{required:true}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Model'" v-model="inspection.model" :name="'model'" :validation-rules="{required:true}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Year'" v-model="inspection.year" :name="'year'" :validation-rules="{required:true}"></input-text>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col m3">
+                <input-text :label="'Make'" v-model="inspection.make" :name="'make'" :validation-rules="{required:true}"></input-text>
+            </div>
+            <div class="col m3">
+                <input-text :label="'Model'" v-model="inspection.model" :name="'model'" :validation-rules="{required:true}"></input-text>
+            </div>
+            <div class="col m3">
+                <input-text :label="'Year'" v-model="inspection.year" :name="'year'" :validation-rules="{required:true}"></input-text>
+            </div>
+        </div>
 
-    <div class="row">
-      <div class="col m3">
-        <input-text :label="'Odometer'" v-model="inspection.odometer" :validationRules="{required:true,numeric:true}" :name="'odometer'"></input-text>
-      </div>
-      <div class="col m3">
-        <input-select v-if="inspection.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Body'" v-model="inspection.carBody" :name="'body'" :validationRules="{required:true}"></input-text>
-      </div>
-      <div class="col m3">
-        <choice-group :label="'Drive Type'" v-model="inspection.driveTrain" :options="options.driveTrain.settings.options"
-            :name="'driveType'" :validationRules="{required:true}"></choice-group>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col m3">
+                <input-text :label="'Odometer'" v-model="inspection.odometer" :validationRules="{required:true,numeric:true}" :name="'odometer'"></input-text>
+            </div>
+            <div class="col m3">
+                <input-select v-if="options.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
+            </div>
+            <div class="col m3">
+                <input-text :label="'Body'" v-model="inspection.carBody" :name="'body'" :validationRules="{required:true}"></input-text>
+            </div>
+            <div class="col m3">
+                <choice-group v-if="options.driveTrain" :label="'Drive Type'" v-model="inspection.driveTrain" :options="options.driveTrain.settings.options"
+                    :name="'driveType'" :validationRules="{required:true}"></choice-group>
+            </div>
+        </div>
 
-    <div class="row">
-      <div class="col m3">
-        <choice-group v-if="inspection.doors" :label="'Doors'" v-model="inspection.doors" :options="[{value:'2',label:2},{value:'4',label:4},{value:'6',label:6}]"
-            :name="'doors'" :validationRules="{required:true}"></choice-group>
-      </div>
-      <div class="col m7">
-        <choice-group v-if="inspection.seats" :label="'Seats'" v-model="inspection.seats"
-            :options="[{value:'2',label:2},{value:'4',label:4},{value:'5',label:5},{value:'6',label:6},{value:'7',label:7},{value:'8',label:8}]"
-            :name="'seats'" :validationRules="{required:true}"></choice-group>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col m3">
+                <choice-group :label="'Doors'" v-model="inspection.doors" :options="[{value:'2',label:2},{value:'4',label:4},{value:'6',label:6}]"
+                    :name="'doors'" :validationRules="{required:true}"></choice-group>
+            </div>
+            <div class="col m7">
+                <choice-group :label="'Seats'" v-model="inspection.seats"
+                    :options="[{value:'2',label:2},{value:'4',label:4},{value:'5',label:5},{value:'6',label:6},{value:'7',label:7},{value:'8',label:8}]"
+                    :name="'seats'" :validationRules="{required:true}"></choice-group>
+            </div>
+        </div>
 
-    <div class="row">
-      <div class="col m3">
-        <input-text :label="'Series'" v-model="inspection.series" :name="'series'" :validationRules="{required:true}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Badge'" v-model="inspection.badge" :name="'badge'" :validationRules="{required:true}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Engine'" v-model="inspection.engineSize" :name="'engineSize'" :validationRules="{required:true}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-select v-if="inspection.engineType" :label="'Engine Type'" v-model="inspection.engineType" :options="options.engineType.settings.options"></input-select>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col m3">
+                <input-text :label="'Series'" v-model="inspection.series" :name="'series'" :validationRules="{required:true}"></input-text>
+            </div>
+            <div class="col m3">
+                <input-text :label="'Badge'" v-model="inspection.badge" :name="'badge'" :validationRules="{required:true}"></input-text>
+            </div>
+            <div class="col m3">
+                <input-text :label="'Engine'" v-model="inspection.engineSize" :name="'engineSize'" :validationRules="{required:true}"></input-text>
+            </div>
+            <div class="col m3">
+        <input-select v-if="options.engineType" :label="'Engine Type'" v-model="inspection.engineType" :options="options.engineType.settings.options"></input-select>
+            </div>
+        </div>
 
-    <div class="row">
-      <div class="col m3">
-        <input-select v-if="inspection.transmission" :label="'Transmission'" v-model="inspection.transmission" :options="options.transmission.settings.options"></input-select>
-      </div>
-      <div class="col m5">
-        <choice-group v-if="inspection.wheels" :label="'Wheels'" v-model="inspection.wheels" :options="options.wheels.settings.options"
-            :name="'wheels'" :validationRules="{required:true}"></choice-group>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col m3">
+        <input-select v-if="options.transmission" :label="'Transmission'" v-model="inspection.transmission" :options="options.transmission.settings.options"></input-select>
+            </div>
+            <div class="col m5">
+                <choice-group v-if="options.wheels" :label="'Wheels'" v-model="inspection.wheels" :options="options.wheels.settings.options"
+                    :name="'wheels'" :validationRules="{required:true}"></choice-group>
+            </div>
+        </div>
 
-    <div class="row">
-      <div class="col m2">
-        <input-checkbox :label="'Service Book'" v-model="inspection.ownersManual" :model-value="inspection.ownersManual" ></input-checkbox>
-      </div>
-      <div class="col m2">
-         <input-checkbox :label="'Sun Roof'" v-model="inspection.sunroof" :model-value="inspection.sunroof" ></input-checkbox>
-      </div>
-      <div class="col m2">
-         <input-checkbox :label="'Sat Nav'" v-model="inspection.satNav" :model-value="inspection.satNav"></input-checkbox>
-      </div>
-      <div class="col m2">
-         <input-checkbox :label="'Spare Key'" v-model="inspection.spareKey" :model-value="inspection.spareKey"></input-checkbox>
-      </div>
-      <div class="col m2">
-         <input-checkbox :label="'Leather'" v-model="inspection.leatherUpholstery" :model-value="inspection.leatherUpholstery"></input-checkbox>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col m2">
+                <input-checkbox :label="'Service Book'" v-model="inspection.ownersManual" :model-value="inspection.ownersManual"></input-checkbox>
+            </div>
+            <div class="col m2">
+                <input-checkbox :label="'Sun Roof'" v-model="inspection.sunroof" :model-value="inspection.sunroof"></input-checkbox>
+            </div>
+            <div class="col m2">
+                <input-checkbox :label="'Sat Nav'" v-model="inspection.satNav" :model-value="inspection.satNav"></input-checkbox>
+            </div>
+            <div class="col m2">
+                <input-checkbox :label="'Spare Key'" v-model="inspection.spareKey" :model-value="inspection.spareKey"></input-checkbox>
+            </div>
+            <div class="col m2">
+                <input-checkbox :label="'Leather'" v-model="inspection.leatherUpholstery" :model-value="inspection.leatherUpholstery"></input-checkbox>
+            </div>
+        </div>
 
-    <div class="row">
-      <div class="col m3">
+        <div class="row">
+            <div class="col m3">
         <input-text :label="'Chassis/Vin No'" v-model="inspection.chassisVinNumber" :name="'chassisVinNumber'" :validation-rules="{required:true}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Engine Number'" v-model="inspection.engineNumber" :name="'engineNumber'" :validation-rules="{required:true}"></input-text>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col m3">
-        <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'" :validation-rules="{required:true}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Build Date'" v-model="inspection.buildDate" :name="'buildDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Compliance Date'" v-model="inspection.complianceDate" :name="'complianceDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col m12">
-        <input-checkbox-switch :label="'Tradesmen Extras'" v-model="inspection.tradesmanExtras" :model-value="inspection.tradesmanExtras"></input-checkbox-switch>
-        <input-textarea v-if="inspection.tradesmanExtras === '1'" :name="'tradesmanExtrasDescription'" v-model="inspection.tradesmanExtrasDescription" ></input-textarea>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col m12">
-        <input-checkbox-switch :label="'Upgrades / Mods'" v-model="inspection.upgradesMods" :model-value="inspection.upgradesMods"></input-checkbox-switch>
-        <input-textarea v-if="inspection.upgradesMods === '1'" :name="'upgradesAndModsDescription'" v-model="inspection.upgradesAndModsDescription" ></input-textarea>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col m12">
-        <input-checkbox-switch :label="'Sports Kit'" v-model="inspection.sportsKit" :model-value="inspection.sportsKit"></input-checkbox-switch>
-        <input-textarea v-if="inspection.sportsKit === '1'" :name="'sportsKitDescription'" v-model="inspection.sportsKitDescription" ></input-textarea>
-      </div>
-    </div>
-
-    <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
-    <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
-
-    <div class="inspection-dark">
-      <div class="row">
-        <div class="col m7">
-          <input-textarea :label="'Damage & Faults'" :name="'damageAndFaults'" v-model="inspection.damageAndFaults" ></input-textarea>
+            </div>
+            <div class="col m3">
+                <input-text :label="'Engine Number'" v-model="inspection.engineNumber" :name="'engineNumber'" :validation-rules="{required:true}"></input-text>
+            </div>
         </div>
-        <div class="col m5 total-expenditure">
-          <div></div>
-          <input-text :label="'Total Approx Expenditure'" :name="'approximateExpenditure'" v-model="inspection.approximateExpenditure" :validationRules="{required:true,numeric:true}"></input-text>
-        </div>
-      </div>
-    </div>
 
-    <b1-button :label="'Submit'" :action="submitForm" :fullWidth="true"></b1-button>
-    <b1-button class="grey lighten-1" :label="'Skip to Paperwork'" :action="skip" :fullWidth="true"></b1-button>
-  </section>
+        <div class="row">
+            <div class="col m3">
+                <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'" :validation-rules="{required:true}"></input-text>
+            </div>
+            <div class="col m3">
+                <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+            </div>
+            <div class="col m3">
+                <input-text :label="'Build Date'" v-model="inspection.buildDate" :name="'buildDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+            </div>
+            <div class="col m3">
+                <input-text :label="'Compliance Date'" v-model="inspection.complianceDate" :name="'complianceDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col m12">
+                <input-checkbox-switch :label="'Tradesmen Extras'" v-model="inspection.tradesmanExtras" :model-value="inspection.tradesmanExtras"></input-checkbox-switch>
+                <input-textarea v-if="inspection.tradesmanExtras === '1'" :name="'tradesmanExtrasDescription'" v-model="inspection.tradesmanExtrasDescription"></input-textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col m12">
+                <input-checkbox-switch :label="'Upgrades / Mods'" v-model="inspection.upgradesMods" :model-value="inspection.upgradesMods"></input-checkbox-switch>
+                <input-textarea v-if="inspection.upgradesMods === '1'" :name="'upgradesAndModsDescription'" v-model="inspection.upgradesAndModsDescription"></input-textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col m12">
+                <input-checkbox-switch :label="'Sports Kit'" v-model="inspection.sportsKit" :model-value="inspection.sportsKit"></input-checkbox-switch>
+                <input-textarea v-if="inspection.sportsKit === '1'" :name="'sportsKitDescription'" v-model="inspection.sportsKitDescription"></input-textarea>
+            </div>
+        </div>
+
+        <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
+        <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
+
+        <div class="row">
+            <div class="col m4">
+                <choice-group v-if="options.takataAirbagRecall" :label="'Takata Airbag Recall'" v-model="inspection.takataAirbagRecall"
+                    :options="options.takataAirbagRecall.settings.options" :name="'takataAirbagRecall'" :validationRules="{required:true}"></choice-group>
+            </div>
+            <div class="col m3" v-show="inspection.takataAirbagRecall === 'yes'">
+                <choice-group v-if="options.takataAirbagRecallStatus" label="If Yes" v-model="inspection.takataAirbagRecallStatus"
+                    :options="options.takataAirbagRecallStatus.settings.options" name="takataAirbagRecallStatus"
+                    :validationRules="{required: inspection.takataAirbagRecall === 'yes'}"></choice-group>
+            </div>
+        </div>
+
+        <div class="inspection-dark">
+            <div class="row">
+                <div class="col m7">
+                    <input-textarea :label="'Damage & Faults'" :name="'damageAndFaults'" v-model="inspection.damageAndFaults"></input-textarea>
+                </div>
+                <div class="col m5 total-expenditure">
+                    <div></div>
+                    <input-text :label="'Total Approx Expenditure'" :name="'approximateExpenditure'" v-model="inspection.approximateExpenditure" :validationRules="{required:true,numeric:true}"></input-text>
+                </div>
+            </div>
+        </div>
+
+        <b1-button :label="'Submit'" :action="submitForm" :fullWidth="true"></b1-button>
+        <b1-button class="grey lighten-1" :label="'Skip to Paperwork'" :action="skip" :fullWidth="true"></b1-button>
+    </section>
 </template>
 
 <script>
@@ -163,10 +175,6 @@ import inputFileList from './inputs/N8_PhotoList.vue'
 import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
 import ImageUploader from '../services/ImageUploader'
-
-import axios from 'axios'
-import moment from 'moment'
-import { urlGetInspection } from '../config.js'
 
 export default {
     name: 'negotiator',
@@ -236,6 +244,7 @@ export default {
             });
         },
         skip() {
+            PostService.submitInspection(this.$route.params.id);
             this.$router.push('/final/1/' + this.$route.params.id)
         },
         submitForm() {
@@ -243,6 +252,7 @@ export default {
                 if (result) {
                     PostService.postMulti(this.$route.params.id, this.inspection, this.options)
                         .then(response => {
+                            PostService.submitInspection(this.$route.params.id);
                             this.$store.commit('updateInspection', this.inspection)
                             this.$router.push('/waiting/' + this.$route.params.id)
                         }).catch(e => {

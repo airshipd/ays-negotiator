@@ -248,4 +248,17 @@ class Negotiator_ApiController extends BaseController {
         }
         return $ret;
     }
+
+    public function actionSubmitInspection(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
+
+        if(!$inspection) {
+            throw new HttpException(404);
+        }
+
+        craft()->negotiator_notifications->onSubmitted(new Event(null, ['inspection' => $inspection]));
+    }
 }

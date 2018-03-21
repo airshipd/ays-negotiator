@@ -43,6 +43,8 @@ namespace Craft;
  * @property string inspector_email
  * @property string sales_consultant_email
  * @property float  latest_pricing
+ * @property string mechanic_email
+ * @property DateTime mechanic_booked
  */
 class Negotiator_RunbikestopModel extends BaseModel
 {
@@ -56,7 +58,6 @@ class Negotiator_RunbikestopModel extends BaseModel
 
         parent::__construct($attributes);
     }
-
 
     protected function defineAttributes()
     {
@@ -97,6 +98,8 @@ class Negotiator_RunbikestopModel extends BaseModel
             'inspector_email' => AttributeType::Mixed,
             'sales_consultant_email' => AttributeType::Mixed,
             'latest_pricing' => AttributeType::Number,
+            'mechanic_email' => AttributeType::Mixed,
+            'mechanic_booked' => AttributeType::DateTime,
         ];
     }
 
