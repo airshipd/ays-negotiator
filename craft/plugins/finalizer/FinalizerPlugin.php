@@ -61,7 +61,8 @@ class FinalizerPlugin extends BasePlugin
             $entry = $event->params['entry'];
             $isInspection = $entry->section->handle === 'inspections';
 
-            if ($isInspection && $entry['inspectionStatus'] === 'finalized') {
+            //do NOT replace "==" with "==="! inspectionStatus field is an object in fact which is turned into string on non-strict comparison
+            if ($isInspection && $entry['inspectionStatus'] == 'finalized') {
                 craft()->finalizer_email->sendNotificationEmails($entry);
             }
         });
