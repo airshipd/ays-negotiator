@@ -15,6 +15,7 @@ import Final4 from './components/P10_Final4.vue'
 import Final5 from './components/P11_Final5.vue'
 import OfferFinalized from './components/P12_OfferFinalized.vue'
 import PendingInspection from './components/P13_PendingInspection.vue'
+import InspectionDetails from './components/P14_InspectionDetails.vue'
 
 Vue.use(Router);
 
@@ -128,6 +129,11 @@ const router = new Router({
             path: '/pending-inspection/:id',
             name: 'Pending Inspection',
             component: PendingInspection
+        },
+        {
+            path: '/inspection-details/:id',
+            name: 'Inspection Details',
+            component: InspectionDetails
         },
     ]
 });

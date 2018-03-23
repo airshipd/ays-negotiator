@@ -61,6 +61,11 @@
                             <a class="btn" @click="reschedule">Reschedule</a>
                         </div>
                     </div>
+                    <div class="inspection-details-header" v-if="currentRoute === 'Inspection Details'">
+                        <div class="left">
+                            <a @click="actionMenu"><i class="icon-back"></i></a>
+                        </div>
+                    </div>
                     <div class="header-report" v-if="currentRoute === 'Offer'">
                         <div class="left">
                             <a @click="actionMenu"><i class="icon-menu"></i></a>
@@ -148,6 +153,9 @@
                         break;
                     case 'Pending Inspection':
                         this.title = 'Pending Job Form';
+                        break;
+                    case 'Inspection Details':
+                        this.title = 'Inspection Details';
                         break;
                     default:
                         this.title = '';

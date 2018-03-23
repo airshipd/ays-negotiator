@@ -10689,6 +10689,8 @@ nav {
         display: block;
         font-weight: 300;
         font-size: 1.5rem; }
+  nav .inspection-details-header {
+    height: 80px; }
 
 .header-list {
   position: absolute;
@@ -11520,6 +11522,19 @@ nav {
     -ms-flex-align: end;
         align-items: flex-end; }
     .section-inspection > .row .col {
+      margin-left: 0;
+      margin-right: 0; }
+
+.section-inspection-details {
+  padding-top: 40px;
+  font-size: 18px; }
+  .section-inspection-details h4 {
+    margin-bottom: 20px; }
+  .section-inspection-details > .row {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 60px; }
+    .section-inspection-details > .row .col {
       margin-left: 0;
       margin-right: 0; }
 
