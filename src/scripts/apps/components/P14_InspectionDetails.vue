@@ -126,8 +126,12 @@
             </div>
         </div>
 
-        <b1-button label="Email Customer Paperwork" :fullWidth="true"></b1-button>
-        <b1-button class="grey lighten-1" label="Send for Sales Consultant for follow up" :fullWidth="true"></b1-button>
+        <b1-button v-show="inspection.inspectionStatus === 'Rejected' || inspection.inspectionStatus === 'Unsuccessful'"
+            label="Email Customer Paperwork" :action="sendPaperwork" :fullWidth="true"></b1-button>
+        <b1-button v-show="inspection.inspectionStatus === 'Rejected'"
+            class="grey lighten-1" label="Send for Sales Consultant for follow up" :action="setUnsuccessful" :fullWidth="true"></b1-button>
+        <b1-button v-show="inspection.inspectionStatus === 'Unopened' || inspection.inspectionStatus === 'Opened'"
+            label="Send for marketing" :action="setArchived" :fullWidth="true"></b1-button>
     </section>
 </template>
 
@@ -172,27 +176,24 @@ export default {
                     console.error(e)
                 })
         },
-        skip() {
-            PostService.submitInspection(this.$route.params.id);
-            this.$router.push('/final/1/' + this.$route.params.id)
+        sendPaperwork: function () {
+            PostService
+                .post(this.$route.params.id, {inspectionStatus: 'Unopened'}, this.options)
+                .then(() => this.$router.push('/'))
+                .catch(e => console.error(e))
         },
-        submitForm() {
-            this.$validator.validateAll().then((result) => {
-                if (result) {
-                    PostService.postMulti(this.$route.params.id, this.inspection, this.options)
-                        .then(response => {
-                            PostService.submitInspection(this.$route.params.id);
-                            this.$store.commit('updateInspection', this.inspection)
-                            this.$router.push('/waiting/' + this.$route.params.id)
-                        }).catch(e => {
-                            console.error(e)
-                        })
-                } else {
-                    //scroll up to top of page
-                    $(window).scrollTop(0)
-                }
-            })
+        setUnsuccessful: function () {
+            PostService
+                .post(this.$route.params.id, {inspectionStatus: 'Unsuccessful'}, this.options)
+                .then(() => this.$router.push('/'))
+                .catch(e => console.error(e))
         },
+        setArchived: function () {
+            PostService
+                .post(this.$route.params.id, {inspectionStatus: 'Archived'}, this.options)
+                .then(() => this.$router.push('/'))
+                .catch(e => console.error(e))
+        }
     },
     watch: {
         'inspection.reviewValuation': debounce(function (reviewValuation) {

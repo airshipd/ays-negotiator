@@ -15,8 +15,9 @@
                         </div>
 
                         <ul class="type-switcher">
-                            <router-link tag="li" :to="{path: '/upcoming'}" v-if="!isNegotiator"><a>Upcoming</a></router-link>
-                            <router-link tag="li" :to="{path: '/rejected'}"><a>Rejected</a></router-link>
+                            <router-link tag="li" :to="{path: '/upcoming'}" v-if="!isNegotiator && !isSales"><a>Upcoming</a></router-link>
+                            <router-link tag="li" :to="{path: '/rejected'}" v-if="!isSales"><a>Rejected</a></router-link>
+                            <router-link tag="li" :to="{path: '/unsuccessful'}" v-if="isSales"><a>Unsuccessful</a></router-link>
                         </ul>
                     </div>
                     <div class="header-inspections" v-if="currentRoute === 'Admin'">
