@@ -57,13 +57,38 @@ class FinalizerPlugin extends BasePlugin
 
     public function init()
     {
-        craft()->on('entries.saveEntry', function (Event $event) {
+        $old_status = '';
+        craft()->on('entries.BeforeSaveEntry', function (Event $event) use(&$old_status) {
+            /** @var EntryModel $entry */
+            $entry = $event->params['entry'];
+
+            $isInspectionEntry      = $entry->section->handle === 'inspections';
+            $isNewEntry             = $event->params['isNewEntry'];
+
+            if ($isInspectionEntry && !$isNewEntry) {
+                //get previous status value
+                $criteria = craft()->elements->getCriteria(ElementType::Entry);
+                $criteria->id = $entry->id;
+                $old_entry = $criteria->first();
+                $old_status = (string)$old_entry->inspectionStatus;
+                var_dump($old_status);
+            }
+
+            return $event->performAction = true;
+        });
+
+
+        craft()->on('entries.saveEntry', function (Event $event) use(&$old_status) {
             $entry = $event->params['entry'];
             $isInspection = $entry->section->handle === 'inspections';
 
             //do NOT replace "==" with "==="! inspectionStatus field is an object in fact which is turned into string on non-strict comparison
             if ($isInspection && $entry['inspectionStatus'] == 'finalized') {
                 craft()->finalizer_email->sendNotificationEmails($entry);
+            }
+
+            if ($isInspection && $old_status && $old_status !== (string)$entry['inspectionStatus'] && $entry['inspectionStatus'] == 'Unopened') {
+                craft()->finalizer_email->sendCustomerContract($entry);
             }
         });
 
