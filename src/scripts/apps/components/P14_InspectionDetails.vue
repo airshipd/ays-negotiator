@@ -117,8 +117,12 @@
         </div>
 
         <div class="row">
-            <div class="col m12 left-align">
-                <h4>Latest Price: ${{ inspection.reviewValuation }}</h4>
+            <div class="col m12 right-align">
+                <h4>Latest Price: $ <input v-model="inspection.reviewValuation" name="reviewValuation" v-validate="{required: true, decimal: 2}"></h4>
+                <span v-show="errors.has('reviewValuation')" class="help is-danger">{{ errors.first('reviewValuation') }}</span>
+            </div>
+            <div class="col m12">
+                <textarea v-model="inspection.notes" name="notes" placeholder="Notes..." />
             </div>
         </div>
 
@@ -140,6 +144,7 @@ import inputFileList from './inputs/N8_PhotoList.vue'
 
 import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
+import debounce from 'lodash/debounce';
 
 export default {
     name: 'inspectionDetails',
@@ -161,12 +166,8 @@ export default {
             GetService.getInspection(this.$route.params.id)
                 .then(res => {
                     this.inspection = res.inspection
+                    this.options = res.options
                     this.imgs = (this.inspection.vehiclePhotos || []).concat(this.inspection.licenseAndRegistrationPhotos || []);
-                    console.log(this.imgs);
-                    // this.options = res.options
-                    // this.original_inspection = Object.assign({}, res.inspection); //cloning
-                    // this.$store.commit('updateInspection', res.inspection)
-                    // this.$store.commit('updateOptions', res.options)
                 }).catch(e => {
                     console.error(e)
                 })
@@ -184,14 +185,28 @@ export default {
                             this.$store.commit('updateInspection', this.inspection)
                             this.$router.push('/waiting/' + this.$route.params.id)
                         }).catch(e => {
-                        console.error(e)
-                    })
+                            console.error(e)
+                        })
                 } else {
                     //scroll up to top of page
                     $(window).scrollTop(0)
                 }
             })
         },
+    },
+    watch: {
+        'inspection.reviewValuation': debounce(function (reviewValuation) {
+            if(!this.errors.has('reviewValuation')) {
+                PostService
+                    .post(this.$route.params.id, {reviewValuation}, this.options)
+                    .catch(e => console.error(e))
+            }
+        }, 300),
+        'inspection.notes': debounce(function (notes) {
+            PostService
+                .post(this.$route.params.id, {notes}, this.options)
+                .catch(e => console.error(e))
+        }, 300)
     },
     components: {
         inputText,
