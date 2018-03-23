@@ -174,6 +174,52 @@ class Negotiator_ApiController extends BaseController {
     $this->returnJson(['content'=>(string) $settings->contractCopy]);
   }
 
+  public function actionSubmitContract(array $variables = [])
+  {
+      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+      $criteria->id = $variables['id'];
+      $inspection   = $criteria->first();
+
+      if(!$inspection) {
+          throw new HttpException(404);
+      }
+
+      if (!in_array($inspection->inspectionStatus, ['Unopened', 'Opened'])) {
+          throw new HttpException(403);
+      }
+
+      $post = json_decode(craft()->request->getRawBody(), true);
+      $inspection->setContentFromPost([
+          'customerName' => $post['customerName'],
+          'customerSignatureString' => $post['customerSignatureString'],
+          'inspectionStatus' => 'finalized',
+      ]);
+
+      craft()->entries->saveEntry($inspection);
+  }
+
+  public function actionSetOpened(array $variables = [])
+  {
+      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+      $criteria->id = $variables['id'];
+      $inspection   = $criteria->first();
+
+      if(!$inspection) {
+          throw new HttpException(404);
+      }
+
+      if ($inspection->inspectionStatus == 'Opened') {
+          return;
+      }
+
+      if ($inspection->inspectionStatus != 'Unopened') {
+          throw new HttpException(403);
+      }
+
+      $inspection->setContentFromPost(['inspectionStatus' => 'Opened']);
+      craft()->entries->saveEntry($inspection);
+  }
+
 
     private function _processFieldData(BaseElementModel $inspection)
     {

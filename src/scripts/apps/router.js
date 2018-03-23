@@ -16,6 +16,7 @@ import Final5 from './components/P11_Final5.vue'
 import OfferFinalized from './components/P12_OfferFinalized.vue'
 import PendingInspection from './components/P13_PendingInspection.vue'
 import InspectionDetails from './components/P14_InspectionDetails.vue'
+import CustomerContract from './components/P15_CustomerContract.vue'
 
 Vue.use(Router);
 
@@ -135,7 +136,21 @@ const router = new Router({
             name: 'Inspection Details',
             component: InspectionDetails
         },
+        {
+            path: '/contract/:id',
+            name: 'Customer Contract',
+            component: CustomerContract
+        },
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    if (!window.as9duas09usa && to.name !== 'Customer Contract' && to.name !== 'Finalized') {
+        window.location = '/login';
+    } else {
+        next();
+    }
+});
+
 
 export default router

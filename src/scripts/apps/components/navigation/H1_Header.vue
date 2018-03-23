@@ -181,7 +181,7 @@
                 return this.$store.state.inspection
             },
             showHeader() {
-                return ['Waiting', 'Offer Reject', 'Offer Accept'].indexOf(this.currentRoute) === -1;
+                return ['Waiting', 'Offer Reject', 'Offer Accept', 'Customer Contract'].indexOf(this.currentRoute) === -1;
             },
             classObj() {
                 return {
