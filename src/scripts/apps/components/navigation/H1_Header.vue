@@ -8,7 +8,7 @@
                 <div class="heading-secondary">
                     <div class="header-inspections" v-if="currentRoute === 'Negotiations'">
                         <div class="right">
-                            <div class="header-date" v-if="!isSales">
+                            <div class="header-date" v-if="!isSales && !isNegotiator">
                                 <input class="datepicker-negotiations"/>
                             </div>
                             <a class="header-icon--logout" href="/logout">log out</a>

@@ -8,13 +8,15 @@ class Negotiator_ApiController extends BaseController {
     public function actionInspections()
     {
         $user = craft()->userSession->getUser();
+        $isNegotiator = $user->isInGroup('negotiators');
+
         $upcoming = craft()->request->getQuery('upcoming', false);
         $rejected = craft()->request->getQuery('rejected', false);
 
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
         $criteria->limit = null;
         $criteria->section = 'inspections';
-        if (!$user->admin) {
+        if (!$user->admin && !$isNegotiator) {
             $criteria->relatedTo = [
                 'targetElement' => $user,
                 'field'         => 'inspector',
@@ -33,7 +35,7 @@ class Negotiator_ApiController extends BaseController {
 
         if($upcoming || $rejected) {
             $date = craft()->request->getQuery('date');
-            if (!$date && !$user->isInGroup('sales_consultants')) {
+            if (!$date && !$user->isInGroup('sales_consultants') && !$isNegotiator) {
                 $date = date('Y-m-d');
             }
 
@@ -59,6 +61,7 @@ class Negotiator_ApiController extends BaseController {
             } else {
                 $criteria->inspectionStatus = 'Rejected';
             }
+
         } else {
         	//Pending
             $criteria->runbikestopId = ':notempty:';

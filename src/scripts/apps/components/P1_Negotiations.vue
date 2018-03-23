@@ -45,7 +45,7 @@ export default {
     mounted() {
         this.getInspections();
 
-        if(this.$route.name === 'Negotiations' && !window.isSales) {
+        if(this.$route.name === 'Negotiations' && !window.isSales && !window.isNegotiator) {
             this.initDatepicker();
         }
     },
@@ -76,7 +76,7 @@ export default {
             this.showLoader = true;
             axios.get(urlGetInspections, {
                 params: {
-                    date: window.isSales ? null : this.date,
+                    date: window.isSales || window.isNegotiator ? null : this.date,
                     state: this.state,
                     upcoming: this.type === 'upcoming' ? 1 : 0,
                     rejected: this.type === 'rejected' ? 1 : 0,
@@ -125,7 +125,7 @@ export default {
             this.activeLiIndex = 0;
         },
         '$route': function(r) {
-            if(this.$route.name === 'Negotiations' && !window.isSales) {
+            if(this.$route.name === 'Negotiations' && !window.isSales && !window.isNegotiator) {
                 let pickadate = $('.datepicker-negotiations').pickadate('picker');
                 if(pickadate.get('select', 'yyyy-mm-dd') !== this.date) {
                     if(this.date) {
