@@ -6,6 +6,7 @@
     <script>
         window.isAdmin = {{ currentUser.admin }};
         window.isSales = {{ currentUser.isInGroup('sales_consultants') ? 1 : 0 }};
+        window.isNegotiator = {{ currentUser.isInGroup('negotiators') ? 1 : 0 }};
     </script>
 
 {% endblock %}

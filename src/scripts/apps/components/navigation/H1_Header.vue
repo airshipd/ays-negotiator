@@ -15,7 +15,7 @@
                         </div>
 
                         <ul class="type-switcher">
-                            <router-link tag="li" :to="{path: '/upcoming'}"><a>Upcoming</a></router-link>
+                            <router-link tag="li" :to="{path: '/upcoming'}" v-if="!isNegotiator"><a>Upcoming</a></router-link>
                             <router-link tag="li" :to="{path: '/rejected'}"><a>Rejected</a></router-link>
                         </ul>
                     </div>
@@ -120,6 +120,7 @@
                 title: '',
                 date: moment(new Date(moment().add(10, 'minutes').unix() * 1000)).format('YYYY/MM/DD HH:mm:ss'),
                 isSales: window.isSales, //whether the current user is a sales consultant
+                isNegotiator: window.isNegotiator, //whether the current user is a negotiator
             }
         },
         methods: {

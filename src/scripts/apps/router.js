@@ -28,7 +28,7 @@ const router = new Router({
         {
             path: '/',
             redirect: to => {
-                return window.isAdmin ? '/admin/nsw' : '/upcoming';
+                return window.isAdmin ? '/admin/nsw' : window.isNegotiator ? '/rejected' : '/upcoming';
             }
         },
         {
