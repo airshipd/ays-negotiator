@@ -15,6 +15,8 @@ import Final4 from './components/P10_Final4.vue'
 import Final5 from './components/P11_Final5.vue'
 import OfferFinalized from './components/P12_OfferFinalized.vue'
 import PendingInspection from './components/P13_PendingInspection.vue'
+import InspectionDetails from './components/P14_InspectionDetails.vue'
+import CustomerContract from './components/P15_CustomerContract.vue'
 
 Vue.use(Router);
 
@@ -28,7 +30,7 @@ const router = new Router({
         {
             path: '/',
             redirect: to => {
-                return window.isAdmin ? '/admin/nsw' : '/upcoming';
+                return window.isAdmin ? '/admin/nsw' : window.isNegotiator ? '/rejected' : window.isSales ? '/unsuccessful' : '/upcoming';
             }
         },
         {
@@ -41,7 +43,7 @@ const router = new Router({
             }
         },
         {
-            path: '/:type(upcoming|rejected)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
+            path: '/:type(upcoming|rejected|unsuccessful)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
             name: 'Negotiations',
             component: Negotiations,
             props: true,
@@ -129,7 +131,26 @@ const router = new Router({
             name: 'Pending Inspection',
             component: PendingInspection
         },
+        {
+            path: '/inspection-details/:id',
+            name: 'Inspection Details',
+            component: InspectionDetails
+        },
+        {
+            path: '/contract/:id',
+            name: 'Customer Contract',
+            component: CustomerContract
+        },
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    if (!window.as9duas09usa && to.name !== 'Customer Contract' && to.name !== 'Finalized') {
+        window.location = '/login';
+    } else {
+        next();
+    }
+});
+
 
 export default router

@@ -4,8 +4,12 @@
 
     <div id="app"></div>
     <script>
-        window.isAdmin = {{ currentUser.admin }};
-        window.isSales = {{ currentUser.isInGroup('sales_consultants') ? 1 : 0 }};
+        {% if currentUser %}
+            window.isAdmin = {{ currentUser.admin }};
+            window.isSales = {{ currentUser.isInGroup('sales_consultants') ? 1 : 0 }};
+            window.isNegotiator = {{ currentUser.isInGroup('negotiators') ? 1 : 0 }};
+            window.as9duas09usa = 1; {# alias for "authenticated" so that hackers don't recognize it easy :))) #}
+        {% endif %}
     </script>
 
 {% endblock %}

@@ -15,6 +15,26 @@
   }
 }
 
+.section-inspection-details {
+  padding-top: 40px;
+  font-size: 18px;
+
+  h4 {
+    margin-bottom: 20px;
+  }
+
+  > .row {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 60px;
+
+    .col {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
 .inspection-dark {
   background: #3F425C;
   padding: 30px;

@@ -4,8 +4,8 @@
         <div class="row">
             <div class="col title">
                 {{ inspection.title }}
-                <span v-if="inspection.inspectionDate && !isSales">({{ moment(inspection.inspectionDate).format('h:mm A') }})</span>
-                <span v-if="inspection.inspectionDate && isSales">({{ moment(inspection.inspectionDate).format('D/M/YYYY') }})</span>
+                <span v-if="inspection.inspectionDate && !isSales && !isNegotiator">({{ moment(inspection.inspectionDate).format('h:mm A') }})</span>
+                <span v-if="inspection.inspectionDate && (isSales || isNegotiator)">({{ moment(inspection.inspectionDate).format('D/M/YYYY') }})</span>
             </div>
             <div class="col status">{{showProperStatus(inspection)}}</div>
         </div>
@@ -64,9 +64,15 @@
                 if (inspection.status === 'finalized') {
                     window.location.href = '/report/' + this.inspection.id
                 } else if (inspection.status === 'Rejected') {
-                    this.$router.push('/final/1/' + this.inspection.id)
+                    if (window.isNegotiator) {
+                        this.$router.push('/inspection-details/' + this.inspection.id)
+                    } else {
+                        this.$router.push('/final/1/' + this.inspection.id)
+                    }
                 } else if (inspection.status === 'UpComing' && inspection.pending) {
                     this.$router.push('/pending-inspection/' + this.inspection.id)
+                } else if (inspection.status === 'Unsuccessful') {
+                    this.$router.push('/inspection-details/' + this.inspection.id)
                 } else {
                     this.$router.push('/inspection/' + this.inspection.id)
                 }

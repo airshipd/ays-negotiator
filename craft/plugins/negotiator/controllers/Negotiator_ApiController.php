@@ -8,13 +8,17 @@ class Negotiator_ApiController extends BaseController {
     public function actionInspections()
     {
         $user = craft()->userSession->getUser();
+        $isNegotiator = $user->isInGroup('negotiators');
+        $isSales = $user->isInGroup('sales_consultants');
+
         $upcoming = craft()->request->getQuery('upcoming', false);
         $rejected = craft()->request->getQuery('rejected', false);
+        $unsuccessful = craft()->request->getQuery('unsuccessful', false);
 
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
         $criteria->limit = null;
         $criteria->section = 'inspections';
-        if (!$user->admin) {
+        if (!$user->admin && !$isNegotiator && !($isSales && $unsuccessful)) {
             $criteria->relatedTo = [
                 'targetElement' => $user,
                 'field'         => 'inspector',
@@ -33,7 +37,7 @@ class Negotiator_ApiController extends BaseController {
 
         if($upcoming || $rejected) {
             $date = craft()->request->getQuery('date');
-            if (!$date && !$user->isInGroup('sales_consultants')) {
+            if (!$date && !$isSales && !$isNegotiator) {
                 $date = date('Y-m-d');
             }
 
@@ -59,6 +63,9 @@ class Negotiator_ApiController extends BaseController {
             } else {
                 $criteria->inspectionStatus = 'Rejected';
             }
+
+        } elseif ($unsuccessful) {
+            $criteria->inspectionStatus = 'Unsuccessful';
         } else {
         	//Pending
             $criteria->runbikestopId = ':notempty:';
@@ -165,6 +172,52 @@ class Negotiator_ApiController extends BaseController {
   public function actionGetContract() {
     $settings = craft()->globals->getSetByHandle('settings');
     $this->returnJson(['content'=>(string) $settings->contractCopy]);
+  }
+
+  public function actionSubmitContract(array $variables = [])
+  {
+      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+      $criteria->id = $variables['id'];
+      $inspection   = $criteria->first();
+
+      if(!$inspection) {
+          throw new HttpException(404);
+      }
+
+      if (!in_array($inspection->inspectionStatus, ['Unopened', 'Opened'])) {
+          throw new HttpException(403);
+      }
+
+      $post = json_decode(craft()->request->getRawBody(), true);
+      $inspection->setContentFromPost([
+          'customerName' => $post['customerName'],
+          'customerSignatureString' => $post['customerSignatureString'],
+          'inspectionStatus' => 'finalized',
+      ]);
+
+      craft()->entries->saveEntry($inspection);
+  }
+
+  public function actionSetOpened(array $variables = [])
+  {
+      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+      $criteria->id = $variables['id'];
+      $inspection   = $criteria->first();
+
+      if(!$inspection) {
+          throw new HttpException(404);
+      }
+
+      if ($inspection->inspectionStatus == 'Opened') {
+          return;
+      }
+
+      if ($inspection->inspectionStatus != 'Unopened') {
+          throw new HttpException(403);
+      }
+
+      $inspection->setContentFromPost(['inspectionStatus' => 'Opened']);
+      craft()->entries->saveEntry($inspection);
   }
 
 

@@ -80,6 +80,22 @@ class Finalizer_EmailService extends BaseApplicationComponent
         }
     }
 
+    public function sendCustomerContract(EntryModel $inspection)
+    {
+        // get plugin settings
+        $settings = craft()->plugins->getPlugin('finalizer')->getSettings();
+
+        // Used in template
+        $customerName = craft()->finalizer_fields->getCustomerName($inspection);
+        $contractUrl = craft()->getSiteUrl() . 'app#/contract/' . $inspection->id;
+
+        // get customer email body
+        ob_start();
+        include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/customer_contract.php");
+        $customerEmailBody = ob_get_clean();
+        $this->sendEmail($inspection->customerEmail, $settings->customerEmailSubject, $customerEmailBody);
+    }
+
     private function sendEmail($emailTo, $subject, $body, array $attachments = [])
     {
         // send email with the finalized data

@@ -8,15 +8,16 @@
                 <div class="heading-secondary">
                     <div class="header-inspections" v-if="currentRoute === 'Negotiations'">
                         <div class="right">
-                            <div class="header-date" v-if="!isSales">
+                            <div class="header-date" v-if="!isSales && !isNegotiator">
                                 <input class="datepicker-negotiations"/>
                             </div>
                             <a class="header-icon--logout" href="/logout">log out</a>
                         </div>
 
                         <ul class="type-switcher">
-                            <router-link tag="li" :to="{path: '/upcoming'}"><a>Upcoming</a></router-link>
-                            <router-link tag="li" :to="{path: '/rejected'}"><a>Rejected</a></router-link>
+                            <router-link tag="li" :to="{path: '/upcoming'}" v-if="!isNegotiator && !isSales"><a>Upcoming</a></router-link>
+                            <router-link tag="li" :to="{path: '/rejected'}" v-if="!isSales"><a>Rejected</a></router-link>
+                            <router-link tag="li" :to="{path: '/unsuccessful'}" v-if="isSales"><a>Unsuccessful</a></router-link>
                         </ul>
                     </div>
                     <div class="header-inspections" v-if="currentRoute === 'Admin'">
@@ -59,6 +60,11 @@
 
                         <div class="right" v-show="currentRoute === 'Inspection'">
                             <a class="btn" @click="reschedule">Reschedule</a>
+                        </div>
+                    </div>
+                    <div class="inspection-details-header" v-if="currentRoute === 'Inspection Details'">
+                        <div class="left">
+                            <a @click="actionMenu"><i class="icon-back"></i></a>
                         </div>
                     </div>
                     <div class="header-report" v-if="currentRoute === 'Offer'">
@@ -120,6 +126,7 @@
                 title: '',
                 date: moment(new Date(moment().add(10, 'minutes').unix() * 1000)).format('YYYY/MM/DD HH:mm:ss'),
                 isSales: window.isSales, //whether the current user is a sales consultant
+                isNegotiator: window.isNegotiator, //whether the current user is a negotiator
             }
         },
         methods: {
@@ -148,6 +155,9 @@
                     case 'Pending Inspection':
                         this.title = 'Pending Job Form';
                         break;
+                    case 'Inspection Details':
+                        this.title = 'Inspection Details';
+                        break;
                     default:
                         this.title = '';
                 }
@@ -171,7 +181,7 @@
                 return this.$store.state.inspection
             },
             showHeader() {
-                return ['Waiting', 'Offer Reject', 'Offer Accept'].indexOf(this.currentRoute) === -1;
+                return ['Waiting', 'Offer Reject', 'Offer Accept', 'Customer Contract'].indexOf(this.currentRoute) === -1;
             },
             classObj() {
                 return {
