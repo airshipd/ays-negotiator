@@ -24,12 +24,10 @@ class Negotiator_InspectionsController extends BaseController {
 
     if( $success ) {
       NegotiatorPlugin::log("Successfully Saved a review for Inspection:".$assessment->id , LogLevel::Info);
-
-        $ret = [
-            "reviewAdjustment" => $assessment->getContent()->reviewValuation - $assessment->getContent()->onsitePhysicalValuation,
-            "totalOffer"       => craft()->negotiator_offer->calculateOfferTotal($assessment),
-        ];
-
+      $ret = [
+          "reviewAdjustment" => $assessment->getContent()->reviewValuation - $assessment->getContent()->onsitePhysicalValuation,
+          "totalOffer"       => craft()->negotiator_offer->calculateOfferTotal($assessment),
+      ];
       $this->returnJson( $ret ); //lets return the Adjustment figure
     } else {
         NegotiatorPlugin::log('An issue occurred when trying to save a review for Inspection: ' . $assessment->id . '. Error: ' . $errors, LogLevel::Info);
