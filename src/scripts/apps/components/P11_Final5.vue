@@ -22,12 +22,12 @@
       </div>
     </div>
     <div class="row row-contract">
-      <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: {{inspection.total}}</p>
+      <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: <strong>{{inspection.agreedPrice | currency}}</strong></p>
       <div v-html="contract"></div>
     </div>
       <div class="row">
           <div class="col m9">
-              <input-textarea :label="'Notes'" v-model="inspection.notes" :name="'notes'" :validationRules="{required:true}"></input-textarea>
+              <input-textarea :label="'Notes'" v-model="inspection.contractNote" :name="'contractNote'" :validationRules="{required:true}"></input-textarea>
           </div>
       </div>
     <div class="row">
