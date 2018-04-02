@@ -59,7 +59,7 @@
     <div class="row">
       <div class="col m9">
         <input-text :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact"
-            :name="'pickupAddressAndContact'" :validationRules="{required:true}"></input-text>
+            :name="'pickupAddressAndContact'" :validationRules="{}"></input-text>
       </div>
       <div class="col m3">
         <input-text :label="'Date'" v-model="inspection.contractDate" :name="'contractDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
