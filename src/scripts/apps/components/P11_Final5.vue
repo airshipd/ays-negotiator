@@ -53,7 +53,7 @@
         <input-text :label="'Model'" v-model="inspection.model" :name="'model'" :validationRules="{required:true}"></input-text>
       </div>
       <div class="col m4">
-        <input-text :label="'Kilometers'" v-model="inspection.kilometres" :name="'kilometres'" :validationRules="{required:true}"></input-text>
+        <input-text :label="'Kilometers'" v-model="inspection.odometer" :name="'odometer'" :validationRules="{required:true}"></input-text>
       </div>
     </div>
     <div class="row">
