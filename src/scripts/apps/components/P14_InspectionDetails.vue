@@ -174,7 +174,6 @@ export default {
                     this.imgs = (this.inspection.vehiclePhotos || []).concat(this.inspection.licenseAndRegistrationPhotos || [])
                     if(!this.inspection.agreedPrice) {
                       this.inspection.agreedPrice = parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure)
-                      console.log('this test',parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure))
                     }
                 }).catch(e => {
                     console.error(e)
