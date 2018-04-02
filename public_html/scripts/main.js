@@ -29207,18 +29207,19 @@ function generateInternalRecord() {
   });
 
   // photos
-  doc.settings._y += spaceMd;
-  // photo sizing
-  var photoAspectRatio = 3 / 5;
-  var photoWidth = doc.settings.contentWidth / 2;
-  doc.setFontSize(16);
+  var photoWidth = doc.settings.contentWidth;
 
   $("#licenseAndRegistrationPhotos img").each(function(index) {
-    var photoHeight = photoWidth * photoAspectRatio;
+    doc.addPage();
+    doc.settings._y = doc.settings.marginY;
+
+    var ratio = this.height / this.width;
+    var photoHeight = photoWidth * ratio;
     doc.checkOrUpdatePaging(
       photoHeight + px2mm(doc.internal.getLineHeight()) + spaceMd
     );
     if (index == 0) {
+      doc.setFontSize(16);
       doc.addText("License and Registration Photos", xStartLeft);
       doc.settings._y += spaceMd;
     }
@@ -29231,7 +29232,6 @@ function generateInternalRecord() {
       photoWidth,
       photoHeight
     );
-    doc.settings._y += photoHeight + spaceMd;
   });
 
   doc.save("ays-internal-record.pdf");
