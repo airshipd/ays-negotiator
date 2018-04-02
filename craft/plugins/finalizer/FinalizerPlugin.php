@@ -71,7 +71,6 @@ class FinalizerPlugin extends BasePlugin
                 $criteria->id = $entry->id;
                 $old_entry = $criteria->first();
                 $old_status = (string)$old_entry->inspectionStatus;
-                var_dump($old_status);
             }
 
             return $event->performAction = true;

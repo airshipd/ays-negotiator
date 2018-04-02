@@ -118,8 +118,8 @@
 
         <div class="row">
             <div class="col m12 right-align">
-                <h4>Latest Price: $ <input v-model="inspection.reviewValuation" name="reviewValuation" v-validate="{required: true, decimal: 2}"></h4>
-                <span v-show="errors.has('reviewValuation')" class="help is-danger">{{ errors.first('reviewValuation') }}</span>
+              <h4 >Latest Price: $ <input v-model="inspection.agreedPrice" name="agreedPrice" v-validate="{required: true, decimal: 2}"></h4>
+              <span v-show="errors.has('agreedPrice')" class="help is-danger">{{ errors.first('agreedPrice') }}</span>
             </div>
             <div class="col m12">
                 <textarea v-model="inspection.notes" name="notes" placeholder="Notes..." />
@@ -161,8 +161,8 @@ export default {
         return {
             inspection: {},
             imgs: [],
-            // original_inspection: {},
-            // options: {}
+            options: {},
+            showAgreePrice: false
         }
     },
     methods: {
@@ -171,7 +171,10 @@ export default {
                 .then(res => {
                     this.inspection = res.inspection
                     this.options = res.options
-                    this.imgs = (this.inspection.vehiclePhotos || []).concat(this.inspection.licenseAndRegistrationPhotos || []);
+                    this.imgs = (this.inspection.vehiclePhotos || []).concat(this.inspection.licenseAndRegistrationPhotos || [])
+                    if(!this.inspection.agreedPrice) {
+                      this.inspection.agreedPrice = parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure)
+                    }
                 }).catch(e => {
                     console.error(e)
                 })
@@ -196,10 +199,10 @@ export default {
         }
     },
     watch: {
-        'inspection.reviewValuation': debounce(function (reviewValuation) {
-            if(!this.errors.has('reviewValuation')) {
+        'inspection.agreedPrice': debounce(function (agreedPrice) {
+            if(!this.errors.has('agreedPrice')) {
                 PostService
-                    .post(this.$route.params.id, {reviewValuation}, this.options)
+                    .post(this.$route.params.id, {agreedPrice}, this.options)
                     .catch(e => console.error(e))
             }
         }, 300),

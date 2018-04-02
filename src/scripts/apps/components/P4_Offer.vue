@@ -121,17 +121,17 @@
       this.getOffer()
 
       //handle event of offer review updating
-        window.eventBus.$on('updateOfferReview', (data, totalOffer) => {
-            this.loading = true
-            this.date = moment(new Date(moment().add(3, 'minutes').unix() * 1000)).format('YYYY/MM/DD HH:mm:ss')
+      window.eventBus.$on('updateOfferReview', (data, totalOffer) => {
+        this.loading = true
+        this.date = moment(new Date(moment().add(3, 'minutes').unix() * 1000)).format('YYYY/MM/DD HH:mm:ss')
 
-            //make loading only last one minute
-            this.reviewTimer = window.setInterval(() => {
-                this.loading = false
-                this.offer = Object.assign({}, this.offer, data)
-                this.total = totalOffer
-            }, 1000 * 60);
-        })
+        //make loading only last one minute
+        this.reviewTimer = window.setInterval(() => {
+            this.loading = false
+            this.offer = Object.assign({}, this.offer, data)
+            this.total = totalOffer
+        }, 1000 * 60);
+      })
     },
     beforeDestroy () {
       window.clearInterval(this.reviewTimer);

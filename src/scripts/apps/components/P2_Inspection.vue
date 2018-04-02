@@ -244,8 +244,21 @@ export default {
             });
         },
         skip() {
-            PostService.submitInspection(this.$route.params.id);
-            this.$router.push('/final/1/' + this.$route.params.id)
+          this.$validator.validateAll().then((result) => {
+              if (result) {
+                  PostService.postMulti(this.$route.params.id, this.inspection, this.options)
+                      .then(response => {
+                          PostService.submitInspection(this.$route.params.id);
+                          this.$store.commit('updateInspection', this.inspection)
+                          this.$router.push('/final/1/' + this.$route.params.id)
+                      }).catch(e => {
+                      console.error(e)
+                  })
+              } else {
+                  //scroll up to top of page
+                  $(window).scrollTop(0)
+              }
+          })
         },
         submitForm() {
             this.$validator.validateAll().then((result) => {

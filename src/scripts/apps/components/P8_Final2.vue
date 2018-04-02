@@ -162,40 +162,40 @@ export default {
         }
       })
     },
-      addVehiclePhoto(file) {
-          let that = this;
+    addVehiclePhoto(file) {
+      let that = this;
 
-          new ImageUploader({
-              quality: 0.9,
-              maxWidth: 1920,
-              maxHeight: 1920,
-          }).scaleFile(file, function(blob) {
-              blob.name = file.name;
+      new ImageUploader({
+          quality: 0.9,
+          maxWidth: 1920,
+          maxHeight: 1920,
+      }).scaleFile(file, function(blob) {
+          blob.name = file.name;
 
-              if (!that.inspection.vehiclePhotos) {
-                  that.inspection.vehiclePhotos = [blob]
-              } else {
-                  that.inspection.vehiclePhotos.push(blob)
-              }
-          });
-      },
-      addLicenseAndRegistrationPhotos(file) {
-          let that = this;
+          if (!that.inspection.vehiclePhotos) {
+              that.inspection.vehiclePhotos = [blob]
+          } else {
+              that.inspection.vehiclePhotos.push(blob)
+          }
+      });
+    },
+    addLicenseAndRegistrationPhotos(file) {
+      let that = this;
 
-          new ImageUploader({
-              quality: 0.9,
-              maxWidth: 1920,
-              maxHeight: 1920,
-          }).scaleFile(file, function (blob) {
-              blob.name = file.name;
+      new ImageUploader({
+          quality: 0.9,
+          maxWidth: 1920,
+          maxHeight: 1920,
+      }).scaleFile(file, function (blob) {
+          blob.name = file.name;
 
-              if (!that.inspection.licenseAndRegistrationPhotos) {
-                  that.inspection.licenseAndRegistrationPhotos = [blob]
-              } else {
-                  that.inspection.licenseAndRegistrationPhotos.push(blob)
-              }
-          });
-      }
+          if (!that.inspection.licenseAndRegistrationPhotos) {
+              that.inspection.licenseAndRegistrationPhotos = [blob]
+          } else {
+              that.inspection.licenseAndRegistrationPhotos.push(blob)
+          }
+      });
+    }
   },
   components: {
     inputText,

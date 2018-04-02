@@ -3,153 +3,153 @@ namespace Craft;
 
 class Negotiator_ApiController extends BaseController {
 
-    protected $allowAnonymous = true;
+  protected $allowAnonymous = true;
 
-    public function actionInspections()
-    {
-        $user = craft()->userSession->getUser();
-        $isNegotiator = $user->isInGroup('negotiators');
-        $isSales = $user->isInGroup('sales_consultants');
+  public function actionInspections()
+  {
+      $user = craft()->userSession->getUser();
+      $isNegotiator = $user->isInGroup('negotiators');
+      $isSales = $user->isInGroup('sales_consultants');
 
-        $upcoming = craft()->request->getQuery('upcoming', false);
-        $rejected = craft()->request->getQuery('rejected', false);
-        $unsuccessful = craft()->request->getQuery('unsuccessful', false);
+      $upcoming = craft()->request->getQuery('upcoming', false);
+      $rejected = craft()->request->getQuery('rejected', false);
+      $unsuccessful = craft()->request->getQuery('unsuccessful', false);
 
-        $criteria = craft()->elements->getCriteria(ElementType::Entry);
-        $criteria->limit = null;
-        $criteria->section = 'inspections';
-        if (!$user->admin && !$isNegotiator && !($isSales && $unsuccessful)) {
-            $criteria->relatedTo = [
-                'targetElement' => $user,
-                'field'         => 'inspector',
-            ];
-        }
+      $criteria = craft()->elements->getCriteria(ElementType::Entry);
+      $criteria->limit = null;
+      $criteria->section = 'inspections';
+      if (!$user->admin && !$isNegotiator && !($isSales && $unsuccessful)) {
+          $criteria->relatedTo = [
+              'targetElement' => $user,
+              'field'         => 'inspector',
+          ];
+      }
 
-        if($state = craft()->request->getQuery('state')) {
-            if($state === 'nt_sa') {
-                $state = 'or,nt,sa';
-            }
+      if($state = craft()->request->getQuery('state')) {
+          if($state === 'nt_sa') {
+              $state = 'or,nt,sa';
+          }
 
-            $criteria->customerState = $state;
-        }
+          $criteria->customerState = $state;
+      }
 
-        $criteria->order = 'inspectionDate, dateCreated asc';
+      $criteria->order = 'inspectionDate, dateCreated asc';
 
-        if($upcoming || $rejected) {
-            $date = craft()->request->getQuery('date');
-            if (!$date && !$isSales && !$isNegotiator) {
-                $date = date('Y-m-d');
-            }
+      if($upcoming || $rejected) {
+          $date = craft()->request->getQuery('date');
+          if (!$date && !$isSales && !$isNegotiator) {
+              $date = date('Y-m-d');
+          }
 
-            if($date) {
-                //Validate "date". It can't be more than 7 days in the future and it can't be more than 30 days in the past
-                $now = new DateTime(date('Y-m-d')); //don't remove date() parameter. Otherwise it will take h:m:s into account and calculate wrong results
-                $dateObject = new DateTime($date);
-                $interval = $dateObject->diff($now);
-                $diff_days = $interval->format('%r%a');
+          if($date) {
+              //Validate "date". It can't be more than 7 days in the future and it can't be more than 30 days in the past
+              $now = new DateTime(date('Y-m-d')); //don't remove date() parameter. Otherwise it will take h:m:s into account and calculate wrong results
+              $dateObject = new DateTime($date);
+              $interval = $dateObject->diff($now);
+              $diff_days = $interval->format('%r%a');
 
-                if($diff_days < -7 || $diff_days > 30) {
-                    $dateObject = $now;
-                }
+              if($diff_days < -7 || $diff_days > 30) {
+                  $dateObject = $now;
+              }
 
-                $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
-            } elseif($upcoming) {
-                $criteria->inspectionDate = ':notempty:';
-            }
+              $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
+          } elseif($upcoming) {
+              $criteria->inspectionDate = ':notempty:';
+          }
 
-            if($upcoming) {
-                $criteria->inspectionStatus = 'UpComing';
-                $criteria->rescheduled = 0;
-            } else {
-                $criteria->inspectionStatus = 'Rejected';
-            }
+          if($upcoming) {
+              $criteria->inspectionStatus = 'UpComing';
+              $criteria->rescheduled = 0;
+          } else {
+              $criteria->inspectionStatus = 'Rejected';
+          }
 
-        } elseif ($unsuccessful) {
-            $criteria->inspectionStatus = 'Unsuccessful';
-        } else {
-        	//Pending
-            $criteria->runbikestopId = ':notempty:';
+      } elseif ($unsuccessful) {
+          $criteria->inspectionStatus = 'Unsuccessful';
+      } else {
+        //Pending
+          $criteria->runbikestopId = ':notempty:';
 
-            $dbCommand = craft()->elements->buildElementsQuery($criteria);
-            $dbCommand->andWhere('field_inspectionDate IS NULL OR field_rescheduled = 1');
-        }
+          $dbCommand = craft()->elements->buildElementsQuery($criteria);
+          $dbCommand->andWhere('field_inspectionDate IS NULL OR field_rescheduled = 1');
+      }
 
-        if(isset($dbCommand)) {
-            $inspections = EntryModel::populateModels($dbCommand->queryAll());
-        } else {
-            $inspections = $criteria->find();
-        }
+      if(isset($dbCommand)) {
+          $inspections = EntryModel::populateModels($dbCommand->queryAll());
+      } else {
+          $inspections = $criteria->find();
+      }
 
-        //build out response object
-        $result = [];
-        foreach ($inspections as $i) {
-            if($i->location->parts) {
-                $parts = $i->location->parts + ['route_short' => '', 'locality' => '']; //sometimes necessary fields may be absent
-                $address = trim($parts['route_short'] . ' ' . $parts['locality']) ?: 'TBC';
-            } else {
-                $address = 'TBC';
-            }
+      //build out response object
+      $result = [];
+      foreach ($inspections as $i) {
+          if($i->location->parts) {
+              $parts = $i->location->parts + ['route_short' => '', 'locality' => '']; //sometimes necessary fields may be absent
+              $address = trim($parts['route_short'] . ' ' . $parts['locality']) ?: 'TBC';
+          } else {
+              $address = 'TBC';
+          }
 
-            $result[] = [
-                'id'      => $i->id,
-                'lat'     => $i->location->lat ? floatval($i->location->lat) : null,
-                'lng'     => $i->location->lng ? floatval($i->location->lng) : null,
-                'zoom'    => intval($i->location->zoom),
-                'address' => $address,
-                'title'   => $i->year . ' ' . $i->make . ' ' . $i->model . ' ' . $i->badge,
-                'status'  => $i->getContent()->inspectionStatus,
-                'url'     => $i->url,
-                'pending' => !$i->inspectionDate || $i->rescheduled,
-                'rescheduled' => $i->rescheduled,
-                'driveIn' => $i->driveIn,
-                'localMech' => $i->localMech,
-                'inspectionDate' => $i->inspectionDate ? $i->inspectionDate->format('Y-m-d H:i:s') : null,
-            ];
-        }
+          $result[] = [
+              'id'      => $i->id,
+              'lat'     => $i->location->lat ? floatval($i->location->lat) : null,
+              'lng'     => $i->location->lng ? floatval($i->location->lng) : null,
+              'zoom'    => intval($i->location->zoom),
+              'address' => $address,
+              'title'   => $i->year . ' ' . $i->make . ' ' . $i->model . ' ' . $i->badge,
+              'status'  => $i->getContent()->inspectionStatus,
+              'url'     => $i->url,
+              'pending' => !$i->inspectionDate || $i->rescheduled,
+              'rescheduled' => $i->rescheduled,
+              'driveIn' => $i->driveIn,
+              'localMech' => $i->localMech,
+              'inspectionDate' => $i->inspectionDate ? $i->inspectionDate->format('Y-m-d H:i:s') : null,
+          ];
+      }
 
-        $this->returnJson($result);
-    }
+      $this->returnJson($result);
+  }
 
-    public function actionInspection(array $variables = [])
-    {
-        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-        $criteria->id = $variables['id'];
-        $inspection   = $criteria->first();
+  public function actionInspection(array $variables = [])
+  {
+      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+      $criteria->id = $variables['id'];
+      $inspection   = $criteria->first();
 
-        $this->returnJson([
-            'data' => $this->_processFieldData($inspection),
-            'options' => $this->_processOptionData($inspection),
-        ]);
-    }
+      $this->returnJson([
+          'data' => $this->_processFieldData($inspection),
+          'options' => $this->_processOptionData($inspection),
+      ]);
+  }
 
-    public function actionInspectors()
-    {
-        $criteria = craft()->elements->getCriteria(ElementType::User);
-        $criteria->group = 'inspectors';
-        $criteria->order = 'firstName, lastName, email';
+  public function actionInspectors()
+  {
+      $criteria = craft()->elements->getCriteria(ElementType::User);
+      $criteria->group = 'inspectors';
+      $criteria->order = 'firstName, lastName, email';
 
-        $users = $criteria->find();
-        $result = [];
-        foreach($users as $user) {
-            $result[] = $this->_apifyUser($user);
-        }
+      $users = $criteria->find();
+      $result = [];
+      foreach($users as $user) {
+          $result[] = $this->_apifyUser($user);
+      }
 
-        $this->returnJson($result);
-    }
+      $this->returnJson($result);
+  }
 
-    public function actionOffer(array $variables = [])
-    {
-        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-        $criteria->id = $variables['id'];
-        $inspection   = $criteria->first();
+  public function actionOffer(array $variables = [])
+  {
+      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+      $criteria->id = $variables['id'];
+      $inspection   = $criteria->first();
 
-        $this->returnJson([
-            'data'    => $this->_processFieldData($inspection),
-            'options' => $this->_processOptionData($inspection),
-            'report'  => craft()->negotiator_assessment->calculateOffer($inspection),
-            'total'   => craft()->negotiator_offer->calculateOfferTotal($inspection),
-        ]);
-    }
+      $this->returnJson([
+          'data'    => $this->_processFieldData($inspection),
+          'options' => $this->_processOptionData($inspection),
+          'report'  => craft()->negotiator_assessment->calculateOffer($inspection),
+          'total'   => craft()->negotiator_offer->calculateOfferTotal($inspection),
+      ]);
+  }
 
   public function actionFinalise() {
     $criteria = craft()->elements->getCriteria(ElementType::Entry);
@@ -230,43 +230,29 @@ class Negotiator_ApiController extends BaseController {
             $fieldName = $field->handle;
 
             switch ($field->type) {
-                case 'Users':
-                    $ret[$fieldName] = $inspection->$fieldName->ids();
+              case 'Users':
+                $ret[$fieldName] = $inspection->$fieldName->ids();
 
-                    if($ret[$fieldName]) {
-                        $user = craft()->users->getUserById($ret[$fieldName][0]);
-                        $ret[$fieldName . '_details'] = $this->_apifyUser($user);
-                    }
-                    break;
-                case 'Date':
-                    $value           = $inspection->$fieldName !== null ? $inspection->$fieldName->format('d/m/Y') : null;
-                    $ret[$fieldName] = $value;
-                    break;
-                case 'Assets':
-                    $ret[$fieldName] = [];
-                    foreach($inspection->$fieldName as $asset) { /** @var AssetFileModel $asset */
-                        $ret[$fieldName][] = [
-                            'id' => $asset->id,
-                            'url' => $asset->getUrl(),
-                        ];
-                    }
-                    break;
-                // case "SimpleMap_Map":
-                //   $fieldName = $field->handle;
-                //   $value = array(
-                //     'lat'=> $entry->$fieldName->lat,
-                //     'lng'=> $entry->$fieldName->lng,
-                //     'address'=> $entry->$fieldName->address,
-                //     'parts'=> array()
-                //   );
-                //   $partKeys = array_keys($entry->$fieldName->parts);
-                //   for( $i=0; $i < count($entry->$fieldName->parts); $i++ ) {
-                //     $value['parts'][$partKeys[$i]] = $entry->$fieldName->parts[$partKeys[$i]];
-                //   };
-                //   $ret[$fieldName] = $value;
-                //   break;
-                default:
-                    $ret[$fieldName] = $inspection->getContent()->$fieldName;
+                if($ret[$fieldName]) {
+                    $user = craft()->users->getUserById($ret[$fieldName][0]);
+                    $ret[$fieldName . '_details'] = $this->_apifyUser($user);
+                }
+                break;
+              case 'Date':
+                $value           = $inspection->$fieldName !== null ? $inspection->$fieldName->format('d/m/Y') : null;
+                $ret[$fieldName] = $value;
+                break;
+              case 'Assets':
+                $ret[$fieldName] = [];
+                foreach($inspection->$fieldName as $asset) { /** @var AssetFileModel $asset */
+                    $ret[$fieldName][] = [
+                        'id' => $asset->id,
+                        'url' => $asset->getUrl(),
+                    ];
+                }
+                break;
+              default:
+                $ret[$fieldName] = $inspection->getContent()->$fieldName;
             }
         }
 
