@@ -129,8 +129,8 @@
             </div>
         </div>
 
-        <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
-        <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
+        <input-file-list :label="'Vehicle Photos'" @updated="addVehiclePhoto" @delete="deleteVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
+        <input-file-list :label="'License and Registration Photos'" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
         <div class="row">
             <div class="col m4">
@@ -242,6 +242,12 @@ export default {
                     that.inspection.licenseAndRegistrationPhotos.push(blob)
                 }
             });
+        },
+        deleteVehiclePhoto(index) {
+            this.inspection.vehiclePhotos.splice(index, 1);
+        },
+        deleteLicencePhoto(index) {
+            this.inspection.licenseAndRegistrationPhotos.splice(index, 1);
         },
         skip() {
           this.$validator.validateAll().then((result) => {

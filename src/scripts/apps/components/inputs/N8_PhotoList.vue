@@ -1,14 +1,15 @@
 <template>
 
-  <div class="row photo-list">
-    <h3>{{label}}</h3>
-    <label class="col m3" v-for="img in imgs">
-      <img :src="img" alt="">
-    </label>
-    <label class="col m3 photo-list--add" v-if="imgs.length < 4">
-      <input type="file" @change="actionAddPhoto">
-    </label>
-  </div>
+    <div class="row photo-list">
+        <h3>{{label}}</h3>
+        <label class="col m3" v-for="img in imgs">
+            <img :src="img" alt=""><br>
+            <a @click="deletePhoto(img)" class="material-icons" title="Delete this photo">delete_forever</a>
+        </label>
+        <label class="col m3 photo-list--add" v-if="imgs.length < 4">
+            <input type="file" @change="actionAddPhoto">
+        </label>
+    </div>
 
 </template>
 
@@ -30,6 +31,11 @@ export default {
         actionAddPhoto(e) {
             this.createPreview(e.target.files[0]);
             this.$emit('updated', e.target.files[0]);
+        },
+        deletePhoto(img) {
+            let index = this.imgs.indexOf(img);
+            this.imgs.splice(index, 1);
+            this.$emit('delete', index);
         },
         createPreview(file) {
             if(file instanceof File) {
