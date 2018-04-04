@@ -80,14 +80,16 @@ class FinalizerPlugin extends BasePlugin
         craft()->on('entries.saveEntry', function (Event $event) use(&$old_status) {
             $entry = $event->params['entry'];
             $isInspection = $entry->section->handle === 'inspections';
+            if ($isInspection) {
+                $status = (string)$entry->getContent()->inspectionStatus;
 
-            //do NOT replace "==" with "==="! inspectionStatus field is an object in fact which is turned into string on non-strict comparison
-            if ($isInspection && $entry['inspectionStatus'] == 'finalized') {
-                craft()->finalizer_email->sendNotificationEmails($entry);
-            }
+                if ($status === 'finalized') {
+                    craft()->finalizer_email->sendNotificationEmails($entry);
+                }
 
-            if ($isInspection && $old_status && $old_status !== (string)$entry['inspectionStatus'] && $entry['inspectionStatus'] == 'Unopened') {
-                craft()->finalizer_email->sendCustomerContract($entry);
+                if ($old_status && $old_status !== $status && $status === 'Unopened') {
+                    craft()->finalizer_email->sendCustomerContract($entry);
+                }
             }
         });
 
