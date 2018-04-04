@@ -30,19 +30,24 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col m3">
-        <choice-group :label="'Doors'" v-model="inspection.doors" :options="[{value:'2',label:2},{value:'4',label:4},{value:'6',label:6}]"
-            :name="'doors'" :validationRules="{required:true}"></choice-group>
-      </div>
-      <div class="col m7">
-        <choice-group :label="'Seats'" v-model="inspection.seats"
-            :options="[{value:'2',label:2},{value:'4',label:4},{value:'5',label:5},{value:'6',label:6},{value:'7',label:7},{value:'8',label:8}]"
-            :name="'seats'" :validationRules="{required:true}"></choice-group>
-      </div>
-    </div>
+      <div class="row">
+          <div class="col m5">
+              <choice-group :label="'Doors'" v-model="inspection.doors" :options="custom_options.doors"
+                  :name="'doors'" :validationRules="{required:true}"></choice-group>
+          </div>
+          <div class="col m7 choice-group-seats">
+              <choice-group :label="'Seats'" v-model="inspection.seats"
+                  :options="[{value:'2',label:2},{value:'4',label:4},{value:'5',label:5},{value:'6',label:6},{value:'7',label:7},{value:'8',label:8}]"
+                  :name="'seats'" :validationRules="{required: !inspection.seats || inspection.seats * 1 < 9}"></choice-group>
 
-    <div class="row">
+              <div class="seats-extra">
+                  <label v-show="!inspection.seats || inspection.seats < 9" @click="extraSeats">&ge; 9</label>
+                  <input type="number" min="9" ref="seats" v-model.lazy.number="inspection.seats" v-if="inspection.seats * 1 >= 9">
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
       <div class="col m3">
         <input-text :label="'Series'" v-model="inspection.series" :name="'series'" :validation-rules="{required:true}"></input-text>
       </div>
@@ -85,29 +90,34 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col m3">
-        <input-text :label="'Chassis/Vin No'" v-model="inspection.chassisVinNumber" :name="'chassisVinNumber'" :validation-rules="{required:true}"></input-text>
+      <div class="row">
+          <div class="col m3">
+              <input-text :label="'Chassis/Vin No'" v-model="inspection.chassisVinNumber" :name="'chassisVinNumber'"
+                  :validation-rules="{required:true, min: 17, max: 17}"></input-text>
+          </div>
+          <div class="col m3">
+              <input-text :label="'Engine Number'" v-model="inspection.engineNumber" :name="'engineNumber'" :validation-rules="{required:true}"></input-text>
+          </div>
       </div>
-      <div class="col m3">
-        <input-text :label="'Engine Number'" v-model="inspection.engineNumber" :name="'engineNumber'" :validation-rules="{required:true}"></input-text>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col m3">
-        <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'" :validation-rules="{required:true}"></input-text>
+      <div class="row">
+          <div class="col m3">
+              <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'"
+                  :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m3">
+              <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'"
+                  :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+          </div>
+          <div class="col m3">
+              <input-text :label="'Build Date'" v-model="buildDate" :name="'buildDate'"
+                  :validation-rules="{required:true, regex: /^[01]\d\/\d\d$/}"></input-text>
+          </div>
+          <div class="col m3">
+              <input-text :label="'Compliance Date'" v-model="complianceDate" :name="'complianceDate'"
+                  :validation-rules="{required:true, regex: /^[01]\d\/\d\d$/}"></input-text>
+          </div>
       </div>
-      <div class="col m3">
-        <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Build Date'" v-model="inspection.buildDate" :name="'buildDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
-      </div>
-      <div class="col m3">
-        <input-text :label="'Compliance Date'" v-model="inspection.complianceDate" :name="'complianceDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
-      </div>
-    </div>
 
     <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
     <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
@@ -130,83 +140,112 @@ import b2Button from './buttons/B2_buttonNextStep.vue'
 import ImageUploader from '../services/ImageUploader'
 
 import cloneDeep from 'clone-deep'
+import moment from 'moment'
 
 export default {
-  name: 'final-2',
-  provideValidator: true,
-  inject: ['$validator'],
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      if( $.isEmptyObject(vm.$store.state.inspection) ) {
-        next('/final/1/'+vm.$route.params.id)
-      }
-    })
-  },
-  mounted () {
-  },
-  data () {
-    return {
-      inspection: cloneDeep(this.$store.state.inspection),
-      options: cloneDeep(this.$store.state.options),
-    }
-  },
-  methods: {
-    actionNext () {
-      this.$validator.validateAll().then((result) => {
-        if(result) {
-          this.$store.commit('updateInspection',this.inspection)
-          this.$router.push('/final/3/'+this.$route.params.id)
-        } else {
-          //scroll up to top of page
-          $(window).scrollTop(0)
+    name: 'final-2',
+    provideValidator: true,
+    inject: ['$validator'],
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            if ($.isEmptyObject(vm.$store.state.inspection)) {
+                next('/final/1/' + vm.$route.params.id)
+            }
+        })
+    },
+    mounted() {
+        this.$validator.localize('en', {
+            custom: {
+                chassisVinNumber: {
+                    min: 'Must be exactly 17 characters.',
+                    max: 'Must be exactly 17 characters.',
+                },
+                buildDate: {
+                    regex: 'Must have format MM/YY.',
+                },
+                complianceDate: {
+                    regex: 'Must have format MM/YY.',
+                }
+            }
+        });
+    },
+    data() {
+        return {
+            inspection: cloneDeep(this.$store.state.inspection),
+            options: cloneDeep(this.$store.state.options),
+            custom_options: {
+                doors: [{value: '2', label: 2}, {value: '3', label: 3}, {value: '4', label: 4}, {value: '5', label: 5}, {value: '6', label: 6}],
+            },
+            buildDate: this.inspection.buildDate ? moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY') : '',
+            complianceDate: this.inspection.complianceDate ? moment(this.inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY') : '',
         }
-      })
     },
-    addVehiclePhoto(file) {
-      let that = this;
+    methods: {
+        actionNext() {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    this.inspection.buildDate = '01/' + this.buildDate.replace('/', '/20');
+                    this.inspection.complianceDate = '01/' + this.complianceDate.replace('/', '/20');
 
-      new ImageUploader({
-          quality: 0.9,
-          maxWidth: 1920,
-          maxHeight: 1920,
-      }).scaleFile(file, function(blob) {
-          blob.name = file.name;
+                    this.$store.commit('updateInspection', this.inspection)
+                    this.$router.push('/final/3/' + this.$route.params.id)
+                } else {
+                    //scroll up to top of page
+                    $(window).scrollTop(0)
+                }
+            })
+        },
+        addVehiclePhoto(file) {
+            let that = this;
 
-          if (!that.inspection.vehiclePhotos) {
-              that.inspection.vehiclePhotos = [blob]
-          } else {
-              that.inspection.vehiclePhotos.push(blob)
-          }
-      });
+            new ImageUploader({
+                quality: 0.9,
+                maxWidth: 1920,
+                maxHeight: 1920,
+            }).scaleFile(file, function (blob) {
+                blob.name = file.name;
+
+                if (!that.inspection.vehiclePhotos) {
+                    that.inspection.vehiclePhotos = [blob]
+                } else {
+                    that.inspection.vehiclePhotos.push(blob)
+                }
+            });
+        },
+        addLicenseAndRegistrationPhotos(file) {
+            let that = this;
+
+            new ImageUploader({
+                quality: 0.9,
+                maxWidth: 1920,
+                maxHeight: 1920,
+            }).scaleFile(file, function (blob) {
+                blob.name = file.name;
+
+                if (!that.inspection.licenseAndRegistrationPhotos) {
+                    that.inspection.licenseAndRegistrationPhotos = [blob]
+                } else {
+                    that.inspection.licenseAndRegistrationPhotos.push(blob)
+                }
+            });
+        },
+        extraSeats() {
+            this.inspection.seats = 9;
+            this.$nextTick(() => {
+                this.$refs.seats.focus();
+            });
+        }
     },
-    addLicenseAndRegistrationPhotos(file) {
-      let that = this;
-
-      new ImageUploader({
-          quality: 0.9,
-          maxWidth: 1920,
-          maxHeight: 1920,
-      }).scaleFile(file, function (blob) {
-          blob.name = file.name;
-
-          if (!that.inspection.licenseAndRegistrationPhotos) {
-              that.inspection.licenseAndRegistrationPhotos = [blob]
-          } else {
-              that.inspection.licenseAndRegistrationPhotos.push(blob)
-          }
-      });
+    components: {
+        inputText,
+        choiceGroup,
+        inputCheckbox,
+        inputTextarea,
+        inputSelect,
+        b2Button,
+        inputCheckboxSwitch,
+        inputNumber,
+        inputFileList
     }
-  },
-  components: {
-    inputText,
-    choiceGroup,
-    inputCheckbox,
-    inputTextarea,
-    inputSelect,
-    b2Button,
-    inputCheckboxSwitch,
-    inputNumber,
-    inputFileList
-  }
 }
 </script>

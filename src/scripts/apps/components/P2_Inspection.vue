@@ -30,14 +30,19 @@
         </div>
 
         <div class="row">
-            <div class="col m3">
-                <choice-group :label="'Doors'" v-model="inspection.doors" :options="[{value:'2',label:2},{value:'4',label:4},{value:'6',label:6}]"
+            <div class="col m5">
+                <choice-group :label="'Doors'" v-model="inspection.doors" :options="custom_options.doors"
                     :name="'doors'" :validationRules="{required:true}"></choice-group>
             </div>
-            <div class="col m7">
+            <div class="col m7 choice-group-seats">
                 <choice-group :label="'Seats'" v-model="inspection.seats"
                     :options="[{value:'2',label:2},{value:'4',label:4},{value:'5',label:5},{value:'6',label:6},{value:'7',label:7},{value:'8',label:8}]"
-                    :name="'seats'" :validationRules="{required:true}"></choice-group>
+                    :name="'seats'" :validationRules="{required: !inspection.seats || inspection.seats * 1 < 9}"></choice-group>
+
+                <div class="seats-extra">
+                    <label v-show="!inspection.seats || inspection.seats < 9" @click="extraSeats">&ge; 9</label>
+                    <input type="number" min="9" ref="seats" v-model.lazy.number="inspection.seats" v-if="inspection.seats * 1 >= 9">
+                </div>
             </div>
         </div>
 
@@ -86,7 +91,8 @@
 
         <div class="row">
             <div class="col m3">
-        <input-text :label="'Chassis/Vin No'" v-model="inspection.chassisVinNumber" :name="'chassisVinNumber'" :validation-rules="{required:true}"></input-text>
+                <input-text :label="'Chassis/Vin No'" v-model="inspection.chassisVinNumber" :name="'chassisVinNumber'"
+                    :validation-rules="{required:true, min: 17, max: 17}"></input-text>
             </div>
             <div class="col m3">
                 <input-text :label="'Engine Number'" v-model="inspection.engineNumber" :name="'engineNumber'" :validation-rules="{required:true}"></input-text>
@@ -101,10 +107,11 @@
                 <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
             </div>
             <div class="col m3">
-                <input-text :label="'Build Date'" v-model="inspection.buildDate" :name="'buildDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+                <input-text :label="'Build Date'" v-model="buildDate" :name="'buildDate'" :validation-rules="{required:true, regex: /^[01]\d\/\d\d$/}"></input-text>
             </div>
             <div class="col m3">
-                <input-text :label="'Compliance Date'" v-model="inspection.complianceDate" :name="'complianceDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+                <input-text :label="'Compliance Date'" v-model="complianceDate" :name="'complianceDate'"
+                    :validation-rules="{required:true, regex: /^[01]\d\/\d\d$/}"></input-text>
             </div>
         </div>
 
@@ -175,6 +182,7 @@ import inputFileList from './inputs/N8_PhotoList.vue'
 import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
 import ImageUploader from '../services/ImageUploader'
+import moment from 'moment'
 
 export default {
     name: 'negotiator',
@@ -188,12 +196,32 @@ export default {
                 this.reschedule();
             }
         })
+
+        this.$validator.localize('en', {
+            custom: {
+                chassisVinNumber: {
+                    min: 'Must be exactly 17 characters.',
+                    max: 'Must be exactly 17 characters.',
+                },
+                buildDate: {
+                    regex: 'Must have format MM/YY.',
+                },
+                complianceDate: {
+                    regex: 'Must have format MM/YY.',
+                }
+            }
+        });
     },
     data() {
         return {
             inspection: {},
             original_inspection: {},
-            options: {}
+            options: {},
+            custom_options: {
+                doors: [{value:'2',label:2},{value:'3',label:3},{value:'4',label:4},{value:'5',label:5},{value:'6',label:6}],
+            },
+            buildDate: '',
+            complianceDate: '',
         }
     },
     methods: {
@@ -205,6 +233,13 @@ export default {
                     this.original_inspection = Object.assign({}, res.inspection); //cloning
                     this.$store.commit('updateInspection', res.inspection)
                     this.$store.commit('updateOptions', res.options)
+
+                    if(this.inspection.buildDate) {
+                        this.buildDate = moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY');
+                    }
+                    if(this.inspection.complianceDate) {
+                        this.complianceDate = moment(this.inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY');
+                    }
                 }).catch(e => {
                     console.error(e)
                 })
@@ -269,6 +304,9 @@ export default {
         submitForm() {
             this.$validator.validateAll().then((result) => {
                 if (result) {
+                    this.inspection.buildDate = '01/' + this.buildDate.replace('/', '/20');
+                    this.inspection.complianceDate = '01/' + this.complianceDate.replace('/', '/20');
+
                     PostService.postMulti(this.$route.params.id, this.inspection, this.options)
                         .then(response => {
                             PostService.submitInspection(this.$route.params.id);
@@ -292,6 +330,12 @@ export default {
                 }).catch(e => {
                     console.error(e)
                 })
+        },
+        extraSeats() {
+            this.inspection.seats = 9;
+            this.$nextTick(() => {
+                this.$refs.seats.focus();
+            });
         }
     },
     components: {
