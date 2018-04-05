@@ -35,9 +35,6 @@ class NegotiatorCommand extends BaseCommand
                         $status = craft()->negotiator_sync->saveRecord($model);
                         ++$stats[$status];
                     }
-                } elseif ($identical) {
-                    craft()->elements->deleteElementById($identical->id);
-                    ++$stats[Negotiator_SyncService::STATUS_DELETED];
                 }
             }
         }
