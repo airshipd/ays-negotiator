@@ -170,14 +170,15 @@ export default {
         });
     },
     data() {
+        let inspection = this.$store.state.inspection;
         return {
-            inspection: cloneDeep(this.$store.state.inspection),
+            inspection: cloneDeep(inspection),
             options: cloneDeep(this.$store.state.options),
             custom_options: {
                 doors: [{value: '2', label: 2}, {value: '3', label: 3}, {value: '4', label: 4}, {value: '5', label: 5}, {value: '6', label: 6}],
             },
-            buildDate: this.inspection.buildDate ? moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY') : '',
-            complianceDate: this.inspection.complianceDate ? moment(this.inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY') : '',
+            buildDate: inspection.buildDate ? moment(inspection.buildDate, 'DD/MM/YYYY').format('MM/YY') : '',
+            complianceDate: inspection.complianceDate ? moment(inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY') : '',
         }
     },
     methods: {
