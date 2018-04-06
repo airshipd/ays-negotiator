@@ -34,6 +34,7 @@
                 moment,
                 isSales: window.isSales,
                 isAdmin: window.isAdmin,
+                isNegotiator: window.isNegotiator,
             }
         },
         methods: {
