@@ -7,7 +7,6 @@ export const urlReviewOffer = apiUrl + '/reviewOffer'
 export const urlOfferUpdateValuation = apiUrl + '/offerUpdateValuation'
 export const urlGetContract = apiUrl + '/getContract'
 export const urlGetInspectors = apiUrl + '/inspectors'
-export const urlInspectionSubmitted = apiUrl + '/submit'
 export const urlSubmitContract = apiUrl + '/submitContract'
 export const urlSetOpened = apiUrl + '/setOpened'
 

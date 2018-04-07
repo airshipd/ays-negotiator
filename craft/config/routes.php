@@ -29,7 +29,6 @@ return array(
   'api/inspections'              => ['action' => 'negotiator/api/inspections'],
   'api/inspection/(?P<id>\d+)'   => ['action' => 'negotiator/api/inspection'],
   'api/offer/(?P<id>\d+)'        => ['action' => 'negotiator/api/offer'],
-  'api/submit/(?P<id>\d+)'       => ['action' => 'negotiator/api/submitInspection'],
   'api/submitContract/(?P<id>\d+)'       => ['action' => 'negotiator/api/submitContract'],
   'api/setOpened/(?P<id>\d+)'       => ['action' => 'negotiator/api/setOpened'],
   'api/offerUpdateValuation'     => ['action' => 'negotiator/inspections/updateValuation'],

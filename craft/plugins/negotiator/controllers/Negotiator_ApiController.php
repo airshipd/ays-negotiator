@@ -14,6 +14,7 @@ class Negotiator_ApiController extends BaseController {
       $upcoming = craft()->request->getQuery('upcoming', false);
       $rejected = craft()->request->getQuery('rejected', false);
       $unsuccessful = craft()->request->getQuery('unsuccessful', false);
+      $submitted = craft()->request->getQuery('submitted', false);
 
       $criteria = craft()->elements->getCriteria(ElementType::Entry);
       $criteria->limit = null;
@@ -66,6 +67,8 @@ class Negotiator_ApiController extends BaseController {
 
       } elseif ($unsuccessful) {
           $criteria->inspectionStatus = 'Unsuccessful';
+      } elseif ($submitted) {
+          $criteria->inspectionStatus = 'Submitted';
       } else {
         //Pending
           $criteria->runbikestopId = ':notempty:';
@@ -286,18 +289,5 @@ class Negotiator_ApiController extends BaseController {
             ];
         }
         return $ret;
-    }
-
-    public function actionSubmitInspection(array $variables = [])
-    {
-        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-        $criteria->id = $variables['id'];
-        $inspection   = $criteria->first();
-
-        if(!$inspection) {
-            throw new HttpException(404);
-        }
-
-        craft()->negotiator_notifications->onSubmitted(new Event(null, ['inspection' => $inspection]));
     }
 }
