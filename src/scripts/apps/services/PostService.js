@@ -1,6 +1,5 @@
 import axios from 'axios'
 import qs from 'qs'
-import { urlInspectionSubmitted } from '../config.js'
 
 export default {
 
@@ -113,10 +112,4 @@ export default {
             }
         })
     },
-
-    //Special API for firing "inspection submitted" event which causes emails to negotiator and car seller
-    submitInspection(id)
-    {
-        return axios.post(urlInspectionSubmitted + '/' +  id);
-    }
 }

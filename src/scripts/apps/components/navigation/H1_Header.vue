@@ -18,6 +18,7 @@
                             <router-link tag="li" :to="{path: '/upcoming'}" v-if="!isNegotiator && !isSales"><a>Upcoming</a></router-link>
                             <router-link tag="li" :to="{path: '/rejected'}" v-if="!isSales"><a>Rejected</a></router-link>
                             <router-link tag="li" :to="{path: '/unsuccessful'}" v-if="isSales"><a>Unsuccessful</a></router-link>
+                            <router-link tag="li" :to="{path: '/submitted'}" v-if="!isSales"><a>Submitted</a></router-link>
                         </ul>
                     </div>
                     <div class="header-inspections" v-if="currentRoute === 'Admin'">

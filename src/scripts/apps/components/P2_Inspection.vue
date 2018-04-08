@@ -289,7 +289,6 @@ export default {
               if (result) {
                   PostService.postMulti(this.$route.params.id, this.inspection, this.options)
                       .then(response => {
-                          PostService.submitInspection(this.$route.params.id);
                           this.$store.commit('updateInspection', this.inspection)
                           this.$router.push('/final/1/' + this.$route.params.id)
                       }).catch(e => {
@@ -304,12 +303,14 @@ export default {
         submitForm() {
             this.$validator.validateAll().then((result) => {
                 if (result) {
+                    //turn "MM/YY" into "01-MM-20YY"
                     this.inspection.buildDate = '01/' + this.buildDate.replace('/', '/20');
                     this.inspection.complianceDate = '01/' + this.complianceDate.replace('/', '/20');
 
+                    this.inspection.inspectionStatus = 'Submitted';
+
                     PostService.postMulti(this.$route.params.id, this.inspection, this.options)
                         .then(response => {
-                            PostService.submitInspection(this.$route.params.id);
                             this.$store.commit('updateInspection', this.inspection)
                             this.$router.push('/waiting/' + this.$route.params.id)
                         }).catch(e => {

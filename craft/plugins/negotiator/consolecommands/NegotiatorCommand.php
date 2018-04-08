@@ -10,6 +10,7 @@ class NegotiatorCommand extends BaseCommand
         $stats = [
             Negotiator_SyncService::STATUS_SUCCESS => 0,
             Negotiator_SyncService::STATUS_DUPLICATE => 0,
+            Negotiator_SyncService::STATUS_PRICE_UPDATE => 0,
             Negotiator_SyncService::STATUS_WARNING => 0,
             Negotiator_SyncService::STATUS_ERROR => 0,
             Negotiator_SyncService::STATUS_DELETED => 0,
@@ -30,7 +31,11 @@ class NegotiatorCommand extends BaseCommand
 
                 if ($model->colour === 'blue') {
                     if ($identical) {
-                        ++$stats[Negotiator_SyncService::STATUS_DUPLICATE];
+                        if(craft()->negotiator_sync->revisePrices($identical, $model)) {
+                            ++$stats[Negotiator_SyncService::STATUS_PRICE_UPDATE];
+                        } else {
+                            ++$stats[Negotiator_SyncService::STATUS_DUPLICATE];
+                        }
                     } else {
                         $status = craft()->negotiator_sync->saveRecord($model);
                         ++$stats[$status];
@@ -42,9 +47,10 @@ class NegotiatorCommand extends BaseCommand
         craft()->negotiator_sync->setLastSyncTime($last_read);
 
         if(array_sum($stats)) {
-            NegotiatorPlugin::log(sprintf('Synced. Success: %d, duplicate: %d, warning: %d, error: %d, deleted: %d',
+            NegotiatorPlugin::log(sprintf('Synced. Success: %d, duplicate: %d, price updated: %d, warning: %d, error: %d, deleted: %d',
                 $stats[Negotiator_SyncService::STATUS_SUCCESS],
                 $stats[Negotiator_SyncService::STATUS_DUPLICATE],
+                $stats[Negotiator_SyncService::STATUS_PRICE_UPDATE],
                 $stats[Negotiator_SyncService::STATUS_WARNING],
                 $stats[Negotiator_SyncService::STATUS_ERROR],
                 $stats[Negotiator_SyncService::STATUS_DELETED]

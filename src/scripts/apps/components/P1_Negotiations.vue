@@ -81,6 +81,7 @@ export default {
                     upcoming: this.type === 'upcoming' ? 1 : 0,
                     rejected: this.type === 'rejected' ? 1 : 0,
                     unsuccessful: this.type === 'unsuccessful' ? 1 : 0,
+                    submitted: this.type === 'submitted' ? 1 : 0,
                 }
             })
             .then(response => {

@@ -34,6 +34,7 @@
                 moment,
                 isSales: window.isSales,
                 isAdmin: window.isAdmin,
+                isNegotiator: window.isNegotiator,
             }
         },
         methods: {
@@ -47,10 +48,9 @@
                         theStatus = 'Finalized'
                         break;
                     case 'Rejected':
-                        theStatus = 'Rejected'
-                        break;
                     case 'Accepted':
-                        theStatus = 'Accepted'
+                    case 'Submitted':
+                        theStatus = inspection.status
                         break;
                     default:
                         theStatus = 'No Status'
@@ -71,8 +71,10 @@
                     }
                 } else if (inspection.status === 'UpComing' && inspection.pending) {
                     this.$router.push('/pending-inspection/' + this.inspection.id)
-                } else if (inspection.status === 'Unsuccessful') {
+                } else if (inspection.status === 'Unsuccessful' || inspection.status === 'Submitted' && window.isNegotiator) {
                     this.$router.push('/inspection-details/' + this.inspection.id)
+                } else if (inspection.status === 'Submitted' && !window.isNegotiator) {
+                    this.$router.push('/offer/' + this.inspection.id)
                 } else {
                     this.$router.push('/inspection/' + this.inspection.id)
                 }
