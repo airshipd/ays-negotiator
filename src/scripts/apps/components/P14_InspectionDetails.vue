@@ -104,6 +104,10 @@
                     <div class="col m6">Compliance Date:</div>
                     <div class="col m6">{{ inspection.complianceDate }}</div>
                 </div>
+                <div class="row">
+                    <div class="col m6">Service Papers:</div>
+                    <div class="col m6">{{ inspection.servicePapers == 1 ? 'Yes' : 'No' }}</div>
+                </div>
             </div>
         </div>
 
