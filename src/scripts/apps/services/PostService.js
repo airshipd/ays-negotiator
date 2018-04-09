@@ -94,7 +94,9 @@ export default {
                           formData.append('fields[' + key + '][address]', entry[key]['address'])
                           break;
                         case 'Users':
-                          formData.append('fields[' + key + '][]', entry[key][0])
+                            if(entry[key].length) {
+                                formData.append('fields[' + key + '][]', entry[key][0])
+                            }
                           break;
                         default:
                           formData.append('fields[' + key + ']', entry[key])
