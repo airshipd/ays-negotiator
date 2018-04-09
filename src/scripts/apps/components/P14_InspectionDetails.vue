@@ -10,6 +10,10 @@
                     <div class="col m6">{{ inspection.customerName }}</div>
                 </div>
                 <div class="row">
+                    <div class="col m6">Email:</div>
+                    <div class="col m6">{{ inspection.customerEmail }}</div>
+                </div>
+                <div class="row">
                     <div class="col m6">Phone:</div>
                     <div class="col m6">{{ inspection.customerPhoneNumber }}</div>
                 </div>
@@ -108,6 +112,14 @@
                     <div class="col m6">Service Papers:</div>
                     <div class="col m6">{{ inspection.servicePapers == 1 ? 'Yes' : 'No' }}</div>
                 </div>
+                <div class="row">
+                    <div class="col m6">Approximate Expenditure:</div>
+                    <div class="col m6">$ {{ inspection.approximateExpenditure }}</div>
+                </div>
+                <div class="row">
+                    <div class="col m12">Damage and Faults:</div>
+                    <div class="col m12 show-line-breaks" v-html="inspection.damageAndFaults"></div>
+                </div>
             </div>
         </div>
 
@@ -179,8 +191,6 @@ export default {
                     if(!this.inspection.agreedPrice) {
                       this.inspection.agreedPrice = parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure)
                     }
-                }).catch(e => {
-                    console.error(e)
                 })
         },
         sendPaperwork: function () {
