@@ -73,9 +73,15 @@
     </div>
 
     <div class="row">
-      <div class="col m2">
-        <input-checkbox :label="'Service Book'" v-model="inspection.servicePapers" :model-value="inspection.servicePapers" ></input-checkbox>
-      </div>
+        <div class="col m2">
+            <input-checkbox :label="'Owner\'s Manual'" v-model="inspection.ownersManual" :model-value="inspection.ownersManual"></input-checkbox>
+        </div>
+        <div class="col m2">
+            <input-checkbox :label="'Service Papers'" v-model="inspection.servicePapers" :model-value="inspection.servicePapers"></input-checkbox>
+        </div>
+        <div class="col m2">
+            <input-checkbox :label="'Service Books'" v-model="inspection.serviceBooks" :model-value="inspection.serviceBooks"></input-checkbox>
+        </div>
       <div class="col m2">
          <input-checkbox :label="'Sun Roof'" v-model="inspection.sunroof" :model-value="inspection.sunroof" ></input-checkbox>
       </div>

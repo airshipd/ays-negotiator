@@ -109,8 +109,16 @@
                     <div class="col m6">{{ inspection.complianceDate }}</div>
                 </div>
                 <div class="row">
+                    <div class="col m6">Owner's Manual:</div>
+                    <div class="col m6">{{ inspection.ownersManual == 1 ? 'Yes' : 'No' }}</div>
+                </div>
+                <div class="row">
                     <div class="col m6">Service Papers:</div>
                     <div class="col m6">{{ inspection.servicePapers == 1 ? 'Yes' : 'No' }}</div>
+                </div>
+                <div class="row">
+                    <div class="col m6">Service Books:</div>
+                    <div class="col m6">{{ inspection.serviceBooks == 1 ? 'Yes' : 'No' }}</div>
                 </div>
                 <div class="row">
                     <div class="col m6">Approximate Expenditure:</div>
