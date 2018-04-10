@@ -169,7 +169,7 @@ export default {
             } else {
                 let filter = this.filter.toLowerCase();
                 return this.inspections.filter(function (inspection) {
-                    let searchString = inspection.id + ' ' + inspection.title + ' ' + inspection.address;
+                    let searchString = inspection.id + ' ' + inspection.title + ' ' + inspection.address + ' ' + inspection.customerName;
                     if (inspection.status === 'UpComing' && inspection.pending) {
                         searchString += ' ' + 'pending';
                     } else {
