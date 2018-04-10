@@ -89,6 +89,9 @@
         {% case '' %}
           {% set value = 'not filled out' %}
       {% endswitch %}
+      {% if field == 'complianceDate' or field == 'buildDate' %}
+        {% set value = value ? (value | date('m/y')) : '' %}
+      {% endif %}
       <div class="fieldValue">{{ value }}</div>
     </div>
     {% endfor %}

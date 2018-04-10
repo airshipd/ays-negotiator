@@ -107,6 +107,7 @@ class Negotiator_ApiController extends BaseController {
               'driveIn' => $i->driveIn,
               'localMech' => $i->localMech,
               'inspectionDate' => $i->inspectionDate ? $i->inspectionDate->format('Y-m-d H:i:s') : null,
+              'customerName' => $i->customerName,
           ];
       }
 
