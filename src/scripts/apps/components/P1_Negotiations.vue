@@ -5,7 +5,8 @@
                 <loader v-show="showLoader"/>
 
                 <ul v-show="!showLoader">
-                    <list v-for="(item, index) in inspections"
+                    <input class="inspections-filter" placeholder="Search..." v-if="isSales || isNegotiator || isAdmin" v-model="filter" />
+                    <list v-for="(item, index) in filteredInspections"
                         :inspection="item"
                         :active="index === activeLiIndex"
                         :key="item.id"
@@ -45,7 +46,7 @@ export default {
     mounted() {
         this.getInspections();
 
-        if(this.$route.name === 'Negotiations' && !window.isSales && !window.isNegotiator) {
+        if(this.$route.name === 'Negotiations' && !this.isSales && !this.isNegotiator) {
             this.initDatepicker();
         }
     },
@@ -63,7 +64,11 @@ export default {
                     height: -15
                 }
             },
-            showLoader: false
+            showLoader: false,
+            filter: '',
+            isSales: window.isSales,
+            isNegotiator: window.isNegotiator,
+            isAdmin: window.isAdmin,
         }
     },
     methods: {
@@ -76,7 +81,7 @@ export default {
             this.showLoader = true;
             axios.get(urlGetInspections, {
                 params: {
-                    date: window.isSales || window.isNegotiator ? null : this.date,
+                    date: this.isSales || this.isNegotiator ? null : this.date,
                     state: this.state,
                     upcoming: this.type === 'upcoming' ? 1 : 0,
                     rejected: this.type === 'rejected' ? 1 : 0,
@@ -127,7 +132,7 @@ export default {
             this.activeLiIndex = 0;
         },
         '$route': function(r) {
-            if(this.$route.name === 'Negotiations' && !window.isSales && !window.isNegotiator) {
+            if(this.$route.name === 'Negotiations' && !this.isSales && !this.isNegotiator) {
                 let pickadate = $('.datepicker-negotiations').pickadate('picker');
                 if(pickadate.get('select', 'yyyy-mm-dd') !== this.date) {
                     if(this.date) {
@@ -144,6 +149,7 @@ export default {
             }
 
             this.getInspections();
+            this.filter = '';
         }
     },
     computed: {
@@ -156,6 +162,22 @@ export default {
         },
         inspection() {
             return this.inspections[this.activeLiIndex] && this.inspections[this.activeLiIndex].lat ? this.inspections[this.activeLiIndex] : null;
+        },
+        filteredInspections() {
+            if (!this.filter) {
+                return this.inspections;
+            } else {
+                let filter = this.filter.toLowerCase();
+                return this.inspections.filter(function (inspection) {
+                    let searchString = inspection.id + ' ' + inspection.title + ' ' + inspection.address;
+                    if (inspection.status === 'UpComing' && inspection.pending) {
+                        searchString += ' ' + 'pending';
+                    } else {
+                        searchString += ' ' + inspection.status;
+                    }
+                    return searchString.toLowerCase().indexOf(filter) !== -1;
+                });
+            }
         }
     }
 }

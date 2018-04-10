@@ -11700,6 +11700,10 @@ nav {
       font-size: 10px;
       text-transform: uppercase;
       background-color: #17c300 !important; }
+  .section-inspections .inspections-filter {
+    width: 100%;
+    font-size: 18px;
+    padding: 10px; }
 
 /************
   -- Google maps info window custom styling
