@@ -102,11 +102,11 @@
                 </div>
                 <div class="row">
                     <div class="col m6">Build Date:</div>
-                    <div class="col m6">{{ inspection.buildDate }}</div>
+                    <div class="col m6">{{ inspection.buildDate | mmyy }}</div>
                 </div>
                 <div class="row">
                     <div class="col m6">Compliance Date:</div>
-                    <div class="col m6">{{ inspection.complianceDate }}</div>
+                    <div class="col m6">{{ inspection.complianceDate | mmyy }}</div>
                 </div>
                 <div class="row">
                     <div class="col m6">Owner's Manual:</div>
@@ -173,6 +173,7 @@ import inputFileList from './inputs/N8_PhotoList.vue'
 import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
 import debounce from 'lodash/debounce';
+import mmyy from '../filters/mmyy.js'
 
 export default {
     name: 'inspectionDetails',
