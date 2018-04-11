@@ -137,7 +137,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'engineType'             => $model->getEngineType(),
             'driveTrain'             => $model->getDriveTrain(),
             'spareKey'               => $model->spare_key == 'yes',
-            'servicePapers'          => $model->log_books == 'yes',
+            'serviceHistory'         => in_array($model->log_books, ['yes', 'no', 'partial']) ? $model->log_books : 'no',
             'registrationNumber'     => $model->rego,
             'rego_expiry'            => $model->getRegoExpiry(),
             'sunroof'                => $model->sunroof == 'yes',
@@ -146,6 +146,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'seats'                  => $model->seats,
             'driveIn'                => $model->isDriveIn(),
             'localMech'              => $model->isLocalMech(),
+            'salesConsultant'        => $model->sales_consultant_email,
         ];
         if ($model->address) {
             $content['location'] = ['address' => $model->address];
@@ -159,13 +160,6 @@ class Negotiator_SyncService extends BaseApplicationComponent
 
             $criteria = craft()->elements->getCriteria(ElementType::User);
             $criteria->email = $model->mechanic_email;
-            $user = $criteria->first();
-            if($user) {
-                $content['inspector'] = [$user->id];
-            }
-        } elseif($model->sales_consultant_email) {
-            $criteria = craft()->elements->getCriteria(ElementType::User);
-            $criteria->email = $model->sales_consultant_email;
             $user = $criteria->first();
             if($user) {
                 $content['inspector'] = [$user->id];

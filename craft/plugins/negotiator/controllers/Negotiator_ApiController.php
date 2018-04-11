@@ -108,6 +108,8 @@ class Negotiator_ApiController extends BaseController {
               'localMech' => $i->localMech,
               'inspectionDate' => $i->inspectionDate ? $i->inspectionDate->format('Y-m-d H:i:s') : null,
               'customerName' => $i->customerName,
+              'inspector' => $i->inspector[0] ? $this->_apifyUser($i->inspector[0]) : null,
+              'salesConsultant' => $i->salesConsultant,
           ];
       }
 

@@ -22,7 +22,7 @@ export default {
         res.data.engineType = res.data.engineType ? res.data.engineType : 'petrol'
         res.data.seats = res.data.seats === "0" ? "2" : res.data.seats
         res.data.doors = res.data.doors === "0" ? "2" : res.data.doors
-        res.data.damageAndFaults = striptags(String(res.data.damageAndFaults).replace(/(<br \/>)|(<\/p><p>)/g, '\n'));
+        res.data.damageAndFaults = res.data.damageAndFaults ? striptags(String(res.data.damageAndFaults).replace(/(<br \/>)|(<\/p><p>)/g, '\n')) : '';
 
         return {
             'inspection': res.data,

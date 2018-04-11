@@ -62,22 +62,24 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col m3">
-        <input-select v-if="options.transmission" :label="'Transmission'" v-model="inspection.transmission" :options="options.transmission.settings.options"></input-select>
+      <div class="row">
+          <div class="col m3">
+              <input-select v-if="options.transmission" :label="'Transmission'" v-model="inspection.transmission"
+                  :options="options.transmission.settings.options"></input-select>
+          </div>
+          <div class="col m3">
+              <choice-group v-if="options.wheels" :label="'Wheels'" v-model="inspection.wheels" :options="options.wheels.settings.options"
+                  :name="'wheels'" :validationRules="{required:true}"></choice-group>
+          </div>
+          <div class="col m3">
+              <choice-group v-if="options.serviceHistory" :label="'Service History'" v-model="inspection.serviceHistory"
+                  :options="options.serviceHistory.settings.options" :name="'serviceHistory'" :validationRules="{required:true}"></choice-group>
+          </div>
       </div>
-      <div class="col m5">
-        <choice-group v-if="options.wheels" :label="'Wheels'" v-model="inspection.wheels" :options="options.wheels.settings.options"
-            :name="'wheels'" :validationRules="{required:true}"></choice-group>
-      </div>
-    </div>
 
-    <div class="row">
+      <div class="row">
         <div class="col m2">
             <input-checkbox :label="'Owner\'s Manual'" v-model="inspection.ownersManual" :model-value="inspection.ownersManual"></input-checkbox>
-        </div>
-        <div class="col m2">
-            <input-checkbox :label="'Service Papers'" v-model="inspection.servicePapers" :model-value="inspection.servicePapers"></input-checkbox>
         </div>
         <div class="col m2">
             <input-checkbox :label="'Service Books'" v-model="inspection.serviceBooks" :model-value="inspection.serviceBooks"></input-checkbox>
