@@ -146,6 +146,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'seats'                  => $model->seats,
             'driveIn'                => $model->isDriveIn(),
             'localMech'              => $model->isLocalMech(),
+            'salesConsultant'        => $model->sales_consultant_email,
         ];
         if ($model->address) {
             $content['location'] = ['address' => $model->address];

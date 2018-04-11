@@ -125,6 +125,14 @@
                     <div class="col m6">$ {{ inspection.approximateExpenditure }}</div>
                 </div>
                 <div class="row">
+                    <div class="col m6">Inspector:</div>
+                    <div class="col m6">{{ inspector }}</div>
+                </div>
+                <div class="row">
+                    <div class="col m6">Sales Consultant:</div>
+                    <div class="col m6">{{ this.inspection.salesConsultant }}</div>
+                </div>
+                <div class="row">
                     <div class="col m12">Damage and Faults:</div>
                     <div class="col m12 show-line-breaks" v-html="inspection.damageAndFaults || ''"></div>
                 </div>
@@ -174,6 +182,7 @@ import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
 import debounce from 'lodash/debounce';
 import mmyy from '../filters/mmyy.js'
+import _ from 'lodash'
 
 export default {
     name: 'inspectionDetails',
@@ -247,12 +256,17 @@ export default {
         inputFileList
     },
     filters: {
-        capitalize: function (value) {
+        capitalize (value) {
             if (!value) {
                 return ''
             }
             value = value.toString()
             return value.charAt(0).toUpperCase() + value.slice(1)
+        }
+    },
+    computed: {
+        inspector() {
+            return _.trim(_.get(this.inspection.inspector_details, 'firstName', '') + ' ' + _.get(this.inspection.inspector_details, 'lastName', ''));
         }
     }
 }
