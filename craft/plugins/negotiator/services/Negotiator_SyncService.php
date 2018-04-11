@@ -137,7 +137,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'engineType'             => $model->getEngineType(),
             'driveTrain'             => $model->getDriveTrain(),
             'spareKey'               => $model->spare_key == 'yes',
-            'servicePapers'          => $model->log_books == 'yes',
+            'serviceHistory'         => in_array($model->log_books, ['yes', 'no', 'partial']) ? $model->log_books : 'no',
             'registrationNumber'     => $model->rego,
             'rego_expiry'            => $model->getRegoExpiry(),
             'sunroof'                => $model->sunroof == 'yes',
