@@ -169,12 +169,16 @@ export default {
             } else {
                 let filter = this.filter.toLowerCase();
                 return this.inspections.filter(function (inspection) {
-                    let searchString = inspection.id + ' ' + inspection.title + ' ' + inspection.address + ' ' + inspection.customerName;
+                    let searchString = inspection.id + ' ' + inspection.title + ' ' + inspection.address + ' ' + inspection.customerName + ' ' + inspection.salesConsultant;
                     if (inspection.status === 'UpComing' && inspection.pending) {
                         searchString += ' ' + 'pending';
                     } else {
                         searchString += ' ' + inspection.status;
                     }
+                    if (inspection.inspector) {
+                        searchString += ' ' + inspection.inspector.firstName + ' ' + inspection.inspector.lastName + ' ' + inspection.inspector.firstName;
+                    }
+
                     return searchString.toLowerCase().indexOf(filter) !== -1;
                 });
             }
