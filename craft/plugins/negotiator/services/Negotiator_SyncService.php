@@ -164,13 +164,6 @@ class Negotiator_SyncService extends BaseApplicationComponent
             if($user) {
                 $content['inspector'] = [$user->id];
             }
-        } elseif($model->sales_consultant_email) {
-            $criteria = craft()->elements->getCriteria(ElementType::User);
-            $criteria->email = $model->sales_consultant_email;
-            $user = $criteria->first();
-            if($user) {
-                $content['inspector'] = [$user->id];
-            }
         }
 
         if($model->latest_pricing && is_numeric($model->latest_pricing)) {
