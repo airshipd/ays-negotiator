@@ -2,29 +2,77 @@
 
   <section class="section-final--5">
 
-    <div class="row">
-      <div class="col m4">
-        <input-text disabled :label="'Name'" v-model="inspection.customerName" :name="'customerName'"></input-text>
+      <div class="row">
+          <div class="col m4">
+              <input-text :label="'Name'" v-model="inspection.customerName" :name="'customerName'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobileNumber'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'" :validation-rules="{required:true}"></input-text>
+          </div>
       </div>
-      <div class="col m4">
-        <input-text disabled :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobileNumber'"></input-text>
+      <div class="row">
+          <div class="col m12">
+              <input-address :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" v-validate="{required:true}"></input-address>
+          </div>
       </div>
-      <div class="col m4">
-        <input-text disabled :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'"></input-text>
+      <div class="row">
+          <div class="col m4">
+              <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Suburb'" v-model="inspection.customerSuburb" :name="'customerSuburb'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Postcode'" v-model="inspection.customerPostcode" :name="'customerPostcode'" :validation-rules="{required:true}"></input-text>
+          </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col m8">
-        <input-address disabled :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'"></input-address>
+      <div class="row">
+          <div class="col m8">
+              <input-text :label="'Drivers License'" v-model="inspection.customerDriversLicense" :name="'customerDriversLicense'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Expired'" v-model="inspection.customerDriversLicenseExpirationDate" :name="'customerExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+          </div>
       </div>
-      <div class="col m4">
-        <input-text disabled :label="'State'" v-model="inspection.customerState" :name="'customerState'"></input-text>
+      <div class="row">
+          <div class="col m4">
+              <input-text :label="'D/O/B'" v-model="inspection.customerDob" :name="'customerDOB'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+          </div>
       </div>
-    </div>
-    <div class="row row-contract">
-      <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: <strong>{{inspection.agreedPrice | currency}}</strong></p>
-      <div v-html="contract"></div>
-    </div>
+      <div class="row">
+          <div class="col m4">
+              <input-checkbox-switch :label="'Finance'" v-model="inspection.finance" :model-value="inspection.finance"></input-checkbox-switch>
+          </div>
+          <div class="col m8">
+              <input-text :label="'If yes, which company?'" v-model="inspection.financeCompany" :name="'financeCompany'"
+                  :validationRules="{required: inspection.finance == 1}"></input-text>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col m4">
+              <input-text :label="'BSB'" v-model="inspection.bsb" :name="'bsb'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Account No'" v-model="inspection.bankAccountNumber" :name="'bankAccountNumber'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Bank'" v-model="inspection.bank" :name="'bank'" :validation-rules="{required:true}"></input-text>
+          </div>
+      </div>
+
+      <div class="row row-contract">
+          <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: <strong>{{inspection.agreedPrice | currency}}</strong></p>
+          <div v-html="contract"></div>
+      </div>
       <div class="row">
           <div class="col m9">
               <input-textarea disabled :label="'Notes'" v-model="inspection.contractNote" :name="'contractNote'"></input-textarea>
@@ -141,16 +189,13 @@ export default {
                 if (result && this.inspection.customerSignatureString) {
                     this.buttonDisable = true
 
-                    axios.post(urlSubmitContract + '/' + this.$route.params.id, {
-                        customerName: this.inspection.customerName,
-                        customerSignatureString: this.inspection.customerSignatureString,
-                    }).then(response => {
-                        this.$router.push('/finalized')
-                    }).catch(e => {
-                        this.buttonDisable = false
-                        console.error(e)
-                    })
-                }
+                    axios.post(urlSubmitContract + '/' + this.$route.params.id, this.inspection).then(response => {
+                            this.$router.push('/finalized')
+                        }).catch(e => {
+                            this.buttonDisable = false
+                            console.error(e)
+                        })
+                    }
             })
         },
         setOpened() {

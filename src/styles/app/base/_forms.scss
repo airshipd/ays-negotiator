@@ -206,7 +206,7 @@ textarea {
       content: "";
       width: 28px;
       height: 28px;
-      background: $dark-blue;
+      background: #cacaca;
       border-radius: 50px;
       transition: all 0.3s;
     }
@@ -218,6 +218,7 @@ textarea {
 
     &:after {
       right: -87px;
+      background: $dark-blue;
     }
   }
 }

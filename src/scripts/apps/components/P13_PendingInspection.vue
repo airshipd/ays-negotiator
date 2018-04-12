@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="col m6">
-                <input-address :label="'Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validationRules="{required:true}"></input-address>
+                <input-address :label="'Address'" v-model="inspection.customerAddress" :name="'customerAddress'" v-validate="{required:true}"></input-address>
             </div>
         </div>
 

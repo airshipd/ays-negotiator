@@ -196,9 +196,25 @@ class Negotiator_ApiController extends BaseController {
 
       $post = json_decode(craft()->request->getRawBody(), true);
       $inspection->setContentFromPost([
-          'customerName' => $post['customerName'],
-          'customerSignatureString' => $post['customerSignatureString'],
-          'inspectionStatus' => 'finalized',
+          'customerName'                         => $post['customerName'],
+          'customerSignatureString'              => $post['customerSignatureString'],
+          'customerMobileNumber'                 => $post['customerMobileNumber'],
+          'customerEmail'                        => $post['customerEmail'],
+          'customerAddress'                      => $post['customerAddress'],
+          'customerState'                        => $post['customerState'],
+          'customerSuburb'                       => $post['customerSuburb'],
+          'customerPostcode'                     => $post['customerPostcode'],
+          'customerDriversLicense'               => $post['customerDriversLicense'],
+          'customerDriversLicenseExpirationDate' => ['date' => $post['customerDriversLicenseExpirationDate']],
+          'customerDob'                          => ['date' => $post['customerDob']],
+          'registrationNumber'                   => $post['registrationNumber'],
+          'expirationDate'                       => ['date' => $post['expirationDate']],
+          'finance'                              => $post['finance'],
+          'financeCompany'                       => $post['financeCompany'],
+          'bsb'                                  => $post['bsb'],
+          'bankAccountNumber'                    => $post['bankAccountNumber'],
+          'bank'                                 => $post['bank'],
+          'inspectionStatus'                     => 'finalized',
       ]);
 
       craft()->entries->saveEntry($inspection);
