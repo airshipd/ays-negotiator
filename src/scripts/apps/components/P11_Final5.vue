@@ -15,7 +15,7 @@
     </div>
     <div class="row">
       <div class="col m8">
-        <input-address :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" :validation-rules="{required:true}"></input-address>
+        <input-address :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" v-validate="{required:true}"></input-address>
       </div>
       <div class="col m4">
         <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'" :validation-rules="{required:true}"></input-text>

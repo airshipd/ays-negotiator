@@ -162,8 +162,8 @@
             label="Email Customer Paperwork" :action="sendPaperwork" :fullWidth="true"></b1-button>
         <b1-button v-show="['Rejected', 'Submitted'].indexOf(inspection.inspectionStatus) !== -1"
             class="grey lighten-1" label="Send for Sales Consultant for follow up" :action="setUnsuccessful" :fullWidth="true"></b1-button>
-        <b1-button v-show="inspection.inspectionStatus === 'Unopened' || inspection.inspectionStatus === 'Opened'"
-            label="Send for marketing" :action="setArchived" :fullWidth="true"></b1-button>
+        <b1-button v-show="['Unopened', 'Opened', 'Unsuccessful'].indexOf(inspection.inspectionStatus) !== -1"
+            label="Send for re-marketing" :action="setArchived" :fullWidth="true"></b1-button>
     </section>
 </template>
 

@@ -80,6 +80,30 @@ class Finalizer_EmailService extends BaseApplicationComponent
         }
     }
 
+    public function sendFollowUpNotification(EntryModel $inspection)
+    {
+        // Used in template
+        $sc_email = $inspection->getContent()->salesConsultant;
+        if(empty($sc_email) || !filter_var($sc_email, FILTER_VALIDATE_EMAIL)) {
+            return;
+        }
+
+        //get negotiator name to embed into the template
+        $user = craft()->userSession->getUser();
+        if($user->isInGroup('negotiators')) {
+            $negotiator = $user->getFullName();
+        } else {
+            $negotiator = 'The negotiator';
+        }
+
+        // get email body
+        ob_start();
+        include(CRAFT_PLUGINS_PATH . 'finalizer/templates/email/inspection_follow_up.php');
+        $emailBody = ob_get_clean();
+
+        $this->sendEmail($sc_email, 'Inspection for Follow Up', $emailBody);
+    }
+
     public function sendCustomerContract(EntryModel $inspection)
     {
         // get plugin settings

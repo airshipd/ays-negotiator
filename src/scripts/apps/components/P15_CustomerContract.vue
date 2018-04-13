@@ -2,29 +2,79 @@
 
   <section class="section-final--5">
 
-    <div class="row">
-      <div class="col m4">
-        <input-text disabled :label="'Name'" v-model="inspection.customerName" :name="'customerName'"></input-text>
+      <div class="row">
+          <div class="col m4">
+              <input-text :label="'Name'" v-model="inspection.customerName" :name="'customerName'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobileNumber'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'" :validation-rules="{required:true}"></input-text>
+          </div>
       </div>
-      <div class="col m4">
-        <input-text disabled :label="'Mobile Number'" v-model="inspection.customerMobileNumber" :name="'customerMobileNumber'"></input-text>
+      <div class="row">
+          <div class="col m12">
+              <input-address :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'" v-validate="{required:true}"></input-address>
+          </div>
       </div>
-      <div class="col m4">
-        <input-text disabled :label="'Email'" v-model="inspection.customerEmail" :name="'customerEmail'"></input-text>
+      <div class="row">
+          <div class="col m4">
+              <input-text :label="'State'" v-model="inspection.customerState" :name="'customerState'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Suburb'" v-model="inspection.customerSuburb" :name="'customerSuburb'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Postcode'" v-model="inspection.customerPostcode" :name="'customerPostcode'" :validation-rules="{required:true}"></input-text>
+          </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col m8">
-        <input-address disabled :label="'Customer Address'" v-model="inspection.customerAddress" :name="'customerAddress'"></input-address>
+      <div class="row">
+          <div class="col m8">
+              <input-text :label="'Drivers License'" v-model="inspection.customerDriversLicense" :name="'customerDriversLicense'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Expired'" v-model="inspection.customerDriversLicenseExpirationDate" :name="'customerExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+          </div>
       </div>
-      <div class="col m4">
-        <input-text disabled :label="'State'" v-model="inspection.customerState" :name="'customerState'"></input-text>
+      <div class="row">
+          <div class="col m4">
+              <input-text :label="'D/O/B'" v-model="inspection.customerDob" :name="'customerDOB'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+          </div>
       </div>
-    </div>
-    <div class="row row-contract">
-      <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: <strong>{{inspection.agreedPrice | currency}}</strong></p>
-      <div v-html="contract"></div>
-    </div>
+      <div class="row">
+          <div class="col m4">
+              <input-checkbox-switch :label="'Finance'" v-model="inspection.finance" :model-value="inspection.finance"></input-checkbox-switch>
+          </div>
+          <div class="col m8">
+              <input-text :label="'If yes, which company?'" v-model="inspection.financeCompany" :name="'financeCompany'"
+                  :validationRules="{required: inspection.finance == 1}"></input-text>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col m4">
+              <input-text :label="'BSB'" v-model="inspection.bsb" :name="'bsb'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Account No'" v-model="inspection.bankAccountNumber" :name="'bankAccountNumber'" :validation-rules="{required:true}"></input-text>
+          </div>
+          <div class="col m4">
+              <input-text :label="'Bank'" v-model="inspection.bank" :name="'bank'" :validation-rules="{required:true}"></input-text>
+          </div>
+      </div>
+
+      <input-file-list :label="'License and Registration Photos'" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
+
+      <div class="row row-contract">
+          <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: <strong>{{inspection.agreedPrice | currency}}</strong></p>
+          <div v-html="contract"></div>
+      </div>
       <div class="row">
           <div class="col m9">
               <input-textarea disabled :label="'Notes'" v-model="inspection.contractNote" :name="'contractNote'"></input-textarea>
@@ -57,7 +107,7 @@
     </div>
     <div class="row">
       <div class="col m9">
-        <input-text disabled :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact"
+        <input-text :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact"
             :name="'pickupAddressAndContact'"></input-text>
       </div>
       <div class="col m3">
@@ -86,10 +136,13 @@ import inputAddress from './inputs/N9_Address.vue'
 import b1Button from './buttons/B1_button.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 import signature from './overlays/O2_Signature.vue'
+import inputFileList from './inputs/N8_PhotoList.vue'
 
 import axios from 'axios'
 import { urlGetContract, urlSubmitContract, urlSetOpened } from '../config.js'
 import GetService from '../services/GetService.js'
+import PostService from '../services/PostService.js'
+import ImageUploader from '../services/ImageUploader'
 
 export default {
     name: 'final-5',
@@ -127,6 +180,7 @@ export default {
                     }
 
                     this.inspection = res.inspection
+                    this.options = res.options
                     if(!this.inspection.agreedPrice) {
                       this.inspection.agreedPrice = parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure)
                     }
@@ -141,15 +195,13 @@ export default {
                 if (result && this.inspection.customerSignatureString) {
                     this.buttonDisable = true
 
-                    axios.post(urlSubmitContract + '/' + this.$route.params.id, {
-                        customerName: this.inspection.customerName,
-                        customerSignatureString: this.inspection.customerSignatureString,
-                    }).then(response => {
-                        this.$router.push('/finalized')
-                    }).catch(e => {
-                        this.buttonDisable = false
-                        console.error(e)
-                    })
+                    PostService
+                        .postMulti(null, this.inspection, this.options, urlSubmitContract + '/' + this.$route.params.id)
+                        .then(response => {
+                            this.$router.push('/finalized')
+                        }).catch(e => {
+                            this.buttonDisable = false
+                        })
                 }
             })
         },
@@ -164,6 +216,26 @@ export default {
         closeSignatureCustomer() {
             this.signatureCustomer = false
         },
+        addLicenseAndRegistrationPhotos(file) {
+            let that = this;
+
+            new ImageUploader({
+                quality: 0.9,
+                maxWidth: 1920,
+                maxHeight: 1920,
+            }).scaleFile(file, function(blob) {
+                blob.name = file.name;
+
+                if (!that.inspection.licenseAndRegistrationPhotos) {
+                    that.inspection.licenseAndRegistrationPhotos = [blob]
+                } else {
+                    that.inspection.licenseAndRegistrationPhotos.push(blob)
+                }
+            });
+        },
+        deleteLicencePhoto(index) {
+            this.inspection.licenseAndRegistrationPhotos.splice(index, 1);
+        },
     },
     components: {
         inputText,
@@ -176,7 +248,8 @@ export default {
         inputCheckboxSwitch,
         inputNumber,
         signature,
-        inputAddress
+        inputAddress,
+        inputFileList,
     },
     computed: {
         showCustomerSignatureModal() {

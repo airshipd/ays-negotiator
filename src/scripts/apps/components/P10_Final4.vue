@@ -10,7 +10,7 @@
     </div>
     <div class="row">
       <div class="col m6">
-        <input-text :label="'BSB'" v-model="inspection.bsb" :name="'customerMobile'" :validation-rules="{required:true}"></input-text>
+        <input-text :label="'BSB'" v-model="inspection.bsb" :name="'bsb'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m6">
         <input-text :label="'Account No'" v-model="inspection.bankAccountNumber" :name="'bankAccountNumber'" :validation-rules="{required:true}"></input-text>

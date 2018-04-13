@@ -91,6 +91,8 @@ class FinalizerPlugin extends BasePlugin
                         craft()->finalizer_email->sendCustomerContract($entry);
                     } elseif ($status === 'Submitted') {
                         craft()->finalizer_email->sendInspectionSubmittedNotification($entry);
+                    } elseif ($status === 'Unsuccessful') {
+                        craft()->finalizer_email->sendFollowUpNotification($entry);
                     }
                 }
             }

@@ -194,11 +194,31 @@ class Negotiator_ApiController extends BaseController {
           throw new HttpException(403);
       }
 
-      $post = json_decode(craft()->request->getRawBody(), true);
+      $post = craft()->request->getPost('fields');
+      $inspection->setContentPostLocation('fields'); //for proper files handling
+
       $inspection->setContentFromPost([
-          'customerName' => $post['customerName'],
-          'customerSignatureString' => $post['customerSignatureString'],
-          'inspectionStatus' => 'finalized',
+          'customerName'                         => $post['customerName'],
+          'customerSignatureString'              => $post['customerSignatureString'],
+          'customerMobileNumber'                 => $post['customerMobileNumber'],
+          'customerEmail'                        => $post['customerEmail'],
+          'customerAddress'                      => $post['customerAddress'],
+          'customerState'                        => $post['customerState'],
+          'customerSuburb'                       => $post['customerSuburb'],
+          'customerPostcode'                     => $post['customerPostcode'],
+          'customerDriversLicense'               => $post['customerDriversLicense'],
+          'customerDriversLicenseExpirationDate' => $post['customerDriversLicenseExpirationDate'],
+          'customerDob'                          => $post['customerDob'],
+          'registrationNumber'                   => $post['registrationNumber'],
+          'expirationDate'                       => $post['expirationDate'],
+          'finance'                              => $post['finance'],
+          'financeCompany'                       => $post['financeCompany'],
+          'bsb'                                  => $post['bsb'],
+          'bankAccountNumber'                    => $post['bankAccountNumber'],
+          'bank'                                 => $post['bank'],
+          'pickupAddressAndContact'              => $post['pickupAddressAndContact'],
+          'licenseAndRegistrationPhotos'         => $post['licenseAndRegistrationPhotos'] ?? [],
+          'inspectionStatus'                     => 'finalized',
       ]);
 
       craft()->entries->saveEntry($inspection);

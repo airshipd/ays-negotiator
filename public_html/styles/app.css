@@ -10337,14 +10337,15 @@ textarea {
       content: "";
       width: 28px;
       height: 28px;
-      background: #405690;
+      background: #cacaca;
       border-radius: 50px;
       transition: all 0.3s; }
   .input-checkbox--switch > input[type="checkbox"]:checked ~ label {
     background: transparent;
     color: #405690; }
     .input-checkbox--switch > input[type="checkbox"]:checked ~ label:after {
-      right: -87px; }
+      right: -87px;
+      background: #405690; }
 
 .form-styles h2 {
   margin-top: 20px;

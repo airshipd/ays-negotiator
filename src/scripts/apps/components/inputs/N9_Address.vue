@@ -2,7 +2,7 @@
 
     <div class="input-field">
         <gmap-autocomplete class="input-text" :id="uniqueID" :componentRestrictions="{country: 'AU'}" :value="value" :name="name"
-            v-validate="{required:true}" :disabled="disabled" @place_changed="updateAddress" ref="address" @input.native="updateAddress" />
+            :disabled="disabled" @place_changed="updateAddress" ref="address" @input.native="updateAddress" />
 
         <label :for="uniqueID">{{label}}</label>
         <span v-show="errors.has(name)" class="help is-danger">{{ errors.first(name) }}</span>
@@ -14,6 +14,14 @@
     export default {
         name: 'input-n-1-text',
         inject: ['$validator'],
+        $_veeValidate: {
+            name() {
+                return this.name;
+            },
+            value() {
+                return this.$refs.address.$refs.input.value;
+            }
+        },
         props: {
             name: {
                 type: String
