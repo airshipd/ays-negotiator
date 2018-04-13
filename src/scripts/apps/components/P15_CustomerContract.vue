@@ -107,7 +107,7 @@
     </div>
     <div class="row">
       <div class="col m9">
-        <input-text disabled :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact"
+        <input-text :label="'Pickup Address & Contact (if different from above)'" v-model="inspection.pickupAddressAndContact"
             :name="'pickupAddressAndContact'"></input-text>
       </div>
       <div class="col m3">

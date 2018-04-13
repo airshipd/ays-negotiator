@@ -216,6 +216,7 @@ class Negotiator_ApiController extends BaseController {
           'bsb'                                  => $post['bsb'],
           'bankAccountNumber'                    => $post['bankAccountNumber'],
           'bank'                                 => $post['bank'],
+          'pickupAddressAndContact'              => $post['pickupAddressAndContact'],
           'licenseAndRegistrationPhotos'         => $post['licenseAndRegistrationPhotos'] ?? [],
           'inspectionStatus'                     => 'finalized',
       ]);
