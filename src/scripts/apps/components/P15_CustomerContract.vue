@@ -69,6 +69,8 @@
           </div>
       </div>
 
+      <input-file-list :label="'License and Registration Photos'" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
+
       <div class="row row-contract">
           <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: <strong>{{inspection.agreedPrice | currency}}</strong></p>
           <div v-html="contract"></div>
@@ -134,10 +136,13 @@ import inputAddress from './inputs/N9_Address.vue'
 import b1Button from './buttons/B1_button.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 import signature from './overlays/O2_Signature.vue'
+import inputFileList from './inputs/N8_PhotoList.vue'
 
 import axios from 'axios'
 import { urlGetContract, urlSubmitContract, urlSetOpened } from '../config.js'
 import GetService from '../services/GetService.js'
+import PostService from '../services/PostService.js'
+import ImageUploader from '../services/ImageUploader'
 
 export default {
     name: 'final-5',
@@ -175,6 +180,7 @@ export default {
                     }
 
                     this.inspection = res.inspection
+                    this.options = res.options
                     if(!this.inspection.agreedPrice) {
                       this.inspection.agreedPrice = parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure)
                     }
@@ -189,13 +195,14 @@ export default {
                 if (result && this.inspection.customerSignatureString) {
                     this.buttonDisable = true
 
-                    axios.post(urlSubmitContract + '/' + this.$route.params.id, this.inspection).then(response => {
+                    PostService
+                        .postMulti(null, this.inspection, this.options, urlSubmitContract + '/' + this.$route.params.id)
+                        .then(response => {
                             this.$router.push('/finalized')
                         }).catch(e => {
                             this.buttonDisable = false
-                            console.error(e)
                         })
-                    }
+                }
             })
         },
         setOpened() {
@@ -209,6 +216,26 @@ export default {
         closeSignatureCustomer() {
             this.signatureCustomer = false
         },
+        addLicenseAndRegistrationPhotos(file) {
+            let that = this;
+
+            new ImageUploader({
+                quality: 0.9,
+                maxWidth: 1920,
+                maxHeight: 1920,
+            }).scaleFile(file, function(blob) {
+                blob.name = file.name;
+
+                if (!that.inspection.licenseAndRegistrationPhotos) {
+                    that.inspection.licenseAndRegistrationPhotos = [blob]
+                } else {
+                    that.inspection.licenseAndRegistrationPhotos.push(blob)
+                }
+            });
+        },
+        deleteLicencePhoto(index) {
+            this.inspection.licenseAndRegistrationPhotos.splice(index, 1);
+        },
     },
     components: {
         inputText,
@@ -221,7 +248,8 @@ export default {
         inputCheckboxSwitch,
         inputNumber,
         signature,
-        inputAddress
+        inputAddress,
+        inputFileList,
     },
     computed: {
         showCustomerSignatureModal() {

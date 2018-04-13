@@ -194,7 +194,9 @@ class Negotiator_ApiController extends BaseController {
           throw new HttpException(403);
       }
 
-      $post = json_decode(craft()->request->getRawBody(), true);
+      $post = craft()->request->getPost('fields');
+      $inspection->setContentPostLocation('fields'); //for proper files handling
+
       $inspection->setContentFromPost([
           'customerName'                         => $post['customerName'],
           'customerSignatureString'              => $post['customerSignatureString'],
@@ -205,15 +207,16 @@ class Negotiator_ApiController extends BaseController {
           'customerSuburb'                       => $post['customerSuburb'],
           'customerPostcode'                     => $post['customerPostcode'],
           'customerDriversLicense'               => $post['customerDriversLicense'],
-          'customerDriversLicenseExpirationDate' => ['date' => $post['customerDriversLicenseExpirationDate']],
-          'customerDob'                          => ['date' => $post['customerDob']],
+          'customerDriversLicenseExpirationDate' => $post['customerDriversLicenseExpirationDate'],
+          'customerDob'                          => $post['customerDob'],
           'registrationNumber'                   => $post['registrationNumber'],
-          'expirationDate'                       => ['date' => $post['expirationDate']],
+          'expirationDate'                       => $post['expirationDate'],
           'finance'                              => $post['finance'],
           'financeCompany'                       => $post['financeCompany'],
           'bsb'                                  => $post['bsb'],
           'bankAccountNumber'                    => $post['bankAccountNumber'],
           'bank'                                 => $post['bank'],
+          'licenseAndRegistrationPhotos'         => $post['licenseAndRegistrationPhotos'] ?? [],
           'inspectionStatus'                     => 'finalized',
       ]);
 

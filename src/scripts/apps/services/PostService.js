@@ -54,13 +54,15 @@ export default {
         console.log('formData', sendObj)
         return axios.post('/', qs.stringify(sendObj))
     },
-    postMulti(entryId, entry, entryOptions) {
+    postMulti(entryId, entry, entryOptions, customUrl) {
         // lets build out data object
         let formData = new FormData()
-        formData.append('action', 'entries/saveEntry')
-        formData.append('sectionId', '3')
-        formData.append('entryId', entryId)
-        formData.append('enabled', '1')
+        if (!customUrl) {
+            formData.append('action', 'entries/saveEntry')
+            formData.append('sectionId', '3')
+            formData.append('entryId', entryId)
+            formData.append('enabled', '1')
+        }
 
         //loop through all field entries and build out sendObj
         for (let key in entry) {
@@ -106,12 +108,12 @@ export default {
                 }
             }
         }
-        console.log('formData', formData)
-
-        return axios.post('/', formData, {
+        return axios.post(customUrl || '/', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
+        }).catch(e => {
+            console.error(e)
         })
     },
 }
