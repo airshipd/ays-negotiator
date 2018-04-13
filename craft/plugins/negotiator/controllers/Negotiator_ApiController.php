@@ -35,6 +35,10 @@ class Negotiator_ApiController extends BaseController {
           $criteria->customerState = $state;
       }
 
+      if ($my_sales) {
+          $criteria->salesConsultant = $user->email;
+      }
+
       $criteria->order = 'inspectionDate, dateCreated asc';
 
       if($upcoming || $rejected) {
@@ -70,8 +74,6 @@ class Negotiator_ApiController extends BaseController {
           $criteria->inspectionStatus = 'Unsuccessful';
       } elseif ($submitted) {
           $criteria->inspectionStatus = 'Submitted';
-      } elseif ($my_sales) {
-          $criteria->salesConsultant = $user->email;
       } else {
         //Pending
           $criteria->runbikestopId = ':notempty:';
