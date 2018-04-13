@@ -15,11 +15,12 @@ class Negotiator_ApiController extends BaseController {
       $rejected = craft()->request->getQuery('rejected', false);
       $unsuccessful = craft()->request->getQuery('unsuccessful', false);
       $submitted = craft()->request->getQuery('submitted', false);
+      $my_sales = craft()->request->getQuery('my_sales', false);
 
       $criteria = craft()->elements->getCriteria(ElementType::Entry);
       $criteria->limit = null;
       $criteria->section = 'inspections';
-      if (!$user->admin && !$isNegotiator && !($isSales && $unsuccessful)) {
+      if (!$user->admin && !$isNegotiator && !$isSales) {
           $criteria->relatedTo = [
               'targetElement' => $user,
               'field'         => 'inspector',
@@ -69,6 +70,8 @@ class Negotiator_ApiController extends BaseController {
           $criteria->inspectionStatus = 'Unsuccessful';
       } elseif ($submitted) {
           $criteria->inspectionStatus = 'Submitted';
+      } elseif ($my_sales) {
+          $criteria->salesConsultant = $user->email;
       } else {
         //Pending
           $criteria->runbikestopId = ':notempty:';
