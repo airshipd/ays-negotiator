@@ -87,6 +87,7 @@ export default {
                     rejected: this.type === 'rejected' ? 1 : 0,
                     unsuccessful: this.type === 'unsuccessful' ? 1 : 0,
                     submitted: this.type === 'submitted' ? 1 : 0,
+                    my_sales: this.type === 'my-sales' ? 1 : 0,
                 }
             })
             .then(response => {
