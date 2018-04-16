@@ -56,4 +56,29 @@ class NegotiatorCommand extends BaseCommand
             ));
         }
     }
+
+    public function actionSend_followups()
+    {
+        //Get the entries which weren't sent for follow-up for more than 36 hours
+        $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->limit = null;
+        $criteria->section = 'inspections';
+
+        $criteria->inspectionStatus = 'or,Rejected,Submitted';
+        $criteria->dateUpdated = '<' . (new DateTime('-36 hours', new \DateTimeZone(craft()->getTimeZone())))->format('Y-m-d H:i:s');
+        $criteria->runbikestopId = ':notempty:';
+        $inspections = $criteria->find();
+
+        $ids = [];
+        foreach ($inspections as $inspection) { /** @var EntryModel $inspection */
+            $inspection->getContent()->inspectionStatus = 'Unsuccessful';
+            $inspection->getContent()->notes = 'THIS CAR HAS BEEN AUTO SENT TO YOU TO FOLLOW UP - IF YOU NEED MORE INFO SPEAK TO THE NEGOTIATOR';
+            $ids[] = $inspection->getContent()->elementId;
+            craft()->entries->saveEntry($inspection);
+        }
+
+        if ($ids) {
+            NegotiatorPlugin::log('Automatically sent for follow-up ids: ' . implode(', ', $ids));
+        }
+    }
 }
