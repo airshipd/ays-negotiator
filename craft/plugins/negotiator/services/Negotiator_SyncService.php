@@ -16,8 +16,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
     const STATUS_DUPLICATE = 2;
     const STATUS_WARNING = 3;
     const STATUS_ERROR = 4;
-    const STATUS_DELETED = 5;
-    const STATUS_PRICE_UPDATE = 6;
+    const STATUS_UPDATED = 5;
 
     private $authToken;
 
@@ -220,22 +219,33 @@ class Negotiator_SyncService extends BaseApplicationComponent
      */
     public function revisePrices(EntryModel $entry, Negotiator_RunbikestopModel $model)
     {
+        $changed = false;
         if($model->latest_pricing && is_numeric($model->latest_pricing)) {
             $content = ['runbikestopId' => $entry->getContent()->runbikestopId];
             $this->setPrices($content, $model->latest_pricing);
 
-            $changed = false;
             foreach($content as $key => $value) {
                 if($entry->getContent()->$key != $value) {
                     $changed = true;
                     $entry->getContent()->$key = $value;
                 }
             }
+        }
 
-            if($changed) {
-                craft()->entries->saveEntry($entry);
-                return true;
-            }
+        return $changed;
+    }
+
+    /**
+     * @param EntryModel                  $entry
+     * @param Negotiator_RunbikestopModel $model
+     * @return bool Whether it's changed
+     * @throws \Exception
+     */
+    public function syncSalesConsultant(EntryModel $entry, Negotiator_RunbikestopModel $model)
+    {
+        if($model->sales_consultant_email && $model->sales_consultant_email != $entry->getContent()->salesConsultant) {
+            $entry->getContent()->salesConsultant = $model->sales_consultant_email;
+            return true;
         }
 
         return false;
