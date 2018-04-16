@@ -59,13 +59,13 @@ class NegotiatorCommand extends BaseCommand
 
     public function actionSend_followups()
     {
-        //Get the entries which weren't sent for follow-up for more than 36 hours
+        //Get the entries which weren't sent for follow-up for more than 72 hours
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
         $criteria->limit = null;
         $criteria->section = 'inspections';
 
         $criteria->inspectionStatus = 'or,Rejected,Submitted';
-        $criteria->dateUpdated = '<' . (new DateTime('-36 hours', new \DateTimeZone(craft()->getTimeZone())))->format('Y-m-d H:i:s');
+        $criteria->dateUpdated = '<' . (new DateTime('-72 hours', new \DateTimeZone(craft()->getTimeZone())))->format('Y-m-d H:i:s');
         $criteria->runbikestopId = ':notempty:';
         $inspections = $criteria->find();
 
