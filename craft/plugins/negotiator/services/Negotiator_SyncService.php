@@ -243,7 +243,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
      */
     public function syncSalesConsultant(EntryModel $entry, Negotiator_RunbikestopModel $model)
     {
-        if($model->sales_consultant_email && $model->sales_consultant_email != $entry->getContent()->salesConsultant) {
+        if($model->sales_consultant_email && !$entry->getContent()->salesConsultant) {
             $entry->getContent()->salesConsultant = $model->sales_consultant_email;
             return true;
         }
