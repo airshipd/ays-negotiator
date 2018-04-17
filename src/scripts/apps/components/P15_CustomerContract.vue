@@ -143,6 +143,7 @@ import { urlGetContract, urlSubmitContract, urlSetOpened } from '../config.js'
 import GetService from '../services/GetService.js'
 import PostService from '../services/PostService.js'
 import ImageUploader from '../services/ImageUploader'
+import moment from 'moment'
 
 export default {
     name: 'final-5',
@@ -157,7 +158,6 @@ export default {
         return {
             inspection: {},
             signatureCustomer: false,
-            signatureRep: false,
             contract: null,
             buttonDisable: false,
             submitted: false,
@@ -184,8 +184,8 @@ export default {
                     if(!this.inspection.agreedPrice) {
                       this.inspection.agreedPrice = parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure)
                     }
-                }).catch(e=> {
-                    console.error(e)
+                    this.inspection.contractDate = this.inspection.contractDate || moment().format('DD/MM/YYYY');
+                    this.inspection.kilometres = this.inspection.kilometres || this.inspection.odometer;
                 })
         },
         actionSubmit() {
@@ -254,7 +254,7 @@ export default {
     computed: {
         showCustomerSignatureModal() {
             return this.$store.state.overlays.signatureCustomer
-        },
+        }
     },
 }
 </script>
