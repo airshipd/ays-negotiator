@@ -88,12 +88,14 @@ class Finalizer_EmailService extends BaseApplicationComponent
             return;
         }
 
+        $car = craft()->finalizer_fields->getCarFullName($inspection);
+
         //get negotiator name to embed into the template
         $user = craft()->userSession->getUser();
-        if($user->isInGroup('negotiators')) {
-            $negotiator = $user->getFullName();
+        if($user && $user->isInGroup('negotiators')) {
+            $first_line = $user->getFullName() . " has just sent you $car to follow up";
         } else {
-            $negotiator = 'The negotiator';
+            $first_line = "$car has been auto sent to you to follow up";
         }
 
         // get email body

@@ -52,4 +52,10 @@ class Finalizer_FieldsService extends BaseApplicationComponent
         $ids = $entry->inspector->ids();
         return craft()->users->getUserById($ids[0])->getFullName();
     }
+
+    public function getCarFullName(EntryModel $entry)
+    {
+        $fields = [$entry->make, $entry->model, $entry->badge, $entry->year];
+        return implode(' ', array_filter($fields));
+    }
 }
