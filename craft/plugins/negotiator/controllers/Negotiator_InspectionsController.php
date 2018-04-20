@@ -1,6 +1,8 @@
 <?php
 namespace Craft;
 
+use Mpdf\Mpdf;
+
 class Negotiator_InspectionsController extends BaseController {
 
   protected $allowAnonymous = true;
@@ -105,4 +107,22 @@ class Negotiator_InspectionsController extends BaseController {
     }
   }
 
+    public function actionContract(array $variables)
+    {
+        $id = $variables['id'];
+
+
+        ob_start();
+        require CRAFT_PLUGINS_PATH . 'negotiator/templates/contract_pdf.php';
+        $html = ob_get_clean();
+
+        $mpdf = new Mpdf([
+            'setAutoTopMargin' => 'stretch',
+            'autoMarginPadding' => 60,
+        ]);
+        $mpdf->showImageErrors = true;
+        $mpdf->SetBasePath(CRAFT_PLUGINS_PATH . 'negotiator/templates/');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+    }
 }
