@@ -110,7 +110,7 @@ class Negotiator_InspectionsController extends BaseController {
     public function actionContract(array $variables)
     {
         $id = $variables['id'];
-
+        $inspection = craft()->elements->getElementById($id); //used in the included file
 
         ob_start();
         require CRAFT_PLUGINS_PATH . 'negotiator/templates/contract_pdf.php';
