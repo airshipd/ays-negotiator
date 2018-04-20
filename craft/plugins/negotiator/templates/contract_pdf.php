@@ -53,6 +53,9 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     @page {
         margin-header: 5mm;
         margin-footer: 3mm;
+    }
+
+    body {
         font-size: 14px;
         font-family: Cambria;
     }
@@ -79,6 +82,26 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     .highlight {
         background-color: #ffe100;
     }
+
+    .list-1 td {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .list-2 td {
+        text-align: justify;
+    }
+
+    .contract {
+        margin-top: 20px;
+        font-size: 11px;
+    }
+    .contract td {
+        padding-bottom: 5px;
+        vertical-align: top;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    }
+
 </style>
 
 <htmlpageheader name="header">
@@ -283,7 +306,7 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
 <sethtmlpageheader name="header" value="on" show-this-page="1" />
 <sethtmlpagefooter name="footer" value="on" show-this-page="1" />
 
-<div align="right">
+<div align="right" style="font-size: 12px;">
     <?php if($inspection->contractDate) { ?>
         Date: <?= date('d / m / Y', strtotime($inspection->contractDate)) ?>
     <?php } else { ?>
@@ -292,7 +315,7 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
 </div>
 
 <div style="width: 80%;">
-    <table class="string">
+    <table class="string" style="font-size: 12px;">
         <tr>
             <td class="text">MAKE:</td>
             <td class="dotted" width="260"><?= h($inspection->make) ?></td>
@@ -300,7 +323,7 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
             <td class="dotted"><?= h($inspection->year) ?></td>
         </tr>
     </table>
-    <table class="string">
+    <table class="string" style="font-size: 12px;">
         <tr>
             <td class="text">MODEL:</td>
             <td class="dotted" width="250"><?= h($inspection->model) ?></td>
@@ -308,7 +331,7 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
             <td class="dotted"><?= h($inspection->kilometres ?: $inspection->odometer) ?></td>
         </tr>
     </table>
-    <table class="string">
+    <table class="string" style="font-size: 12px;">
         <tr>
             <td class="text">I,</td>
             <td class="dotted"><?= h($inspection->customerName) ?></td>
@@ -328,6 +351,90 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     <b>(Purchase Price)</b>
 </div>
 
-<div style="margin-top: 40px; font-weight: bold;">
+<div style="margin-top: 40px; font-weight: bold; font-size: 12px;">
     I agree to the following terms:
 </div>
+
+<table class="contract">
+    <tr class="list-1">
+        <td width="50">1)</td>
+        <td>Definitions</td>
+    </tr>
+    <tr class="list-2">
+        <td>a)</td>
+        <td>"Car Buyers" means Car Buyers Australia Pty Ltd ABN 46 159 545 758, LMCT 11137, its agents, contractors, servants and employees and any
+            related bodies corporate as defined in the Corporations Act 2001 (Cth);</td>
+    </tr>
+    <tr class="list-2">
+        <td>b)</td>
+        <td>"Claim" means any claim, demand, action or proceeding;</td>
+    </tr>
+    <tr class="list-2">
+        <td>c)</td>
+        <td>"Consequential Loss" means any loss or damage suffered by a party or any other person which is indirect or consequential,
+            including but not limited to loss of revenue, loss of income, loss of business, loss of profits, loss of goodwill or credit,
+            loss of business reputation, loss of data or data use, future reputation or publicity, loss of use, loss of interest,
+            damage to credit rating or loss or denial of opportunity;</td>
+    </tr>
+    <tr class="list-2">
+        <td>d)</td>
+        <td>"Appraisal Fee" means the fee of $500 (plus GST) for the appraisal of the Vehicle, including the costs of on-site inspection, valuation and administration.
+            The Appraisal Fee is only payable where the Seller exercises its right to cancel this Agreement under clause 9.</td>
+    </tr>
+    <tr class="list-2">
+        <td>e)</td>
+        <td>"Payment Amount" means the Purchase Price less the Service Fee;</td>
+    </tr>
+    <tr class="list-2">
+        <td>f)</td>
+        <td>"Payout Figure" means the amount owed to the financier of the Vehicle to discharge any loan against the Vehicle, including any and all associated fees;</td>
+    </tr>
+    <tr class="list-2">
+        <td>g)</td>
+        <td>"Seller" means the owner of the Vehicle identified in this agreement;</td>
+    </tr>
+    <tr class="list-2">
+        <td>h)</td>
+        <td>"Service Fee" means the fee for the performance of the Services in the amount of $182 (plus GST) or such other amount notified
+            by Car Buyers to the Seller in writing prior to entering into this agreement;</td>
+    </tr>
+    <tr class="list-2">
+        <td>i)</td>
+        <td>"Services" means services performed by Car Buyers including background, history, ownership and security checks, transfer and collection of the Vehicle;</td>
+    </tr>
+    <tr class="list-2">
+        <td>j)</td>
+        <td>"Vehicle" means the vehicle identified in this agreement.</td>
+    </tr>
+    <tr class="list-1">
+        <td>2)</td>
+        <td>Service Fee</td>
+    </tr>
+    <tr class="list-2">
+        <td>a)</td>
+        <td>For any sale over $2,000, a Service Fee is payable by the Seller to Car Buyers.</td>
+    </tr>
+    <tr class="list-2">
+        <td>b)</td>
+        <td>The Service Fee:</td>
+    </tr>
+    <tr class="list-3">
+        <td></td>
+        <td>
+            <table>
+                <tr>
+                    <td width="50">i)</td>
+                    <td>covers the cost of the Services;</td>
+                </tr>
+                <tr>
+                    <td width="50">ii)</td>
+                    <td>is non-negotiable; and</td>
+                </tr>
+                <tr>
+                    <td width="50">iii)</td>
+                    <td>will be deducted from the Purchase Price.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
