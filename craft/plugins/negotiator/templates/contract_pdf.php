@@ -97,8 +97,8 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     </table>
 </htmlpagefooter>
 
-<sethtmlpageheader name="header" value="on" show-this-page="1"></sethtmlpageheader>
-<sethtmlpagefooter name="footer" value="on" show-this-page="1"></sethtmlpagefooter>
+<sethtmlpageheader name="header" value="on" show-this-page="1" />
+<sethtmlpagefooter name="footer" value="on" show-this-page="1" />
 
 <!-- Page 1 -->
 
@@ -278,3 +278,56 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
         <td class="underline"><?= h($inspection->bank) ?></td>
     </tr>
 </table>
+
+<pagebreak />
+<sethtmlpageheader name="header" value="on" show-this-page="1" />
+<sethtmlpagefooter name="footer" value="on" show-this-page="1" />
+
+<div align="right">
+    <?php if($inspection->contractDate) { ?>
+        Date: <?= date('d / m / Y', strtotime($inspection->contractDate)) ?>
+    <?php } else { ?>
+        Date: .... / .... / <?= date('Y') ?>
+    <?php } ?>
+</div>
+
+<div style="width: 80%;">
+    <table class="string">
+        <tr>
+            <td class="text">MAKE:</td>
+            <td class="dotted" width="260"><?= h($inspection->make) ?></td>
+            <td class="text" style="padding-left: 20px;">YEAR:</td>
+            <td class="dotted"><?= h($inspection->year) ?></td>
+        </tr>
+    </table>
+    <table class="string">
+        <tr>
+            <td class="text">MODEL:</td>
+            <td class="dotted" width="250"><?= h($inspection->model) ?></td>
+            <td class="text" style="padding-left: 20px;">KILOMETRES:</td>
+            <td class="dotted"><?= h($inspection->kilometres ?: $inspection->odometer) ?></td>
+        </tr>
+    </table>
+    <table class="string">
+        <tr>
+            <td class="text">I,</td>
+            <td class="dotted"><?= h($inspection->customerName) ?></td>
+        </tr>
+        <tr>
+            <td class="text">of,</td>
+            <td class="dotted"></td>
+        </tr>
+    </table>
+</div>
+
+<div style="margin-top: 15px;">
+    hereby agree to sell my car to Car Buyers Australia Pty Ltd (<b>Car Buyers</b>) for the amount of:
+</div>
+<div style="margin-top: 15px;">
+    $ <span style="display: inline-block; border-bottom: 1px dotted #000; padding-right: 200px;"><?= $inspection->agreedPrice ?: $inspection->reviewValuation - $inspection->approximateExpenditure ?></span>
+    <b>(Purchase Price)</b>
+</div>
+
+<div style="margin-top: 40px; font-weight: bold;">
+    I agree to the following terms:
+</div>
