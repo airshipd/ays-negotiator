@@ -118,7 +118,7 @@ class Negotiator_InspectionsController extends BaseController {
 
         $mpdf = new Mpdf([
             'setAutoTopMargin' => 'stretch',
-            'autoMarginPadding' => 55,
+            'autoMarginPadding' => 20,
         ]);
         $mpdf->showImageErrors = true;
         $mpdf->SetBasePath(CRAFT_PLUGINS_PATH . 'negotiator/templates/');
