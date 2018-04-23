@@ -27,12 +27,18 @@ function format_mmyy($date)
     return date('m/y', strtotime($date));
 }
 
-function yesno($bool)
+function yesno($bool, $only = null)
 {
-    if($bool) {
-        return '<span class=highlight>Yes</span> / No';
+    if ($only === true) {
+        return $bool ? '<span class=highlight>Yes</span>' : 'Yes';
+    } elseif ($only === false) {
+        return $bool ? 'No' : '<span class=highlight>No</span>';
     } else {
-        return 'Yes / <span class=highlight>No</span>';
+        if($bool) {
+            return '<span class=highlight>Yes</span> / No';
+        } else {
+            return 'Yes / <span class=highlight>No</span>';
+        }
     }
 }
 
@@ -275,12 +281,18 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
         <td class="dotted" width="200"></td>
         <td class=""></td>
         <td class="text">Date</td>
-        <td class="dotted" width="150"><?= format_date($inspection->contractDate) ?></td>
+        <td class="dotted" width="150"><?= format_date($inspection->contractDate) ?: date('d / m / Y') ?></td>
     </tr>
 </table>
 
-<div align="center" style="font-weight: bold; margin-top: 20px;">Has the seller received a copy of this agreement: YES / NO</div>
-<div style="margin-top: 10px;">
+<?php if($inspection->customerSignatureString) { ?>
+    <!-- I know it's sooo dirty, but this is the only way to position an element absolutely in mPDF. -->
+    <div style="position: absolute; left: 200px; top: 750px;">
+        <img src="<?= h($inspection->customerSignatureString) ?>" style="max-width: 150px;" />
+    </div>
+<?php } ?>
+
+<div style="margin-top: 30px;">
     <b>BANK DETAILS</b> – Must be the registered owner of the vehicle unless a Letter of Authority is signed with additional information supplied
 </div>
 
@@ -307,7 +319,7 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     <?php if($inspection->contractDate) { ?>
         Date: <?= date('d / m / Y', strtotime($inspection->contractDate)) ?>
     <?php } else { ?>
-        Date: .... / .... / <?= date('Y') ?>
+        Date: <?= date('d / m / Y') ?>
     <?php } ?>
 </div>
 
@@ -898,14 +910,14 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
         <td align="right"><?= date('d / m / Y') ?></td>
     </tr>
     <tr>
-        <td>Seller Signature</td>
+        <td>Seller's Signature</td>
         <td></td>
         <td colspan="2">Car Buyers Representative (Witness) Signature &amp; Date</td>
     </tr>
     <tr>
-        <td style="border-bottom: 1px dotted #000; height: 40px;"></td>
+        <td style="border-bottom: 1px dotted #000; height: 40px; vertical-align: bottom;"><?= h($inspection->customerName) ?></td>
         <td></td>
-        <td colspan="2" style="border-bottom: 1px dotted #000;"></td>
+        <td colspan="2" style="border-bottom: 1px dotted #000; vertical-align: bottom;"><?= h($inspection->repName) ?></td>
     </tr>
     <tr>
         <td>Seller Name (please print)</td>
@@ -914,6 +926,173 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     </tr>
 </table>
 
-<div style="font-size: 11px; border-bottom: 1px dotted #000; margin-top: 10px;">
-    <b>PAYMENT OR COLLECTION SPECIAL REQUIREMENTS</b> (<b>Pick up address</b> and <b>Contact</b> if different to above)<br/><br/>
+<?php if($inspection->customerSignatureString) { ?>
+    <!-- I know it's sooo dirty, but this is the only way to position an element absolutely in mPDF. -->
+    <div style="position: absolute; left: 80px; top: 510px;">
+        <img src="<?= h($inspection->customerSignatureString) ?>" style="max-width: 150px;" />
+    </div>
+<?php } ?>
+
+<?php if($inspection->repSignatureString) { ?>
+    <!-- I know it's sooo dirty, but this is the only way to position an element absolutely in mPDF. -->
+    <div style="position: absolute; left: 380px; top: 510px;">
+        <img src="<?= h($inspection->repSignatureString) ?>" style="max-width: 150px;" />
+    </div>
+<?php } ?>
+
+<div style="font-size: 11px; border-bottom: 1px dotted #000; margin-top: 10px; line-height: 25px;">
+    <b>PAYMENT OR COLLECTION SPECIAL REQUIREMENTS</b> (<b>Pick up address</b> and <b>Contact</b> if different to above)<br/>
+    <?= h($inspection->pickupAddressAndContact) ?><br/>
+</div>
+
+<pagebreak />
+
+<style>
+    .options {
+        width: 100%;
+        font-size: 12px;
+    }
+    .options td {
+        height: 30px;
+        vertical-align: bottom;
+    }
+    .options td:nth-child(2),
+    .options td:nth-child(3) {
+        text-align: right;
+    }
+
+    .last-tables {
+        font-size: 12px;
+        font-weight: bold;
+        width: 100%;
+    }
+</style>
+
+<div style="width: 90%;">
+
+    <table style="font-weight: bold; width: 100%;">
+        <tr>
+            <td>Specific Vehicle Information</td>
+            <td align="right">REGO</td>
+            <td width="200" style="border-bottom: 1px solid #000;"><?= h($inspection->registrationNumber) ?></td>
+        </tr>
+    </table>
+
+    <div style="font-weight: bold; margin-top: 20px; text-align: center;">
+        PLEASE CIRCLE
+    </div>
+
+    <table class="options">
+        <tr>
+            <td>Service Books</td>
+            <td><span>Yes</span></td>
+            <td width="200">
+                Partial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No
+            </td>
+        </tr>
+        <tr>
+            <td>Owner's Manual</td>
+            <td><?= yesno($inspection->ownersManual, true) ?></td>
+            <td><?= yesno($inspection->ownersManual, false) ?></td>
+        </tr>
+        <tr>
+            <td>Spare Key</td>
+            <td><?= yesno($inspection->spareKey, true) ?></td>
+            <td><?= yesno($inspection->spareKey, false) ?></td>
+        </tr>
+        <tr>
+            <td>Sunroof</td>
+            <td><?= yesno($inspection->sunroof, true) ?></td>
+            <td><?= yesno($inspection->sunroof, false) ?></td>
+        </tr>
+        <tr>
+            <td>Leather</td>
+            <td><?= yesno($inspection->leatherUpholstery, true) ?></td>
+            <td><?= yesno($inspection->leatherUpholstery, false) ?></td>
+        </tr>
+        <tr>
+            <td>Sat Nav</td>
+            <td><?= yesno($inspection->satNav, true) ?></td>
+            <td><?= yesno($inspection->satNav, false) ?></td>
+        </tr>
+        <tr>
+            <td>Wheels</td>
+            <td><span class="<?= $inspection->wheels == 'alloys' ? 'highlight' : '' ?>">Alloys</span></td>
+            <td><span class="<?= $inspection->wheels == 'hubCaps' ? 'highlight' : '' ?>">Hub Caps</span></td>
+        </tr>
+        <tr>
+            <td>Tradesman Extra's</td>
+            <td><?= yesno($inspection->tradesmanExtras, true) ?></td>
+            <td><?= yesno($inspection->tradesmanExtras, false) ?></td>
+        </tr>
+    </table>
+
+    <table class="last-tables" style="margin-top: 40px;">
+        <tr>
+            <td>Please specify</td>
+            <td style="border-bottom: 1px solid #000"></td>
+        </tr>
+        <tr>
+            <td>Or Circle:</td>
+            <td>
+                Bull bar&nbsp;&nbsp;&nbsp;
+                tow bar&nbsp;&nbsp;&nbsp;
+                Winch&nbsp;&nbsp;&nbsp;
+                Canopy&nbsp;&nbsp;&nbsp;
+                Spotlight&nbsp;&nbsp;&nbsp;
+                Snorkel&nbsp;&nbsp;&nbsp;
+                hard lid&nbsp;&nbsp;&nbsp;
+                soft top
+            </td>
+        </tr>
+    </table>
+
+    <table class="last-tables" style="margin-top: 20px;">
+        <tr>
+            <td width="300" align="left">Upgrades or modifications</td>
+            <td width="100" align="right"><?= yesno($inspection->upgradesMods, true) ?></td>
+            <td align="right"><?= yesno($inspection->upgradesMods, false) ?></td>
+        </tr>
+    </table>
+
+    <table class="last-tables" style="margin-top: 10px;">
+        <tr>
+            <td>Please Specify</td>
+            <td width="500" style="border-bottom: 1px solid #000"><?= h($inspection->upgradesAndModsDescription) ?></td>
+        </tr>
+    </table>
+
+    <table class="last-tables" style="margin-top: 20px;">
+        <tr>
+            <td width="300" align="left">Sports Kit (E.g.: M Sport, S Line, AMG)</td>
+            <td width="100" align="right"><?= yesno($inspection->sportsKit, true) ?></td>
+            <td align="right"><?= yesno($inspection->sportsKit, false) ?></td>
+        </tr>
+    </table>
+
+    <table class="last-tables" style="margin-top: 10px;">
+        <tr>
+            <td>Please Specify</td>
+            <td width="500" style="border-bottom: 1px solid #000"><?= h($inspection->sportsKitDescription) ?></td>
+        </tr>
+    </table>
+
+    <div class="last-tables" style="margin-top: 20px;">
+        Damage &amp; Faults – E.G: Body work, tyres, all mechanical, windscreen, dings, scratches etc.
+    </div>
+
+    <?php if(strip_tags($inspection->damageAndFaults)) { ?>
+        <pre style="text-decoration: underline; margin-top: 10px; font-weight: normal; font-family: Cambria;"><?= strip_tags(str_replace('<br />', "\n", $inspection->damageAndFaults)) ?></pre>
+    <?php } else { ?>
+        <div style="border-bottom: 1px solid #000; line-height: 30px;">&nbsp;</div>
+        <div style="border-bottom: 1px solid #000; line-height: 30px;">&nbsp;</div>
+        <div style="border-bottom: 1px solid #000; line-height: 30px;">&nbsp;</div>
+    <?php } ?>
+
+    <table class="last-tables" style="margin-top: 30px;">
+        <tr>
+            <td width="1" style="white-space: nowrap;">Total Approximate Spend required:</td>
+            <td style="border-bottom: 1px solid #000">$ <?= number_format($inspection->approximateExpenditure) ?></td>
+        </tr>
+    </table>
 </div>
