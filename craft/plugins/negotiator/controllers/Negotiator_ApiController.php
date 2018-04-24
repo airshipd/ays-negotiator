@@ -162,23 +162,26 @@ class Negotiator_ApiController extends BaseController {
       ]);
   }
 
-  public function actionFinalise() {
-    $criteria = craft()->elements->getCriteria(ElementType::Entry);
-    $criteria->id = craft()->request->getSegment(3);
-    $inspection = $criteria->first();
-    $action = craft()->request->getSegment(3);
-    $ret = [];
+    public function actionFinalise()
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = craft()->request->getSegment(3);
+        $inspection   = $criteria->first();
+        $action       = craft()->request->getSegment(3);
+        $ret          = [];
 
-    // set inspection status
-    $inspection->getContent()->inspectionStatus = ( $action == 'accept' ) ? 'Accepted' : 'Rejected';
-    if ( craft()->entries->saveEntry( $inspection ) ) {
-      $ret['status'] = "OK";
-      $this->returnJson($ret);
-    } else {
-      $this->returnErrorJson("Could not save Inspection");
-      NegotiatorPlugin::log("Could not save Inspection:".$inspection->id , LogLevel::Info);
+        // set inspection status
+        $inspection->getContent()->inspectionStatus = $action == 'accept' ? 'Accepted' : 'Rejected';
+        $inspection->getContent()->agreedPrice      = craft()->negotiator_offer->calculateOfferTotal($inspection);
+
+        if (craft()->entries->saveEntry($inspection)) {
+            $ret['status'] = 'OK';
+            $this->returnJson($ret);
+        } else {
+            $this->returnErrorJson('Could not save Inspection');
+            NegotiatorPlugin::log('Could not save Inspection:' . $inspection->id, LogLevel::Info);
+        }
     }
-  }
 
   public function actionGetContract() {
     $settings = craft()->globals->getSetByHandle('settings');
