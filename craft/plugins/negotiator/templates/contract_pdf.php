@@ -947,6 +947,10 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     <?= h($inspection->pickupAddressAndContact) ?><br/>
 </div>
 
+<?php if(!\Craft\craft()->request->getParam('full') || !\Craft\craft()->userSession->isAdmin()) {
+    return;
+} ?>
+
 <pagebreak />
 
 <style>

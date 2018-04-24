@@ -22,6 +22,7 @@ class Finalizer_EmailService extends BaseApplicationComponent
         $this->sendEmail($entry->customerEmail, $settings->customerEmailSubject, $customerEmailBody);
 
         // get staff email body
+        $contractUrl .= '?full=1'; //staff will see full contract text including Inspection Report
         ob_start();
         include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/staffNotification.php");
         $staffEmailBody = ob_get_clean();
