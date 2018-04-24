@@ -147,21 +147,16 @@ import inputFileList from './inputs/N8_PhotoList.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 import ImageUploader from '../services/ImageUploader'
 
-import cloneDeep from 'clone-deep'
 import moment from 'moment'
+import GetService from '../services/GetService.js'
 
 export default {
-    name: 'final-2',
+    name: 'final-1',
     provideValidator: true,
     inject: ['$validator'],
-    beforeRouteEnter(to, from, next) {
-        next(vm => {
-            if ($.isEmptyObject(vm.$store.state.inspection)) {
-                next('/final/1/' + vm.$route.params.id)
-            }
-        })
-    },
     mounted() {
+        this.getInspection()
+
         this.$validator.localize('en', {
             custom: {
                 chassisVinNumber: {
@@ -178,18 +173,31 @@ export default {
         });
     },
     data() {
-        let inspection = this.$store.state.inspection;
         return {
-            inspection: cloneDeep(inspection),
-            options: cloneDeep(this.$store.state.options),
+            inspection: {},
+            options: {},
             custom_options: {
                 doors: [{value: '2', label: 2}, {value: '3', label: 3}, {value: '4', label: 4}, {value: '5', label: 5}, {value: '6', label: 6}],
             },
-            buildDate: inspection.buildDate ? moment(inspection.buildDate, 'DD/MM/YYYY').format('MM/YY') : '',
-            complianceDate: inspection.complianceDate ? moment(inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY') : '',
+            buildDate: null,
+            complianceDate: null,
         }
     },
     methods: {
+        getInspection() {
+            GetService.getInspection(this.$route.params.id)
+                .then(res => {
+                    this.inspection = res.inspection
+                    this.options = res.options
+                    this.$store.commit('updateInspection', res.inspection)
+                    this.$store.commit('updateOptions', res.options)
+
+                    this.buildDate = this.inspection.buildDate ? moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY') : '';
+                    this.complianceDate = this.inspection.complianceDate ? moment(this.inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY') : '';
+                }).catch(e => {
+                console.error(e)
+            })
+        },
         actionNext() {
             this.$validator.validateAll().then((result) => {
                 if (result) {
@@ -197,7 +205,7 @@ export default {
                     this.inspection.complianceDate = '01/' + this.complianceDate.replace('/', '/20');
 
                     this.$store.commit('updateInspection', this.inspection)
-                    this.$router.push('/final/3/' + this.$route.params.id)
+                    this.$router.push('/final/2/' + this.$route.params.id)
                 } else {
                     //scroll up to top of page
                     $(window).scrollTop(0)

@@ -81,12 +81,12 @@
                         </div>
                         <div class="row">
                             <div :class="{col: true, active: this.$route.meta.step === 1 }">
-                                <i class="icon-user"></i>
-                                Customer Details
-                            </div>
-                            <div :class="{col: true, active: this.$route.meta.step === 2 }">
                                 <i class="icon-car2"></i>
                                 Car Details
+                            </div>
+                            <div :class="{col: true, active: this.$route.meta.step === 2 }">
+                                <i class="icon-user"></i>
+                                Customer Details
                             </div>
                             <div :class="{col: true, active: this.$route.meta.step === 3 }">
                                 <i class="icon-moneySymbol"></i>

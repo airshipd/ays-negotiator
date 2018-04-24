@@ -58,57 +58,49 @@ import inputSelect from './inputs/N5_Select.vue'
 import inputAddress from './inputs/N9_Address.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
 
-import GetService from '../services/GetService.js'
+import cloneDeep from 'clone-deep'
 
 export default {
-  name: 'final-1',
-  provideValidator: true,
-  inject: ['$validator'],
-  mounted () {
-    this.getInspection()
-  },
-  data () {
-    return {
-      inspection: {},
-      options: {}
-    }
-  },
-  methods: {
-    getInspection () {
-      GetService.getInspection(this.$route.params.id)
-      .then(res => {
-        this.inspection = res.inspection
-        this.options = res.options
-        this.$store.commit('updateInspection',res.inspection)
-        this.$store.commit('updateOptions',res.options)
-      }).catch(e=> {
-        console.error(e)
-      })
+    name: 'final-2',
+    provideValidator: true,
+    inject: ['$validator'],
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            if ($.isEmptyObject(vm.$store.state.inspection)) {
+                next('/final/1/' + vm.$route.params.id)
+            }
+        })
     },
-    actionNext () {
-      this.$validator.validateAll().then((result) => {
-        if(result) {
-          this.$store.commit('updateInspection',this.inspection)
-          this.$router.push('/final/2/'+this.$route.params.id)
-        } else {
-          //scroll up to top of page
-          $(window).scrollTop(0)
+    data() {
+        return {
+            inspection: cloneDeep(this.$store.state.inspection),
+            options: cloneDeep(this.$store.state.options),
         }
-      })
-    }
-  },
-  components: {
-    inputText,
-    choiceGroup,
-    inputCheckbox,
-    inputTextarea,
-    inputSelect,
-    b2Button,
-    inputCheckboxSwitch,
-    inputNumber,
-    inputAddress,
-  },
-  computed: {
-  },
+    },
+    methods: {
+        actionNext() {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    this.$store.commit('updateInspection', this.inspection)
+                    this.$router.push('/final/3/' + this.$route.params.id)
+                } else {
+                    //scroll up to top of page
+                    $(window).scrollTop(0)
+                }
+            })
+        }
+    },
+    components: {
+        inputText,
+        choiceGroup,
+        inputCheckbox,
+        inputTextarea,
+        inputSelect,
+        b2Button,
+        inputCheckboxSwitch,
+        inputNumber,
+        inputAddress,
+    },
+    computed: {},
 }
 </script>
