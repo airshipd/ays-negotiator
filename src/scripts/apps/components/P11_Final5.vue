@@ -25,11 +25,6 @@
       <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: <strong>{{inspection.agreedPrice | currency}}</strong></p>
       <div v-html="contract"></div>
     </div>
-      <div class="row">
-          <div class="col m9">
-              <input-textarea :label="'Notes'" v-model="inspection.contractNote" :name="'contractNote'" :validationRules="{required:true}"></input-textarea>
-          </div>
-      </div>
     <div class="row">
       <div class="col m6">
         <input-text :label="'Customer Name'" v-model="inspection.customerName" :name="'customerName'" :validation-rules="{required:true}"></input-text>
@@ -65,6 +60,11 @@
         <input-text :label="'Date'" v-model="inspection.contractDate" :name="'contractDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
       </div>
     </div>
+      <div class="row">
+          <div class="col m9">
+              <input-textarea :label="'Notes'" v-model="inspection.contractNote" :name="'contractNote'" :validationRules="{required:true}"></input-textarea>
+          </div>
+      </div>
     <div class="row car-buyers">
       <div class="col">Car Buyers Australia Pty Ltd.</div>
       <div class="col">ABN: 46 159 545 758. </div>
