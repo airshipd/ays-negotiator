@@ -95,89 +95,90 @@ import cloneDeep from 'clone-deep'
 import { urlGetContract } from '../config.js'
 
 export default {
-  name: 'final-5',
-  provideValidator: true,
-  inject: ['$validator'],
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      if( $.isEmptyObject(vm.$store.state.inspection) ) {
-        next('/final/1/'+vm.$route.params.id)
-      }
-    })
-  },
-  mounted () {
-    axios.get(urlGetContract)
-    .then(response => {
-      this.contract = response.data.content
-    }).catch(e => {
-      console.error(e)
-    })
-  },
-  data () {
-    return {
-      inspection: cloneDeep(this.$store.state.inspection),
-      options: cloneDeep(this.$store.state.options),
-      signatureCustomer: false,
-      signatureRep: false,
-      contract: null,
-      buttonDisable: false
-    }
-  },
-  methods: {
-    actionSubmit () {
-      this.$validator.validateAll().then((result) => {
-        if(result) {
-          this.buttonDisable = true
-          this.inspection.inspectionStatus = 'finalized' //finalise necessary form data
-          PostService.postMulti(this.$route.params.id,this.inspection,this.options)
-          .then(response => {
-            console.log(response)
-            this.$store.commit('updateInspection',{})
-            this.$store.commit('updateOptions',{})
-            this.$router.push('/finalized')
-          }).catch(e => {
-            this.buttonDisable = false
-            console.error(e)
-          })
-        } else {
-          //scroll up to top of page
-          $(window).scrollTop(0)
+    name: 'final-5',
+    provideValidator: true,
+    inject: ['$validator'],
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            if ($.isEmptyObject(vm.$store.state.inspection)) {
+                next('/final/1/' + vm.$route.params.id)
+            }
+        })
+    },
+    mounted() {
+        axios.get(urlGetContract)
+            .then(response => {
+                this.contract = response.data.content
+            }).catch(e => {
+                console.error(e)
+            })
+
+        this.inspection.repName = this.inspection.repName || this.$store.state.username;
+    },
+    data() {
+        return {
+            inspection: cloneDeep(this.$store.state.inspection),
+            options: cloneDeep(this.$store.state.options),
+            signatureCustomer: false,
+            signatureRep: false,
+            contract: null,
+            buttonDisable: false
         }
-      })
     },
-    openSignatureCustomer () {
-      this.signatureCustomer = true
+    methods: {
+        actionSubmit() {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    this.buttonDisable = true
+                    this.inspection.inspectionStatus = 'finalized' //finalise necessary form data
+                    PostService.postMulti(this.$route.params.id, this.inspection, this.options)
+                        .then(response => {
+                            this.$store.commit('updateInspection', {})
+                            this.$store.commit('updateOptions', {})
+                            this.$router.push('/finalized')
+                        }).catch(e => {
+                            this.buttonDisable = false
+                            console.error(e)
+                        })
+                } else {
+                    //scroll up to top of page
+                    $(window).scrollTop(0)
+                }
+            })
+        },
+        openSignatureCustomer() {
+            this.signatureCustomer = true
+        },
+        openSignatureRep() {
+            this.signatureRep = true
+        },
+        closeSignatureCustomer() {
+            this.signatureCustomer = false
+        },
+        closeSignatureRep() {
+            this.signatureRep = false
+        }
     },
-    openSignatureRep () {
-      this.signatureRep = true
+    components: {
+        inputText,
+        choiceGroup,
+        inputCheckbox,
+        inputTextarea,
+        inputSelect,
+        b2Button,
+        b1Button,
+        inputCheckboxSwitch,
+        inputNumber,
+        signature,
+        inputAddress
     },
-    closeSignatureCustomer () {
-      this.signatureCustomer = false
+    computed: {
+        showCustomerSignatureModal() {
+            return this.$store.state.overlays.signatureCustomer
+        },
+        showRepSignatureModal() {
+            return this.$store.state.overlays.signatureRep
+        }
     },
-    closeSignatureRep () {
-      this.signatureRep = false
-    }
-  },
-  components: {
-    inputText,
-    choiceGroup,
-    inputCheckbox,
-    inputTextarea,
-    inputSelect,
-    b2Button,
-    b1Button,
-    inputCheckboxSwitch,
-    inputNumber,
-    signature,
-    inputAddress
-  },
-  computed: {
-    showCustomerSignatureModal () {
-      return this.$store.state.overlays.signatureCustomer
-    },
-    showRepSignatureModal () {
-      return this.$store.state.overlays.signatureRep
-    }
-  },
 }
 </script>

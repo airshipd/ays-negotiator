@@ -191,12 +191,13 @@ export default {
                     this.options = res.options
                     this.$store.commit('updateInspection', res.inspection)
                     this.$store.commit('updateOptions', res.options)
+                    this.$store.commit('updateUsername', res.username)
 
                     this.buildDate = this.inspection.buildDate ? moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY') : '';
                     this.complianceDate = this.inspection.complianceDate ? moment(this.inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY') : '';
                 }).catch(e => {
-                console.error(e)
-            })
+                    console.error(e)
+                })
         },
         actionNext() {
             this.$validator.validateAll().then((result) => {
