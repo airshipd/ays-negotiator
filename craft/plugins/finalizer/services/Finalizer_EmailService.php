@@ -4,6 +4,8 @@ namespace Craft;
 
 class Finalizer_EmailService extends BaseApplicationComponent
 {
+    const NISSAR_EMAIL = 'nissar@areyouselling.com.au';
+
     public function sendNotificationEmails($entry)
     {
         // get plugin settings
@@ -121,6 +123,19 @@ class Finalizer_EmailService extends BaseApplicationComponent
         include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/customer_contract.php");
         $customerEmailBody = ob_get_clean();
         $this->sendEmail($inspection->customerEmail, $settings->customerEmailSubject, $customerEmailBody);
+    }
+
+    public function sendNissarUnassignedAlert(EntryModel $inspection)
+    {
+        $car = craft()->finalizer_fields->getCarFullName($inspection);
+        
+        $text = <<<EMAIL
+The following job: {$inspection->customerName}, $car wasn’t checked for 72 hours. 
+It became available for other SC’s to follow up and wasn’t followed up for another 72 hours. 
+Please re-assign to another SC or follow up yourself to determine whether the lead is dead or alive. Thank you.        
+EMAIL;
+
+        $this->sendEmail(self::NISSAR_EMAIL, 'Unassigned Job Not Followed Up For 72 hours', $text);
     }
 
     private function sendEmail($emailTo, $subject, $body, array $attachments = [])

@@ -57,7 +57,13 @@ class NegotiatorCommand extends BaseCommand
         }
     }
 
-    public function actionSend_followups()
+    public function actionScheduled()
+    {
+        $this->sendFollowups();
+        $this->sendUnassignedAlerts();
+    }
+
+    private function sendFollowups()
     {
         //Get the entries which weren't sent for follow-up for more than 72 hours
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
@@ -79,6 +85,31 @@ class NegotiatorCommand extends BaseCommand
 
         if ($ids) {
             NegotiatorPlugin::log('Automatically sent for follow-up ids: ' . implode(', ', $ids));
+        }
+    }
+
+    private function sendUnassignedAlerts()
+    {
+        //Get the entries which weren't sent for follow-up for more than 72 hours
+        $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->limit = null;
+        $criteria->section = 'inspections';
+
+        $criteria->inspectionStatus = 'Unsuccessful';
+        $criteria->dateUpdated = '<' . (new DateTime('-72 hours', new \DateTimeZone(craft()->getTimeZone())))->format('Y-m-d H:i:s');
+        $criteria->runbikestopId = ':notempty:';
+        $criteria->salesConsultant = ':empty:';
+        $inspections = $criteria->find();
+
+        $ids = [];
+        foreach ($inspections as $inspection) { /** @var EntryModel $inspection */
+            craft()->finalizer_email->sendNissarUnassignedAlert($inspection);
+            craft()->entries->saveEntry($inspection); //refresh "dateUpdated"
+            $ids[] = $inspection->getContent()->elementId;
+        }
+
+        if ($ids) {
+            NegotiatorPlugin::log('Not followed-up within 72 hours (alerts to Nissar have been sent): ' . implode(', ', $ids));
         }
     }
 }
