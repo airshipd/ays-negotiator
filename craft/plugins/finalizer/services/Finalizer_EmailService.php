@@ -109,6 +109,29 @@ class Finalizer_EmailService extends BaseApplicationComponent
         $this->sendEmail($sc_email, 'Inspection for Follow Up', $emailBody);
     }
 
+    public function sendUnassignedJobNotification(EntryModel $inspection)
+    {
+        $criteria = craft()->elements->getCriteria(ElementType::User);
+        $criteria->group = 'sales_consultants';
+        $SCs = $criteria->find();
+
+        if(!$SCs) {
+            return;
+        }
+
+        $emails = array_map(function (UserModel $user) {
+            return [
+                'name' => $user->getFullName(),
+                'email' => $user->email,
+            ];
+        }, $SCs);
+
+        $car = craft()->finalizer_fields->getCarFullName($inspection);
+        $text = "Job: {$inspection->customerName}, $car has been placed into unassigned - grab it whilst it’s hot, it wont last long.";
+        $first_recipient = array_shift($emails)['email'];
+        $this->sendEmail($first_recipient, 'New Unassigned Job', $text, [], $emails);
+    }
+
     public function sendCustomerContract(EntryModel $inspection)
     {
         // get plugin settings
@@ -128,7 +151,7 @@ class Finalizer_EmailService extends BaseApplicationComponent
     public function sendNissarUnassignedAlert(EntryModel $inspection)
     {
         $car = craft()->finalizer_fields->getCarFullName($inspection);
-        
+
         $text = <<<EMAIL
 The following job: {$inspection->customerName}, $car wasn’t checked for 72 hours. 
 It became available for other SC’s to follow up and wasn’t followed up for another 72 hours. 
@@ -138,7 +161,7 @@ EMAIL;
         $this->sendEmail(self::NISSAR_EMAIL, 'Unassigned Job Not Followed Up For 72 hours', $text);
     }
 
-    private function sendEmail($emailTo, $subject, $body, array $attachments = [])
+    private function sendEmail($emailTo, $subject, $body, array $attachments = [], $cc = [])
     {
         // send email with the finalized data
         $mail          = new EmailModel();
@@ -146,6 +169,7 @@ EMAIL;
         $mail->subject = $subject;
         $mail->body    = $body;
         $mail->attachments = $attachments;
+        $mail->cc = $cc;
         craft()->email->sendEmail($mail);
     }
 }
