@@ -16,6 +16,7 @@ class Negotiator_ApiController extends BaseController {
       $unsuccessful = craft()->request->getQuery('unsuccessful', false);
       $submitted = craft()->request->getQuery('submitted', false);
       $my_sales = craft()->request->getQuery('my_sales', false);
+      $unassigned = craft()->request->getQuery('unassigned', false);
 
       $criteria = craft()->elements->getCriteria(ElementType::Entry);
       $criteria->limit = null;
@@ -37,6 +38,8 @@ class Negotiator_ApiController extends BaseController {
 
       if ($my_sales) {
           $criteria->salesConsultant = $user->email;
+      } elseif ($unassigned) {
+          $criteria->salesConsultant = ':empty:';
       }
 
       $criteria->order = 'inspectionDate, dateCreated asc';

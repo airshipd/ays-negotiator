@@ -158,12 +158,11 @@
             </div>
         </div>
 
-        <b1-button v-show="['Rejected', 'Unsuccessful', 'Submitted'].indexOf(inspection.inspectionStatus) !== -1"
-            label="Email Customer Paperwork" :action="sendPaperwork" :fullWidth="true"></b1-button>
+        <b1-button v-show="showSendForPaperwork" label="Email Customer Paperwork" :action="sendPaperwork" :fullWidth="true"></b1-button>
         <b1-button v-show="['Rejected', 'Submitted'].indexOf(inspection.inspectionStatus) !== -1"
             class="grey lighten-1" label="Send for Sales Consultant for follow up" :action="setUnsuccessful" :fullWidth="true"></b1-button>
-        <b1-button v-show="['Unopened', 'Opened', 'Unsuccessful'].indexOf(inspection.inspectionStatus) !== -1"
-            label="Send for re-marketing" :action="setArchived" :fullWidth="true"></b1-button>
+        <b1-button v-show="showSendForRemarketing" label="Send for re-marketing" :action="setArchived" :fullWidth="true"></b1-button>
+        <b1-button v-show="inspection.inspectionStatus === 'Unsuccessful' && !inspection.salesConsultant && isSales" label="Assign to me" :action="assignToMe" :fullWidth="true"></b1-button>
     </section>
 </template>
 
@@ -196,7 +195,8 @@ export default {
             inspection: {},
             imgs: [],
             options: {},
-            showAgreePrice: false
+            showAgreePrice: false,
+            isSales: window.isSales,
         }
     },
     methods: {
@@ -226,6 +226,12 @@ export default {
         setArchived: function () {
             PostService
                 .post(this.$route.params.id, {inspectionStatus: 'Archived'}, this.options)
+                .then(() => this.$router.push('/'))
+                .catch(e => console.error(e))
+        },
+        assignToMe() {
+            PostService
+                .post(this.$route.params.id, {salesConsultant: window.currentUser.email}, this.options)
                 .then(() => this.$router.push('/'))
                 .catch(e => console.error(e))
         }
@@ -267,6 +273,14 @@ export default {
     computed: {
         inspector() {
             return _.trim(_.get(this.inspection.inspector_details, 'firstName', '') + ' ' + _.get(this.inspection.inspector_details, 'lastName', ''));
+        },
+        showSendForPaperwork() {
+            return ['Rejected', 'Submitted'].indexOf(this.inspection.inspectionStatus) !== -1 ||
+                this.inspection.inspectionStatus === 'Unsuccessful' && this.inspection.salesConsultant;
+        },
+        showSendForRemarketing() {
+            return ['Unopened', 'Opened'].indexOf(this.inspection.inspectionStatus) !== -1 ||
+                this.inspection.inspectionStatus === 'Unsuccessful' && this.inspection.salesConsultant;
         }
     }
 }

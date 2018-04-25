@@ -50,6 +50,7 @@
                     case 'Rejected':
                     case 'Accepted':
                     case 'Submitted':
+                    case 'Unsuccessful':
                         theStatus = inspection.status
                         break;
                     default:

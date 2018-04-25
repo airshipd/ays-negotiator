@@ -30,7 +30,7 @@ const router = new Router({
         {
             path: '/',
             redirect: to => {
-                return window.isAdmin ? '/admin/nsw' : window.isNegotiator ? '/rejected' : window.isSales ? '/unsuccessful' : '/upcoming';
+                return window.isAdmin ? '/admin/nsw' : window.isNegotiator ? '/rejected' : window.isSales ? '/my-sales' : '/upcoming';
             }
         },
         {
@@ -43,7 +43,7 @@ const router = new Router({
             }
         },
         {
-            path: '/:type(upcoming|rejected|unsuccessful|submitted|my-sales)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
+            path: '/:type(upcoming|rejected|unassigned|submitted|my-sales)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
             name: 'Negotiations',
             component: Negotiations,
             props: true,
