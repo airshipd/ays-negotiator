@@ -11864,7 +11864,9 @@ nav {
   padding-left: 20px; }
 
 .section-offer .side {
-  min-height: calc(100vh - 80px);
+  margin-top: -80px;
+  padding-top: 80px;
+  min-height: calc(100vh);
   width: 275px;
   position: -webkit-sticky;
   position: sticky;
