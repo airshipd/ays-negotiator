@@ -31,18 +31,21 @@ class Finalizer_EmailService extends BaseApplicationComponent
 
         $defaultStaffEmail = $settings->defaultStaffEmail;
 
+        $staffEmailSubject = $settings->staffEmailSubject . ': ' .
+            implode(', ', array_filter([$entry->customerName, $entry->make, $entry->model, $entry->registrationNumber]));
+
         if ($defaultStaffEmail) {
-            $this->sendEmail($defaultStaffEmail, $settings->staffEmailSubject, $staffEmailBody);
+            $this->sendEmail($defaultStaffEmail, $staffEmailSubject, $staffEmailBody);
         }
 
         $currentUser = craft()->userSession->getUser();
         if ($settings->sendToLoggedInUser == 1 && $currentUser) {
-            $this->sendEmail($currentUser->email, $settings->staffEmailSubject, $staffEmailBody);
+            $this->sendEmail($currentUser->email, $staffEmailSubject, $staffEmailBody);
         }
 
         $inspectionCreator = $entry->author;
         if ($settings->sendToInspectionCreator = 1 && $inspectionCreator) {
-            $this->sendEmail($inspectionCreator->email, $settings->staffEmailSubject, $staffEmailBody);
+            $this->sendEmail($inspectionCreator->email, $staffEmailSubject, $staffEmailBody);
         }
     }
 
