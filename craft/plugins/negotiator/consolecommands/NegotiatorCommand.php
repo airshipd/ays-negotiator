@@ -127,6 +127,7 @@ class NegotiatorCommand extends BaseCommand
 
         $ids = [];
         foreach ($inspections as $inspection) { /** @var EntryModel $inspection */
+            $inspection->getContent()->previousSalesConsultant = $inspection->getContent()->salesConsultant;
             $inspection->getContent()->salesConsultant = null;
             craft()->entries->saveEntry($inspection);
             craft()->finalizer_email->sendUnassignedJobNotification($inspection);

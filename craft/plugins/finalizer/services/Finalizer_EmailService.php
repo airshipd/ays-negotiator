@@ -152,8 +152,16 @@ class Finalizer_EmailService extends BaseApplicationComponent
     {
         $car = craft()->finalizer_fields->getCarFullName($inspection);
 
+        if ($inspection->previousSalesConsultant) {
+            $sc = explode('@', $inspection->previousSalesConsultant)[0];
+            $sc = ucfirst($sc);
+            $prefix = "$sc's job";
+        } else {
+            $prefix = 'The following job';
+        }
+
         $text = <<<EMAIL
-The following job: {$inspection->customerName}, $car wasn’t checked for 72 hours. 
+$prefix: {$inspection->customerName}, $car wasn’t checked for 72 hours. 
 It became available for other SC’s to follow up and wasn’t followed up for another 72 hours. 
 Please re-assign to another SC or follow up yourself to determine whether the lead is dead or alive. Thank you.        
 EMAIL;
