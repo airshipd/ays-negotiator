@@ -1031,25 +1031,30 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
             <td><?= yesno($inspection->tradesmanExtras, true) ?></td>
             <td><?= yesno($inspection->tradesmanExtras, false) ?></td>
         </tr>
+        <tr>
+            <td>Takata Airbag Recall</td>
+            <td>
+                <?php if($inspection->takataAirbagRecall == 'yes') { ?>
+                    <span class="highlight">Yes</span>
+
+                    <?php if ($inspection->takataAirbagRecallStatus) {
+                        echo '(' . $inspection->takataAirbagRecallStatus . ')';
+                    } ?>
+                <?php } else { ?>
+                    Yes
+                <?php } ?>
+            </td>
+            <td width="200">
+                <span class="<?= $inspection->takataAirbagRecall == 'no' ? 'highlight' : '' ?>">No</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="<?= $inspection->takataAirbagRecall == 'unsure' ? 'highlight' : '' ?>">Unsure</span>
+            </td>
+        </tr>
     </table>
 
     <table class="last-tables" style="margin-top: 40px;">
         <tr>
             <td>Please specify</td>
-            <td style="border-bottom: 1px solid #000"></td>
-        </tr>
-        <tr>
-            <td>Or Circle:</td>
-            <td>
-                Bull bar&nbsp;&nbsp;&nbsp;
-                tow bar&nbsp;&nbsp;&nbsp;
-                Winch&nbsp;&nbsp;&nbsp;
-                Canopy&nbsp;&nbsp;&nbsp;
-                Spotlight&nbsp;&nbsp;&nbsp;
-                Snorkel&nbsp;&nbsp;&nbsp;
-                hard lid&nbsp;&nbsp;&nbsp;
-                soft top
-            </td>
+            <td style="border-bottom: 1px solid #000" width="500"><?= h($inspection->tradesmanExtrasDescription) ?></td>
         </tr>
     </table>
 
