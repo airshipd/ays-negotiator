@@ -1037,11 +1037,6 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
             <td><span class="<?= $inspection->wheels == 'hubCaps' ? 'highlight' : '' ?>">Hub Caps</span></td>
         </tr>
         <tr>
-            <td>Tradesman Extra's</td>
-            <td><?= yesno($inspection->tradesmanExtras, true) ?></td>
-            <td><?= yesno($inspection->tradesmanExtras, false) ?></td>
-        </tr>
-        <tr>
             <td>Takata Airbag Recall</td>
             <td>
                 <?php if($inspection->takataAirbagRecall == 'yes') { ?>
@@ -1059,9 +1054,26 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
                 <span class="<?= $inspection->takataAirbagRecall == 'unsure' ? 'highlight' : '' ?>">Unsure</span>
             </td>
         </tr>
+        <tr>
+            <td>Personalised Number Plates</td>
+            <td><?= yesno($inspection->personalisedNumberPlates, true) ?></td>
+            <td><?= yesno($inspection->personalisedNumberPlates, false) ?></td>
+        </tr>
+        <?php if($inspection->personalisedNumberPlates) { ?>
+        <tr>
+            <td>Wants to Keep Number Plates</td>
+            <td><?= yesno($inspection->keepNumberPlates, true) ?></td>
+            <td><?= yesno($inspection->keepNumberPlates, false) ?></td>
+        </tr>
+        <?php } ?>
+        <tr>
+            <td>Tradesman Extra's</td>
+            <td><?= yesno($inspection->tradesmanExtras, true) ?></td>
+            <td><?= yesno($inspection->tradesmanExtras, false) ?></td>
+        </tr>
     </table>
 
-    <table class="last-tables" style="margin-top: 40px;">
+    <table class="last-tables" style="margin-top: 10px;">
         <tr>
             <td>Please specify</td>
             <td style="border-bottom: 1px solid #000" width="500"><?= h($inspection->tradesmanExtrasDescription) ?></td>

@@ -97,6 +97,14 @@
                     <div class="col m6">{{ inspection.registrationNumber }}</div>
                 </div>
                 <div class="row">
+                    <div class="col m6">Personalised Number Plates:</div>
+                    <div class="col m6">{{ inspection.personalisedNumberPlates == 1 ? 'Yes' : 'No' }}</div>
+                </div>
+                <div class="row" v-if="inspection.personalisedNumberPlates == 1">
+                    <div class="col m6">Keep Number Plates:</div>
+                    <div class="col m6">{{ inspection.keepNumberPlates == 1 ? 'Yes' : 'No' }}</div>
+                </div>
+                <div class="row">
                     <div class="col m6">Registration Expiration Date:</div>
                     <div class="col m6">{{ inspection.registrationExpirationDate }}</div>
                 </div>

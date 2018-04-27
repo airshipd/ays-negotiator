@@ -71,6 +71,15 @@
               <choice-group v-if="options.wheels" :label="'Wheels'" v-model="inspection.wheels" :options="options.wheels.settings.options"
                   :name="'wheels'" :validationRules="{required:true}"></choice-group>
           </div>
+          <div class="col m3">
+              <choice-group v-if="options.takataAirbagRecall" :label="'Takata Airbag Recall'" v-model="inspection.takataAirbagRecall"
+                  :options="options.takataAirbagRecall.settings.options" :name="'takataAirbagRecall'" :validationRules="{required:true}"></choice-group>
+          </div>
+          <div class="col m3" v-show="inspection.takataAirbagRecall === 'yes'">
+              <choice-group v-if="options.takataAirbagRecallStatus" label="If Yes" v-model="inspection.takataAirbagRecallStatus"
+                  :options="options.takataAirbagRecallStatus.settings.options" name="takataAirbagRecallStatus"
+                  :validationRules="{required: inspection.takataAirbagRecall === 'yes'}"></choice-group>
+          </div>
       </div>
 
       <div class="row">
@@ -132,9 +141,19 @@
 
       <div class="row">
           <div class="col m3">
-              <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'"
-                  :validation-rules="{required:true}"></input-text>
+              <input-text label="Registration Number" v-model="inspection.registrationNumber" name="registrationNumber" :validation-rules="{required:true}"></input-text>
           </div>
+          <div class="col m3">
+              <choice-group label="Personalised Number plates?" v-model="inspection.personalisedNumberPlates"
+                  :options="custom_options.yesNo" name="personalisedNumberPlates" :validationRules="{required:true}"></choice-group>
+          </div>
+          <div class="col m3" v-if="inspection.personalisedNumberPlates == 1">
+              <choice-group label="Do you want to keep them?" v-model="inspection.keepNumberPlates"
+                  :options="custom_options.yesNo" name="keepNumberPlates" :validationRules="{required:true}"></choice-group>
+          </div>
+      </div>
+
+      <div class="row">
           <div class="col m3">
               <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'"
                   :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
@@ -202,6 +221,7 @@ export default {
             custom_options: {
                 doors: [{value: '2', label: 2}, {value: '3', label: 3}, {value: '4', label: 4}, {value: '5', label: 5}, {value: '6', label: 6}],
                 serviceHistoryFactory: [{value: '1', label: 'Factory'}, {value: '0', label: 'Non Factory'}],
+                yesNo: [{value: '1', label: 'Yes'}, {value: '0', label: 'No'}],
             },
             buildDate: null,
             complianceDate: null,
