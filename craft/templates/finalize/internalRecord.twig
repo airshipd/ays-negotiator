@@ -48,7 +48,6 @@
     'buildDate',
     'complianceDate',
     'writeOff',
-    'serviceBooks',
     'registrationPapers',
     'ownersManual',
     'spareKey',
@@ -92,6 +91,14 @@
       {% if field == 'complianceDate' or field == 'buildDate' %}
         {% set value = value ? (value | date('m/y')) : '' %}
       {% endif %}
+        {% if field == 'serviceHistory' and (value == 'yes' or value == 'partial') %}
+            {% set is_partial = value == 'partial' %}
+            {% set value = value ~ ', ' ~ (attribute(entry, 'serviceHistoryFactory') ? 'factory' : 'non factory') %}
+
+            {% if is_partial %}
+                {% set value = value ~ ', ' ~ attribute(entry, 'serviceHistoryPartial') ~ '%' %}
+            {% endif %}
+        {% endif %}
       <div class="fieldValue">{{ value }}</div>
     </div>
     {% endfor %}

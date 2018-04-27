@@ -29,7 +29,6 @@
         },
         methods: {
             updateValue: function (value) {
-                console.log(value);
                 this.$emit('input', value)
             },
             uniqueID() {

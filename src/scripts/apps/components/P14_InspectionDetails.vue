@@ -114,11 +114,12 @@
                 </div>
                 <div class="row">
                     <div class="col m6">Service Papers:</div>
-                    <div class="col m6">{{ inspection.serviceHistory | capitalize }}</div>
-                </div>
-                <div class="row">
-                    <div class="col m6">Service Books:</div>
-                    <div class="col m6">{{ inspection.serviceBooks == 1 ? 'Yes' : 'No' }}</div>
+                    <div class="col m6">
+                        {{ inspection.serviceHistory | capitalize }}
+                        <span v-if="['yes', 'partial'].indexOf(inspection.serviceHistory) !== -1">
+                            ({{ inspection.serviceHistoryFactory == 1 ? 'factory' : 'non factory'}}<span v-if="inspection.serviceHistory === 'partial'">, {{ inspection.serviceHistoryPartial }}%</span>)
+                        </span>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col m6">Approximate Expenditure:</div>

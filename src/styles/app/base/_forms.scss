@@ -48,6 +48,47 @@ input[type="password"] {
   }
 }
 
+.input-field .input-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  -webkit-transition: opacity .15s ease-in-out;
+  transition: opacity .15s ease-in-out;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #242846;
+    cursor: pointer;
+  }
+  &::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border: 0;
+    border-radius: 50%;
+    background: #242846;
+    cursor: pointer;
+  }
+}
+.input-range-values {
+  margin-left: -2%;
+  margin-right: -2%;
+  width: 104%;
+  table-layout: fixed;
+
+  td {
+    padding: 0;
+    text-align: center;
+    color: #242846;
+  }
+}
+
 input[type="number"] {
   -webkit-appearance: none;
   margin-right: 0;

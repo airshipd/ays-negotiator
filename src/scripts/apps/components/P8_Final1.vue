@@ -71,32 +71,54 @@
               <choice-group v-if="options.wheels" :label="'Wheels'" v-model="inspection.wheels" :options="options.wheels.settings.options"
                   :name="'wheels'" :validationRules="{required:true}"></choice-group>
           </div>
-          <div class="col m3">
-              <choice-group v-if="options.serviceHistory" :label="'Service History'" v-model="inspection.serviceHistory"
-                  :options="options.serviceHistory.settings.options" :name="'serviceHistory'" :validationRules="{required:true}"></choice-group>
+      </div>
+
+      <div class="row">
+          <div class="col m2">
+              <input-checkbox :label="'Owner\'s Manual'" v-model="inspection.ownersManual" :model-value="inspection.ownersManual"></input-checkbox>
+          </div>
+          <div class="col m2">
+              <input-checkbox :label="'Sun Roof'" v-model="inspection.sunroof" :model-value="inspection.sunroof"></input-checkbox>
+          </div>
+          <div class="col m2">
+              <input-checkbox :label="'Sat Nav'" v-model="inspection.satNav" :model-value="inspection.satNav"></input-checkbox>
+          </div>
+          <div class="col m2">
+              <input-checkbox :label="'Spare Key'" v-model="inspection.spareKey" :model-value="inspection.spareKey"></input-checkbox>
+          </div>
+          <div class="col m2">
+              <input-checkbox :label="'Leather'" v-model="inspection.leatherUpholstery" :model-value="inspection.leatherUpholstery"></input-checkbox>
           </div>
       </div>
 
       <div class="row">
-        <div class="col m2">
-            <input-checkbox :label="'Owner\'s Manual'" v-model="inspection.ownersManual" :model-value="inspection.ownersManual"></input-checkbox>
-        </div>
-        <div class="col m2">
-            <input-checkbox :label="'Service Books'" v-model="inspection.serviceBooks" :model-value="inspection.serviceBooks"></input-checkbox>
-        </div>
-      <div class="col m2">
-         <input-checkbox :label="'Sun Roof'" v-model="inspection.sunroof" :model-value="inspection.sunroof" ></input-checkbox>
+          <div class="col m3">
+              <choice-group v-if="options.serviceHistory" :label="'Service History'" v-model="inspection.serviceHistory"
+                  :options="options.serviceHistory.settings.options" :name="'serviceHistory'" :validationRules="{required:true}"></choice-group>
+          </div>
+          <div class="col m3">
+              <choice-group v-if="['yes', 'partial'].indexOf(inspection.serviceHistory) !== -1" label="" v-model="inspection.serviceHistoryFactory"
+                  :options="custom_options.serviceHistoryFactory" name="serviceHistoryFactory" :validationRules="{required: true}"></choice-group>
+          </div>
+          <div class="col m6" v-if="inspection.serviceHistory === 'partial'">
+              <input-range v-model="inspection.serviceHistoryPartial" :min="0" :max="100" :step="10"></input-range>
+              <table class="input-range-values">
+                  <tr>
+                      <td>0%</td>
+                      <td>10%</td>
+                      <td>20%</td>
+                      <td>30%</td>
+                      <td>40%</td>
+                      <td>50%</td>
+                      <td>60%</td>
+                      <td>70%</td>
+                      <td>80%</td>
+                      <td>90%</td>
+                      <td>100%</td>
+                  </tr>
+              </table>
+          </div>
       </div>
-      <div class="col m2">
-         <input-checkbox :label="'Sat Nav'" v-model="inspection.satNav" :model-value="inspection.satNav"></input-checkbox>
-      </div>
-      <div class="col m2">
-         <input-checkbox :label="'Spare Key'" v-model="inspection.spareKey" :model-value="inspection.spareKey"></input-checkbox>
-      </div>
-      <div class="col m2">
-         <input-checkbox :label="'Leather'" v-model="inspection.leatherUpholstery" :model-value="inspection.leatherUpholstery"></input-checkbox>
-      </div>
-    </div>
 
       <div class="row">
           <div class="col m3">
@@ -145,8 +167,9 @@ import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import inputFileList from './inputs/N8_PhotoList.vue'
 import b2Button from './buttons/B2_buttonNextStep.vue'
-import ImageUploader from '../services/ImageUploader'
+import inputRange from './inputs/N10_Range.vue'
 
+import ImageUploader from '../services/ImageUploader'
 import moment from 'moment'
 import GetService from '../services/GetService.js'
 
@@ -178,6 +201,7 @@ export default {
             options: {},
             custom_options: {
                 doors: [{value: '2', label: 2}, {value: '3', label: 3}, {value: '4', label: 4}, {value: '5', label: 5}, {value: '6', label: 6}],
+                serviceHistoryFactory: [{value: '1', label: 'Factory'}, {value: '0', label: 'Non Factory'}],
             },
             buildDate: null,
             complianceDate: null,
@@ -263,7 +287,8 @@ export default {
         b2Button,
         inputCheckboxSwitch,
         inputNumber,
-        inputFileList
+        inputFileList,
+        inputRange,
     }
 }
 </script>

@@ -263,8 +263,6 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     <tr>
         <td class="text">Write off:</td>
         <td class=""><?= yesno($inspection->writeOff) ?></td>
-        <td class="text">Service Books:</td>
-        <td class=""><?= yesno($inspection->serviceBooks) ?></td>
         <td class="text">Registration Papers Supplied:</td>
         <td class=""><?= yesno($inspection->registrationPapers) ?></td>
     </tr>
@@ -990,10 +988,22 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
 
     <table class="options">
         <tr>
-            <td>Service Books</td>
-            <td><span>Yes</span></td>
+            <td>Service History</td>
+            <td><?php if($inspection->serviceHistory == 'yes') { ?>
+                    <span class="highlight">Yes (<?= $inspection->serviceHistoryFactory ? 'factory' : 'non factory' ?>)</span>
+                <?php } else { ?>
+                    Yes
+                <?php } ?>
+            </td>
             <td width="200">
-                Partial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No
+                <?php if($inspection->serviceHistory == 'partial') { ?>
+                    <span class="highlight">Partial (<?= $inspection->serviceHistoryFactory ? 'factory' : 'non factory' ?>, <?= $inspection->serviceHistoryPartial ?>%)</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <?php } else { ?>
+                    Partial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <?php } ?>
+
+                <span class="<?= $inspection->serviceHistory == 'no' ? 'highlight' : '' ?>">No</span>
             </td>
         </tr>
         <tr>

@@ -51,7 +51,6 @@ export default {
                 }
             }
         }
-        console.log('formData', sendObj)
         return axios.post('/', qs.stringify(sendObj))
     },
     postMulti(entryId, entry, entryOptions, customUrl) {
