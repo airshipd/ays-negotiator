@@ -17,9 +17,9 @@
                         <ul class="type-switcher">
                             <router-link tag="li" :to="{path: '/upcoming'}" v-if="!isNegotiator && !isSales"><a>Upcoming</a></router-link>
                             <router-link tag="li" :to="{path: '/rejected'}" v-if="!isSales"><a>Rejected</a></router-link>
-                            <router-link tag="li" :to="{path: '/unsuccessful'}" v-if="isSales"><a>Unsuccessful</a></router-link>
                             <router-link tag="li" :to="{path: '/submitted'}" v-if="!isSales"><a>Submitted</a></router-link>
                             <router-link tag="li" :to="{path: '/my-sales'}" v-if="isSales"><a>Your Cars</a></router-link>
+                            <router-link tag="li" :to="{path: '/unassigned'}" v-if="isSales"><a>Unassigned</a></router-link>
                         </ul>
                     </div>
                     <div class="header-inspections" v-if="currentRoute === 'Admin'">
@@ -81,12 +81,12 @@
                         </div>
                         <div class="row">
                             <div :class="{col: true, active: this.$route.meta.step === 1 }">
-                                <i class="icon-user"></i>
-                                Customer Details
-                            </div>
-                            <div :class="{col: true, active: this.$route.meta.step === 2 }">
                                 <i class="icon-car2"></i>
                                 Car Details
+                            </div>
+                            <div :class="{col: true, active: this.$route.meta.step === 2 }">
+                                <i class="icon-user"></i>
+                                Customer Details
                             </div>
                             <div :class="{col: true, active: this.$route.meta.step === 3 }">
                                 <i class="icon-moneySymbol"></i>

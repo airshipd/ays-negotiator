@@ -17,10 +17,6 @@
                     :name="'writeOff'" :options="booleanOptions" :validationRules="{required:true}"></choice-group>
             </div>
             <div class="col m4">
-                <choice-group v-if="inspection.serviceBooks" :label="'Serivce Books'" v-model="inspection.serviceBooks"
-                    :name="'serviceBooks'" :options="booleanOptions" :validationRules="{required:true}"></choice-group>
-            </div>
-            <div class="col m4">
                 <choice-group v-if="inspection.registrationPapers" :label="'Registration Papers'" v-model="inspection.registrationPapers"
                     :name="'registrationPapers'" :options="booleanOptions" :validationRules="{required:true}"></choice-group>
             </div>

@@ -9,6 +9,12 @@
             window.isSales = {{ currentUser.isInGroup('sales_consultants') ? 1 : 0 }};
             window.isNegotiator = {{ currentUser.isInGroup('negotiators') ? 1 : 0 }};
             window.as9duas09usa = 1; {# alias for "authenticated" so that hackers don't recognize it easy :))) #}
+
+            window.currentUser = {
+                id: {{ currentUser.id }},
+                name: {{ currentUser.fullName | json_encode() | raw }},
+                email: {{ currentUser.email | json_encode() | raw }},
+            };
         {% endif %}
     </script>
 

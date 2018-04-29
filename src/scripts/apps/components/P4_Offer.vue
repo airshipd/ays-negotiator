@@ -80,7 +80,7 @@
         </div>
         <div class="buttons">
           <b-1-button v-if="!hasReview" :label="'Request Review'" :action="actionReview" :fullWidth="true" :additionalClasses="{'btn-review':true}"></b-1-button>
-          <b-1-button v-else :label="'Decline'" :action="actionDecline" :fullWidth="true" :additionalClasses="{'btn-decline':true}"></b-1-button>
+          <b-1-button v-else label="Decline" :action="actionDecline" :fullWidth="true" :additionalClasses="{'btn-decline':true}"></b-1-button>
           <b-1-button :label="'Accept Offer'" :action="actionAccept" :fullWidth="true" :additionalClasses="{'btn-accept':true}"></b-1-button>
         </div>
       </div>
@@ -95,7 +95,8 @@
             <p>One of our consultants will be in touch shortly to discuss your vehicle!</p>
         </div>
         <div class="buttons">
-          <b-1-button :label="'Proceed to Paperwork'" :action="actionProceed" :fullWidth="true" class="btn-proceed"></b-1-button>
+            <b-1-button label="Decline" :action="actionDecline" :fullWidth="true" :additionalClasses="{'btn-decline':true}"></b-1-button>
+            <b-1-button :label="'Proceed to Paperwork'" :action="actionProceed" :fullWidth="true" class="btn-proceed"></b-1-button>
         </div>
       </template>
     </div>

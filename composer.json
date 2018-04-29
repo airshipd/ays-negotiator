@@ -10,7 +10,8 @@
         "guzzle/guzzle": "3.9.4",
         "symfony/event-dispatcher": "2.8.31",
         "enshrined/svg-sanitize": "0.6.0",
-        "nexmo/client": "^1.2"
+        "nexmo/client": "^1.2",
+        "mpdf/mpdf": "^7.0"
     },
     "config": {
         "vendor-dir": "craft/app/vendor"

@@ -92,7 +92,11 @@ class FinalizerPlugin extends BasePlugin
                     } elseif ($status === 'Submitted') {
                         craft()->finalizer_email->sendInspectionSubmittedNotification($entry);
                     } elseif ($status === 'Unsuccessful') {
-                        craft()->finalizer_email->sendFollowUpNotification($entry);
+                        if(empty($entry->getContent()->salesConsultant)) {
+                            craft()->finalizer_email->sendUnassignedJobNotification($entry);
+                        } else {
+                            craft()->finalizer_email->sendFollowUpNotification($entry);
+                        }
                     }
                 }
             }

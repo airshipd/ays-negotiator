@@ -8,8 +8,8 @@ import Waiting from './components/P3_Waiting.vue'
 import Offer from './components/P4_Offer.vue'
 import OfferAccept from './components/P5_OfferAccept.vue'
 import OfferReject from './components/P6_OfferReject.vue'
-import Final1 from './components/P7_Final1.vue'
-import Final2 from './components/P8_Final2.vue'
+import Final1 from './components/P8_Final1.vue'
+import Final2 from './components/P7_Final2.vue'
 import Final3 from './components/P9_Final3.vue'
 import Final4 from './components/P10_Final4.vue'
 import Final5 from './components/P11_Final5.vue'
@@ -30,7 +30,7 @@ const router = new Router({
         {
             path: '/',
             redirect: to => {
-                return window.isAdmin ? '/admin/nsw' : window.isNegotiator ? '/rejected' : window.isSales ? '/unsuccessful' : '/upcoming';
+                return window.isAdmin ? '/admin/nsw' : window.isNegotiator ? '/rejected' : window.isSales ? '/my-sales' : '/upcoming';
             }
         },
         {
@@ -43,7 +43,7 @@ const router = new Router({
             }
         },
         {
-            path: '/:type(upcoming|rejected|unsuccessful|submitted|my-sales)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
+            path: '/:type(upcoming|rejected|unassigned|submitted|my-sales)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
             name: 'Negotiations',
             component: Negotiations,
             props: true,

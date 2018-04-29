@@ -25,8 +25,9 @@ export default {
         res.data.damageAndFaults = res.data.damageAndFaults ? striptags(String(res.data.damageAndFaults).replace(/(<br \/>)|(<\/p><p>)/g, '\n')) : '';
 
         return {
-            'inspection': res.data,
-            'options': res.options
+            inspection: res.data,
+            options: res.options,
+            username: res.username,
         }
     },
 }

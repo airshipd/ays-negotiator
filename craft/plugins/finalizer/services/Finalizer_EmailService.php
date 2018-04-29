@@ -4,6 +4,8 @@ namespace Craft;
 
 class Finalizer_EmailService extends BaseApplicationComponent
 {
+    const NISSAR_EMAIL = 'nissar@areyouselling.com.au';
+
     public function sendNotificationEmails($entry)
     {
         // get plugin settings
@@ -22,24 +24,28 @@ class Finalizer_EmailService extends BaseApplicationComponent
         $this->sendEmail($entry->customerEmail, $settings->customerEmailSubject, $customerEmailBody);
 
         // get staff email body
+        $contractUrl .= '?full=1'; //staff will see full contract text including Inspection Report
         ob_start();
         include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/staffNotification.php");
         $staffEmailBody = ob_get_clean();
 
         $defaultStaffEmail = $settings->defaultStaffEmail;
 
+        $staffEmailSubject = $settings->staffEmailSubject . ': ' .
+            implode(', ', array_filter([$entry->customerName, $entry->make, $entry->model, $entry->registrationNumber]));
+
         if ($defaultStaffEmail) {
-            $this->sendEmail($defaultStaffEmail, $settings->staffEmailSubject, $staffEmailBody);
+            $this->sendEmail($defaultStaffEmail, $staffEmailSubject, $staffEmailBody);
         }
 
         $currentUser = craft()->userSession->getUser();
         if ($settings->sendToLoggedInUser == 1 && $currentUser) {
-            $this->sendEmail($currentUser->email, $settings->staffEmailSubject, $staffEmailBody);
+            $this->sendEmail($currentUser->email, $staffEmailSubject, $staffEmailBody);
         }
 
         $inspectionCreator = $entry->author;
         if ($settings->sendToInspectionCreator = 1 && $inspectionCreator) {
-            $this->sendEmail($inspectionCreator->email, $settings->staffEmailSubject, $staffEmailBody);
+            $this->sendEmail($inspectionCreator->email, $staffEmailSubject, $staffEmailBody);
         }
     }
 
@@ -106,6 +112,29 @@ class Finalizer_EmailService extends BaseApplicationComponent
         $this->sendEmail($sc_email, 'Inspection for Follow Up', $emailBody);
     }
 
+    public function sendUnassignedJobNotification(EntryModel $inspection)
+    {
+        $criteria = craft()->elements->getCriteria(ElementType::User);
+        $criteria->group = 'sales_consultants';
+        $SCs = $criteria->find();
+
+        if(!$SCs) {
+            return;
+        }
+
+        $emails = array_map(function (UserModel $user) {
+            return [
+                'name' => $user->getFullName(),
+                'email' => $user->email,
+            ];
+        }, $SCs);
+
+        $car = craft()->finalizer_fields->getCarFullName($inspection);
+        $text = "Job: {$inspection->customerName}, $car has been placed into unassigned - grab it whilst it’s hot, it wont last long.";
+        $first_recipient = array_shift($emails)['email'];
+        $this->sendEmail($first_recipient, 'New Unassigned Job', $text, [], $emails);
+    }
+
     public function sendCustomerContract(EntryModel $inspection)
     {
         // get plugin settings
@@ -122,7 +151,28 @@ class Finalizer_EmailService extends BaseApplicationComponent
         $this->sendEmail($inspection->customerEmail, $settings->customerEmailSubject, $customerEmailBody);
     }
 
-    private function sendEmail($emailTo, $subject, $body, array $attachments = [])
+    public function sendNissarUnassignedAlert(EntryModel $inspection)
+    {
+        $car = craft()->finalizer_fields->getCarFullName($inspection);
+
+        if ($inspection->previousSalesConsultant) {
+            $sc = explode('@', $inspection->previousSalesConsultant)[0];
+            $sc = ucfirst($sc);
+            $prefix = "$sc's job";
+        } else {
+            $prefix = 'The following job';
+        }
+
+        $text = <<<EMAIL
+$prefix: {$inspection->customerName}, $car wasn’t checked for 72 hours. 
+It became available for other SC’s to follow up and wasn’t followed up for another 72 hours. 
+Please re-assign to another SC or follow up yourself to determine whether the lead is dead or alive. Thank you.        
+EMAIL;
+
+        $this->sendEmail(self::NISSAR_EMAIL, 'Unassigned Job Not Followed Up For 72 hours', $text);
+    }
+
+    private function sendEmail($emailTo, $subject, $body, array $attachments = [], $cc = [])
     {
         // send email with the finalized data
         $mail          = new EmailModel();
@@ -130,6 +180,7 @@ class Finalizer_EmailService extends BaseApplicationComponent
         $mail->subject = $subject;
         $mail->body    = $body;
         $mail->attachments = $attachments;
+        $mail->cc = $cc;
         craft()->email->sendEmail($mail);
     }
 }

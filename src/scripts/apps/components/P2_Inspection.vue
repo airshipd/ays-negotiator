@@ -70,17 +70,19 @@
                     :name="'wheels'" :validationRules="{required:true}"></choice-group>
             </div>
             <div class="col m3">
-                <choice-group v-if="options.serviceHistory" :label="'Service History'" v-model="inspection.serviceHistory"
-                    :options="options.serviceHistory.settings.options" :name="'serviceHistory'" :validationRules="{required:true}"></choice-group>
+                <choice-group v-if="options.takataAirbagRecall" :label="'Takata Airbag Recall'" v-model="inspection.takataAirbagRecall"
+                    :options="options.takataAirbagRecall.settings.options" :name="'takataAirbagRecall'" :validationRules="{required:true}"></choice-group>
+            </div>
+            <div class="col m3" v-show="inspection.takataAirbagRecall === 'yes'">
+                <choice-group v-if="options.takataAirbagRecallStatus" label="If Yes" v-model="inspection.takataAirbagRecallStatus"
+                    :options="options.takataAirbagRecallStatus.settings.options" name="takataAirbagRecallStatus"
+                    :validationRules="{required: inspection.takataAirbagRecall === 'yes'}"></choice-group>
             </div>
         </div>
 
         <div class="row">
             <div class="col m2">
                 <input-checkbox :label="'Owner\'s Manual'" v-model="inspection.ownersManual" :model-value="inspection.ownersManual"></input-checkbox>
-            </div>
-            <div class="col m2">
-                <input-checkbox :label="'Service Books'" v-model="inspection.serviceBooks" :model-value="inspection.serviceBooks"></input-checkbox>
             </div>
             <div class="col m2">
                 <input-checkbox :label="'Sun Roof'" v-model="inspection.sunroof" :model-value="inspection.sunroof"></input-checkbox>
@@ -98,6 +100,35 @@
 
         <div class="row">
             <div class="col m3">
+                <choice-group v-if="options.serviceHistory" :label="'Service History'" v-model="inspection.serviceHistory"
+                    :options="options.serviceHistory.settings.options" :name="'serviceHistory'" :validationRules="{required:true}"></choice-group>
+            </div>
+            <div class="col m3">
+                <choice-group v-if="['yes', 'partial'].indexOf(inspection.serviceHistory) !== -1" label="" v-model="inspection.serviceHistoryFactory"
+                    :options="custom_options.serviceHistoryFactory" name="serviceHistoryFactory" :validationRules="{required: true}"></choice-group>
+            </div>
+            <div class="col m6" v-if="inspection.serviceHistory === 'partial'">
+                <input-range v-model="inspection.serviceHistoryPartial" :min="0" :max="100" :step="10"></input-range>
+                <table class="input-range-values">
+                    <tr>
+                        <td>0%</td>
+                        <td>10%</td>
+                        <td>20%</td>
+                        <td>30%</td>
+                        <td>40%</td>
+                        <td>50%</td>
+                        <td>60%</td>
+                        <td>70%</td>
+                        <td>80%</td>
+                        <td>90%</td>
+                        <td>100%</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col m3">
                 <input-text :label="'Chassis/Vin No'" v-model="inspection.chassisVinNumber" :name="'chassisVinNumber'"
                     :validation-rules="{required:true, min: 17, max: 17}"></input-text>
             </div>
@@ -108,8 +139,19 @@
 
         <div class="row">
             <div class="col m3">
-                <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'" :validation-rules="{required:true}"></input-text>
+                <input-text label="Registration Number" v-model="inspection.registrationNumber" name="registrationNumber" :validation-rules="{required:true}"></input-text>
             </div>
+            <div class="col m3">
+                <choice-group label="Personalised Number plates?" v-model="inspection.personalisedNumberPlates"
+                    :options="custom_options.yesNo" name="personalisedNumberPlates" :validationRules="{required:true}"></choice-group>
+            </div>
+            <div class="col m3" v-if="inspection.personalisedNumberPlates == 1">
+                <choice-group label="Do you want to keep them?" v-model="inspection.keepNumberPlates"
+                    :options="custom_options.yesNo" name="keepNumberPlates" :validationRules="{required:true}"></choice-group>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col m3">
                 <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
             </div>
@@ -146,18 +188,6 @@
         <input-file-list :label="'Vehicle Photos'" @updated="addVehiclePhoto" @delete="deleteVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
         <input-file-list :label="'License and Registration Photos'" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
-        <div class="row">
-            <div class="col m4">
-                <choice-group v-if="options.takataAirbagRecall" :label="'Takata Airbag Recall'" v-model="inspection.takataAirbagRecall"
-                    :options="options.takataAirbagRecall.settings.options" :name="'takataAirbagRecall'" :validationRules="{required:true}"></choice-group>
-            </div>
-            <div class="col m3" v-show="inspection.takataAirbagRecall === 'yes'">
-                <choice-group v-if="options.takataAirbagRecallStatus" label="If Yes" v-model="inspection.takataAirbagRecallStatus"
-                    :options="options.takataAirbagRecallStatus.settings.options" name="takataAirbagRecallStatus"
-                    :validationRules="{required: inspection.takataAirbagRecall === 'yes'}"></choice-group>
-            </div>
-        </div>
-
         <div class="inspection-dark">
             <div class="row">
                 <div class="col m7">
@@ -185,6 +215,7 @@ import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import b1Button from './buttons/B1_button.vue'
 import inputFileList from './inputs/N8_PhotoList.vue'
+import inputRange from './inputs/N10_Range.vue'
 
 import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
@@ -226,6 +257,8 @@ export default {
             options: {},
             custom_options: {
                 doors: [{value:'2',label:2},{value:'3',label:3},{value:'4',label:4},{value:'5',label:5},{value:'6',label:6}],
+                serviceHistoryFactory: [{value: '1', label: 'Factory'}, {value: '0', label: 'Non Factory'}],
+                yesNo: [{value: '1', label: 'Yes'}, {value: '0', label: 'No'}],
             },
             buildDate: '',
             complianceDate: '',
@@ -355,7 +388,8 @@ export default {
         b1Button,
         inputCheckboxSwitch,
         inputNumber,
-        inputFileList
+        inputFileList,
+        inputRange
     }
 }
 </script>
