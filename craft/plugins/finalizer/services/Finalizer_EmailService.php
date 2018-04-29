@@ -5,6 +5,7 @@ namespace Craft;
 class Finalizer_EmailService extends BaseApplicationComponent
 {
     const NISSAR_EMAIL = 'nissar@areyouselling.com.au';
+    const REPORTS_EMAIL = 'reports@areyouselling.com.au';
 
     public function sendNotificationEmails($entry)
     {
@@ -84,6 +85,7 @@ class Finalizer_EmailService extends BaseApplicationComponent
         if ($settings->carSellerEmail) {
             $this->sendEmail($settings->carSellerEmail, 'Inspection Submitted', $emailBody, $attachments);
         }
+        $this->sendEmail(self::REPORTS_EMAIL, 'Inspection Submitted', $emailBody, $attachments);
     }
 
     public function sendFollowUpNotification(EntryModel $inspection)
