@@ -168,6 +168,13 @@
           </div>
       </div>
 
+      <div class="row">
+          <div class="col m4">
+              <choice-group v-if="options.overallRating" label="Overall Rating" v-model="inspection.overallRating" :options="options.overallRating.settings.options"
+                  name="overallRating" :validationRules="{required:true}"></choice-group>
+          </div>
+      </div>
+
     <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
     <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 

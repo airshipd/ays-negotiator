@@ -165,6 +165,13 @@
         </div>
 
         <div class="row">
+            <div class="col m4">
+                <choice-group v-if="options.overallRating" label="Overall Rating" v-model="inspection.overallRating" :options="options.overallRating.settings.options"
+                    name="overallRating" :validationRules="{required:true}"></choice-group>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col m12">
                 <input-checkbox-switch :label="'Tradesmen Extras'" v-model="inspection.tradesmanExtras" :model-value="inspection.tradesmanExtras"></input-checkbox-switch>
                 <input-textarea v-if="inspection.tradesmanExtras === '1'" :name="'tradesmanExtrasDescription'" v-model="inspection.tradesmanExtrasDescription"></input-textarea>

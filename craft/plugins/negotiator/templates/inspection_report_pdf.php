@@ -42,6 +42,15 @@ function yesno($bool, $only = null)
     }
 }
 
+function highlight($value, $required)
+{
+    if ($value == $required) {
+        return 'highlight';
+    } else {
+        return '';
+    }
+}
+
 $auto = (string)$inspection->transmission === 'auto' ? 'highlight' : '';
 $manual = (string)$inspection->transmission === 'manual' ? 'highlight' : '';
 
@@ -531,10 +540,20 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
         <div style="border-bottom: 1px solid #000; line-height: 30px;">&nbsp;</div>
     <?php } ?>
 
-    <table class="last-tables" style="margin-top: 30px;">
+    <table class="last-tables" style="margin-top: 20px;">
         <tr>
             <td width="1" style="white-space: nowrap;">Total Approximate Spend required:</td>
             <td style="border-bottom: 1px solid #000">$ <?= number_format($inspection->approximateExpenditure) ?></td>
+        </tr>
+    </table>
+
+    <table class="last-tables" style="margin-top: 10px;">
+        <tr>
+            <td>Overall Rating:</td>
+            <td align="right"><span class="<?= highlight($inspection->overallRating, 'excellent') ?>">Excellent</span></td>
+            <td align="right"><span class="<?= highlight($inspection->overallRating, 'good') ?>">Good</span></td>
+            <td align="right"><span class="<?= highlight($inspection->overallRating, 'fair') ?>">Fair</span></td>
+            <td align="right"><span class="<?= highlight($inspection->overallRating, 'poor') ?>">Poor</span></td>
         </tr>
     </table>
 </div>
