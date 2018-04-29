@@ -125,4 +125,25 @@ class Negotiator_InspectionsController extends BaseController {
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }
+
+    public function actionInspectionReport(array $variables)
+    {
+        craft()->userSession->loginRequired();
+
+        $id = $variables['id'];
+        $inspection = craft()->elements->getElementById($id); //used in the included file
+
+        ob_start();
+        require CRAFT_PLUGINS_PATH . 'negotiator/templates/inspection_report_pdf.php';
+        $html = ob_get_clean();
+
+        $mpdf = new Mpdf([
+            'setAutoTopMargin' => 'stretch',
+            'autoMarginPadding' => 20,
+        ]);
+        $mpdf->showImageErrors = true;
+        $mpdf->SetBasePath(CRAFT_PLUGINS_PATH . 'negotiator/templates/');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+    }
 }

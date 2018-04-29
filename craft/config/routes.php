@@ -20,13 +20,14 @@
 
 return array(
 
-  'offer/(?P<id>\d+)'                             => 'offer/pending',
-  'offer/(?P<id>\d+)/view'                        => 'offer/view',
-  'offer/(?P<id>\d+)/finalise/(?P<answer>[^\/]+)' => ['action' => 'negotiator/offer/finalise'],
-  'report/(?P<id>\d+)'                            => 'report/inspectionReport',
-  'contract/(?P<id>\d+)/download'                          => ['action' => 'negotiator/inspections/contract'],
+    'offer/(?P<id>\d+)'                             => 'offer/pending',
+    'offer/(?P<id>\d+)/view'                        => 'offer/view',
+    'offer/(?P<id>\d+)/finalise/(?P<answer>[^\/]+)' => ['action' => 'negotiator/offer/finalise'],
+    'report/(?P<id>\d+)'                            => 'report/inspectionReport',
+    'contract/(?P<id>\d+)/download'                 => ['action' => 'negotiator/inspections/contract'],
+    'inspection-report/(?P<id>\d+)/download'        => ['action' => 'negotiator/inspections/inspectionReport'],
 
-  //API routes
+    //API routes
   'api/inspections'              => ['action' => 'negotiator/api/inspections'],
   'api/inspection/(?P<id>\d+)'   => ['action' => 'negotiator/api/inspection'],
   'api/offer/(?P<id>\d+)'        => ['action' => 'negotiator/api/offer'],
