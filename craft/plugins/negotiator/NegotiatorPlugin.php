@@ -92,5 +92,15 @@ class NegotiatorPlugin extends BasePlugin {
                 craft()->negotiator_notifications->notifyCustomer($inspector, $entry);
             }
         });
+
+        craft()->templates->hook('cp.entries.edit.right-pane', function(&$context) {
+            /** @var EntryModel $inspection **/
+            $inspection = $context['entry'];
+
+            if ($inspection->section->handle === 'inspections') {
+                // Return the button HTML
+                require CRAFT_PLUGINS_PATH . 'negotiator/templates/admin_send_paperwork_btn.php';
+            }
+        });
     }
 }
