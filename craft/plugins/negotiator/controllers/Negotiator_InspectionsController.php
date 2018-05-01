@@ -130,8 +130,6 @@ class Negotiator_InspectionsController extends BaseController {
 
     public function actionInspectionReport(array $variables)
     {
-        craft()->userSession->loginRequired();
-
         $id = $variables['id'];
         $inspection = craft()->elements->getElementById($id); //used in the included file
         $title = implode(', ', array_filter([$inspection->customerName, $inspection->make, $inspection->model, $inspection->registrationNumber]));
