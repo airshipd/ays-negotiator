@@ -19,7 +19,7 @@
         <input-text :label="'Odometer'" v-model="inspection.odometer" :name="'odometer'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-select v-if="options.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options"></input-select>
+        <input-select v-if="options.colour" :label="'Colour'" v-model="inspection.colour" :options="options.colour.settings.options" :validation-rules="{required:true}"></input-select>
       </div>
       <div class="col m3">
         <input-text :label="'Body'" v-model="inspection.carBody" :name="'body'" :validation-rules="{required:true}"></input-text>
@@ -58,14 +58,15 @@
         <input-text :label="'Engine'" v-model="inspection.engineSize" :name="'engine'" :validation-rules="{required:true}"></input-text>
       </div>
       <div class="col m3">
-        <input-select v-if="options.engineType" :label="'Engine Type'" v-model="inspection.engineType" :options="options.engineType.settings.options"></input-select>
+        <input-select v-if="options.engineType" :label="'Engine Type'" v-model="inspection.engineType" :options="options.engineType.settings.options"
+            :validation-rules="{required:true}"></input-select>
       </div>
     </div>
 
       <div class="row">
           <div class="col m3">
               <input-select v-if="options.transmission" :label="'Transmission'" v-model="inspection.transmission"
-                  :options="options.transmission.settings.options"></input-select>
+                  :options="options.transmission.settings.options" :validation-rules="{required:true}"></input-select>
           </div>
           <div class="col m3">
               <choice-group v-if="options.wheels" :label="'Wheels'" v-model="inspection.wheels" :options="options.wheels.settings.options"
@@ -168,6 +169,13 @@
           </div>
       </div>
 
+      <div class="row">
+          <div class="col m4">
+              <choice-group v-if="options.overallRating" label="Overall Rating" v-model="inspection.overallRating" :options="options.overallRating.settings.options"
+                  name="overallRating" :validationRules="{required:true}"></choice-group>
+          </div>
+      </div>
+
     <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
     <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
@@ -197,7 +205,10 @@ export default {
     provideValidator: true,
     inject: ['$validator'],
     mounted() {
-        this.getInspection()
+        if (this.$route.params.id !== 'new') {
+            this.getInspection()
+        }
+        this.getOptions();
 
         this.$validator.localize('en', {
             custom: {
@@ -232,9 +243,7 @@ export default {
             GetService.getInspection(this.$route.params.id)
                 .then(res => {
                     this.inspection = res.inspection
-                    this.options = res.options
                     this.$store.commit('updateInspection', res.inspection)
-                    this.$store.commit('updateOptions', res.options)
                     this.$store.commit('updateUsername', res.username)
 
                     this.buildDate = this.inspection.buildDate ? moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY') : '';
@@ -242,6 +251,12 @@ export default {
                 }).catch(e => {
                     console.error(e)
                 })
+        },
+        getOptions() {
+            GetService.getOptions().then(options => {
+                this.options = options
+                this.$store.commit('updateOptions', options)
+            })
         },
         actionNext() {
             this.$validator.validateAll().then((result) => {

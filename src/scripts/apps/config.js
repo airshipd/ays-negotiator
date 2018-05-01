@@ -2,6 +2,7 @@ export const apiUrl = '/api'
 
 export const urlGetInspections = apiUrl + '/inspections'
 export const urlGetInspection = apiUrl + '/inspection'
+export const urlGetFields = apiUrl + '/fields'
 export const urlGetOffer = apiUrl + '/offer'
 export const urlReviewOffer = apiUrl + '/reviewOffer'
 export const urlOfferUpdateValuation = apiUrl + '/offerUpdateValuation'

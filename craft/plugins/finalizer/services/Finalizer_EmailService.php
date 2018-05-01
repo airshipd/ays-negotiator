@@ -5,6 +5,7 @@ namespace Craft;
 class Finalizer_EmailService extends BaseApplicationComponent
 {
     const NISSAR_EMAIL = 'nissar@areyouselling.com.au';
+    const REPORTS_EMAIL = 'reports@areyouselling.com.au';
 
     public function sendNotificationEmails($entry)
     {
@@ -15,6 +16,7 @@ class Finalizer_EmailService extends BaseApplicationComponent
         $staffName = craft()->finalizer_fields->getStaffName($entry);
         $customerName = craft()->finalizer_fields->getCustomerName($entry);
         $contractUrl = craft()->getSiteUrl() . 'contract/' . $entry->id;
+        $inspectionReport = craft()->getSiteUrl() . 'inspection-report/' . $entry->id . '/download';
         $recordUrl = craft()->getSiteUrl() . 'internalrecord/' . $entry->id;
 
         // get customer email body
@@ -24,7 +26,6 @@ class Finalizer_EmailService extends BaseApplicationComponent
         $this->sendEmail($entry->customerEmail, $settings->customerEmailSubject, $customerEmailBody);
 
         // get staff email body
-        $contractUrl .= '?full=1'; //staff will see full contract text including Inspection Report
         ob_start();
         include(CRAFT_PLUGINS_PATH . "finalizer/templates/email/staffNotification.php");
         $staffEmailBody = ob_get_clean();
@@ -84,6 +85,7 @@ class Finalizer_EmailService extends BaseApplicationComponent
         if ($settings->carSellerEmail) {
             $this->sendEmail($settings->carSellerEmail, 'Inspection Submitted', $emailBody, $attachments);
         }
+        $this->sendEmail(self::REPORTS_EMAIL, 'Inspection Submitted', $emailBody, $attachments);
     }
 
     public function sendFollowUpNotification(EntryModel $inspection)

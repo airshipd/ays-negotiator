@@ -131,7 +131,7 @@ export default {
                 if (result) {
                     this.buttonDisable = true
                     this.inspection.inspectionStatus = 'finalized' //finalise necessary form data
-                    PostService.postMulti(this.$route.params.id, this.inspection, this.options)
+                    PostService.postMulti(this.$route.params.id === 'new' ? undefined : this.$route.params.id, this.inspection, this.options)
                         .then(response => {
                             this.$store.commit('updateInspection', {})
                             this.$store.commit('updateOptions', {})

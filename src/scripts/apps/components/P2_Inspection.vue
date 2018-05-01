@@ -165,6 +165,13 @@
         </div>
 
         <div class="row">
+            <div class="col m4">
+                <choice-group v-if="options.overallRating" label="Overall Rating" v-model="inspection.overallRating" :options="options.overallRating.settings.options"
+                    name="overallRating" :validationRules="{required:true}"></choice-group>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col m12">
                 <input-checkbox-switch :label="'Tradesmen Extras'" v-model="inspection.tradesmanExtras" :model-value="inspection.tradesmanExtras"></input-checkbox-switch>
                 <input-textarea v-if="inspection.tradesmanExtras === '1'" :name="'tradesmanExtrasDescription'" v-model="inspection.tradesmanExtrasDescription"></input-textarea>
@@ -227,7 +234,8 @@ export default {
     provideValidator: true,
     inject: ['$validator'],
     mounted() {
-        this.getInspection()
+        this.getInspection();
+        this.getOptions();
 
         this.$store.subscribe(mutation => {
             if(mutation.type === 'reschedule') {
@@ -269,10 +277,8 @@ export default {
             GetService.getInspection(this.$route.params.id)
                 .then(res => {
                     this.inspection = res.inspection
-                    this.options = res.options
                     this.original_inspection = Object.assign({}, res.inspection); //cloning
                     this.$store.commit('updateInspection', res.inspection)
-                    this.$store.commit('updateOptions', res.options)
 
                     if(this.inspection.buildDate) {
                         this.buildDate = moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY');
@@ -280,9 +286,13 @@ export default {
                     if(this.inspection.complianceDate) {
                         this.complianceDate = moment(this.inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY');
                     }
-                }).catch(e => {
-                    console.error(e)
                 })
+        },
+        getOptions() {
+            GetService.getOptions().then(options => {
+                this.options = options
+                this.$store.commit('updateOptions', options)
+            })
         },
         addVehiclePhoto(file) {
             let that = this;
