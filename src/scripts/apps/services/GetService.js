@@ -1,7 +1,6 @@
 import axios from 'axios'
-import qs from 'qs'
 import striptags from 'striptags'
-import {urlGetInspection} from '../config.js'
+import {urlGetInspection, urlGetFields} from '../config.js'
 
 export default {
 
@@ -10,6 +9,17 @@ export default {
             axios.get(urlGetInspection + '/' + routeId)
                 .then(response => {
                     resolve(this.formatData(response.data))
+                }).catch(e => {
+                    console.error(e)
+                    reject(e)
+                })
+        });
+    },
+    getOptions() {
+        return new Promise((resolve, reject) => {
+            axios.get(urlGetFields)
+                .then(response => {
+                    resolve(response.data.options)
                 }).catch(e => {
                     console.error(e)
                     reject(e)

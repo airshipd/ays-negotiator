@@ -59,8 +59,11 @@ export default {
         if (!customUrl) {
             formData.append('action', 'entries/saveEntry')
             formData.append('sectionId', '3')
-            formData.append('entryId', entryId)
             formData.append('enabled', '1')
+
+            if(entryId) {
+                formData.append('entryId', entryId)
+            }
         }
 
         //loop through all field entries and build out sendObj

@@ -18,7 +18,7 @@
  * the blog/_archive template, providing it a ‘year’ variable set to the value “2012”.
  */
 
-return array(
+return [
 
     'offer/(?P<id>\d+)'                             => 'offer/pending',
     'offer/(?P<id>\d+)/view'                        => 'offer/view',
@@ -28,15 +28,16 @@ return array(
     'inspection-report/(?P<id>\d+)/download'        => ['action' => 'negotiator/inspections/inspectionReport'],
 
     //API routes
-  'api/inspections'              => ['action' => 'negotiator/api/inspections'],
-  'api/inspection/(?P<id>\d+)'   => ['action' => 'negotiator/api/inspection'],
-  'api/offer/(?P<id>\d+)'        => ['action' => 'negotiator/api/offer'],
-  'api/submitContract/(?P<id>\d+)'       => ['action' => 'negotiator/api/submitContract'],
-  'api/setOpened/(?P<id>\d+)'       => ['action' => 'negotiator/api/setOpened'],
-  'api/offerUpdateValuation'     => ['action' => 'negotiator/inspections/updateValuation'],
-  'api/reviewOffer'              => ['action' => 'negotiator/inspections/reviewInspection'],
-  'api/offer/(?P<id>\d+)/accept' => ['action' => 'negotiator/api/finalise'],
-  'api/offer/(?P<id>\d+)/reject' => ['action' => 'negotiator/api/finalise'],
-  'api/getContract'              => ['action' => 'negotiator/api/getContract'],
-  'api/inspectors'               => ['action' => 'negotiator/api/inspectors'],
-);
+    'api/inspections'                => ['action' => 'negotiator/api/inspections'],
+    'api/inspection/(?P<id>\d+)'     => ['action' => 'negotiator/api/inspection'],
+    'api/fields'                     => ['action' => 'negotiator/api/fields'],
+    'api/offer/(?P<id>\d+)'          => ['action' => 'negotiator/api/offer'],
+    'api/submitContract/(?P<id>\d+)' => ['action' => 'negotiator/api/submitContract'],
+    'api/setOpened/(?P<id>\d+)'      => ['action' => 'negotiator/api/setOpened'],
+    'api/offerUpdateValuation'       => ['action' => 'negotiator/inspections/updateValuation'],
+    'api/reviewOffer'                => ['action' => 'negotiator/inspections/reviewInspection'],
+    'api/offer/(?P<id>\d+)/accept'   => ['action' => 'negotiator/api/finalise'],
+    'api/offer/(?P<id>\d+)/reject'   => ['action' => 'negotiator/api/finalise'],
+    'api/getContract'                => ['action' => 'negotiator/api/getContract'],
+    'api/inspectors'                 => ['action' => 'negotiator/api/inspectors'],
+];

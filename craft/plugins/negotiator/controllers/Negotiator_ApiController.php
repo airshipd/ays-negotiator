@@ -3,9 +3,9 @@ namespace Craft;
 
 class Negotiator_ApiController extends BaseController {
 
-  protected $allowAnonymous = true;
+    protected $allowAnonymous = true;
 
-  public function actionInspections()
+    public function actionInspections()
   {
       $user = craft()->userSession->getUser();
       $isNegotiator = $user->isInGroup('negotiators');
@@ -124,18 +124,25 @@ class Negotiator_ApiController extends BaseController {
       $this->returnJson($result);
   }
 
-  public function actionInspection(array $variables = [])
-  {
-      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->id = $variables['id'];
-      $inspection   = $criteria->first();
+    public function actionInspection(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
 
-      $this->returnJson([
-          'data' => $this->_processFieldData($inspection),
-          'options' => $this->_processOptionData($inspection),
-          'username' => craft()->userSession->getUser()->getFullName(),
-      ]);
-  }
+        $this->returnJson([
+            'data'     => $this->_processFieldData($inspection),
+            'options'  => $this->_getFields(),
+            'username' => craft()->userSession->getUser()->getFullName(),
+        ]);
+    }
+
+    public function actionFields()
+    {
+        $this->returnJson([
+            'options' => $this->_getFields(),
+        ]);
+    }
 
   public function actionInspectors()
   {
@@ -160,7 +167,7 @@ class Negotiator_ApiController extends BaseController {
 
       $this->returnJson([
           'data'    => $this->_processFieldData($inspection),
-          'options' => $this->_processOptionData($inspection),
+          'options' => $this->_getFields(),
           'report'  => craft()->negotiator_assessment->calculateOffer($inspection),
           'total'   => craft()->negotiator_offer->calculateOfferTotal($inspection),
       ]);
@@ -307,11 +314,12 @@ class Negotiator_ApiController extends BaseController {
         ];
     }
 
-    private function _processOptionData(BaseElementModel $inspection)
+    private function _getFields()
     {
         $ret = [];
+        $layout = craft()->fields->getLayoutByType(ElementType::Entry);
 
-        foreach ($inspection->getFieldLayout()->getFields() as $fieldLayoutField) {
+        foreach ($layout->getFields() as $fieldLayoutField) {
             $field = $fieldLayoutField->getField();
 
             $fieldName     = $field->handle;

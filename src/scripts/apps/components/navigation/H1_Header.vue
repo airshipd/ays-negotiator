@@ -8,6 +8,10 @@
                 <div class="heading-secondary">
                     <div class="header-inspections" v-if="currentRoute === 'Negotiations'">
                         <div class="right">
+                            <router-link class="add-inspection-icon" :to="{name: 'Final 1', params: {id: 'new'}}" v-show="currentUser.isInspector">
+                                <span class="material-icons medium">border_color</span>
+                            </router-link>
+
                             <div class="header-date" v-if="!isSales && !isNegotiator">
                                 <input class="datepicker-negotiations"/>
                             </div>
@@ -129,6 +133,7 @@
                 date: moment(new Date(moment().add(10, 'minutes').unix() * 1000)).format('YYYY/MM/DD HH:mm:ss'),
                 isSales: window.isSales, //whether the current user is a sales consultant
                 isNegotiator: window.isNegotiator, //whether the current user is a negotiator
+                currentUser: window.currentUser,
             }
         },
         methods: {

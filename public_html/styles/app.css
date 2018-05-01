@@ -10816,6 +10816,12 @@ nav {
     text-align: right;
     cursor: pointer; }
 
+.header-inspections .add-inspection-icon {
+  position: absolute;
+  top: 2px;
+  right: 262px;
+  z-index: 10; }
+
 .header-inspections .type-switcher {
   position: absolute;
   bottom: 0;
