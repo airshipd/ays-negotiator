@@ -317,7 +317,9 @@ class Negotiator_ApiController extends BaseController {
     private function _getFields()
     {
         $ret = [];
-        $layout = craft()->fields->getLayoutByType(ElementType::Entry);
+
+        $entryTypes = craft()->sections->getEntryTypesByHandle('inspection');
+        $layout = $entryTypes[0]->getFieldLayout();
 
         foreach ($layout->getFields() as $fieldLayoutField) {
             $field = $fieldLayoutField->getField();
