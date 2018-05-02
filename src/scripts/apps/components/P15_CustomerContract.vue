@@ -111,7 +111,7 @@
     </div>
       <div class="row">
           <div class="col m9">
-              <input-textarea disabled :label="'Notes'" v-model="inspection.contractNote" :name="'contractNote'"></input-textarea>
+              <input-textarea disabled label="Notes" v-model="inspection.notes" name="notes"></input-textarea>
           </div>
       </div>
     <div class="row car-buyers">
