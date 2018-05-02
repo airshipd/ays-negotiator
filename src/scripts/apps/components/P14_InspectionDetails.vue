@@ -142,6 +142,10 @@
                     <div class="col m6">{{ this.inspection.salesConsultant }}</div>
                 </div>
                 <div class="row">
+                    <div class="col m6">Price Type:</div>
+                    <div class="col m6">{{ this.inspection.priceType }}</div>
+                </div>
+                <div class="row">
                     <div class="col m12">Damage and Faults:</div>
                     <div class="col m12 show-line-breaks" v-html="inspection.damageAndFaults || ''"></div>
                 </div>
