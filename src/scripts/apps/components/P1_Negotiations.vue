@@ -5,7 +5,7 @@
                 <loader v-show="showLoader"/>
 
                 <ul v-show="!showLoader">
-                    <input class="inspections-filter" placeholder="Search..." v-if="isSales || isNegotiator || isAdmin" v-model="filter" />
+                    <input class="inspections-filter" placeholder="Search..." v-if="currentUser.isSales || currentUser.isNegotiator || currentUser.isAdmin" v-model="filter" />
                     <list v-for="(item, index) in filteredInspections"
                         :inspection="item"
                         :active="index === activeLiIndex"
@@ -46,7 +46,7 @@ export default {
     mounted() {
         this.getInspections();
 
-        if(this.$route.name === 'Negotiations' && !this.isSales && !this.isNegotiator) {
+        if(this.$route.name === 'Negotiations' && !this.currentUser.isSales && !this.currentUser.isNegotiator) {
             this.initDatepicker();
         }
     },
@@ -66,9 +66,7 @@ export default {
             },
             showLoader: false,
             filter: '',
-            isSales: window.isSales,
-            isNegotiator: window.isNegotiator,
-            isAdmin: window.isAdmin,
+            currentUser: window.currentUser,
         }
     },
     methods: {
@@ -81,7 +79,7 @@ export default {
             this.showLoader = true;
             axios.get(urlGetInspections, {
                 params: {
-                    date: this.isSales || this.isNegotiator ? null : this.date,
+                    date: this.currentUser.isSales || this.currentUser.isNegotiator ? null : this.date,
                     state: this.state,
                     upcoming: this.type === 'upcoming' ? 1 : 0,
                     rejected: this.type === 'rejected' ? 1 : 0,
@@ -136,7 +134,7 @@ export default {
             this.activeLiIndex = 0;
         },
         '$route': function(r) {
-            if(this.$route.name === 'Negotiations' && !this.isSales && !this.isNegotiator) {
+            if(this.$route.name === 'Negotiations' && !this.currentUser.isSales && !this.currentUser.isNegotiator) {
                 let pickadate = $('.datepicker-negotiations').pickadate('picker');
                 if(pickadate.get('select', 'yyyy-mm-dd') !== this.date) {
                     if(this.date) {

@@ -30,7 +30,7 @@ const router = new Router({
         {
             path: '/',
             redirect: to => {
-                return window.isAdmin ? '/admin/nsw' : window.isNegotiator ? '/rejected' : window.isSales ? '/my-sales' : '/upcoming';
+                return window.currentUser.isAdmin ? '/admin/nsw' : window.currentUser.isNegotiator ? '/rejected' : window.currentUser.isSales ? '/my-sales' : '/upcoming';
             }
         },
         {
@@ -39,7 +39,7 @@ const router = new Router({
             component: Negotiations,
             props: true,
             beforeEnter: (to, from, next) => {
-                next(window.isAdmin ? true : '/upcoming');
+                next(window.currentUser.isAdmin ? true : '/upcoming');
             }
         },
         {
@@ -48,7 +48,7 @@ const router = new Router({
             component: Negotiations,
             props: true,
             beforeEnter: (to, from, next) => {
-                next(window.isAdmin ? '/admin/nsw' : true);
+                next(window.currentUser.isAdmin ? '/admin/nsw' : true);
             }
         },
         {

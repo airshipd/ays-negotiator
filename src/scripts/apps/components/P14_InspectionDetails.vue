@@ -175,7 +175,7 @@
         <b1-button v-show="['Rejected', 'Submitted'].indexOf(inspection.inspectionStatus) !== -1"
             class="grey lighten-1" label="Send for Sales Consultant for follow up" :action="setUnsuccessful" :fullWidth="true"></b1-button>
         <b1-button v-show="showSendForRemarketing" label="Send for re-marketing" :action="setArchived" :fullWidth="true"></b1-button>
-        <b1-button v-show="inspection.inspectionStatus === 'Unsuccessful' && !inspection.salesConsultant && isSales" label="Assign to me" :action="assignToMe" :fullWidth="true"></b1-button>
+        <b1-button v-show="inspection.inspectionStatus === 'Unsuccessful' && !inspection.salesConsultant && currentUser.isSales" label="Assign to me" :action="assignToMe" :fullWidth="true"></b1-button>
     </section>
 </template>
 
@@ -209,7 +209,7 @@ export default {
             imgs: [],
             options: {},
             showAgreePrice: false,
-            isSales: window.isSales,
+            currentUser: window.currentUser,
         }
     },
     methods: {
