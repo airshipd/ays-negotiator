@@ -101,5 +101,10 @@ class FinalizerPlugin extends BasePlugin
                 }
             }
         });
+
+        craft()->on('negotiator_notifications.sold', function (Event $event) {
+            $inspection = $event->params['inspection'];
+            craft()->finalizer_email->sendSoldNotification($inspection);
+        });
     }
 }

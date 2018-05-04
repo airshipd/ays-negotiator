@@ -30,7 +30,11 @@ const router = new Router({
         {
             path: '/',
             redirect: to => {
-                return window.currentUser.isAdmin ? '/admin/nsw' : window.currentUser.isNegotiator ? '/rejected' : window.currentUser.isSales ? '/my-sales' : '/upcoming';
+                return !window.currentUser ? false :
+                    window.currentUser.isAdmin ? '/admin/nsw' :
+                    window.currentUser.isNegotiator || window.currentUser.isSeller ? '/rejected' :
+                    window.currentUser.isSales ? '/my-sales' :
+                        '/upcoming';
             }
         },
         {
@@ -39,16 +43,16 @@ const router = new Router({
             component: Negotiations,
             props: true,
             beforeEnter: (to, from, next) => {
-                next(window.currentUser.isAdmin ? true : '/upcoming');
+                next(window.currentUser.isAdmin ? true : '/');
             }
         },
         {
-            path: '/:type(upcoming|rejected|unassigned|submitted|my-sales)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
+            path: '/:type(upcoming|rejected|unassigned|submitted|my-sales|finalized)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
             name: 'Negotiations',
             component: Negotiations,
             props: true,
             beforeEnter: (to, from, next) => {
-                next(window.currentUser.isAdmin ? '/admin/nsw' : true);
+                next(window.currentUser.isAdmin ? '/' : true);
             }
         },
         {
@@ -153,4 +157,4 @@ router.beforeEach((to, from, next) => {
 });
 
 
-export default router
+export default router;

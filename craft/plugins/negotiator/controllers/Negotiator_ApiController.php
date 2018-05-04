@@ -8,6 +8,7 @@ class Negotiator_ApiController extends BaseController {
     public function actionInspections()
   {
       $user = craft()->userSession->getUser();
+      $isInspector = $user->isInGroup('inspectors');
       $isNegotiator = $user->isInGroup('negotiators');
       $isSales = $user->isInGroup('sales_consultants');
 
@@ -15,13 +16,14 @@ class Negotiator_ApiController extends BaseController {
       $rejected = craft()->request->getQuery('rejected', false);
       $unsuccessful = craft()->request->getQuery('unsuccessful', false);
       $submitted = craft()->request->getQuery('submitted', false);
+      $finalized = craft()->request->getQuery('finalized', false);
       $my_sales = craft()->request->getQuery('my_sales', false);
       $unassigned = craft()->request->getQuery('unassigned', false);
 
       $criteria = craft()->elements->getCriteria(ElementType::Entry);
       $criteria->limit = null;
       $criteria->section = 'inspections';
-      if (!$user->admin && !$isNegotiator && !$isSales) {
+      if ($isInspector) {
           $criteria->relatedTo = [
               'targetElement' => $user,
               'field'         => 'inspector',
@@ -77,6 +79,8 @@ class Negotiator_ApiController extends BaseController {
           $criteria->inspectionStatus = 'Unsuccessful';
       } elseif ($submitted) {
           $criteria->inspectionStatus = 'Submitted';
+      } elseif ($finalized) {
+          $criteria->inspectionStatus = 'finalized';
       } else {
         //Pending
           $criteria->runbikestopId = ':notempty:';
@@ -262,6 +266,21 @@ class Negotiator_ApiController extends BaseController {
       }
 
       $inspection->setContentFromPost(['inspectionStatus' => 'Opened']);
+      craft()->entries->saveEntry($inspection);
+  }
+
+  public function actionSetSold(array $variables = [])
+  {
+      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+      $criteria->id = $variables['id'];
+      $inspection   = $criteria->first();
+
+      if(!$inspection) {
+          throw new HttpException(404);
+      }
+
+      $inspection->setContentFromPost(['inspectionStatus' => 'Archived']);
+      craft()->negotiator_notifications->onSold(new Event(null, ['inspection' => $inspection]));
       craft()->entries->saveEntry($inspection);
   }
 

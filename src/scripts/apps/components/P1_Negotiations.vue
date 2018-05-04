@@ -5,7 +5,7 @@
                 <loader v-show="showLoader"/>
 
                 <ul v-show="!showLoader">
-                    <input class="inspections-filter" placeholder="Search..." v-if="currentUser.isSales || currentUser.isNegotiator || currentUser.isAdmin" v-model="filter" />
+                    <input class="inspections-filter" placeholder="Search..." v-if="!currentUser.isInspector" v-model="filter" />
                     <list v-for="(item, index) in filteredInspections"
                         :inspection="item"
                         :active="index === activeLiIndex"
@@ -46,7 +46,7 @@ export default {
     mounted() {
         this.getInspections();
 
-        if(this.$route.name === 'Negotiations' && !this.currentUser.isSales && !this.currentUser.isNegotiator) {
+        if(this.$route.name === 'Negotiations' && this.currentUser.isInspector) {
             this.initDatepicker();
         }
     },
@@ -79,11 +79,12 @@ export default {
             this.showLoader = true;
             axios.get(urlGetInspections, {
                 params: {
-                    date: this.currentUser.isSales || this.currentUser.isNegotiator ? null : this.date,
+                    date: this.currentUser.isInspector ? this.date : null,
                     state: this.state,
                     upcoming: this.type === 'upcoming' ? 1 : 0,
                     rejected: this.type === 'rejected' ? 1 : 0,
                     submitted: this.type === 'submitted' ? 1 : 0,
+                    finalized: this.type === 'finalized' ? 1 : 0,
 
                     //SC parameters
                     unsuccessful: this.type === 'unassigned' || this.type === 'my-sales' ? 1 : 0,
@@ -134,7 +135,7 @@ export default {
             this.activeLiIndex = 0;
         },
         '$route': function(r) {
-            if(this.$route.name === 'Negotiations' && !this.currentUser.isSales && !this.currentUser.isNegotiator) {
+            if(this.$route.name === 'Negotiations' && this.currentUser.isInspector) {
                 let pickadate = $('.datepicker-negotiations').pickadate('picker');
                 if(pickadate.get('select', 'yyyy-mm-dd') !== this.date) {
                     if(this.date) {

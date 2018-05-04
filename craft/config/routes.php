@@ -34,6 +34,7 @@ return [
     'api/offer/(?P<id>\d+)'          => ['action' => 'negotiator/api/offer'],
     'api/submitContract/(?P<id>\d+)' => ['action' => 'negotiator/api/submitContract'],
     'api/setOpened/(?P<id>\d+)'      => ['action' => 'negotiator/api/setOpened'],
+    'api/setSold/(?P<id>\d+)'        => ['action' => 'negotiator/api/setSold'],
     'api/offerUpdateValuation'       => ['action' => 'negotiator/inspections/updateValuation'],
     'api/reviewOffer'                => ['action' => 'negotiator/inspections/reviewInspection'],
     'api/offer/(?P<id>\d+)/accept'   => ['action' => 'negotiator/api/finalise'],

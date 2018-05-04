@@ -20,8 +20,9 @@
 
                         <ul class="type-switcher">
                             <router-link tag="li" :to="{path: '/upcoming'}" v-if="currentUser.isInspector"><a>Upcoming</a></router-link>
-                            <router-link tag="li" :to="{path: '/rejected'}" v-if="currentUser.isInspector || currentUser.isNegotiator"><a>Rejected</a></router-link>
-                            <router-link tag="li" :to="{path: '/submitted'}" v-if="currentUser.isInspector || currentUser.isNegotiator"><a>Submitted</a></router-link>
+                            <router-link tag="li" :to="{path: '/rejected'}" v-if="currentUser.isInspector || currentUser.isNegotiator || currentUser.isSeller"><a>Rejected</a></router-link>
+                            <router-link tag="li" :to="{path: '/submitted'}" v-if="currentUser.isInspector || currentUser.isNegotiator || currentUser.isSeller"><a>Submitted</a></router-link>
+                            <router-link tag="li" :to="{path: '/finalized'}" v-if="currentUser.isSeller"><a>Finalized</a></router-link>
                             <router-link tag="li" :to="{path: '/my-sales'}" v-if="currentUser.isSales"><a>Your Cars</a></router-link>
                             <router-link tag="li" :to="{path: '/unassigned'}" v-if="currentUser.isSales"><a>Unassigned</a></router-link>
                         </ul>

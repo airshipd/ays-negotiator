@@ -174,6 +174,23 @@ EMAIL;
         $this->sendEmail(self::NISSAR_EMAIL, 'Unassigned Job Not Followed Up For 72 hours', $text);
     }
 
+    public function sendSoldNotification(EntryModel $inspection)
+    {
+        $settings = craft()->plugins->getPlugin('finalizer')->getSettings();
+        if(!$settings->defaultStaffEmail) {
+            return;
+        }
+
+        $car = craft()->finalizer_fields->getCarFullName($inspection);
+
+        $text = <<<EMAIL
+$car, {$inspection->chassisVinNumber} has just been sold for \${$inspection->priceSold}.
+Please update Eclipse or contact the seller for more details.
+EMAIL;
+
+        $this->sendEmail($settings->defaultStaffEmail, 'Car Sold: ' . $car, $text);
+    }
+
     private function sendEmail($emailTo, $subject, $body, array $attachments = [], $cc = [])
     {
         // send email with the finalized data

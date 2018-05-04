@@ -11654,6 +11654,25 @@ nav {
     background: #242846;
     color: white; }
 
+.inspection-details-field {
+  text-align: right;
+  position: relative; }
+  .inspection-details-field .help {
+    position: absolute;
+    top: 48px;
+    right: 9px;
+    margin-top: 0; }
+
+.inspection-details-profit {
+  text-align: right; }
+  .inspection-details-profit .profit-value {
+    display: inline-block;
+    width: 268px; }
+    .inspection-details-profit .profit-value.positive {
+      color: green; }
+    .inspection-details-profit .profit-value.negative {
+      color: red; }
+
 .index-inspection {
   max-width: 688px;
   margin: 0 auto; }
