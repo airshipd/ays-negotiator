@@ -87,8 +87,6 @@ class FinalizerPlugin extends BasePlugin
                 if ($old_status && $old_status !== $status) {
                     if ($status === 'finalized') {
                         craft()->finalizer_email->sendNotificationEmails($entry);
-                    } elseif ($status === 'Unopened') {
-                        craft()->finalizer_email->sendCustomerContract($entry);
                     } elseif ($status === 'Submitted') {
                         craft()->finalizer_email->sendInspectionSubmittedNotification($entry);
                     } elseif ($status === 'Unsuccessful') {
@@ -105,6 +103,10 @@ class FinalizerPlugin extends BasePlugin
         craft()->on('negotiator_notifications.sold', function (Event $event) {
             $inspection = $event->params['inspection'];
             craft()->finalizer_email->sendSoldNotification($inspection);
+        });
+        craft()->on('negotiator_notifications.sendPaperwork', function (Event $event) {
+            $inspection = $event->params['inspection'];
+            craft()->finalizer_email->sendCustomerContract($inspection);
         });
     }
 }

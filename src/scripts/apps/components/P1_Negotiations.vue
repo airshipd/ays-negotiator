@@ -90,6 +90,8 @@ export default {
                     unsuccessful: this.type === 'unassigned' || this.type === 'my-sales' ? 1 : 0,
                     my_sales: this.type === 'my-sales' ? 1 : 0,
                     unassigned: this.type === 'unassigned' ? 1 : 0,
+                    unopened: this.type === 'unopened' ? 1 : 0,
+                    opened: this.type === 'opened' ? 1 : 0,
                 }
             })
             .then(response => {

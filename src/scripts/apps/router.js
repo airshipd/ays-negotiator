@@ -47,7 +47,7 @@ const router = new Router({
             }
         },
         {
-            path: '/:type(upcoming|rejected|unassigned|submitted|my-sales|finalized)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
+            path: '/:type(upcoming|rejected|unassigned|submitted|my-sales|finalized|unopened|opened)/:date(\\d\\d\\d\\d-\\d\\d-\\d\\d)?',
             name: 'Negotiations',
             component: Negotiations,
             props: true,

@@ -115,4 +115,15 @@ Are You Selling";
     {
         $this->raiseEvent('onSold', $event);
     }
+
+    /**
+     * Fires an 'onSendPaperwork' event
+     *
+     * @param Event $event
+     * @throws \CException
+     */
+    public function onSendPaperwork(Event $event)
+    {
+        $this->raiseEvent('onSendPaperwork', $event);
+    }
 }

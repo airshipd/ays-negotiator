@@ -188,6 +188,8 @@
         <b1-button v-show="showSendForPaperwork" label="Email Customer Paperwork" :action="sendPaperwork" :fullWidth="true"></b1-button>
         <b1-button v-show="['Rejected', 'Submitted'].indexOf(inspection.inspectionStatus) !== -1"
             class="grey lighten-1" label="Send for Sales Consultant for follow up" :action="setUnsuccessful" :fullWidth="true"></b1-button>
+        <b1-button v-show="['Unopened', 'Opened'].indexOf(inspection.inspectionStatus) !== -1" class="grey lighten-1" label="Resend Paperwork"
+            :action="sendPaperwork" :fullWidth="true"></b1-button>
         <b1-button v-show="showSendForRemarketing" label="Send for re-marketing" :action="setArchived" :fullWidth="true"></b1-button>
         <b1-button v-show="inspection.inspectionStatus === 'Unsuccessful' && !inspection.salesConsultant && currentUser.isSales" label="Assign to me" :action="assignToMe" :fullWidth="true"></b1-button>
         <b1-button v-show="inspection.inspectionStatus === 'finalized'" label="Car Sold" :action="setSold" :fullWidth="true"></b1-button>
@@ -210,7 +212,7 @@ import GetService from '../services/GetService.js'
 import debounce from 'lodash/debounce';
 import mmyy from '../filters/mmyy.js'
 import _ from 'lodash'
-import {urlSetSold} from "../config";
+import {urlSetSold, urlSendPaperwork} from "../config";
 import axios from 'axios';
 
 export default {
@@ -242,10 +244,9 @@ export default {
                 })
         },
         sendPaperwork: function () {
-            PostService
-                .post(this.$route.params.id, {inspectionStatus: 'Unopened'}, this.options)
+            axios.post(urlSendPaperwork + '/' + this.$route.params.id)
                 .then(() => this.$router.push('/'))
-                .catch(e => console.error(e))
+                .catch(e => { console.error(e)})
         },
         setUnsuccessful: function () {
             PostService

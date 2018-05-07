@@ -153,7 +153,7 @@
 
         <div class="row">
             <div class="col m3">
-                <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+                <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'expirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
             </div>
             <div class="col m3">
                 <input-text :label="'Build Date'" v-model="buildDate" :name="'buildDate'" :validation-rules="{required:true, regex: /^[01]\d\/\d\d$/}"></input-text>

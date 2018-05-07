@@ -156,7 +156,7 @@
 
       <div class="row">
           <div class="col m3">
-              <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'"
+              <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'expirationDate'"
                   :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
           </div>
           <div class="col m3">

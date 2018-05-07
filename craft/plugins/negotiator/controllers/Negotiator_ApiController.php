@@ -6,47 +6,49 @@ class Negotiator_ApiController extends BaseController {
     protected $allowAnonymous = true;
 
     public function actionInspections()
-  {
-      $user = craft()->userSession->getUser();
-      $isInspector = $user->isInGroup('inspectors');
-      $isNegotiator = $user->isInGroup('negotiators');
-      $isSales = $user->isInGroup('sales_consultants');
+    {
+        $user = craft()->userSession->getUser();
+        $isInspector = $user->isInGroup('inspectors');
+        $isNegotiator = $user->isInGroup('negotiators');
+        $isSales = $user->isInGroup('sales_consultants');
 
-      $upcoming = craft()->request->getQuery('upcoming', false);
-      $rejected = craft()->request->getQuery('rejected', false);
-      $unsuccessful = craft()->request->getQuery('unsuccessful', false);
-      $submitted = craft()->request->getQuery('submitted', false);
-      $finalized = craft()->request->getQuery('finalized', false);
-      $my_sales = craft()->request->getQuery('my_sales', false);
-      $unassigned = craft()->request->getQuery('unassigned', false);
+        $upcoming = craft()->request->getQuery('upcoming', false);
+        $rejected = craft()->request->getQuery('rejected', false);
+        $unsuccessful = craft()->request->getQuery('unsuccessful', false);
+        $submitted = craft()->request->getQuery('submitted', false);
+        $finalized = craft()->request->getQuery('finalized', false);
+        $my_sales = craft()->request->getQuery('my_sales', false);
+        $unassigned = craft()->request->getQuery('unassigned', false);
+        $unopened = craft()->request->getQuery('unopened', false);
+        $opened = craft()->request->getQuery('opened', false);
 
-      $criteria = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->limit = null;
-      $criteria->section = 'inspections';
-      if ($isInspector) {
+        $criteria = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->limit = null;
+        $criteria->section = 'inspections';
+        if ($isInspector) {
           $criteria->relatedTo = [
               'targetElement' => $user,
               'field'         => 'inspector',
           ];
-      }
+        }
 
-      if($state = craft()->request->getQuery('state')) {
+        if($state = craft()->request->getQuery('state')) {
           if($state === 'nt_sa') {
               $state = 'or,nt,sa';
           }
 
           $criteria->customerState = $state;
-      }
+        }
 
-      if ($my_sales) {
+        if ($my_sales) {
           $criteria->salesConsultant = $user->email;
-      } elseif ($unassigned) {
+        } elseif ($unassigned) {
           $criteria->salesConsultant = ':empty:';
-      }
+        }
 
-      $criteria->order = 'inspectionDate, dateCreated asc';
+        $criteria->order = 'inspectionDate, dateCreated asc';
 
-      if($upcoming || $rejected) {
+        if($upcoming || $rejected) {
           $date = craft()->request->getQuery('date');
           if (!$date && !$isSales && !$isNegotiator) {
               $date = date('Y-m-d');
@@ -75,29 +77,33 @@ class Negotiator_ApiController extends BaseController {
               $criteria->inspectionStatus = 'Rejected';
           }
 
-      } elseif ($unsuccessful) {
+        } elseif ($unsuccessful) {
           $criteria->inspectionStatus = 'Unsuccessful';
-      } elseif ($submitted) {
+        } elseif ($submitted) {
           $criteria->inspectionStatus = 'Submitted';
-      } elseif ($finalized) {
+        } elseif ($finalized) {
           $criteria->inspectionStatus = 'finalized';
-      } else {
+        } elseif ($unopened) {
+          $criteria->inspectionStatus = 'Unopened';
+        } elseif ($opened) {
+          $criteria->inspectionStatus = 'Opened';
+        } else {
         //Pending
           $criteria->runbikestopId = ':notempty:';
 
           $dbCommand = craft()->elements->buildElementsQuery($criteria);
           $dbCommand->andWhere('field_inspectionDate IS NULL OR field_rescheduled = 1');
-      }
+        }
 
-      if(isset($dbCommand)) {
+        if(isset($dbCommand)) {
           $inspections = EntryModel::populateModels($dbCommand->queryAll());
-      } else {
+        } else {
           $inspections = $criteria->find();
-      }
+        }
 
-      //build out response object
-      $result = [];
-      foreach ($inspections as $i) {
+        //build out response object
+        $result = [];
+        foreach ($inspections as $i) {
           if($i->location->parts) {
               $parts = $i->location->parts + ['route_short' => '', 'locality' => '']; //sometimes necessary fields may be absent
               $address = trim($parts['route_short'] . ' ' . $parts['locality']) ?: 'TBC';
@@ -123,10 +129,10 @@ class Negotiator_ApiController extends BaseController {
               'inspector' => $i->inspector[0] ? $this->_apifyUser($i->inspector[0]) : null,
               'salesConsultant' => $i->salesConsultant,
           ];
-      }
+        }
 
-      $this->returnJson($result);
-  }
+        $this->returnJson($result);
+    }
 
     public function actionInspection(array $variables = [])
     {
@@ -148,34 +154,34 @@ class Negotiator_ApiController extends BaseController {
         ]);
     }
 
-  public function actionInspectors()
-  {
-      $criteria = craft()->elements->getCriteria(ElementType::User);
-      $criteria->group = 'inspectors';
-      $criteria->order = 'firstName, lastName, email';
+    public function actionInspectors()
+    {
+        $criteria        = craft()->elements->getCriteria(ElementType::User);
+        $criteria->group = 'inspectors';
+        $criteria->order = 'firstName, lastName, email';
 
-      $users = $criteria->find();
-      $result = [];
-      foreach($users as $user) {
-          $result[] = $this->_apifyUser($user);
-      }
+        $users  = $criteria->find();
+        $result = [];
+        foreach ($users as $user) {
+            $result[] = $this->_apifyUser($user);
+        }
 
-      $this->returnJson($result);
-  }
+        $this->returnJson($result);
+    }
 
-  public function actionOffer(array $variables = [])
-  {
-      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->id = $variables['id'];
-      $inspection   = $criteria->first();
+    public function actionOffer(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
 
-      $this->returnJson([
-          'data'    => $this->_processFieldData($inspection),
-          'options' => $this->_getFields(),
-          'report'  => craft()->negotiator_assessment->calculateOffer($inspection),
-          'total'   => craft()->negotiator_offer->calculateOfferTotal($inspection),
-      ]);
-  }
+        $this->returnJson([
+            'data'    => $this->_processFieldData($inspection),
+            'options' => $this->_getFields(),
+            'report'  => craft()->negotiator_assessment->calculateOffer($inspection),
+            'total'   => craft()->negotiator_offer->calculateOfferTotal($inspection),
+        ]);
+    }
 
     public function actionFinalise()
     {
@@ -198,91 +204,107 @@ class Negotiator_ApiController extends BaseController {
         }
     }
 
-  public function actionGetContract() {
-    $settings = craft()->globals->getSetByHandle('settings');
-    $this->returnJson(['content'=>(string) $settings->contractCopy]);
-  }
+    public function actionGetContract()
+    {
+        $settings = craft()->globals->getSetByHandle('settings');
+        $this->returnJson(['content' => (string)$settings->contractCopy]);
+    }
 
-  public function actionSubmitContract(array $variables = [])
-  {
-      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->id = $variables['id'];
-      $inspection   = $criteria->first();
+    public function actionSubmitContract(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
 
-      if(!$inspection) {
-          throw new HttpException(404);
-      }
+        if (!$inspection) {
+            throw new HttpException(404);
+        }
 
-      if (!in_array($inspection->inspectionStatus, ['Unopened', 'Opened'])) {
-          throw new HttpException(403);
-      }
+        if (!in_array($inspection->inspectionStatus, ['Unopened', 'Opened'])) {
+            throw new HttpException(403);
+        }
 
-      $post = craft()->request->getPost('fields');
-      $inspection->setContentPostLocation('fields'); //for proper files handling
+        $post = craft()->request->getPost('fields');
+        $inspection->setContentPostLocation('fields'); //for proper files handling
 
-      $inspection->setContentFromPost([
-          'customerName'                         => $post['customerName'],
-          'customerSignatureString'              => $post['customerSignatureString'],
-          'customerMobileNumber'                 => $post['customerMobileNumber'],
-          'customerEmail'                        => $post['customerEmail'],
-          'customerAddress'                      => $post['customerAddress'],
-          'customerState'                        => $post['customerState'],
-          'customerSuburb'                       => $post['customerSuburb'],
-          'customerPostcode'                     => $post['customerPostcode'],
-          'customerDriversLicense'               => $post['customerDriversLicense'],
-          'customerDriversLicenseExpirationDate' => $post['customerDriversLicenseExpirationDate'],
-          'customerDob'                          => $post['customerDob'],
-          'registrationNumber'                   => $post['registrationNumber'],
-          'expirationDate'                       => $post['expirationDate'],
-          'finance'                              => $post['finance'],
-          'financeCompany'                       => $post['financeCompany'],
-          'bsb'                                  => $post['bsb'],
-          'bankAccountNumber'                    => $post['bankAccountNumber'],
-          'bank'                                 => $post['bank'],
-          'pickupAddressAndContact'              => $post['pickupAddressAndContact'],
-          'licenseAndRegistrationPhotos'         => $post['licenseAndRegistrationPhotos'] ?? [],
-          'inspectionStatus'                     => 'finalized',
-      ]);
+        $inspection->setContentFromPost([
+            'customerName'                         => $post['customerName'],
+            'customerSignatureString'              => $post['customerSignatureString'],
+            'customerMobileNumber'                 => $post['customerMobileNumber'],
+            'customerEmail'                        => $post['customerEmail'],
+            'customerAddress'                      => $post['customerAddress'],
+            'customerState'                        => $post['customerState'],
+            'customerSuburb'                       => $post['customerSuburb'],
+            'customerPostcode'                     => $post['customerPostcode'],
+            'customerDriversLicense'               => $post['customerDriversLicense'],
+            'customerDriversLicenseExpirationDate' => $post['customerDriversLicenseExpirationDate'],
+            'customerDob'                          => $post['customerDob'],
+            'registrationNumber'                   => $post['registrationNumber'],
+            'expirationDate'                       => $post['expirationDate'],
+            'finance'                              => $post['finance'],
+            'financeCompany'                       => $post['financeCompany'],
+            'bsb'                                  => $post['bsb'],
+            'bankAccountNumber'                    => $post['bankAccountNumber'],
+            'bank'                                 => $post['bank'],
+            'pickupAddressAndContact'              => $post['pickupAddressAndContact'],
+            'licenseAndRegistrationPhotos'         => $post['licenseAndRegistrationPhotos'] ?? [],
+            'inspectionStatus'                     => 'finalized',
+        ]);
 
-      craft()->entries->saveEntry($inspection);
-  }
+        craft()->entries->saveEntry($inspection);
+    }
 
-  public function actionSetOpened(array $variables = [])
-  {
-      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->id = $variables['id'];
-      $inspection   = $criteria->first();
+    public function actionSetOpened(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
 
-      if(!$inspection) {
-          throw new HttpException(404);
-      }
+        if (!$inspection) {
+            throw new HttpException(404);
+        }
 
-      if ($inspection->inspectionStatus == 'Opened') {
-          return;
-      }
+        if ($inspection->inspectionStatus == 'Opened') {
+            return;
+        }
 
-      if ($inspection->inspectionStatus != 'Unopened') {
-          throw new HttpException(403);
-      }
+        if ($inspection->inspectionStatus != 'Unopened') {
+            throw new HttpException(403);
+        }
 
-      $inspection->setContentFromPost(['inspectionStatus' => 'Opened']);
-      craft()->entries->saveEntry($inspection);
-  }
+        $inspection->setContentFromPost(['inspectionStatus' => 'Opened']);
+        craft()->entries->saveEntry($inspection);
+    }
 
-  public function actionSetSold(array $variables = [])
-  {
-      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->id = $variables['id'];
-      $inspection   = $criteria->first();
+    public function actionSetSold(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
 
-      if(!$inspection) {
-          throw new HttpException(404);
-      }
+        if (!$inspection) {
+            throw new HttpException(404);
+        }
 
-      $inspection->setContentFromPost(['inspectionStatus' => 'Archived']);
-      craft()->negotiator_notifications->onSold(new Event(null, ['inspection' => $inspection]));
-      craft()->entries->saveEntry($inspection);
-  }
+        $inspection->setContentFromPost(['inspectionStatus' => 'Archived']);
+        craft()->negotiator_notifications->onSold(new Event(null, ['inspection' => $inspection]));
+        craft()->entries->saveEntry($inspection);
+    }
+
+    public function actionSendPaperwork(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
+
+        if (!$inspection) {
+            throw new HttpException(404);
+        }
+
+        $inspection->setContentFromPost(['inspectionStatus' => 'Unopened']);
+        craft()->entries->saveEntry($inspection);
+        craft()->negotiator_notifications->onSendPaperwork(new Event(null, ['inspection' => $inspection]));
+    }
 
 
     private function _processFieldData(BaseElementModel $inspection)

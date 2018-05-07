@@ -49,6 +49,8 @@
                     case 'Accepted':
                     case 'Submitted':
                     case 'Unsuccessful':
+                    case 'Unopened':
+                    case 'Opened':
                         theStatus = inspection.status
                         break;
                     default:
@@ -74,7 +76,7 @@
                     }
                 } else if (inspection.status === 'UpComing' && inspection.pending) {
                     this.$router.push('/pending-inspection/' + this.inspection.id)
-                } else if (inspection.status === 'Unsuccessful' || inspection.status === 'Submitted' && !this.currentUser.isInspector) {
+                } else if (['Unsuccessful', 'Unopened', 'Opened'].indexOf(inspection.status) !== -1 || inspection.status === 'Submitted' && !this.currentUser.isInspector) {
                     this.$router.push('/inspection-details/' + this.inspection.id)
                 } else if (inspection.status === 'Submitted' && !this.currentUser.isNegotiator) {
                     this.$router.push('/offer/' + this.inspection.id)

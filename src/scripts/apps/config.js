@@ -11,5 +11,6 @@ export const urlGetInspectors = apiUrl + '/inspectors'
 export const urlSubmitContract = apiUrl + '/submitContract'
 export const urlSetOpened = apiUrl + '/setOpened'
 export const urlSetSold = apiUrl + '/setSold'
+export const urlSendPaperwork = apiUrl + '/sendPaperwork'
 
 export const googleMapKey = 'AIzaSyA_23nFPFWXG5OOKqog5A9tLzb6e8CLi60'
