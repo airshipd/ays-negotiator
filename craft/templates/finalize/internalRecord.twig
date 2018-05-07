@@ -88,8 +88,6 @@
           {% set value = 'yes' %}
         {% case '0' %}
           {% set value = 'no' %}
-        {% case '' %}
-          {% set value = 'not filled out' %}
       {% endswitch %}
       {% if field == 'complianceDate' or field == 'buildDate' %}
         {% set value = value ? (value | date('m/y')) : '' %}
@@ -102,7 +100,7 @@
                 {% set value = value ~ ', ' ~ attribute(entry, 'serviceHistoryPartial') ~ '%' %}
             {% endif %}
         {% endif %}
-      <div class="fieldValue">{{ value }}</div>
+      <div class="fieldValue">{{ value ?: 'not filled out' }}</div>
     </div>
     {% endfor %}
   </section>
