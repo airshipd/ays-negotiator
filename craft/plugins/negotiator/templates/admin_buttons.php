@@ -26,6 +26,19 @@ $id = $inspection->id;
             $('select[name="fields[inspectionStatus]"]').val('Unopened');
         })
     });
+
+    $(function() {
+        //make it possible to download original photos easily
+        $('.element.hasthumb').each(function() {
+            if ($(this).parents('#author-field').length) {
+                return;
+            }
+            
+            var title = $(this).find('.label .title');
+            var a = $('<a/>').text(title.text()).attr('class', 'title').attr('target', '_blank').attr('href', $(this).data('url'));
+            title.replaceWith(a);
+        });
+    });
 JS;
 
 \Craft\craft()->templates->includeJs($js);
