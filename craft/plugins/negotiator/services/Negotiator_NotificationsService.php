@@ -106,12 +106,24 @@ Are You Selling";
     }
 
     /**
-     * Fires an 'onSubmitted' event - when inspector clicks "Submit" or "Skip to paperwork" at Pre-Inspection Form
+     * Fires an 'onSold' event
      *
      * @param Event $event
+     * @throws \CException
      */
-    public function onSubmitted(Event $event)
+    public function onSold(Event $event)
     {
-        $this->raiseEvent('onSubmitted', $event);
+        $this->raiseEvent('onSold', $event);
+    }
+
+    /**
+     * Fires an 'onSendPaperwork' event
+     *
+     * @param Event $event
+     * @throws \CException
+     */
+    public function onSendPaperwork(Event $event)
+    {
+        $this->raiseEvent('onSendPaperwork', $event);
     }
 }

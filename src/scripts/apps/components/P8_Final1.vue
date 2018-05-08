@@ -156,7 +156,7 @@
 
       <div class="row">
           <div class="col m3">
-              <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'"
+              <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'expirationDate'"
                   :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
           </div>
           <div class="col m3">
@@ -176,8 +176,8 @@
           </div>
       </div>
 
-    <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
-    <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
+    <input-file-list label="Vehicle Photos" @updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos" :limit="10"></input-file-list>
+    <input-file-list label="License and Registration Photos" @updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
     <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
   </section>

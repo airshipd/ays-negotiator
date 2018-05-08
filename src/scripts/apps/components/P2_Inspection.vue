@@ -153,7 +153,7 @@
 
         <div class="row">
             <div class="col m3">
-                <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+                <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'expirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
             </div>
             <div class="col m3">
                 <input-text :label="'Build Date'" v-model="buildDate" :name="'buildDate'" :validation-rules="{required:true, regex: /^[01]\d\/\d\d$/}"></input-text>
@@ -192,8 +192,8 @@
             </div>
         </div>
 
-        <input-file-list :label="'Vehicle Photos'" @updated="addVehiclePhoto" @delete="deleteVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
-        <input-file-list :label="'License and Registration Photos'" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
+        <input-file-list label="Vehicle Photos" @updated="addVehiclePhoto" @delete="deleteVehiclePhoto" :initial-images="inspection.vehiclePhotos" :limit="10"></input-file-list>
+        <input-file-list label="License and Registration Photos" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
         <div class="inspection-dark">
             <div class="row">

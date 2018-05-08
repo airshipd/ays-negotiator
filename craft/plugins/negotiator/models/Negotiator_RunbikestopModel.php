@@ -216,4 +216,9 @@ class Negotiator_RunbikestopModel extends BaseModel
     {
         return $this->inspector_email === 'localmech@areyouselling.com.au';
     }
+
+    public function getSCEmail()
+    {
+        return $this->sales_consultant_email ? str_replace('@carhouseaustralia.com.au', '@areyouselling.com.au', $this->sales_consultant_email) : null;
+    }
 }

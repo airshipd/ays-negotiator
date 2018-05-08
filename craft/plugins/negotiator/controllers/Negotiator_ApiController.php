@@ -6,123 +6,136 @@ class Negotiator_ApiController extends BaseController {
     protected $allowAnonymous = true;
 
     public function actionInspections()
-  {
-      $user = craft()->userSession->getUser();
-      $isNegotiator = $user->isInGroup('negotiators');
-      $isSales = $user->isInGroup('sales_consultants');
+    {
+        $user         = craft()->userSession->getUser();
+        $isInspector  = $user->isInGroup('inspectors');
+        $isNegotiator = $user->isInGroup('negotiators');
+        $isSales      = $user->isInGroup('sales_consultants');
 
-      $upcoming = craft()->request->getQuery('upcoming', false);
-      $rejected = craft()->request->getQuery('rejected', false);
-      $unsuccessful = craft()->request->getQuery('unsuccessful', false);
-      $submitted = craft()->request->getQuery('submitted', false);
-      $my_sales = craft()->request->getQuery('my_sales', false);
-      $unassigned = craft()->request->getQuery('unassigned', false);
+        $upcoming     = craft()->request->getQuery('upcoming', false);
+        $rejected     = craft()->request->getQuery('rejected', false);
+        $unsuccessful = craft()->request->getQuery('unsuccessful', false);
+        $submitted    = craft()->request->getQuery('submitted', false);
+        $finalized    = craft()->request->getQuery('finalized', false);
+        $my_sales     = craft()->request->getQuery('my_sales', false);
+        $unassigned   = craft()->request->getQuery('unassigned', false);
+        $unopened     = craft()->request->getQuery('unopened', false);
+        $opened       = craft()->request->getQuery('opened', false);
 
-      $criteria = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->limit = null;
-      $criteria->section = 'inspections';
-      if (!$user->admin && !$isNegotiator && !$isSales) {
-          $criteria->relatedTo = [
-              'targetElement' => $user,
-              'field'         => 'inspector',
-          ];
-      }
+        $criteria          = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->limit   = null;
+        $criteria->section = 'inspections';
+        if ($isInspector) {
+            $criteria->relatedTo = [
+                'targetElement' => $user,
+                'field'         => 'inspector',
+            ];
+        }
 
-      if($state = craft()->request->getQuery('state')) {
-          if($state === 'nt_sa') {
-              $state = 'or,nt,sa';
-          }
+        if ($state = craft()->request->getQuery('state')) {
+            if ($state === 'nt_sa') {
+                $state = 'or,nt,sa';
+            }
 
-          $criteria->customerState = $state;
-      }
+            $criteria->customerState = $state;
+        }
 
-      if ($my_sales) {
-          $criteria->salesConsultant = $user->email;
-      } elseif ($unassigned) {
-          $criteria->salesConsultant = ':empty:';
-      }
+        if ($my_sales) {
+            $criteria->salesConsultant = $user->email;
+        } elseif ($unassigned) {
+            $criteria->salesConsultant = ':empty:';
+        }
 
-      $criteria->order = 'inspectionDate, dateCreated asc';
+        $criteria->order = 'inspectionDate, dateCreated asc';
 
-      if($upcoming || $rejected) {
-          $date = craft()->request->getQuery('date');
-          if (!$date && !$isSales && !$isNegotiator) {
-              $date = date('Y-m-d');
-          }
+        if ($upcoming || $rejected) {
+            $date = craft()->request->getQuery('date');
+            if (!$date && !$isSales && !$isNegotiator) {
+                $date = date('Y-m-d');
+            }
 
-          if($date) {
-              //Validate "date". It can't be more than 7 days in the future and it can't be more than 30 days in the past
-              $now = new DateTime(date('Y-m-d')); //don't remove date() parameter. Otherwise it will take h:m:s into account and calculate wrong results
-              $dateObject = new DateTime($date);
-              $interval = $dateObject->diff($now);
-              $diff_days = $interval->format('%r%a');
+            if ($date) {
+                //Validate "date". It can't be more than 7 days in the future and it can't be more than 30 days in the past
+                $now        =
+                    new DateTime(date('Y-m-d')); //don't remove date() parameter. Otherwise it will take h:m:s into account and calculate wrong results
+                $dateObject = new DateTime($date);
+                $interval   = $dateObject->diff($now);
+                $diff_days  = $interval->format('%r%a');
 
-              if($diff_days < -7 || $diff_days > 30) {
-                  $dateObject = $now;
-              }
+                if ($diff_days < -7 || $diff_days > 30) {
+                    $dateObject = $now;
+                }
 
-              $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
-          } elseif($upcoming) {
-              $criteria->inspectionDate = ':notempty:';
-          }
+                $criteria->inspectionDate = 'and,>=' . $dateObject->format('Y-m-d') . ',<' . $dateObject->add(new \DateInterval('P1D'));
+            } elseif ($upcoming) {
+                $criteria->inspectionDate = ':notempty:';
+            }
 
-          if($upcoming) {
-              $criteria->inspectionStatus = 'UpComing';
-              $criteria->rescheduled = 0;
-          } else {
-              $criteria->inspectionStatus = 'Rejected';
-          }
+            if ($upcoming) {
+                $criteria->inspectionStatus = 'UpComing';
+                $criteria->rescheduled      = 0;
+            } else {
+                $criteria->inspectionStatus = 'Rejected';
+            }
 
-      } elseif ($unsuccessful) {
-          $criteria->inspectionStatus = 'Unsuccessful';
-      } elseif ($submitted) {
-          $criteria->inspectionStatus = 'Submitted';
-      } else {
-        //Pending
-          $criteria->runbikestopId = ':notempty:';
+        } elseif ($unsuccessful) {
+            $criteria->inspectionStatus = 'Unsuccessful';
+        } elseif ($submitted) {
+            $criteria->inspectionStatus = 'Submitted';
+        } elseif ($finalized) {
+            $criteria->inspectionStatus = 'finalized';
+        } elseif ($unopened) {
+            $criteria->salesConsultant  = $user->email;
+            $criteria->inspectionStatus = 'Unopened';
+        } elseif ($opened) {
+            $criteria->salesConsultant  = $user->email;
+            $criteria->inspectionStatus = 'Opened';
+        } else {
+            //Pending
+            $criteria->runbikestopId = ':notempty:';
 
-          $dbCommand = craft()->elements->buildElementsQuery($criteria);
-          $dbCommand->andWhere('field_inspectionDate IS NULL OR field_rescheduled = 1');
-      }
+            $dbCommand = craft()->elements->buildElementsQuery($criteria);
+            $dbCommand->andWhere('field_inspectionDate IS NULL OR field_rescheduled = 1');
+        }
 
-      if(isset($dbCommand)) {
-          $inspections = EntryModel::populateModels($dbCommand->queryAll());
-      } else {
-          $inspections = $criteria->find();
-      }
+        if (isset($dbCommand)) {
+            $inspections = EntryModel::populateModels($dbCommand->queryAll());
+        } else {
+            $inspections = $criteria->find();
+        }
 
-      //build out response object
-      $result = [];
-      foreach ($inspections as $i) {
-          if($i->location->parts) {
-              $parts = $i->location->parts + ['route_short' => '', 'locality' => '']; //sometimes necessary fields may be absent
-              $address = trim($parts['route_short'] . ' ' . $parts['locality']) ?: 'TBC';
-          } else {
-              $address = 'TBC';
-          }
+        //build out response object
+        $result = [];
+        foreach ($inspections as $i) {
+            if ($i->location->parts) {
+                $parts   = $i->location->parts + ['route_short' => '', 'locality' => '']; //sometimes necessary fields may be absent
+                $address = trim($parts['route_short'] . ' ' . $parts['locality']) ?: 'TBC';
+            } else {
+                $address = 'TBC';
+            }
 
-          $result[] = [
-              'id'      => $i->id,
-              'lat'     => $i->location->lat ? floatval($i->location->lat) : null,
-              'lng'     => $i->location->lng ? floatval($i->location->lng) : null,
-              'zoom'    => intval($i->location->zoom),
-              'address' => $address,
-              'title'   => $i->year . ' ' . $i->make . ' ' . $i->model . ' ' . $i->badge,
-              'status'  => $i->getContent()->inspectionStatus,
-              'url'     => $i->url,
-              'pending' => !$i->inspectionDate || $i->rescheduled,
-              'rescheduled' => $i->rescheduled,
-              'driveIn' => $i->driveIn,
-              'localMech' => $i->localMech,
-              'inspectionDate' => $i->inspectionDate ? $i->inspectionDate->format('Y-m-d H:i:s') : null,
-              'customerName' => $i->customerName,
-              'inspector' => $i->inspector[0] ? $this->_apifyUser($i->inspector[0]) : null,
-              'salesConsultant' => $i->salesConsultant,
-          ];
-      }
+            $result[] = [
+                'id'              => $i->id,
+                'lat'             => $i->location->lat ? floatval($i->location->lat) : null,
+                'lng'             => $i->location->lng ? floatval($i->location->lng) : null,
+                'zoom'            => intval($i->location->zoom),
+                'address'         => $address,
+                'title'           => $i->year . ' ' . $i->make . ' ' . $i->model . ' ' . $i->badge,
+                'status'          => $i->getContent()->inspectionStatus,
+                'url'             => $i->url,
+                'pending'         => !$i->inspectionDate || $i->rescheduled,
+                'rescheduled'     => $i->rescheduled,
+                'driveIn'         => $i->driveIn,
+                'localMech'       => $i->localMech,
+                'inspectionDate'  => $i->inspectionDate ? $i->inspectionDate->format('Y-m-d H:i:s') : null,
+                'customerName'    => $i->customerName,
+                'inspector'       => $i->inspector[0] ? $this->_apifyUser($i->inspector[0]) : null,
+                'salesConsultant' => $i->salesConsultant,
+            ];
+        }
 
-      $this->returnJson($result);
-  }
+        $this->returnJson($result);
+    }
 
     public function actionInspection(array $variables = [])
     {
@@ -144,34 +157,34 @@ class Negotiator_ApiController extends BaseController {
         ]);
     }
 
-  public function actionInspectors()
-  {
-      $criteria = craft()->elements->getCriteria(ElementType::User);
-      $criteria->group = 'inspectors';
-      $criteria->order = 'firstName, lastName, email';
+    public function actionInspectors()
+    {
+        $criteria        = craft()->elements->getCriteria(ElementType::User);
+        $criteria->group = 'inspectors';
+        $criteria->order = 'firstName, lastName, email';
 
-      $users = $criteria->find();
-      $result = [];
-      foreach($users as $user) {
-          $result[] = $this->_apifyUser($user);
-      }
+        $users  = $criteria->find();
+        $result = [];
+        foreach ($users as $user) {
+            $result[] = $this->_apifyUser($user);
+        }
 
-      $this->returnJson($result);
-  }
+        $this->returnJson($result);
+    }
 
-  public function actionOffer(array $variables = [])
-  {
-      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->id = $variables['id'];
-      $inspection   = $criteria->first();
+    public function actionOffer(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
 
-      $this->returnJson([
-          'data'    => $this->_processFieldData($inspection),
-          'options' => $this->_getFields(),
-          'report'  => craft()->negotiator_assessment->calculateOffer($inspection),
-          'total'   => craft()->negotiator_offer->calculateOfferTotal($inspection),
-      ]);
-  }
+        $this->returnJson([
+            'data'    => $this->_processFieldData($inspection),
+            'options' => $this->_getFields(),
+            'report'  => craft()->negotiator_assessment->calculateOffer($inspection),
+            'total'   => craft()->negotiator_offer->calculateOfferTotal($inspection),
+        ]);
+    }
 
     public function actionFinalise()
     {
@@ -194,76 +207,107 @@ class Negotiator_ApiController extends BaseController {
         }
     }
 
-  public function actionGetContract() {
-    $settings = craft()->globals->getSetByHandle('settings');
-    $this->returnJson(['content'=>(string) $settings->contractCopy]);
-  }
+    public function actionGetContract()
+    {
+        $settings = craft()->globals->getSetByHandle('settings');
+        $this->returnJson(['content' => (string)$settings->contractCopy]);
+    }
 
-  public function actionSubmitContract(array $variables = [])
-  {
-      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->id = $variables['id'];
-      $inspection   = $criteria->first();
+    public function actionSubmitContract(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
 
-      if(!$inspection) {
-          throw new HttpException(404);
-      }
+        if (!$inspection) {
+            throw new HttpException(404);
+        }
 
-      if (!in_array($inspection->inspectionStatus, ['Unopened', 'Opened'])) {
-          throw new HttpException(403);
-      }
+        if (!in_array($inspection->inspectionStatus, ['Unopened', 'Opened'])) {
+            throw new HttpException(403);
+        }
 
-      $post = craft()->request->getPost('fields');
-      $inspection->setContentPostLocation('fields'); //for proper files handling
+        $post = craft()->request->getPost('fields');
+        $inspection->setContentPostLocation('fields'); //for proper files handling
 
-      $inspection->setContentFromPost([
-          'customerName'                         => $post['customerName'],
-          'customerSignatureString'              => $post['customerSignatureString'],
-          'customerMobileNumber'                 => $post['customerMobileNumber'],
-          'customerEmail'                        => $post['customerEmail'],
-          'customerAddress'                      => $post['customerAddress'],
-          'customerState'                        => $post['customerState'],
-          'customerSuburb'                       => $post['customerSuburb'],
-          'customerPostcode'                     => $post['customerPostcode'],
-          'customerDriversLicense'               => $post['customerDriversLicense'],
-          'customerDriversLicenseExpirationDate' => $post['customerDriversLicenseExpirationDate'],
-          'customerDob'                          => $post['customerDob'],
-          'registrationNumber'                   => $post['registrationNumber'],
-          'expirationDate'                       => $post['expirationDate'],
-          'finance'                              => $post['finance'],
-          'financeCompany'                       => $post['financeCompany'],
-          'bsb'                                  => $post['bsb'],
-          'bankAccountNumber'                    => $post['bankAccountNumber'],
-          'bank'                                 => $post['bank'],
-          'pickupAddressAndContact'              => $post['pickupAddressAndContact'],
-          'licenseAndRegistrationPhotos'         => $post['licenseAndRegistrationPhotos'] ?? [],
-          'inspectionStatus'                     => 'finalized',
-      ]);
+        $inspection->setContentFromPost([
+            'customerName'                         => $post['customerName'],
+            'customerSignatureString'              => $post['customerSignatureString'],
+            'customerMobileNumber'                 => $post['customerMobileNumber'],
+            'customerEmail'                        => $post['customerEmail'],
+            'customerAddress'                      => $post['customerAddress'],
+            'customerState'                        => $post['customerState'],
+            'customerSuburb'                       => $post['customerSuburb'],
+            'customerPostcode'                     => $post['customerPostcode'],
+            'customerDriversLicense'               => $post['customerDriversLicense'],
+            'customerDriversLicenseExpirationDate' => $post['customerDriversLicenseExpirationDate'],
+            'customerDob'                          => $post['customerDob'],
+            'registrationNumber'                   => $post['registrationNumber'],
+            'expirationDate'                       => $post['expirationDate'],
+            'finance'                              => $post['finance'],
+            'financeCompany'                       => $post['financeCompany'],
+            'bsb'                                  => $post['bsb'],
+            'bankAccountNumber'                    => $post['bankAccountNumber'],
+            'bank'                                 => $post['bank'],
+            'pickupAddressAndContact'              => $post['pickupAddressAndContact'],
+            'licenseAndRegistrationPhotos'         => $post['licenseAndRegistrationPhotos'] ?? [],
+            'inspectionStatus'                     => 'finalized',
+        ]);
 
-      craft()->entries->saveEntry($inspection);
-  }
+        craft()->entries->saveEntry($inspection);
+    }
 
-  public function actionSetOpened(array $variables = [])
-  {
-      $criteria     = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->id = $variables['id'];
-      $inspection   = $criteria->first();
+    public function actionSetOpened(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
 
-      if(!$inspection) {
-          throw new HttpException(404);
-      }
+        if (!$inspection) {
+            throw new HttpException(404);
+        }
 
-      if ($inspection->inspectionStatus == 'Opened') {
-          return;
-      }
+        if ($inspection->inspectionStatus == 'Opened') {
+            return;
+        }
 
-      if ($inspection->inspectionStatus != 'Unopened') {
-          throw new HttpException(403);
-      }
+        if ($inspection->inspectionStatus != 'Unopened') {
+            throw new HttpException(403);
+        }
 
-      $inspection->setContentFromPost(['inspectionStatus' => 'Opened']);
-      craft()->entries->saveEntry($inspection);
-  }
+        $inspection->setContentFromPost(['inspectionStatus' => 'Opened']);
+        craft()->entries->saveEntry($inspection);
+    }
+
+    public function actionSetSold(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
+
+        if (!$inspection) {
+            throw new HttpException(404);
+        }
+
+        $inspection->setContentFromPost(['inspectionStatus' => 'Archived']);
+        craft()->negotiator_notifications->onSold(new Event(null, ['inspection' => $inspection]));
+        craft()->entries->saveEntry($inspection);
+    }
+
+    public function actionSendPaperwork(array $variables = [])
+    {
+        $criteria     = craft()->elements->getCriteria(ElementType::Entry);
+        $criteria->id = $variables['id'];
+        $inspection   = $criteria->first();
+
+        if (!$inspection) {
+            throw new HttpException(404);
+        }
+
+        $inspection->setContentFromPost(['inspectionStatus' => 'Unopened']);
+        craft()->entries->saveEntry($inspection);
+        craft()->negotiator_notifications->onSendPaperwork(new Event(null, ['inspection' => $inspection]));
+    }
 
 
     private function _processFieldData(BaseElementModel $inspection)
@@ -317,7 +361,9 @@ class Negotiator_ApiController extends BaseController {
     private function _getFields()
     {
         $ret = [];
-        $layout = craft()->fields->getLayoutByType(ElementType::Entry);
+
+        $entryTypes = craft()->sections->getEntryTypesByHandle('inspection');
+        $layout = $entryTypes[0]->getFieldLayout();
 
         foreach ($layout->getFields() as $fieldLayoutField) {
             $field = $fieldLayoutField->getField();

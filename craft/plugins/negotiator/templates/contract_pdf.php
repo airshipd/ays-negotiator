@@ -240,7 +240,7 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
         <td class="text">Reg No</td>
         <td class="underline"><?= h($inspection->registrationNumber) ?></td>
         <td class="text">Exp Date</td>
-        <td class="underline"><?= format_date($inspection->registrationExpirationDate) ?></td>
+        <td class="underline"><?= format_date($inspection->expirationDate) ?></td>
     </tr>
 </table>
 <table class="string">
@@ -354,7 +354,15 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     hereby agree to sell my car to Car Buyers Australia Pty Ltd (<b>Car Buyers</b>) for the amount of:
 </div>
 <div style="margin-top: 15px;">
-    $ <span style="display: inline-block; border-bottom: 1px dotted #000; padding-right: 200px;"><?= $inspection->agreedPrice ?: $inspection->reviewValuation - $inspection->approximateExpenditure ?></span>
+    <?php
+    $price = $inspection->agreedPrice ?: $inspection->reviewValuation - $inspection->approximateExpenditure;
+    if ($inspection->getContent()->priceType == 'full') {
+        $price -= 182;
+    } elseif ($inspection->getContent()->priceType == 'half') {
+        $price -= 91;
+    }
+    ?>
+    $ <span style="display: inline-block; border-bottom: 1px dotted #000; padding-right: 200px;"><?= $price ?></span>
     <b>(Purchase Price)</b>
 </div>
 

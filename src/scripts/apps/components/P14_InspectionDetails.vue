@@ -106,7 +106,7 @@
                 </div>
                 <div class="row">
                     <div class="col m6">Registration Expiration Date:</div>
-                    <div class="col m6">{{ inspection.registrationExpirationDate }}</div>
+                    <div class="col m6">{{ inspection.expirationDate }}</div>
                 </div>
                 <div class="row">
                     <div class="col m6">Build Date:</div>
@@ -142,6 +142,10 @@
                     <div class="col m6">{{ this.inspection.salesConsultant }}</div>
                 </div>
                 <div class="row">
+                    <div class="col m6">Price Type:</div>
+                    <div class="col m6">{{ this.inspection.priceType }}</div>
+                </div>
+                <div class="row">
                     <div class="col m12">Damage and Faults:</div>
                     <div class="col m12 show-line-breaks" v-html="inspection.damageAndFaults || ''"></div>
                 </div>
@@ -158,10 +162,24 @@
         </div>
 
         <div class="row">
-            <div class="col m12 right-align">
-              <h4 >Latest Price: $ <input v-model="inspection.agreedPrice" name="agreedPrice" v-validate="{required: true, decimal: 2}"></h4>
+            <div class="col m12 inspection-details-field">
+              <h4 >Latest Price: $ <input v-model="inspection.agreedPrice" name="agreedPrice" v-validate="{required: true, decimal: 2}"
+                  :disabled="inspection.inspectionStatus === 'finalized'"></h4>
               <span v-show="errors.has('agreedPrice')" class="help is-danger">{{ errors.first('agreedPrice') }}</span>
             </div>
+            <template v-if="inspection.inspectionStatus === 'finalized'">
+                <div class="col m12 inspection-details-field">
+                    <h4>Price Sold: $ <input v-model="inspection.priceSold" name="priceSold" v-validate="{required: true, decimal: 2, min_value: 1}"></h4>
+                    <span v-show="errors.has('priceSold')" class="help is-danger">{{ errors.first('priceSold') }}</span>
+                </div>
+                <div class="col m12 inspection-details-field">
+                    <h4>Sold To: <input v-model="inspection.soldTo" name="soldTo" v-validate="{required: true}"></h4>
+                    <span v-show="errors.has('soldTo')" class="help is-danger">{{ errors.first('soldTo') }}</span>
+                </div>
+                <div class="col m12 inspection-details-profit">
+                    <h4>Profit: <span class="profit-value" :class="{positive: profit > 0, negative: profit <= 0}">{{ profit < 0 ? '-$' + (-profit) : '+$' + profit }}</span></h4>
+                </div>
+            </template>
             <div class="col m12">
                 <textarea v-model="inspection.notes" name="notes" placeholder="Notes..." />
             </div>
@@ -170,8 +188,11 @@
         <b1-button v-show="showSendForPaperwork" label="Email Customer Paperwork" :action="sendPaperwork" :fullWidth="true"></b1-button>
         <b1-button v-show="['Rejected', 'Submitted'].indexOf(inspection.inspectionStatus) !== -1"
             class="grey lighten-1" label="Send for Sales Consultant for follow up" :action="setUnsuccessful" :fullWidth="true"></b1-button>
+        <b1-button v-show="['Unopened', 'Opened'].indexOf(inspection.inspectionStatus) !== -1" class="grey lighten-1" label="Resend Paperwork"
+            :action="sendPaperwork" :fullWidth="true"></b1-button>
         <b1-button v-show="showSendForRemarketing" label="Send for re-marketing" :action="setArchived" :fullWidth="true"></b1-button>
-        <b1-button v-show="inspection.inspectionStatus === 'Unsuccessful' && !inspection.salesConsultant && isSales" label="Assign to me" :action="assignToMe" :fullWidth="true"></b1-button>
+        <b1-button v-show="inspection.inspectionStatus === 'Unsuccessful' && !inspection.salesConsultant && currentUser.isSales" label="Assign to me" :action="assignToMe" :fullWidth="true"></b1-button>
+        <b1-button v-show="inspection.inspectionStatus === 'finalized'" label="Car Sold" :action="setSold" :fullWidth="true"></b1-button>
     </section>
 </template>
 
@@ -184,13 +205,14 @@ import inputCheckboxSwitch from './inputs/N6_CheckboxSwitch.vue'
 import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import b1Button from './buttons/B1_button.vue'
-import inputFileList from './inputs/N8_PhotoList.vue'
 
 import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
 import debounce from 'lodash/debounce';
 import mmyy from '../filters/mmyy.js'
 import _ from 'lodash'
+import {urlSetSold, urlSendPaperwork} from "../config";
+import axios from 'axios';
 
 export default {
     name: 'inspectionDetails',
@@ -205,7 +227,7 @@ export default {
             imgs: [],
             options: {},
             showAgreePrice: false,
-            isSales: window.isSales,
+            currentUser: window.currentUser,
         }
     },
     methods: {
@@ -221,10 +243,9 @@ export default {
                 })
         },
         sendPaperwork: function () {
-            PostService
-                .post(this.$route.params.id, {inspectionStatus: 'Unopened'}, this.options)
+            axios.post(urlSendPaperwork + '/' + this.$route.params.id)
                 .then(() => this.$router.push('/'))
-                .catch(e => console.error(e))
+                .catch(e => { console.error(e)})
         },
         setUnsuccessful: function () {
             PostService
@@ -243,21 +264,42 @@ export default {
                 .post(this.$route.params.id, {salesConsultant: window.currentUser.email}, this.options)
                 .then(() => this.$router.push('/'))
                 .catch(e => console.error(e))
-        }
-    },
-    watch: {
-        'inspection.agreedPrice': debounce(function (agreedPrice) {
-            if(!this.errors.has('agreedPrice')) {
+        },
+        setSold() {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    return axios.post(urlSetSold + '/' + this.$route.params.id)
+                        .then(() => this.$router.push('/'))
+                        .catch(e => { console.error(e)})
+                }
+            })
+
+        },
+
+        saveField: debounce(function (field) {
+            if(!this.errors.has(field)) {
+                let fields = {};
+                fields[field] = this.inspection[field];
+
                 PostService
-                    .post(this.$route.params.id, {agreedPrice}, this.options)
+                    .post(this.$route.params.id, fields, this.options)
                     .catch(e => console.error(e))
             }
-        }, 300),
-        'inspection.notes': debounce(function (notes) {
-            PostService
-                .post(this.$route.params.id, {notes}, this.options)
-                .catch(e => console.error(e))
         }, 300)
+    },
+    watch: {
+        'inspection.agreedPrice': function () {
+            this.saveField('agreedPrice');
+        },
+        'inspection.notes': function () {
+            this.saveField('notes');
+        },
+        'inspection.priceSold': function () {
+            this.saveField('priceSold');
+        },
+        'inspection.soldTo': function () {
+            this.saveField('soldTo');
+        },
     },
     components: {
         inputText,
@@ -268,7 +310,6 @@ export default {
         b1Button,
         inputCheckboxSwitch,
         inputNumber,
-        inputFileList
     },
     filters: {
         capitalize (value) {
@@ -290,6 +331,9 @@ export default {
         showSendForRemarketing() {
             return ['Unopened', 'Opened'].indexOf(this.inspection.inspectionStatus) !== -1 ||
                 this.inspection.inspectionStatus === 'Unsuccessful' && this.inspection.salesConsultant;
+        },
+        profit() {
+            return this.inspection.priceSold - this.inspection.agreedPrice;
         }
     }
 }

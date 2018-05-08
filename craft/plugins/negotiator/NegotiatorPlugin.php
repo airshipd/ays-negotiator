@@ -99,7 +99,7 @@ class NegotiatorPlugin extends BasePlugin {
 
             if ($inspection->section->handle === 'inspections') {
                 // Return the button HTML
-                require CRAFT_PLUGINS_PATH . 'negotiator/templates/admin_send_paperwork_btn.php';
+                require CRAFT_PLUGINS_PATH . 'negotiator/templates/admin_buttons.php';
             }
         });
     }

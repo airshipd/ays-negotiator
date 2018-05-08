@@ -12,18 +12,21 @@
                                 <span class="material-icons medium">border_color</span>
                             </router-link>
 
-                            <div class="header-date" v-if="!isSales && !isNegotiator">
+                            <div class="header-date" v-if="currentUser.isInspector">
                                 <input class="datepicker-negotiations"/>
                             </div>
                             <a class="header-icon--logout" href="/logout">log out</a>
                         </div>
 
                         <ul class="type-switcher">
-                            <router-link tag="li" :to="{path: '/upcoming'}" v-if="!isNegotiator && !isSales"><a>Upcoming</a></router-link>
-                            <router-link tag="li" :to="{path: '/rejected'}" v-if="!isSales"><a>Rejected</a></router-link>
-                            <router-link tag="li" :to="{path: '/submitted'}" v-if="!isSales"><a>Submitted</a></router-link>
-                            <router-link tag="li" :to="{path: '/my-sales'}" v-if="isSales"><a>Your Cars</a></router-link>
-                            <router-link tag="li" :to="{path: '/unassigned'}" v-if="isSales"><a>Unassigned</a></router-link>
+                            <router-link tag="li" :to="{path: '/upcoming'}" v-if="currentUser.isInspector"><a>Upcoming</a></router-link>
+                            <router-link tag="li" :to="{path: '/rejected'}" v-if="currentUser.isInspector || currentUser.isNegotiator || currentUser.isSeller"><a>Rejected</a></router-link>
+                            <router-link tag="li" :to="{path: '/submitted'}" v-if="currentUser.isInspector || currentUser.isNegotiator || currentUser.isSeller"><a>Submitted</a></router-link>
+                            <router-link tag="li" :to="{path: '/finalized'}" v-if="currentUser.isSeller"><a>Finalized</a></router-link>
+                            <router-link tag="li" :to="{path: '/my-sales'}" v-if="currentUser.isSales"><a>Your Cars</a></router-link>
+                            <router-link tag="li" :to="{path: '/unopened'}" v-if="currentUser.isSales"><a>Unopened</a></router-link>
+                            <router-link tag="li" :to="{path: '/opened'}" v-if="currentUser.isSales"><a>Opened</a></router-link>
+                            <router-link tag="li" :to="{path: '/unassigned'}" v-if="currentUser.isSales"><a>Unassigned</a></router-link>
                         </ul>
                     </div>
                     <div class="header-inspections" v-if="currentRoute === 'Admin'">
@@ -131,8 +134,6 @@
                 currentRoute: 'Negotiations',
                 title: '',
                 date: moment(new Date(moment().add(10, 'minutes').unix() * 1000)).format('YYYY/MM/DD HH:mm:ss'),
-                isSales: window.isSales, //whether the current user is a sales consultant
-                isNegotiator: window.isNegotiator, //whether the current user is a negotiator
                 currentUser: window.currentUser,
             }
         },

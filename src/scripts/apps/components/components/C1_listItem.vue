@@ -4,8 +4,8 @@
         <div class="row">
             <div class="col title">
                 {{ inspection.title }}
-                <span v-if="inspection.inspectionDate && !isSales && !isNegotiator">({{ moment(inspection.inspectionDate).format('h:mm A') }})</span>
-                <span v-if="inspection.inspectionDate && (isSales || isNegotiator)">({{ moment(inspection.inspectionDate).format('D/M/YYYY') }})</span>
+                <span v-if="inspection.inspectionDate && !currentUser.isSales && !currentUser.isNegotiator">({{ moment(inspection.inspectionDate).format('h:mm A') }})</span>
+                <span v-if="inspection.inspectionDate && (currentUser.isSales || currentUser.isNegotiator)">({{ moment(inspection.inspectionDate).format('D/M/YYYY') }})</span>
             </div>
             <div class="col status">{{showProperStatus(inspection)}}</div>
         </div>
@@ -15,7 +15,7 @@
         </div>
         <div class="click-wrapper" @click="goToAction(inspection)"></div>
         <span class="new badge blue badge-rescheduled" data-badge-caption="" v-show="inspection.rescheduled == 1">Rescheduled</span>
-        <span class="new badge blue badge-tag" data-badge-caption="" v-show="inspection.driveIn == 1 && (isAdmin || isSales)">Drive-In</span>
+        <span class="new badge blue badge-tag" data-badge-caption="" v-show="inspection.driveIn == 1 && (currentUser.isAdmin || currentUser.isSales)">Drive-In</span>
         <span class="new badge blue badge-tag" data-badge-caption="" v-show="inspection.localMech == 1">Local Mech</span>
     </li>
 
@@ -32,9 +32,7 @@
         data() {
             return {
                 moment,
-                isSales: window.isSales,
-                isAdmin: window.isAdmin,
-                isNegotiator: window.isNegotiator,
+                currentUser: window.currentUser,
             }
         },
         methods: {
@@ -51,6 +49,8 @@
                     case 'Accepted':
                     case 'Submitted':
                     case 'Unsuccessful':
+                    case 'Unopened':
+                    case 'Opened':
                         theStatus = inspection.status
                         break;
                     default:
@@ -63,18 +63,22 @@
             },
             goToAction(inspection) {
                 if (inspection.status === 'finalized') {
-                    window.location.href = '/report/' + this.inspection.id
+                    if (this.currentUser.isSeller) {
+                        this.$router.push('/inspection-details/' + this.inspection.id)
+                    } else {
+                        window.location.href = '/report/' + this.inspection.id
+                    }
                 } else if (inspection.status === 'Rejected') {
-                    if (window.isNegotiator) {
+                    if (this.currentUser.isNegotiator || this.currentUser.isSeller) {
                         this.$router.push('/inspection-details/' + this.inspection.id)
                     } else {
                         this.$router.push('/final/1/' + this.inspection.id)
                     }
                 } else if (inspection.status === 'UpComing' && inspection.pending) {
                     this.$router.push('/pending-inspection/' + this.inspection.id)
-                } else if (inspection.status === 'Unsuccessful' || inspection.status === 'Submitted' && window.isNegotiator) {
+                } else if (['Unsuccessful', 'Unopened', 'Opened'].indexOf(inspection.status) !== -1 || inspection.status === 'Submitted' && !this.currentUser.isInspector) {
                     this.$router.push('/inspection-details/' + this.inspection.id)
-                } else if (inspection.status === 'Submitted' && !window.isNegotiator) {
+                } else if (inspection.status === 'Submitted' && !this.currentUser.isNegotiator) {
                     this.$router.push('/offer/' + this.inspection.id)
                 } else {
                     this.$router.push('/inspection/' + this.inspection.id)

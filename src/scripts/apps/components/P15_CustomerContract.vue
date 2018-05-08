@@ -45,7 +45,7 @@
               <input-text :label="'Registration Number'" v-model="inspection.registrationNumber" :name="'registrationNumber'" :validation-rules="{required:true}"></input-text>
           </div>
           <div class="col m4">
-              <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'registrationExpirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+              <input-text :label="'Exp Date'" v-model="inspection.expirationDate" :name="'expirationDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
           </div>
       </div>
       <div class="row">
@@ -69,10 +69,10 @@
           </div>
       </div>
 
-      <input-file-list :label="'License and Registration Photos'" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
+      <input-file-list label="License and Registration Photos" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
       <div class="row row-contract">
-          <p> Hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: <strong>{{inspection.agreedPrice | currency}}</strong></p>
+          <p>I hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: <strong>{{ price | currency }}</strong></p>
           <div v-html="contract"></div>
       </div>
     <div class="row">
@@ -111,7 +111,7 @@
     </div>
       <div class="row">
           <div class="col m9">
-              <input-textarea disabled :label="'Notes'" v-model="inspection.contractNote" :name="'contractNote'"></input-textarea>
+              <input-textarea disabled label="Notes" v-model="inspection.contractNote" name="contractNote"></input-textarea>
           </div>
       </div>
     <div class="row car-buyers">
@@ -181,9 +181,6 @@ export default {
 
                     this.inspection = res.inspection
                     this.options = res.options
-                    if(!this.inspection.agreedPrice) {
-                      this.inspection.agreedPrice = parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure)
-                    }
                     this.inspection.contractDate = this.inspection.contractDate || moment().format('DD/MM/YYYY');
                     this.inspection.kilometres = this.inspection.kilometres || this.inspection.odometer;
                     if(!this.inspection.repName && !this.inspection.repSignatureString) {
@@ -258,6 +255,15 @@ export default {
     computed: {
         showCustomerSignatureModal() {
             return this.$store.state.overlays.signatureCustomer
+        },
+        price() {
+            let price = parseFloat(this.inspection.agreedPrice) || parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure);
+            if (this.inspection.priceType === 'full') {
+                price -= 182;
+            } else if(this.inspection.priceType === 'half') {
+                price -= 91;
+            }
+            return price;
         }
     },
 }
