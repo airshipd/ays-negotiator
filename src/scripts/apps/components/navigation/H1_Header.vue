@@ -24,9 +24,9 @@
                             <router-link tag="li" :to="{path: '/submitted'}" v-if="currentUser.isInspector || currentUser.isNegotiator || currentUser.isSeller"><a>Submitted</a></router-link>
                             <router-link tag="li" :to="{path: '/finalized'}" v-if="currentUser.isSeller"><a>Finalized</a></router-link>
                             <router-link tag="li" :to="{path: '/my-sales'}" v-if="currentUser.isSales"><a>Your Cars</a></router-link>
-                            <router-link tag="li" :to="{path: '/unassigned'}" v-if="currentUser.isSales"><a>Unassigned</a></router-link>
                             <router-link tag="li" :to="{path: '/unopened'}" v-if="currentUser.isSales"><a>Unopened</a></router-link>
                             <router-link tag="li" :to="{path: '/opened'}" v-if="currentUser.isSales"><a>Opened</a></router-link>
+                            <router-link tag="li" :to="{path: '/unassigned'}" v-if="currentUser.isSales"><a>Unassigned</a></router-link>
                         </ul>
                     </div>
                     <div class="header-inspections" v-if="currentRoute === 'Admin'">
