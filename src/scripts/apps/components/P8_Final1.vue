@@ -176,8 +176,8 @@
           </div>
       </div>
 
-    <input-file-list :label="'Vehicle Photos'" v-on:updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
-    <input-file-list :label="'License and Registration Photos'" v-on:updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
+    <input-file-list label="Vehicle Photos" @updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos" :limit="10"></input-file-list>
+    <input-file-list label="License and Registration Photos" @updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
     <b2-button :action="actionNext" :label="'Next Step'"></b2-button>
   </section>

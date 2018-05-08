@@ -205,7 +205,6 @@ import inputCheckboxSwitch from './inputs/N6_CheckboxSwitch.vue'
 import inputTextarea from './inputs/N4_Textarea.vue'
 import inputSelect from './inputs/N5_Select.vue'
 import b1Button from './buttons/B1_button.vue'
-import inputFileList from './inputs/N8_PhotoList.vue'
 
 import PostService from '../services/PostService.js'
 import GetService from '../services/GetService.js'
@@ -311,7 +310,6 @@ export default {
         b1Button,
         inputCheckboxSwitch,
         inputNumber,
-        inputFileList
     },
     filters: {
         capitalize (value) {

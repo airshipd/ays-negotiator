@@ -2,21 +2,32 @@
 
     <div class="row photo-list">
         <h3>{{label}}</h3>
-        <label class="col m3" v-for="img in imgs">
-            <img :src="img" alt=""><br>
-            <a @click="deletePhoto(img)" class="material-icons" title="Delete this photo">delete_forever</a>
-        </label>
-        <label class="col m3 photo-list--add" v-if="imgs.length < 4">
-            <input type="file" @change="actionAddPhoto">
-        </label>
-    </div>
+            <label class="col m3" v-for="img in imgs">
+                <img :src="img" alt=""><br>
+                <a @click="deletePhoto(img)" class="material-icons" title="Delete this photo">delete_forever</a>
+            </label>
+            <label class="col m3 photo-list--add" v-if="imgs.length < limit">
+                <input type="file" @change="actionAddPhoto">
+            </label>
+        </div>
 
 </template>
 
 <script>
 export default {
     name: 'n-8-photolist',
-    props: ['value','label','initialImages'],
+    props: {
+        label: {
+            type: String
+        },
+        initialImages: {
+            type: Array
+        },
+        limit: {
+            type: Number,
+            default: 4,
+        },
+    },
     mounted() {
         if (this.initialImages instanceof Array) {
             this.initImages(this.initialImages);

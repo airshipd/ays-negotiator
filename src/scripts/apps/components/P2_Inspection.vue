@@ -192,8 +192,8 @@
             </div>
         </div>
 
-        <input-file-list :label="'Vehicle Photos'" @updated="addVehiclePhoto" @delete="deleteVehiclePhoto" :initial-images="inspection.vehiclePhotos"></input-file-list>
-        <input-file-list :label="'License and Registration Photos'" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
+        <input-file-list label="Vehicle Photos" @updated="addVehiclePhoto" @delete="deleteVehiclePhoto" :initial-images="inspection.vehiclePhotos" :limit="10"></input-file-list>
+        <input-file-list label="License and Registration Photos" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
         <div class="inspection-dark">
             <div class="row">

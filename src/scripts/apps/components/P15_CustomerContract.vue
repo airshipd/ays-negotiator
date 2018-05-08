@@ -69,7 +69,7 @@
           </div>
       </div>
 
-      <input-file-list :label="'License and Registration Photos'" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
+      <input-file-list label="License and Registration Photos" @updated="addLicenseAndRegistrationPhotos" @delete="deleteLicencePhoto" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
 
       <div class="row row-contract">
           <p>I hereby agree to sell my car to Car Buyers Australia Pty Ltd for the amount of: <strong>{{ price | currency }}</strong></p>
