@@ -221,7 +221,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'seats'                  => $model->seats,
             'driveIn'                => $model->isDriveIn(),
             'localMech'              => $model->isLocalMech(),
-            'salesConsultant'        => $model->sales_consultant_email,
+            'salesConsultant'        => $model->getSCEmail(),
         ];
         if ($model->address) {
             $content['location'] = ['address' => $model->address];
@@ -321,8 +321,8 @@ class Negotiator_SyncService extends BaseApplicationComponent
      */
     private function syncSalesConsultant(EntryModel $entry, Negotiator_RunbikestopModel $model)
     {
-        if($model->sales_consultant_email && !$entry->getContent()->salesConsultant) {
-            $entry->getContent()->salesConsultant = $model->sales_consultant_email;
+        if($model->getSCEmail() && !$entry->getContent()->salesConsultant) {
+            $entry->getContent()->salesConsultant = $model->getSCEmail();
             return true;
         }
 
