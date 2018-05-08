@@ -62,7 +62,7 @@
 
       <div class="row">
           <div class="col m9">
-              <input-textarea label="Notes" v-model="inspection.notes" name="notes" :validationRules="{required: true}"></input-textarea>
+              <input-textarea label="Notes" v-model="inspection.contractNote" name="contractNote" :validationRules="{required: true}"></input-textarea>
           </div>
       </div>
       <div class="row">
