@@ -249,7 +249,7 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
         <td class="text">Reg No</td>
         <td class="underline"><?= h($inspection->registrationNumber) ?></td>
         <td class="text">Exp Date</td>
-        <td class="underline"><?= format_date($inspection->registrationExpirationDate) ?></td>
+        <td class="underline"><?= format_date($inspection->expirationDate) ?></td>
     </tr>
 </table>
 <table class="string">

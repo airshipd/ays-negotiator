@@ -106,7 +106,7 @@
                 </div>
                 <div class="row">
                     <div class="col m6">Registration Expiration Date:</div>
-                    <div class="col m6">{{ inspection.registrationExpirationDate }}</div>
+                    <div class="col m6">{{ inspection.expirationDate }}</div>
                 </div>
                 <div class="row">
                     <div class="col m6">Build Date:</div>
