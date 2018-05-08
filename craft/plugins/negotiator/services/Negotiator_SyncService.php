@@ -8,9 +8,7 @@ use Guzzle\Http\Client as GuzzleClient;
 class Negotiator_SyncService extends BaseApplicationComponent
 {
     const ENTRY_SCENARIO_SYNC = 'sync';
-    const API_ENDPOINT = 'https://runbikestop.com/appsdata/inquests';
     const AUTH_ENDPOINT = 'https://runbikestop.com/appsdata/authentications/authenticate_admin';
-
 
     const STATUS_SUCCESS = 1;
     const STATUS_DUPLICATE = 2;
@@ -18,15 +16,88 @@ class Negotiator_SyncService extends BaseApplicationComponent
     const STATUS_ERROR = 4;
     const STATUS_UPDATED = 5;
 
+    const SOURCE_CRM = 'crm';
+    const SOURCE_SMC_AUSTRALIA = 'australiacars';
+    const SOURCE_GUMTREES = 'gumtrees';
+    const SOURCE_SMC_TODAY = 'sellings';
+
+    private $endpoints = [
+        self::SOURCE_CRM           => 'https://runbikestop.com/appsdata/inquests',
+        self::SOURCE_SMC_AUSTRALIA => 'https://runbikestop.com/appsdata/australiacars',
+        self::SOURCE_GUMTREES      => 'https://runbikestop.com/appsdata/gumtrees',
+        self::SOURCE_SMC_TODAY     => 'https://runbikestop.com/appsdata/sellings',
+    ];
+
     private $authToken;
 
+    public function syncAllSources()
+    {
+        $this->syncFromSource(self::SOURCE_CRM);
+        $this->syncFromSource(self::SOURCE_SMC_AUSTRALIA);
+        $this->syncFromSource(self::SOURCE_GUMTREES);
+        $this->syncFromSource(self::SOURCE_SMC_TODAY);
+
+        $this->setLastSyncTime(time());
+    }
+
+    private function syncFromSource($source)
+    {
+        $stats = [
+            Negotiator_SyncService::STATUS_SUCCESS   => 0,
+            Negotiator_SyncService::STATUS_DUPLICATE => 0,
+            Negotiator_SyncService::STATUS_UPDATED   => 0,
+            Negotiator_SyncService::STATUS_WARNING   => 0,
+            Negotiator_SyncService::STATUS_ERROR     => 0,
+        ];
+
+        $i = 0;
+        while(++$i) {
+            $records = $this->fetch($source, $i);
+            if(empty($records)) {
+                break;
+            }
+
+            $models = Negotiator_RunbikestopModel::populateModels($records);
+            foreach($models as $model) { /** @var Negotiator_RunbikestopModel $model */
+                $identical = $this->getEntryByRbsId($model->id, $source);
+
+                if ($model->colour === 'blue') {
+                    if ($identical) {
+                        if($this->revisePrices($identical, $model, $source) || $this->syncSalesConsultant($identical, $model)) {
+                            craft()->entries->saveEntry($identical);
+                            ++$stats[Negotiator_SyncService::STATUS_UPDATED];
+                        } else {
+                            ++$stats[Negotiator_SyncService::STATUS_DUPLICATE];
+                        }
+                    } else {
+                        $status = $this->saveRecord($model, $source);
+                        ++$stats[$status];
+                    }
+                }
+            }
+        }
+
+
+        if(array_sum($stats)) {
+            NegotiatorPlugin::log(sprintf('Synced. Source: %s. Success: %d, duplicate: %d, updated: %d, warning: %d, error: %d',
+                $source,
+                $stats[Negotiator_SyncService::STATUS_SUCCESS],
+                $stats[Negotiator_SyncService::STATUS_DUPLICATE],
+                $stats[Negotiator_SyncService::STATUS_UPDATED],
+                $stats[Negotiator_SyncService::STATUS_WARNING],
+                $stats[Negotiator_SyncService::STATUS_ERROR]
+            ));
+        }
+    }
+
     /**
-     * @param int      $page
+     * @param string $source
+     * @param int    $page
      * @return array
      * @throws Exception
      */
-    public function fetch($page = 1) {
-        $client = new GuzzleClient(self::API_ENDPOINT);
+    private function fetch($source, $page = 1) {
+        $client = new GuzzleClient($this->endpoints[$source]);
         $since = (new DateTime('now', new \DateTimeZone('UTC')))->sub(new \DateInterval('P5D'))->atom(); //5 days back from now
         $request = $client->get(null, [
             'Authorization' => $this->getAuthToken()
@@ -69,12 +140,12 @@ class Negotiator_SyncService extends BaseApplicationComponent
     /**
      * @return DateTime|null
      */
-    public function getLastSyncTime()
+    private function getLastSyncTime()
     {
         return craft()->globals->getSetByHandle('settings')->last_sync_time;
     }
 
-    public function setLastSyncTime($ts)
+    private function setLastSyncTime($ts)
     {
         $settings = craft()->globals->getSetByHandle('settings');
         $settings->setContent(['last_sync_time' => $ts]);
@@ -82,22 +153,26 @@ class Negotiator_SyncService extends BaseApplicationComponent
     }
 
     /**
-     * @param int $rbs_id
+     * @param int    $rbs_id
+     * @param string $source
      * @return EntryModel
      * @throws Exception
      */
-    public function getEntryByRbsId($rbs_id) {
+    private function getEntryByRbsId($rbs_id, $source) {
         $criteria = craft()->elements->getCriteria(ElementType::Entry);
-        return $criteria->first(['runbikestopId' => $rbs_id]);
+        return $criteria->first([
+            'runbikestopId' => $rbs_id,
+            'source' => $source,
+        ]);
     }
 
     /**
      * @param Negotiator_RunbikestopModel $model
+     * @param string                      $source
      * @return int one of the STATUS-constants
      * @throws Exception
-     * @throws \Exception
      */
-    public function saveRecord(Negotiator_RunbikestopModel $model)
+    private function saveRecord(Negotiator_RunbikestopModel $model, $source)
     {
         $criteria = craft()->elements->getCriteria(ElementType::User);
         $criteria->order = 'id';
@@ -116,7 +191,8 @@ class Negotiator_SyncService extends BaseApplicationComponent
             'make'                   => $model->make ?: 'UNKNOWN',
             'model'                  => $model->model ?: 'UNKNOWN',
             'customerName'           => $model->name ?: 'UNKNOWN',
-            'runbikestopId'         => $model->id,
+            'runbikestopId'          => $model->id,
+            'source'                 => $source,
 
             //all other fields
             'buildDate'              => $model->build_year ? $model->build_year . '-01-01' : null,
@@ -188,6 +264,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
                 'fields' => $failed,
                 'errors' => $entry->getErrors(),
                 'runbikestopId' => $model->id,
+                'source' => $source,
             ]), LogLevel::Error, true);
 
             //resave without failing attributes
@@ -214,14 +291,15 @@ class Negotiator_SyncService extends BaseApplicationComponent
      *
      * @param EntryModel                  $entry
      * @param Negotiator_RunbikestopModel $model
+     * @param string                      $source
      * @return bool
      * @throws \Exception
      */
-    public function revisePrices(EntryModel $entry, Negotiator_RunbikestopModel $model)
+    private function revisePrices(EntryModel $entry, Negotiator_RunbikestopModel $model, $source)
     {
         $changed = false;
         if($model->latest_pricing && is_numeric($model->latest_pricing)) {
-            $content = ['runbikestopId' => $entry->getContent()->runbikestopId];
+            $content = ['runbikestopId' => $entry->getContent()->runbikestopId, 'source' => $source];
             $this->setPrices($content, $model->latest_pricing);
 
             foreach($content as $key => $value) {
@@ -241,7 +319,7 @@ class Negotiator_SyncService extends BaseApplicationComponent
      * @return bool Whether it's changed
      * @throws \Exception
      */
-    public function syncSalesConsultant(EntryModel $entry, Negotiator_RunbikestopModel $model)
+    private function syncSalesConsultant(EntryModel $entry, Negotiator_RunbikestopModel $model)
     {
         if($model->sales_consultant_email && !$entry->getContent()->salesConsultant) {
             $entry->getContent()->salesConsultant = $model->sales_consultant_email;
@@ -254,7 +332,8 @@ class Negotiator_SyncService extends BaseApplicationComponent
     private function setPrices(&$content, $latest_pricing)
     {
         if($latest_pricing <= 1500) {
-            NegotiatorPlugin::log(sprintf('Wrong latest pricing: %s. RunBikeStop ID: %d', $latest_pricing, $content['runbikestopId']), LogLevel::Warning, true);
+            NegotiatorPlugin::log(sprintf('Wrong latest pricing: %s. RunBikeStop ID: %d. Source: %s',
+                $latest_pricing, $content['runbikestopId'], $content['source']), LogLevel::Warning, true);
             return;
         }
 
