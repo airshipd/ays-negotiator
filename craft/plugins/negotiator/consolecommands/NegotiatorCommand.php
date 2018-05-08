@@ -5,7 +5,7 @@ class NegotiatorCommand extends BaseCommand
 {
     public function actionSync_inspections()
     {
-        $since = craft()->negotiator_sync->getLastSyncTime();
+//        $since = craft()->negotiator_sync->getLastSyncTime();
 
         $stats = [
             Negotiator_SyncService::STATUS_SUCCESS   => 0,
@@ -19,7 +19,7 @@ class NegotiatorCommand extends BaseCommand
         $last_read = time();
         while(++$i) {
             $last_read = time();
-            $records = craft()->negotiator_sync->fetch($since, $i);
+            $records = craft()->negotiator_sync->fetch($i);
             if(empty($records)) {
                 break;
             }

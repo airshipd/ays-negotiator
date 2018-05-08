@@ -21,19 +21,19 @@ class Negotiator_SyncService extends BaseApplicationComponent
     private $authToken;
 
     /**
-     * @param DateTime $since
      * @param int      $page
      * @return array
      * @throws Exception
      */
-    public function fetch(DateTime $since, $page = 1) {
+    public function fetch($page = 1) {
         $client = new GuzzleClient(self::API_ENDPOINT);
+        $since = (new DateTime('now', new \DateTimeZone('UTC')))->sub(new \DateInterval('P5D'))->atom(); //5 days back from now
         $request = $client->get(null, [
             'Authorization' => $this->getAuthToken()
         ], [
             'query' => [
                 'page' => $page,
-                'since' => $since->setTimezone(new \DateTimeZone('UTC'))->atom(),
+                'since' => $since,
             ]
         ]);
         $response = $request->send();
