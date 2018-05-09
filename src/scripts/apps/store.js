@@ -15,17 +15,13 @@ export default new Vuex.Store({
             signatureCustomer: false,
             signatureRep: false
         },
-        username: null,
     },
     mutations: {
         updateInspection(state, data) {
-            state.inspection = Object.assign({}, state.inspection, data)
+            state.inspection = Object.assign({}, data)
         },
         updateOptions(state, data) {
-            state.options = Object.assign({}, state.options, data)
-        },
-        updateUsername(state, username) {
-            state.username = username
+            state.options = Object.assign({}, data)
         },
         updateReviewModalApperance(state, value) {
             state.overlays.review = value

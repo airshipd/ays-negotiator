@@ -120,7 +120,7 @@ export default {
                 console.error(e)
             })
 
-        this.inspection.repName = this.inspection.repName || this.$store.state.username;
+        this.inspection.repName = this.inspection.repName || window.currentUser.name;
     },
     data() {
         return {

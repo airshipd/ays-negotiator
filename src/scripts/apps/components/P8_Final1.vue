@@ -205,9 +205,7 @@ export default {
     provideValidator: true,
     inject: ['$validator'],
     mounted() {
-        if (this.$route.params.id !== 'new') {
-            this.getInspection()
-        }
+        this.getInspection();
         this.getOptions();
 
         this.$validator.localize('en', {
@@ -240,17 +238,21 @@ export default {
     },
     methods: {
         getInspection() {
-            GetService.getInspection(this.$route.params.id)
-                .then(res => {
-                    this.inspection = res.inspection
-                    this.$store.commit('updateInspection', res.inspection)
-                    this.$store.commit('updateUsername', res.username)
+            if (this.$route.params.id !== 'new') {
+                GetService.getInspection(this.$route.params.id)
+                    .then(res => {
+                        this.inspection = res.inspection
+                        this.$store.commit('updateInspection', res.inspection)
 
-                    this.buildDate = this.inspection.buildDate ? moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY') : '';
-                    this.complianceDate = this.inspection.complianceDate ? moment(this.inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY') : '';
-                }).catch(e => {
-                    console.error(e)
-                })
+                        this.buildDate = this.inspection.buildDate ? moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY') : '';
+                        this.complianceDate = this.inspection.complianceDate ? moment(this.inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY') : '';
+                    }).catch(e => {
+                        console.error(e)
+                    });
+            } else {
+                this.inspection = {};
+                this.$store.commit('updateInspection', this.inspection);
+            }
         },
         getOptions() {
             GetService.getOptions().then(options => {

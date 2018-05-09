@@ -146,7 +146,6 @@ class Negotiator_ApiController extends BaseController {
         $this->returnJson([
             'data'     => $this->_processFieldData($inspection),
             'options'  => $this->_getFields(),
-            'username' => craft()->userSession->getUser()->getFullName(),
         ]);
     }
 

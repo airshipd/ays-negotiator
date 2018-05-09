@@ -76,10 +76,11 @@ class FinalizerPlugin extends BasePlugin
             return $event->performAction = true;
         });
 
-
         craft()->on('entries.saveEntry', function (Event $event) use(&$old_status) {
             $entry = $event->params['entry'];
             $isInspection = $entry->section->handle === 'inspections';
+            $isNewEntry   = $event->params['isNewEntry'];
+
             if ($isInspection) {
                 $status = (string)$entry->getContent()->inspectionStatus;
 
@@ -96,6 +97,8 @@ class FinalizerPlugin extends BasePlugin
                             craft()->finalizer_email->sendFollowUpNotification($entry);
                         }
                     }
+                } elseif ($isNewEntry && $status === 'finalized') {
+                    craft()->finalizer_email->sendNotificationEmails($entry);
                 }
             }
         });
