@@ -65,12 +65,6 @@
               <input-textarea label="Notes" v-model="inspection.contractNote" name="contractNote" :validationRules="{required: true}"></input-textarea>
           </div>
       </div>
-      <div class="row">
-          <div class="col m12">
-              <choice-group v-if="options.priceType" :validation-rules="{required: true}" v-model="inspection.priceType" name="price_type"
-                  :options="options.priceType.settings.options"></choice-group>
-          </div>
-      </div>
 
     <div class="row car-buyers">
       <div class="col">Car Buyers Australia Pty Ltd.</div>

@@ -175,6 +175,12 @@
                   name="overallRating" :validationRules="{required:true}"></choice-group>
           </div>
       </div>
+      <div class="row">
+          <div class="col m12">
+              <choice-group v-if="options.priceType" :validation-rules="{required: true}" v-model="inspection.priceType" name="price_type"
+                  :options="options.priceType.settings.options"></choice-group>
+          </div>
+      </div>
 
     <input-file-list label="Vehicle Photos" @updated="addVehiclePhoto" :initial-images="inspection.vehiclePhotos" :limit="10"></input-file-list>
     <input-file-list label="License and Registration Photos" @updated="addLicenseAndRegistrationPhotos" :initial-images="inspection.licenseAndRegistrationPhotos"></input-file-list>
