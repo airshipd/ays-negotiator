@@ -138,7 +138,6 @@ export default {
 
                 PostService.post(this.$route.params.id, this.inspection, this.options)
                     .then(response => {
-                        console.log(response);
                         this.$store.commit('updateInspection', this.inspection);
                         this.$router.push('/');
                     }).catch(e => {

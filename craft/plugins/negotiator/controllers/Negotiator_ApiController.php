@@ -146,7 +146,6 @@ class Negotiator_ApiController extends BaseController {
         $this->returnJson([
             'data'     => $this->_processFieldData($inspection),
             'options'  => $this->_getFields(),
-            'username' => craft()->userSession->getUser()->getFullName(),
         ]);
     }
 
@@ -191,11 +190,19 @@ class Negotiator_ApiController extends BaseController {
         $criteria     = craft()->elements->getCriteria(ElementType::Entry);
         $criteria->id = craft()->request->getSegment(3);
         $inspection   = $criteria->first();
-        $action       = craft()->request->getSegment(3);
+        $action       = craft()->request->getSegment(4);
         $ret          = [];
 
         // set inspection status
-        $inspection->getContent()->inspectionStatus = $action == 'accept' ? 'Accepted' : 'Rejected';
+        if($action === 'accept') {
+            $inspection->getContent()->inspectionStatus = 'Accepted';
+        } elseif($action === 'reject') {
+            $inspection->getContent()->inspectionStatus = 'Rejected';
+        } else {
+            NegotiatorPlugin::log('api/finalise fail. Wrong request URI:' . craft()->request->getPath(), LogLevel::Error);
+            craft()->end(400);
+        }
+
         $inspection->getContent()->agreedPrice      = craft()->negotiator_offer->calculateOfferTotal($inspection);
 
         if (craft()->entries->saveEntry($inspection)) {
@@ -203,7 +210,7 @@ class Negotiator_ApiController extends BaseController {
             $this->returnJson($ret);
         } else {
             $this->returnErrorJson('Could not save Inspection');
-            NegotiatorPlugin::log('Could not save Inspection:' . $inspection->id, LogLevel::Info);
+            NegotiatorPlugin::log('Could not save Inspection:' . $inspection->id, LogLevel::Error);
         }
     }
 

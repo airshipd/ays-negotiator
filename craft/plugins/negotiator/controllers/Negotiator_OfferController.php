@@ -1,27 +1,28 @@
 <?php
 namespace Craft;
 
+//todo get rid of this
 class Negotiator_OfferController extends BaseController {
 
   protected $allowAnonymous = true;
 
-  public function actionFinalise() {
-      $criteria = craft()->elements->getCriteria(ElementType::Entry);
-      $criteria->id = craft()->request->getSegment(2);
-      $inspection = $criteria->first();
-      $action = craft()->request->getSegment(4);
-
-      $template = ( $action == 'accept' ) ? 'offer/accept' : 'offer/reject';
-
-      // set inspection status
-      $inspection->getContent()->inspectionStatus = ( $action == 'accept' ) ? 'Accepted' : 'Rejected';
-      if ( craft()->entries->saveEntry( $inspection ) ) {
-         $this->renderTemplate($template);
-      } else {
-        NegotiatorPlugin::log("Could not save Inspection:".$inspection->id , LogLevel::Info);
-        echo 'Something went wrong';
-      }
-  }
+//  public function actionFinalise() {
+//      $criteria = craft()->elements->getCriteria(ElementType::Entry);
+//      $criteria->id = craft()->request->getSegment(2);
+//      $inspection = $criteria->first();
+//      $action = craft()->request->getSegment(4);
+//
+//      $template = ( $action == 'accept' ) ? 'offer/accept' : 'offer/reject';
+//
+//      // set inspection status
+//      $inspection->getContent()->inspectionStatus = ( $action == 'accept' ) ? 'Accepted' : 'Rejected';
+//      if ( craft()->entries->saveEntry( $inspection ) ) {
+//         $this->renderTemplate($template);
+//      } else {
+//        NegotiatorPlugin::log("Could not save Inspection:".$inspection->id , LogLevel::Info);
+//        echo 'Something went wrong';
+//      }
+//  }
 
   /* old action finalise from matt */
   // public function actionFinalise() {
