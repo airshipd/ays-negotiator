@@ -106,7 +106,7 @@
             :name="'pickupAddressAndContact'"></input-text>
       </div>
       <div class="col m3">
-        <input-text disabled :label="'Date'" v-model="inspection.contractDate" :name="'contractDate'"></input-text>
+        <input-text disabled label="Date" v-model="inspection.contractDate" name="contractDate"></input-text>
       </div>
     </div>
       <div class="row">
@@ -181,7 +181,7 @@ export default {
 
                     this.inspection = res.inspection
                     this.options = res.options
-                    this.inspection.contractDate = this.inspection.contractDate || moment().format('DD/MM/YYYY');
+                    this.inspection.contractDate = moment().format('DD/MM/YYYY'); //reset contract date to today
                     this.inspection.kilometres = this.inspection.kilometres || this.inspection.odometer;
                     if(!this.inspection.repName && !this.inspection.repSignatureString) {
                         this.inspection.repName = 'Nissar Munseea';
