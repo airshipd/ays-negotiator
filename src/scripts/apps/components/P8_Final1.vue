@@ -284,8 +284,8 @@ export default {
 
             new ImageUploader({
                 quality: 0.9,
-                maxWidth: 1920,
-                maxHeight: 1920,
+                maxWidth: 1280,
+                maxHeight: 1280,
             }).scaleFile(file, function (blob) {
                 blob.name = file.name;
 
@@ -301,8 +301,8 @@ export default {
 
             new ImageUploader({
                 quality: 0.9,
-                maxWidth: 1920,
-                maxHeight: 1920,
+                maxWidth: 1280,
+                maxHeight: 1280,
             }).scaleFile(file, function (blob) {
                 blob.name = file.name;
 
