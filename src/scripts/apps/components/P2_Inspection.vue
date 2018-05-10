@@ -345,8 +345,7 @@ export default {
                       console.error(e)
                   })
               } else {
-                  //scroll up to top of page
-                  $(window).scrollTop(0)
+                  this.scrollToInvalid();
               }
           })
         },

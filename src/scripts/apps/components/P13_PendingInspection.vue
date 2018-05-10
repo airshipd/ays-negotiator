@@ -127,6 +127,7 @@ export default {
         submitForm() {
             this.$validator.validateAll().then((result) => {
                 if (!result) {
+                    this.scrollToInvalid();
                     return;
                 }
 

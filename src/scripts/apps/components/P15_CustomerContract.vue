@@ -203,6 +203,8 @@ export default {
                         }).catch(e => {
                             this.buttonDisable = false
                         })
+                } else {
+                    this.scrollToInvalid();
                 }
             })
         },

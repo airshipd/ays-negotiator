@@ -275,8 +275,7 @@ export default {
                     this.$store.commit('updateInspection', this.inspection)
                     this.$router.push('/final/2/' + this.$route.params.id)
                 } else {
-                    //scroll up to top of page
-                    $(window).scrollTop(0)
+                    this.scrollToInvalid();
                 }
             })
         },
