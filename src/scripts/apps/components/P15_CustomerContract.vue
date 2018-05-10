@@ -199,7 +199,7 @@ export default {
                     PostService
                         .postMulti(null, this.inspection, this.options, urlSubmitContract + '/' + this.$route.params.id)
                         .then(response => {
-                            this.$router.push('/finalized')
+                            this.$router.push('/offer-finalized')
                         }).catch(e => {
                             this.buttonDisable = false
                         })

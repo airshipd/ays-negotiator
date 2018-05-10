@@ -138,7 +138,7 @@ export default {
                         .then(response => {
                             this.$store.commit('setInspection', {})
                             this.$store.commit('updateOptions', {})
-                            this.$router.push('/finalized')
+                            this.$router.push('/')
                         }).catch(e => {
                             this.buttonDisable = false
                             console.error(e)
