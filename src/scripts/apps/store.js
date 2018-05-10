@@ -18,6 +18,9 @@ export default new Vuex.Store({
     },
     mutations: {
         updateInspection(state, data) {
+            state.inspection = Object.assign({}, state.inspection, data)
+        },
+        setInspection(state, data) {
             state.inspection = Object.assign({}, data)
         },
         updateOptions(state, data) {

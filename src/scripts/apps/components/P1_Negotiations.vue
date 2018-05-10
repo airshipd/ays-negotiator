@@ -98,7 +98,7 @@ export default {
                 this.inspections = response.data
                 this.showLoader = false;
             }).catch(e => {
-                console.log(e)
+                console.error(e)
             })
         },
         initDatepicker () {

@@ -78,7 +78,7 @@ export default {
         actionNext() {
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                    this.$store.commit('updateInspection', this.inspection)
+                    this.$store.commit('setInspection', this.inspection)
                     this.$router.push('/final/4/' + this.$route.params.id)
                 } else {
                     this.scrollToInvalid();

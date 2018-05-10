@@ -248,7 +248,7 @@ export default {
                 GetService.getInspection(this.$route.params.id)
                     .then(res => {
                         this.inspection = res.inspection
-                        this.$store.commit('updateInspection', res.inspection)
+                        this.$store.commit('setInspection', res.inspection)
 
                         this.buildDate = this.inspection.buildDate ? moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY') : '';
                         this.complianceDate = this.inspection.complianceDate ? moment(this.inspection.complianceDate, 'DD/MM/YYYY').format('MM/YY') : '';
@@ -257,7 +257,7 @@ export default {
                     });
             } else {
                 this.inspection = {};
-                this.$store.commit('updateInspection', this.inspection);
+                this.$store.commit('setInspection', this.inspection);
             }
         },
         getOptions() {
@@ -272,7 +272,7 @@ export default {
                     this.inspection.buildDate = '01/' + this.buildDate.replace('/', '/20');
                     this.inspection.complianceDate = '01/' + this.complianceDate.replace('/', '/20');
 
-                    this.$store.commit('updateInspection', this.inspection)
+                    this.$store.commit('setInspection', this.inspection)
                     this.$router.push('/final/2/' + this.$route.params.id)
                 } else {
                     this.scrollToInvalid();

@@ -136,7 +136,7 @@ export default {
                     this.inspection.inspectionStatus = 'finalized' //finalise necessary form data
                     PostService.postMulti(this.$route.params.id === 'new' ? undefined : this.$route.params.id, this.inspection, this.options)
                         .then(response => {
-                            this.$store.commit('updateInspection', {})
+                            this.$store.commit('setInspection', {})
                             this.$store.commit('updateOptions', {})
                             this.$router.push('/finalized')
                         }).catch(e => {
