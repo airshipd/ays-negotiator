@@ -259,13 +259,7 @@ export default {
             return this.$store.state.overlays.signatureCustomer
         },
         price() {
-            let price = parseFloat(this.inspection.agreedPrice) || parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure);
-            if (this.inspection.priceType === 'full') {
-                price -= 182;
-            } else if(this.inspection.priceType === 'half') {
-                price -= 91;
-            }
-            return price;
+            return parseFloat(this.inspection.agreedPrice) || parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure);
         }
     },
 }

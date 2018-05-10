@@ -355,14 +355,8 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
 </div>
 <div style="margin-top: 15px;">
     <?php
-    $price = $inspection->agreedPrice ?: $inspection->reviewValuation - $inspection->approximateExpenditure;
-    if ($inspection->getContent()->priceType == 'full') {
-        $price -= 182;
-    } elseif ($inspection->getContent()->priceType == 'half') {
-        $price -= 91;
-    }
     ?>
-    $ <span style="display: inline-block; border-bottom: 1px dotted #000; padding-right: 200px;"><?= $price ?></span>
+    $ <span style="display: inline-block; border-bottom: 1px dotted #000; padding-right: 200px;"><?= $inspection->agreedPrice ?: $inspection->reviewValuation - $inspection->approximateExpenditure ?></span>
     <b>(Purchase Price)</b>
 </div>
 
