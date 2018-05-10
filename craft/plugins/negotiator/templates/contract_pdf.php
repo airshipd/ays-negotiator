@@ -188,7 +188,7 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     <tr>
         <td class="text">Engine Size</td>
         <td class="underline"><?= h($inspection->engineSize) ?></td>
-        <td width="200" align="center"><span class="<?= $auto ?> highlight">Auto</span> / <span class="<?= $manual ?>">Manual</span></td>
+        <td width="200" align="center"><span class="<?= $auto ?>">Auto</span> / <span class="<?= $manual ?>">Manual</span></td>
         <td class="text">Odometer</td>
         <td class="underline"><?= h($inspection->odometer) ?></td>
     </tr>
