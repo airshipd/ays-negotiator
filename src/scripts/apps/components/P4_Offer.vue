@@ -157,7 +157,6 @@
       getOffer () {
         axios.get(urlGetOffer+'/'+this.$route.params.id)
         .then(response => {
-          console.log('Offer data', response.data)
           this.formatData(response.data)
         }).catch(e => {
           console.error(e)

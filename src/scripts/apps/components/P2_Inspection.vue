@@ -278,7 +278,7 @@ export default {
                 .then(res => {
                     this.inspection = res.inspection
                     this.original_inspection = Object.assign({}, res.inspection); //cloning
-                    this.$store.commit('updateInspection', res.inspection)
+                    this.$store.commit('setInspection', res.inspection)
 
                     if(this.inspection.buildDate) {
                         this.buildDate = moment(this.inspection.buildDate, 'DD/MM/YYYY').format('MM/YY');
@@ -299,8 +299,8 @@ export default {
 
             new ImageUploader({
                 quality: 0.9,
-                maxWidth: 1920,
-                maxHeight: 1920,
+                maxWidth: 1280,
+                maxHeight: 1280,
             }).scaleFile(file, function(blob) {
                 blob.name = file.name;
 
@@ -316,8 +316,8 @@ export default {
 
             new ImageUploader({
                 quality: 0.9,
-                maxWidth: 1920,
-                maxHeight: 1920,
+                maxWidth: 1280,
+                maxHeight: 1280,
             }).scaleFile(file, function(blob) {
                 blob.name = file.name;
 
@@ -339,14 +339,13 @@ export default {
               if (result) {
                   PostService.postMulti(this.$route.params.id, this.inspection, this.options)
                       .then(response => {
-                          this.$store.commit('updateInspection', this.inspection)
+                          this.$store.commit('setInspection', this.inspection)
                           this.$router.push('/final/1/' + this.$route.params.id)
                       }).catch(e => {
                       console.error(e)
                   })
               } else {
-                  //scroll up to top of page
-                  $(window).scrollTop(0)
+                  this.scrollToInvalid();
               }
           })
         },
@@ -361,7 +360,7 @@ export default {
 
                     PostService.postMulti(this.$route.params.id, this.inspection, this.options)
                         .then(response => {
-                            this.$store.commit('updateInspection', this.inspection)
+                            this.$store.commit('setInspection', this.inspection)
                             this.$router.push('/waiting/' + this.$route.params.id)
                         }).catch(e => {
                         console.error(e)
@@ -376,7 +375,7 @@ export default {
             this.original_inspection.rescheduled = 1;
             PostService.post(this.$route.params.id, this.original_inspection, this.options)
                 .then(response => {
-                    this.$store.commit('updateInspection', this.original_inspection)
+                    this.$store.commit('setInspection', this.original_inspection)
                     this.$router.push('/')
                 }).catch(e => {
                     console.error(e)

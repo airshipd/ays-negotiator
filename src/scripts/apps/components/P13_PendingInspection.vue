@@ -107,7 +107,7 @@ export default {
                 .then(res => {
                     this.inspection = res.inspection;
                     this.options = res.options;
-                    this.$store.commit('updateInspection', res.inspection);
+                    this.$store.commit('setInspection', res.inspection);
                     this.$store.commit('updateOptions', res.options);
 
                     this.inspectorId = this.inspection.inspector ? this.inspection.inspector[0] : null
@@ -121,12 +121,13 @@ export default {
                 .then(response => {
                     that.inspectors = response.data;
                 }).catch(e => {
-                    console.log('Failed getting inspectors: ', e);
+                    console.error('Failed getting inspectors: ', e);
                 });
         },
         submitForm() {
             this.$validator.validateAll().then((result) => {
                 if (!result) {
+                    this.scrollToInvalid();
                     return;
                 }
 
@@ -138,7 +139,7 @@ export default {
 
                 PostService.post(this.$route.params.id, this.inspection, this.options)
                     .then(response => {
-                        this.$store.commit('updateInspection', this.inspection);
+                        this.$store.commit('setInspection', this.inspection);
                         this.$router.push('/');
                     }).catch(e => {
                         console.error(e)

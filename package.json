@@ -72,6 +72,7 @@
     "vee-validate": "^2.0.0-rc.25",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
+    "vue-toasted": "^1.1.24",
     "vue2-google-maps": "^0.8.4",
     "vueify": "^9.4.1",
     "vuejs-count-down": "0.0.5",

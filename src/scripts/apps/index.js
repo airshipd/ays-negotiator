@@ -7,6 +7,8 @@ import VeeValidate from 'vee-validate'
 import validateConfig from './validateConfig.js'
 import { googleMapKey } from './config.js'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import ValidationMixin from './services/ValidationMixin.js'
+import Toasted from 'vue-toasted'
 
 //setup jquery and plugin dependacies
 let $ = require('jquery')
@@ -25,6 +27,8 @@ Vue.use(VueGoogleMaps, {
     language: 'en-AU',
   }
 })
+Vue.use(Toasted)
+Vue.mixin(ValidationMixin)
 
 // setup global event bus system
 window.eventBus = new Vue()

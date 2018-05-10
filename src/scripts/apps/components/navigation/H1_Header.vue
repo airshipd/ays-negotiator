@@ -145,7 +145,6 @@
                 this.$router.push('/')
             },
             actionFinalGoBack() {
-                console.log(this.$route.meta.step)
                 if (this.$route.meta.step !== 1) {
                     this.$router.push(`/final/${this.$route.meta.step - 1}/${this.$route.params.id}`)
                 } else {

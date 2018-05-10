@@ -106,7 +106,7 @@
             :name="'pickupAddressAndContact'"></input-text>
       </div>
       <div class="col m3">
-        <input-text disabled :label="'Date'" v-model="inspection.contractDate" :name="'contractDate'"></input-text>
+        <input-text disabled label="Date" v-model="inspection.contractDate" name="contractDate"></input-text>
       </div>
     </div>
       <div class="row">
@@ -181,7 +181,7 @@ export default {
 
                     this.inspection = res.inspection
                     this.options = res.options
-                    this.inspection.contractDate = this.inspection.contractDate || moment().format('DD/MM/YYYY');
+                    this.inspection.contractDate = moment().format('DD/MM/YYYY'); //reset contract date to today
                     this.inspection.kilometres = this.inspection.kilometres || this.inspection.odometer;
                     if(!this.inspection.repName && !this.inspection.repSignatureString) {
                         this.inspection.repName = 'Nissar Munseea';
@@ -199,10 +199,12 @@ export default {
                     PostService
                         .postMulti(null, this.inspection, this.options, urlSubmitContract + '/' + this.$route.params.id)
                         .then(response => {
-                            this.$router.push('/finalized')
+                            this.$router.push('/offer-finalized')
                         }).catch(e => {
                             this.buttonDisable = false
                         })
+                } else {
+                    this.scrollToInvalid();
                 }
             })
         },
@@ -222,8 +224,8 @@ export default {
 
             new ImageUploader({
                 quality: 0.9,
-                maxWidth: 1920,
-                maxHeight: 1920,
+                maxWidth: 1280,
+                maxHeight: 1280,
             }).scaleFile(file, function(blob) {
                 blob.name = file.name;
 
@@ -257,13 +259,7 @@ export default {
             return this.$store.state.overlays.signatureCustomer
         },
         price() {
-            let price = parseFloat(this.inspection.agreedPrice) || parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure);
-            if (this.inspection.priceType === 'full') {
-                price -= 182;
-            } else if(this.inspection.priceType === 'half') {
-                price -= 91;
-            }
-            return price;
+            return parseFloat(this.inspection.agreedPrice) || parseFloat(this.inspection.reviewValuation) - parseFloat(this.inspection.approximateExpenditure);
         }
     },
 }

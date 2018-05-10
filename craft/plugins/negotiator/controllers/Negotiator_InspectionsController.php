@@ -128,14 +128,14 @@ class Negotiator_InspectionsController extends BaseController {
         $mpdf->Output($title . '.pdf', 'I');
     }
 
-    public function actionInspectionReport(array $variables)
+    public function actionContractFull(array $variables)
     {
         $id = $variables['id'];
         $inspection = craft()->elements->getElementById($id); //used in the included file
         $title = implode(', ', array_filter([$inspection->customerName, $inspection->make, $inspection->model, $inspection->registrationNumber]));
 
         ob_start();
-        require CRAFT_PLUGINS_PATH . 'negotiator/templates/inspection_report_pdf.php';
+        require CRAFT_PLUGINS_PATH . 'negotiator/templates/contract_full_pdf.php';
         $html = ob_get_clean();
 
         $mpdf = new Mpdf([

@@ -126,7 +126,7 @@ const router = new Router({
             }
         },
         {
-            path: '/finalized',
+            path: '/offer-finalized',
             name: 'Finalized',
             component: OfferFinalized
         },

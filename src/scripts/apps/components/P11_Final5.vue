@@ -56,7 +56,7 @@
             :name="'pickupAddressAndContact'" :validationRules="{}"></input-text>
       </div>
       <div class="col m3">
-        <input-text :label="'Date'" v-model="inspection.contractDate" :name="'contractDate'" :validation-rules="{required:true,date_format:'DD/MM/YYYY'}"></input-text>
+        <input-text label="Date" v-model="inspection.contractDate" name="contractDate" :validation-rules="{required:true, date_format:'DD/MM/YYYY'}"></input-text>
       </div>
     </div>
 
@@ -90,6 +90,7 @@ import b2Button from './buttons/B2_buttonNextStep.vue'
 import signature from './overlays/O2_Signature.vue'
 
 import PostService from '../services/PostService.js'
+import moment from 'moment'
 
 import axios from 'axios'
 import cloneDeep from 'clone-deep'
@@ -115,6 +116,7 @@ export default {
             })
 
         this.inspection.repName = this.inspection.repName || window.currentUser.name;
+        this.inspection.contractDate = moment().format('DD/MM/YYYY'); //reset contract date to today
     },
     data() {
         return {
@@ -134,16 +136,15 @@ export default {
                     this.inspection.inspectionStatus = 'finalized' //finalise necessary form data
                     PostService.postMulti(this.$route.params.id === 'new' ? undefined : this.$route.params.id, this.inspection, this.options)
                         .then(response => {
-                            this.$store.commit('updateInspection', {})
+                            this.$store.commit('setInspection', {})
                             this.$store.commit('updateOptions', {})
-                            this.$router.push('/finalized')
+                            this.$router.push('/')
                         }).catch(e => {
                             this.buttonDisable = false
                             console.error(e)
                         })
                 } else {
-                    //scroll up to top of page
-                    $(window).scrollTop(0)
+                    this.scrollToInvalid();
                 }
             })
         },

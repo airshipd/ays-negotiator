@@ -84,6 +84,7 @@ class Negotiator_ApiController extends BaseController {
             $criteria->inspectionStatus = 'Submitted';
         } elseif ($finalized) {
             $criteria->inspectionStatus = 'finalized';
+            $criteria->dateUpdated = '>=2018-05-09'; //condition necessary for sellers
         } elseif ($unopened) {
             $criteria->salesConsultant  = $user->email;
             $criteria->inspectionStatus = 'Unopened';

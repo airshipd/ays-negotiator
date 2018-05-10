@@ -81,11 +81,10 @@ export default {
         actionNext() {
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                    this.$store.commit('updateInspection', this.inspection)
+                    this.$store.commit('setInspection', this.inspection)
                     this.$router.push('/final/3/' + this.$route.params.id)
                 } else {
-                    //scroll up to top of page
-                    $(window).scrollTop(0)
+                    this.scrollToInvalid();
                 }
             })
         }

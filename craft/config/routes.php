@@ -25,7 +25,7 @@ return [
     'offer/(?P<id>\d+)/finalise/(?P<answer>[^\/]+)' => ['action' => 'negotiator/offer/finalise'],
     'report/(?P<id>\d+)'                            => 'report/inspectionReport',
     'contract/(?P<id>\d+)/download'                 => ['action' => 'negotiator/inspections/contract'],
-    'inspection-report/(?P<id>\d+)/download'        => ['action' => 'negotiator/inspections/inspectionReport'],
+    'contract-full/(?P<id>\d+)/download'            => ['action' => 'negotiator/inspections/contractFull'],
 
     //API routes
     'api/inspections'                => ['action' => 'negotiator/api/inspections'],
