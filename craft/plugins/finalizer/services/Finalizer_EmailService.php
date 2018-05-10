@@ -16,8 +16,7 @@ class Finalizer_EmailService extends BaseApplicationComponent
         $staffName = craft()->finalizer_fields->getStaffName($entry);
         $customerName = craft()->finalizer_fields->getCustomerName($entry);
         $contractUrl = craft()->getSiteUrl() . 'contract/' . $entry->id;
-        $inspectionReport = craft()->getSiteUrl() . 'inspection-report/' . $entry->id . '/download';
-        $recordUrl = craft()->getSiteUrl() . 'internalrecord/' . $entry->id;
+        $contractFull = craft()->getSiteUrl() . 'contract-full/' . $entry->id . '/download';
 
         // get customer email body
         ob_start();

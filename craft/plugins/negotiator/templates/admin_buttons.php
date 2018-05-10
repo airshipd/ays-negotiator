@@ -10,7 +10,7 @@ $id = $inspection->id;
 <?php } ?>
 
 <a href="/contract/<?= $id ?>/download" class="btn" target="_blank">Customer Contract PDF</a><br/><br/>
-<a href="/inspection-report/<?= $id ?>/download" class="btn" target="_blank">Inspection Report</a><br/><br/>
+<a href="/contract-full/<?= $id ?>/download" class="btn" target="_blank">Contract of Sale + Inspection Report + License and Registration Photos</a><br/><br/>
 <a href="/internalrecord/<?= $id ?>" class="btn" target="_blank">Internal Record</a><br/><br/>
 
 
