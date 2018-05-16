@@ -34,6 +34,7 @@ return array(
             'basePath' => BASE_PATH . '/',
         ),
         'enableSMS'                       => true,
+        'atatusKey'                    => getenv('ATATUS_KEY'),
     ),
 
     '.local' => array(
