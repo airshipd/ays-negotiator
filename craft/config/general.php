@@ -34,8 +34,10 @@ return array(
             'siteUrl'  => SITE_URL . '/',
             'basePath' => BASE_PATH . '/',
         ),
-        'enableSMS'                       => true,
-        'atatusKey'                    => getenv('ATATUS_KEY'),
+        'enableSMS' => true,
+        'atatusKey' => getenv('ATATUS_KEY'),
+        'trackJsToken' => getenv('TRACKJS_TOKEN'),
+        'trackJsApplication' => getenv('TRACKJS_APPLICATION'),
     ),
 
     '.local' => array(

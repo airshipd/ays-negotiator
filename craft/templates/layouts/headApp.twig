@@ -16,4 +16,13 @@
     <script src="//dmc1acwvwny3.cloudfront.net/atatus.js"> </script>
     <script type="text/javascript"> atatus.config('{{ craft.config.atatusKey }}').install(); </script>
 
+    {# TrackJS #}
+    <script>
+        window._trackJs = {
+            token: '{{ craft.config.trackJsToken }}',
+            application: '{{ craft.config.trackJsApplication }}'
+        }
+    </script>
+    <script type="text/javascript" src="https://cdn.trackjs.com/releases/current/tracker.js"></script>
+
 </head>
