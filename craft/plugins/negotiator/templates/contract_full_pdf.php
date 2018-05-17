@@ -182,8 +182,14 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     <tr>
         <td class="text">Address</td>
         <td class="underline"><?= h($inspection->customerAddress) ?></td>
-        <td class="text">STATE:</td>
-        <td class="underline" width="200"><?= h($inspection->customerState) ?></td>
+    </tr>
+</table>
+<table class="string">
+    <tr>
+        <td class="text">Suburb</td>
+        <td class="underline"><?= h($inspection->customerSuburb) ?></td>
+        <td class="text">State</td>
+        <td class="underline"><?= h($inspection->customerState) ?></td>
     </tr>
 </table>
 <table class="string">
