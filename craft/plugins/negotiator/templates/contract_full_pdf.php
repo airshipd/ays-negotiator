@@ -1149,6 +1149,12 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
             <td align="right"><span class="<?= highlight($inspection->overallRating, 'poor') ?>">Poor</span></td>
         </tr>
     </table>
+
+    <div class="last-tables" style="margin-top: 10px;">
+        Notes:
+    </div>
+
+    <pre style="text-decoration: underline; margin-top: 10px; font-weight: normal; font-family: Cambria;"><?= strip_tags(str_replace('<br />', "\n", $inspection->notes)) ?></pre>
 </div>
 
 <pagebreak />
