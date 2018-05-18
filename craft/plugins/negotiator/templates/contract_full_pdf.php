@@ -182,8 +182,14 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     <tr>
         <td class="text">Address</td>
         <td class="underline"><?= h($inspection->customerAddress) ?></td>
-        <td class="text">STATE:</td>
-        <td class="underline" width="200"><?= h($inspection->customerState) ?></td>
+    </tr>
+</table>
+<table class="string">
+    <tr>
+        <td class="text">Suburb</td>
+        <td class="underline"><?= h($inspection->customerSuburb) ?></td>
+        <td class="text">State</td>
+        <td class="underline"><?= h($inspection->customerState) ?></td>
     </tr>
 </table>
 <table class="string">
@@ -1149,6 +1155,12 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
             <td align="right"><span class="<?= highlight($inspection->overallRating, 'poor') ?>">Poor</span></td>
         </tr>
     </table>
+
+    <div class="last-tables" style="margin-top: 10px;">
+        Notes:
+    </div>
+
+    <pre style="text-decoration: underline; margin-top: 10px; font-weight: normal; font-family: Cambria;"><?= strip_tags(str_replace('<br />', "\n", $inspection->notes)) ?></pre>
 </div>
 
 <pagebreak />
