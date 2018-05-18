@@ -36,6 +36,9 @@ return array(
         'enableSMS' => true,
         'trackJsToken' => getenv('TRACKJS_TOKEN'),
         'trackJsApplication' => getenv('TRACKJS_APPLICATION'),
+
+        'requireMatchingUserAgentForSession' => false,
+        'requireUserAgentAndIpForSession' => false,
     ),
 
     '.local' => array(
