@@ -7,6 +7,8 @@ class Negotiator_ApiController extends BaseController {
 
     public function actionInspections()
     {
+        $this->requireLogin();
+
         $user         = craft()->userSession->getUser();
         $isInspector  = $user->isInGroup('inspectors');
         $isNegotiator = $user->isInGroup('negotiators');
