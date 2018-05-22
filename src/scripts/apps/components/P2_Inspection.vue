@@ -339,11 +339,15 @@ export default {
               if (result) {
                   PostService.postMulti(this.$route.params.id, this.inspection, this.options)
                       .then(response => {
-                          this.$store.commit('setInspection', this.inspection)
-                          this.$router.push('/final/1/' + this.$route.params.id)
+                          if(response && response.data && response.data.success) {
+                              this.$store.commit('setInspection', this.inspection)
+                              this.$router.push('/final/1/' + this.$route.params.id)
+                          } else {
+                              console.error('P2 skip fail', response);
+                          }
                       }).catch(e => {
-                      console.error(e)
-                  })
+                          console.error(e)
+                      })
               } else {
                   this.scrollToInvalid();
               }
@@ -360,11 +364,13 @@ export default {
 
                     PostService.postMulti(this.$route.params.id, this.inspection, this.options)
                         .then(response => {
-                            this.$store.commit('setInspection', this.inspection)
-                            this.$router.push('/waiting/' + this.$route.params.id)
-                        }).catch(e => {
-                        console.error(e)
-                    })
+                            if(response && response.data && response.data.success) {
+                                this.$store.commit('setInspection', this.inspection)
+                                this.$router.push('/waiting/' + this.$route.params.id)
+                            } else {
+                                console.error('P2 submit fail', response);
+                            }
+                        })
                 } else {
                     //scroll up to top of page
                     $(window).scrollTop(0)
@@ -375,8 +381,12 @@ export default {
             this.original_inspection.rescheduled = 1;
             PostService.post(this.$route.params.id, this.original_inspection, this.options)
                 .then(response => {
-                    this.$store.commit('setInspection', this.original_inspection)
-                    this.$router.push('/')
+                    if(response && response.data && response.data.success) {
+                        this.$store.commit('setInspection', this.original_inspection)
+                        this.$router.push('/')
+                    } else {
+                        console.error('P2 reschedule fail', response);
+                    }
                 }).catch(e => {
                     console.error(e)
                 })

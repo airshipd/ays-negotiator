@@ -136,12 +136,16 @@ export default {
                     this.inspection.inspectionStatus = 'finalized' //finalise necessary form data
                     PostService.postMulti(this.$route.params.id === 'new' ? undefined : this.$route.params.id, this.inspection, this.options)
                         .then(response => {
-                            this.$store.commit('setInspection', {})
-                            this.$store.commit('updateOptions', {})
-                            this.$router.push('/')
+                            if(response && response.data && response.data.success) {
+                                this.$store.commit('setInspection', {})
+                                this.$store.commit('updateOptions', {})
+                                this.$router.push('/')
+                            } else {
+                                this.buttonDisable = false
+                                console.error('Final5 submit fail', response);
+                            }
                         }).catch(e => {
                             this.buttonDisable = false
-                            console.error(e)
                         })
                 } else {
                     this.scrollToInvalid();
