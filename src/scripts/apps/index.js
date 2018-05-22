@@ -9,6 +9,7 @@ import { googleMapKey } from './config.js'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import ValidationMixin from './services/ValidationMixin.js'
 import Toasted from 'vue-toasted'
+import axios from 'axios'
 
 //setup jquery and plugin dependacies
 let $ = require('jquery')
@@ -29,6 +30,8 @@ Vue.use(VueGoogleMaps, {
 })
 Vue.use(Toasted)
 Vue.mixin(ValidationMixin)
+
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 // setup global event bus system
 window.eventBus = new Vue()

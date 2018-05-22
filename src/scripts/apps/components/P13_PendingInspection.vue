@@ -139,8 +139,12 @@ export default {
 
                 PostService.post(this.$route.params.id, this.inspection, this.options)
                     .then(response => {
-                        this.$store.commit('setInspection', this.inspection);
-                        this.$router.push('/');
+                        if(response && response.data && response.data.success) {
+                            this.$store.commit('setInspection', this.inspection);
+                            this.$router.push('/');
+                        } else {
+                            console.error('P13 submit fail', response);
+                        }
                     }).catch(e => {
                         console.error(e)
                     })
