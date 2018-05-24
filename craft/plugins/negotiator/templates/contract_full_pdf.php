@@ -1155,25 +1155,24 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
             <td align="right"><span class="<?= highlight($inspection->overallRating, 'poor') ?>">Poor</span></td>
         </tr>
     </table>
-
-    <div class="last-tables" style="margin-top: 10px;">
-        Notes:
-    </div>
-
-    <pre style="text-decoration: underline; margin-top: 10px; font-weight: normal; font-family: Cambria;"><?= strip_tags(str_replace('<br />', "\n", $inspection->notes)) ?></pre>
 </div>
 
 <pagebreak />
 
-<h3>Vehicle Photos</h3>
+<h3>Staff Notes:</h3>
+<pre style="text-decoration: underline; margin-top: 10px; font-weight: normal; font-family: Cambria;"><?= strip_tags(str_replace('<br />', "\n", $inspection->notes)) ?></pre>
 
+<h3 style="margin-top: 30px;">Contract Notes:</h3>
+<pre style="text-decoration: underline; margin-top: 10px; font-weight: normal; font-family: Cambria;"><?= strip_tags(str_replace('<br />', "\n", $inspection->contractNote)) ?></pre>
+
+<h3 style="margin-top: 30px;">Vehicle Photos</h3>
 <div>
     <?php foreach($inspection->vehiclePhotos->getIterator() as $image) { ?>
         <img class="photo" src="<?= $image->getSource()->getSourceType()->getImageSourcePath($image) ?>" /><br/>
     <?php } ?>
 </div>
 
-<h3>License and Registration Photos</h3>
+<h3 style="margin-top: 30px;">License and Registration Photos</h3>
 
 <div>
     <?php foreach($inspection->licenseAndRegistrationPhotos->getIterator() as $image) { ?>
