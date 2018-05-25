@@ -139,9 +139,8 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
     }
 
     .photo {
-        max-width: 600px;
-        max-height: 300px;
-        margin-bottom: 10px;
+        width: 100%;
+        max-height: 100%;
     }
 
 </style>
@@ -1165,17 +1164,12 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
 <h3 style="margin-top: 30px;">Contract Notes:</h3>
 <pre style="text-decoration: underline; margin-top: 10px; font-weight: normal; font-family: Cambria;"><?= strip_tags(str_replace('<br />', "\n", $inspection->contractNote)) ?></pre>
 
-<h3 style="margin-top: 30px;">Vehicle Photos</h3>
-<div>
-    <?php foreach($inspection->vehiclePhotos->getIterator() as $image) { ?>
-        <img class="photo" src="<?= $image->getSource()->getSourceType()->getImageSourcePath($image) ?>" /><br/>
-    <?php } ?>
-</div>
+<?php foreach($inspection->vehiclePhotos->getIterator() as $image) { ?>
+    <pagebreak />
+    <img class="photo" src="<?= $image->getSource()->getSourceType()->getImageSourcePath($image) ?>" /><br/>
+<?php } ?>
 
-<h3 style="margin-top: 30px;">License and Registration Photos</h3>
-
-<div>
-    <?php foreach($inspection->licenseAndRegistrationPhotos->getIterator() as $image) { ?>
-        <img class="photo" src="<?= $image->getSource()->getSourceType()->getImageSourcePath($image) ?>" /><br/>
-    <?php } ?>
-</div>
+<?php foreach($inspection->licenseAndRegistrationPhotos->getIterator() as $image) { ?>
+    <pagebreak />
+    <img class="photo" src="<?= $image->getSource()->getSourceType()->getImageSourcePath($image) ?>" /><br/>
+<?php } ?>
