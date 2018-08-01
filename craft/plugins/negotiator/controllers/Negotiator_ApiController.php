@@ -262,6 +262,7 @@ class Negotiator_ApiController extends BaseController {
             'pickupAddressAndContact'              => $post['pickupAddressAndContact'],
             'licenseAndRegistrationPhotos'         => $post['licenseAndRegistrationPhotos'] ?? [],
             'odometer'                             => $post['odometer'],
+            'kilometres'                           => $post['odometer'],
             'carBody'                              => $post['carBody'],
             'chassisVinNumber'                     => $post['chassisVinNumber'],
             'engineNumber'                         => $post['engineNumber'],

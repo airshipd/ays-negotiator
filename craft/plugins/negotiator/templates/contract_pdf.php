@@ -341,7 +341,7 @@ $wd2 = (string)$inspection->driveTrain === '2WD' ? 'highlight' : '';
             <td class="text">MODEL:</td>
             <td class="dotted" width="250"><?= h($inspection->model) ?></td>
             <td class="text" style="padding-left: 20px;">KILOMETRES:</td>
-            <td class="dotted"><?= h($inspection->kilometres ?: $inspection->odometer) ?></td>
+            <td class="dotted"><?= h($inspection->odometer ?: $inspection->kilometres) ?></td>
         </tr>
     </table>
     <table class="string" style="font-size: 12px;">
